@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --void: #0e0e0e;
+    --surface: #131313;
+    --surface-container: #20201f;
+    --toxic: #ccff00;
+    --purple: #a855f7;
+  }
+
+  body {
+    background-color: #0a0a0a;
+    color: #e5e2e1;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Brutalist Utilities */
+.hard-shadow-purple {
+  box-shadow: 4px 4px 0px #a855f7;
+}
+
+.hard-shadow-lime {
+  box-shadow: 4px 4px 0px #ccff00;
+}
+
+.hard-shadow-white {
+  box-shadow: 4px 4px 0px #ffffff;
+}
+
+.hard-shadow-sm-purple {
+  box-shadow: 2px 2px 0px #a855f7;
+}
+
+.hard-shadow-sm-lime {
+  box-shadow: 2px 2px 0px #ccff00;
+}
+
+.scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 3px, 3px 100%;
+}
+
+.crt-glow {
+  text-shadow: 0 0 8px rgba(204, 255, 0, 0.4);
+}
+
+.purple-glow {
+  text-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #111;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ccff00;
+}

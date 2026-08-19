@@ -1,0 +1,227 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>Discovery Filters - Clean Chaos</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&amp;family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-fixed": "#e2e2e2",
+                        "inverse-on-surface": "#313030",
+                        "error-container": "#93000a",
+                        "tertiary": "#ffffff",
+                        "on-surface-variant": "#c4c9ac",
+                        "surface-dim": "#131313",
+                        "on-surface": "#e5e2e1",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container": "#20201f",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary": "#2f3131",
+                        "surface-tint": "#abd600",
+                        "on-secondary-container": "#d6a9ff",
+                        "primary-container": "#c3f400",
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary": "#ddb7ff",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-bright": "#393939",
+                        "surface-container-high": "#2a2a2a",
+                        "primary-fixed-dim": "#abd600",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "inverse-primary": "#506600",
+                        "secondary-fixed": "#f0dbff",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "primary-fixed": "#c3f400",
+                        "background": "#131313",
+                        "tertiary-container": "#e2e2e2",
+                        "on-primary": "#283500",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-container-highest": "#353535",
+                        "on-tertiary-container": "#636565",
+                        "on-primary-container": "#556d00",
+                        "outline-variant": "#444933",
+                        "outline": "#8e9379",
+                        "primary": "#ffffff",
+                        "surface-variant": "#353535",
+                        "on-secondary-fixed": "#2c0051",
+                        "surface": "#131313",
+                        "surface-container-low": "#1c1b1b",
+                        "secondary-container": "#6f00be",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-primary-fixed": "#161e00",
+                        "on-secondary": "#490080",
+                        "on-background": "#e5e2e1",
+                        "error": "#ffb4ab",
+                        "on-error": "#690005"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px",
+                        "unit": "4px",
+                        "stack-md": "24px",
+                        "gutter": "16px",
+                        "stack-sm": "8px",
+                        "stack-lg": "48px"
+                    },
+                    fontFamily: {
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "body-md": ["Inter"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-lg": ["Playfair Display"],
+                        "label-bold": ["Inter"]
+                    },
+                    fontSize: {
+                        "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "900" }],
+                        "headline-lg-mobile": ["28px", { lineHeight: "1.2", fontWeight: "700" }],
+                        "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "label-mono": ["12px", { lineHeight: "1.0", letterSpacing: "0.05em", fontWeight: "500" }],
+                        "headline-lg": ["32px", { lineHeight: "1.2", fontWeight: "700" }],
+                        "label-bold": ["14px", { lineHeight: "1.2", fontWeight: "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #131313; color: #e5e2e1; margin: 0; padding: 0; overflow-x: hidden; }
+        .brutal-border { border: 2px solid #ffffff; }
+        .brutal-border-focus { border: 2px solid #c3f400; }
+        .shadow-hard { box-shadow: 4px 4px 0px 0px #c3f400; }
+        .shadow-hard-secondary { box-shadow: 4px 4px 0px 0px #A855F7; }
+        
+        /* Custom Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 12px;
+            background: #c3f400;
+            border: 2px solid #000;
+            cursor: pointer;
+            margin-top: -10px;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #ffffff;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased md:items-center md:justify-center">
+<!-- Mobile Viewport Container -->
+<div class="w-full h-full min-h-screen md:w-[390px] md:h-[844px] md:min-h-[844px] bg-background relative flex flex-col md:brutal-border md:shadow-hard overflow-hidden">
+<!-- Header -->
+<header class="flex justify-between items-center px-margin-mobile py-4 bg-background w-full z-50 border-b-2 border-primary fixed top-0 md:absolute">
+<button class="text-primary hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">close</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase tracking-widest text-center flex-1">Discovery Filters</h1>
+<button class="font-label-mono text-label-mono text-primary-fixed hover:text-tertiary transition-colors uppercase">RESET</button>
+</header>
+<!-- Main Content Scroll Area -->
+<main class="flex-1 overflow-y-auto pt-[72px] pb-[100px] px-margin-mobile flex flex-col gap-stack-md">
+<!-- Age Range -->
+<section class="flex flex-col gap-stack-sm pt-stack-sm">
+<div class="flex justify-between items-end">
+<h2 class="font-label-bold text-label-bold uppercase tracking-wider text-on-surface-variant">TARGET_AGE</h2>
+<span class="font-label-mono text-label-mono text-primary-fixed bg-surface-container-high px-2 py-1 brutal-border">18 - 35</span>
+</div>
+<div class="py-4 relative">
+<!-- Dual slider mock -->
+<div class="h-1 bg-surface-variant w-full absolute top-1/2 -translate-y-1/2 z-0"></div>
+<div class="h-1 bg-primary-fixed w-[40%] absolute top-1/2 -translate-y-1/2 left-[10%] z-10"></div>
+<div class="absolute w-3 h-6 bg-primary-fixed brutal-border cursor-pointer left-[10%] top-1/2 -translate-y-1/2 z-20 shadow-[2px_2px_0_0_#A855F7]"></div>
+<div class="absolute w-3 h-6 bg-primary-fixed brutal-border cursor-pointer left-[50%] top-1/2 -translate-y-1/2 z-20 shadow-[2px_2px_0_0_#A855F7]"></div>
+</div>
+</section>
+<!-- Distance -->
+<section class="flex flex-col gap-stack-sm">
+<h2 class="font-label-bold text-label-bold uppercase tracking-wider text-on-surface-variant">PROXIMITY</h2>
+<div class="grid grid-cols-3 gap-2">
+<button class="bg-primary-container text-on-primary-container font-label-mono text-label-mono uppercase py-3 brutal-border shadow-hard">Nearby</button>
+<button class="bg-surface-dim text-on-surface font-label-mono text-label-mono uppercase py-3 brutal-border hover:border-primary-fixed transition-colors">City</button>
+<button class="bg-surface-dim text-on-surface font-label-mono text-label-mono uppercase py-3 brutal-border hover:border-primary-fixed transition-colors">Anywhere</button>
+</div>
+</section>
+<!-- Intent -->
+<section class="flex flex-col gap-stack-sm">
+<h2 class="font-label-bold text-label-bold uppercase tracking-wider text-on-surface-variant">INTENT_VECTORS</h2>
+<div class="flex flex-col gap-2">
+<label class="flex items-center p-3 bg-surface-container-high brutal-border cursor-pointer group">
+<input checked="" class="sr-only peer" type="checkbox">
+<div class="w-5 h-5 brutal-border peer-checked:bg-primary-fixed peer-checked:border-primary-fixed flex items-center justify-center mr-3 relative">
+<span class="material-symbols-outlined text-[16px] text-black absolute opacity-0 peer-checked:opacity-100" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-label-mono text-label-mono uppercase group-hover:text-primary-fixed transition-colors">Dating</span>
+</label>
+<label class="flex items-center p-3 bg-surface-container-high brutal-border cursor-pointer group">
+<input checked="" class="sr-only peer" type="checkbox">
+<div class="w-5 h-5 brutal-border peer-checked:bg-primary-fixed peer-checked:border-primary-fixed flex items-center justify-center mr-3 relative">
+<span class="material-symbols-outlined text-[16px] text-black absolute opacity-0 peer-checked:opacity-100" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-label-mono text-label-mono uppercase group-hover:text-primary-fixed transition-colors">Conversation</span>
+</label>
+<label class="flex items-center p-3 bg-surface-container-high brutal-border cursor-pointer group">
+<input class="sr-only peer" type="checkbox">
+<div class="w-5 h-5 brutal-border peer-checked:bg-primary-fixed peer-checked:border-primary-fixed flex items-center justify-center mr-3 relative">
+<span class="material-symbols-outlined text-[16px] text-black absolute opacity-0 peer-checked:opacity-100" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-label-mono text-label-mono uppercase group-hover:text-primary-fixed transition-colors">Friendship</span>
+</label>
+</div>
+</section>
+<!-- Languages -->
+<section class="flex flex-col gap-stack-sm">
+<h2 class="font-label-bold text-label-bold uppercase tracking-wider text-on-surface-variant">LANGUAGE_PROTOCOLS</h2>
+<div class="flex flex-wrap gap-2">
+<span class="bg-[#A855F7] text-black font-label-mono text-label-mono px-3 py-1 cursor-pointer">ENGLISH</span>
+<span class="bg-[#A855F7] text-black font-label-mono text-label-mono px-3 py-1 cursor-pointer">HINGLISH</span>
+<span class="bg-surface-variant text-on-surface-variant font-label-mono text-label-mono px-3 py-1 brutal-border hover:border-primary-fixed cursor-pointer">HINDI</span>
+</div>
+</section>
+<!-- Topics -->
+<section class="flex flex-col gap-stack-sm">
+<h2 class="font-label-bold text-label-bold uppercase tracking-wider text-on-surface-variant">MANDATORY_TOPICS</h2>
+<div class="flex flex-wrap gap-2 items-center">
+<span class="bg-surface-container-high brutal-border px-3 py-2 font-label-mono text-label-mono flex items-center gap-2">
+                        TECH_POLICY
+                        <span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-error" style="font-variation-settings: 'FILL' 0;">close</span>
+</span>
+<button class="bg-transparent brutal-border border-dashed px-3 py-2 font-label-mono text-label-mono text-primary-fixed hover:bg-surface-container transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">add</span> ADD
+                    </button>
+</div>
+</section>
+</main>
+<!-- Sticky Footer Action -->
+<div class="absolute bottom-0 left-0 w-full p-margin-mobile bg-background/90 backdrop-blur-[10px] border-t-2 border-primary z-50">
+<button class="w-full bg-primary-fixed text-[#131313] font-label-mono text-[16px] font-bold uppercase py-4 brutal-border hover:shadow-hard-secondary transition-all active:translate-y-1 active:shadow-none flex justify-center items-center gap-2">
+                APPLY_PARAMETERS
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">bolt</span>
+</button>
+</div>
+</div>
+
+
+
+
+</body></html>

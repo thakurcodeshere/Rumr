@@ -1,0 +1,260 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>13: Topic Selection</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#3c4d00",
+                    "on-surface": "#e5e2e1",
+                    "outline": "#8e9379",
+                    "inverse-on-surface": "#313030",
+                    "surface-container-highest": "#353535",
+                    "on-error-container": "#ffdad6",
+                    "surface-variant": "#353535",
+                    "on-secondary": "#490080",
+                    "error": "#ffb4ab",
+                    "tertiary-fixed": "#e2e2e2",
+                    "on-primary-fixed": "#161e00",
+                    "on-primary-container": "#556d00",
+                    "on-secondary-container": "#d6a9ff",
+                    "surface-container": "#20201f",
+                    "surface-tint": "#abd600",
+                    "tertiary-container": "#e2e2e2",
+                    "on-secondary-fixed-variant": "#6900b3",
+                    "surface": "#131313",
+                    "surface-container-high": "#2a2a2a",
+                    "surface-bright": "#393939",
+                    "secondary-fixed-dim": "#ddb7ff",
+                    "on-secondary-fixed": "#2c0051",
+                    "on-background": "#e5e2e1",
+                    "inverse-surface": "#e5e2e1",
+                    "error-container": "#93000a",
+                    "surface-dim": "#131313",
+                    "background": "#131313",
+                    "inverse-primary": "#506600",
+                    "on-tertiary": "#2f3131",
+                    "surface-container-low": "#1c1b1b",
+                    "on-primary": "#283500",
+                    "primary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#454747",
+                    "tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#c6c6c7",
+                    "on-tertiary-fixed": "#1a1c1c",
+                    "secondary-fixed": "#f0dbff",
+                    "secondary-container": "#6f00be",
+                    "on-tertiary-container": "#636565",
+                    "primary-fixed": "#c3f400",
+                    "secondary": "#ddb7ff",
+                    "outline-variant": "#444933",
+                    "on-error": "#690005",
+                    "surface-container-lowest": "#0e0e0e",
+                    "primary-container": "#c3f400",
+                    "on-surface-variant": "#c4c9ac",
+                    "primary-fixed-dim": "#abd600"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "20px",
+                    "gutter": "16px",
+                    "margin-desktop": "40px",
+                    "stack-sm": "8px",
+                    "stack-md": "24px",
+                    "unit": "4px",
+                    "stack-lg": "48px"
+            },
+            "fontFamily": {
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "label-mono": [
+                            "JetBrains Mono"
+                    ],
+                    "display-lg": [
+                            "Playfair Display"
+                    ],
+                    "label-bold": [
+                            "Inter"
+                    ],
+                    "headline-lg-mobile": [
+                            "Playfair Display"
+                    ],
+                    "headline-lg": [
+                            "Playfair Display"
+                    ]
+            },
+            "fontSize": {
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-mono": [
+                            "12px",
+                            {
+                                    "lineHeight": "1.0",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "900"
+                            }
+                    ],
+                    "label-bold": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "28px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "700"
+                            }
+                    ]
+            }
+        },
+        }
+      }
+    </script>
+<style>
+        /* Custom Styles for Brutalist-lite feel */
+        body {
+            background-color: #000000; /* Void */
+        }
+        
+        /* Progress Bar Step Animation */
+        @keyframes stepProgress {
+            0% { width: 33%; }
+            100% { width: 66%; }
+        }
+        .progress-step {
+            animation: stepProgress 1s steps(4, end) forwards;
+        }
+
+        /* Hide scrollbar for clean look */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .chip-selected {
+            background-color: #A855F7 !important; /* Electric Purple */
+            color: #000000 !important;
+            border-color: #A855F7 !important;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen flex flex-col items-center justify-center p-margin-mobile" style="height: 844px; overflow: hidden;">
+<!-- Main Container -->
+<main class="w-full flex flex-col gap-stack-lg border-2 border-surface-variant bg-surface p-margin-mobile relative" style="width: 390px; height: 844px; overflow-y: auto; margin: 0px;">
+<!-- TopAppBar (Onboarding Header) -->
+<header class="w-full flex flex-col gap-stack-sm border-b-2 border-outline-variant pb-4">
+<h1 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg-mobile md:font-headline-lg text-primary uppercase tracking-tighter">
+                WHAT'S YOUR CHAOS?
+            </h1>
+<!-- Progress Indicator (Data Loading Style) -->
+<div class="w-full h-3 border-2 border-outline bg-surface-container-lowest mt-2 relative">
+<div class="h-full bg-primary-container progress-step" style="width: 33%;"></div>
+</div>
+<p class="text-label-mono font-label-mono text-on-surface-variant uppercase mt-1">STEP 2 OF 3: CALIBRATING PREFERENCES</p>
+</header>
+<!-- Content Area -->
+<section class="flex flex-col gap-stack-md flex-1">
+<p class="text-body-md font-body-md text-on-surface">Select the rumors you care about. We encrypt the rest.</p>
+<!-- Topic Categories & Chips -->
+<div class="flex flex-col gap-stack-md">
+<!-- Category: DATING -->
+<div class="flex flex-col gap-stack-sm">
+<h2 class="text-label-mono font-label-mono text-outline uppercase border-b-2 border-surface-variant pb-1">DATING</h2>
+<div class="flex flex-wrap gap-2 mt-2" id="chip-container-dating">
+<button class="gossip-chip bg-surface border-2 border-outline text-primary font-label-mono text-label-mono px-3 py-2 uppercase hover:border-secondary-container transition-colors" onclick="this.classList.toggle('chip-selected')">Ghosting</button>
+<button class="gossip-chip bg-surface border-2 border-outline text-primary font-label-mono text-label-mono px-3 py-2 uppercase hover:border-secondary-container transition-colors" onclick="this.classList.toggle('chip-selected')">Red Flags</button>
+<button class="gossip-chip bg-surface border-2 border-outline text-primary font-label-mono text-label-mono px-3 py-2 uppercase hover:border-secondary-container transition-colors" onclick="this.classList.toggle('chip-selected')">Situationships</button>
+</div>
+</div>
+<!-- Category: WORK -->
+<div class="flex flex-col gap-stack-sm">
+<h2 class="text-label-mono font-label-mono text-outline uppercase border-b-2 border-surface-variant pb-1">WORK</h2>
+<div class="flex flex-wrap gap-2 mt-2" id="chip-container-work">
+<button class="gossip-chip bg-surface border-2 border-outline text-primary font-label-mono text-label-mono px-3 py-2 uppercase hover:border-secondary-container transition-colors" onclick="this.classList.toggle('chip-selected')">Toxic Bosses</button>
+<button class="gossip-chip bg-surface border-2 border-outline text-primary font-label-mono text-label-mono px-3 py-2 uppercase hover:border-secondary-container transition-colors" onclick="this.classList.toggle('chip-selected')">Salary Gossip</button>
+<button class="gossip-chip bg-surface border-2 border-outline text-primary font-label-mono text-label-mono px-3 py-2 uppercase hover:border-secondary-container transition-colors" onclick="this.classList.toggle('chip-selected')">Startup Life</button>
+</div>
+</div>
+<!-- Category: SOCIETY -->
+<div class="flex flex-col gap-stack-sm">
+<h2 class="text-label-mono font-label-mono text-outline uppercase border-b-2 border-surface-variant pb-1">SOCIETY</h2>
+<div class="flex flex-wrap gap-2 mt-2" id="chip-container-society">
+<button class="gossip-chip bg-surface border-2 border-outline text-primary font-label-mono text-label-mono px-3 py-2 uppercase hover:border-secondary-container transition-colors" onclick="this.classList.toggle('chip-selected')">Bollywood Drama</button>
+<button class="gossip-chip bg-surface border-2 border-outline text-primary font-label-mono text-label-mono px-3 py-2 uppercase hover:border-secondary-container transition-colors" onclick="this.classList.toggle('chip-selected')">Cancel Culture</button>
+</div>
+</div>
+<!-- Category: CHAOS -->
+<div class="flex flex-col gap-stack-sm">
+<h2 class="text-label-mono font-label-mono text-outline uppercase border-b-2 border-surface-variant pb-1">CHAOS</h2>
+<div class="flex flex-wrap gap-2 mt-2" id="chip-container-chaos">
+<button class="gossip-chip bg-surface border-2 border-outline text-primary font-label-mono text-label-mono px-3 py-2 uppercase hover:border-secondary-container transition-colors" onclick="this.classList.toggle('chip-selected')">Unverified Leaks</button>
+<button class="gossip-chip bg-surface border-2 border-outline text-primary font-label-mono text-label-mono px-3 py-2 uppercase hover:border-secondary-container transition-colors" onclick="this.classList.toggle('chip-selected')">Conspiracies</button>
+</div>
+</div>
+</div>
+<!-- Custom Input -->
+<div class="mt-4 border-t-2 border-surface-variant pt-4">
+<label class="block text-label-mono font-label-mono text-outline mb-2 uppercase" for="custom-topic">OR INJECT YOUR OWN</label>
+<div class="relative">
+<input class="w-full bg-[#000000] border-2 border-surface-variant text-primary font-label-mono text-label-mono p-3 focus:outline-none focus:border-primary-container transition-colors placeholder-outline" id="custom-topic" placeholder="ADD YOUR OWN (MAX 3 WORDS)" type="text">
+<span class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">add</span>
+</div>
+</div>
+</section>
+<!-- Action Area -->
+<footer class="mt-auto pt-stack-md border-t-2 border-surface-variant">
+<button class="w-full bg-primary-container text-[#000000] font-label-mono text-label-bold py-4 uppercase border-2 border-primary-container hover:shadow-[4px_4px_0px_0px_#A855F7] transition-all duration-150 ease-in-out active:translate-y-1 active:shadow-none">
+                READY
+            </button>
+</footer>
+</main>
+<!-- 
+        Note: The BottomNavBar is explicitly excluded here as per the instructions: 
+        "BottomNavBar is NOT visible during onboarding." 
+        This aligns with the Linear/Transactional intent rule.
+    -->
+
+
+
+
+
+
+</body></html>

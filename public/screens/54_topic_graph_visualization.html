@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Topic Graph - RUMR</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=Playfair+Display:wght@700;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "tertiary": "#ffffff",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-container-low": "#1c1b1b",
+                        "primary-fixed": "#c3f400",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary-fixed-dim": "#abd600",
+                        "on-background": "#e5e2e1",
+                        "outline": "#8e9379",
+                        "tertiary-fixed": "#e2e2e2",
+                        "inverse-surface": "#e5e2e1",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "secondary-container": "#6f00be",
+                        "surface-bright": "#393939",
+                        "on-surface-variant": "#c4c9ac",
+                        "primary-container": "#c3f400",
+                        "inverse-primary": "#506600",
+                        "surface": "#131313",
+                        "on-secondary-fixed": "#2c0051",
+                        "secondary": "#ddb7ff",
+                        "error": "#ffb4ab",
+                        "on-error": "#690005",
+                        "surface-container-highest": "#353535",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "on-secondary-container": "#d6a9ff",
+                        "background": "#131313",
+                        "surface-tint": "#abd600",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "primary": "#ffffff",
+                        "on-secondary": "#490080",
+                        "on-primary-container": "#556d00",
+                        "on-primary": "#283500",
+                        "surface-dim": "#131313",
+                        "error-container": "#93000a",
+                        "tertiary-container": "#e2e2e2",
+                        "on-tertiary-container": "#636565",
+                        "on-surface": "#e5e2e1",
+                        "surface-container": "#20201f",
+                        "surface-variant": "#353535",
+                        "secondary-fixed": "#f0dbff",
+                        "inverse-on-surface": "#313030",
+                        "on-tertiary": "#2f3131",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "outline-variant": "#444933",
+                        "on-primary-fixed": "#161e00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "stack-lg": "48px",
+                        "gutter": "16px",
+                        "stack-md": "24px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "20px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],
+                        "label-bold": ["Inter"],
+                        "label-mono": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .brutalist-border { border: 2px solid theme('colors.primary'); }
+        .brutalist-border-lime { border: 2px solid theme('colors.primary-fixed'); }
+        .hard-shadow-primary { box-shadow: 4px 4px 0px 0px theme('colors.primary-fixed'); }
+        .hard-shadow-secondary { box-shadow: 4px 4px 0px 0px theme('colors.secondary'); }
+        .mystery-blur { backdrop-filter: blur(20px); background-color: rgba(111, 0, 190, 0.2); }
+        .data-bar-step { background: linear-gradient(90deg, theme('colors.primary-fixed') 80%, transparent 80%); background-size: 10% 100%; }
+        
+        /* Node animation styles */
+        @keyframes pulse-node {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 15px theme('colors.primary-fixed'); }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+        .anim-node { animation: pulse-node 3s infinite ease-in-out; }
+        .anim-node-delayed { animation: pulse-node 3s infinite ease-in-out 1.5s; }
+
+        @keyframes ping-telemetry {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .anim-ping-telemetry { animation: ping-telemetry 2s infinite cubic-bezier(0.4, 0, 0.6, 1); }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: theme('colors.primary-fixed'); }
+        }
+        .typewriter {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid theme('colors.primary-fixed');
+            animation: 
+                typing 2s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-background border-b-2 border-primary shadow-[4px_4px_0px_0px_rgba(221,183,255,1)]">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full">
+<button class="text-primary-fixed transition-transform active:scale-95 hover:text-secondary">
+<span class="material-symbols-outlined text-2xl">terminal</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg font-black tracking-tighter text-primary">RUMR</h1>
+<button class="text-primary-fixed transition-transform active:scale-95 hover:text-secondary">
+<span class="material-symbols-outlined text-2xl">sensors</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col md:flex-row relative z-10 w-full max-w-[1200px] mx-auto pb-24 md:pb-0">
+<!-- Sidebar Navigation (Desktop only) -->
+<aside class="hidden md:flex flex-col w-64 border-r-2 border-primary p-margin-desktop h-[calc(100vh-80px)] sticky top-[80px]">
+<nav class="flex flex-col gap-stack-md font-label-mono text-label-mono uppercase">
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-secondary transition-all" href="#">
+<span class="material-symbols-outlined">explore</span> DISCOVERY
+                </a>
+<a class="flex items-center gap-3 text-primary-fixed font-bold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">view_in_ar_new</span> TOPICS
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-secondary transition-all" href="#">
+<span class="material-symbols-outlined">radar</span> MATCHES
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-secondary transition-all" href="#">
+<span class="material-symbols-outlined">fingerprint</span> PROFILE
+                </a>
+</nav>
+<div class="mt-auto pt-stack-lg border-t-2 border-surface-variant">
+<p class="font-label-mono text-label-mono text-surface-variant mb-stack-sm">SYSTEM STATUS</p>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-none bg-primary-fixed anim-node"></div>
+<span class="font-label-mono text-label-mono text-primary-fixed">ENCRYPTED. SECURE.</span>
+</div>
+</div>
+</aside>
+<!-- Content Area -->
+<div class="flex-1 p-margin-mobile md:p-margin-desktop flex flex-col gap-stack-lg">
+<!-- Header & Search -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-stack-md">
+<div>
+<h2 class="font-display-lg text-display-lg md:text-[64px] font-black tracking-tighter uppercase leading-none mb-stack-sm">Topic Graph</h2>
+<div class="inline-block">
+<p class="font-label-mono text-label-mono text-surface-variant typewriter w-max max-w-full">STRUCTURAL VISUALIZATION // LIVE DATAMAP</p>
+</div>
+</div>
+<div class="w-full md:w-auto relative brutalist-border">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-surface-variant">search</span>
+<input class="w-full md:w-64 bg-surface-lowest text-primary font-label-mono text-label-mono pl-10 pr-4 py-3 border-none focus:ring-0 focus:outline-none placeholder-surface-variant" placeholder="INSPECT NODE..." type="text"/>
+<div class="absolute inset-0 pointer-events-none brutalist-border-lime opacity-0 focus-within:opacity-100 transition-opacity"></div>
+</div>
+</div>
+<!-- Visualization Canvas -->
+<div class="relative w-full h-[400px] md:h-[600px] bg-surface brutalist-border overflow-hidden group">
+<shader-art autoplay="" class="w-full h-full block">
+<script data-size="2" name="position" type="buffer">
+    [-1, -1, 1, -1, -1, 1, 1, -1, 1, 1, -1, 1]
+  </script>
+<script data-size="2" name="uv" type="buffer">
+    [0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1]
+  </script>
+<script type="vert">
+    precision highp float;
+    attribute vec2 position;
+    attribute vec2 uv;
+    varying vec2 v_texCoord;
+    void main() {
+      v_texCoord = uv;
+      gl_Position = vec4(position, 0.0, 1.0);
+    }
+  </script>
+<script type="frag">
+    precision highp float;
+    uniform float time;
+    uniform vec2 resolution;
+    varying vec2 v_texCoord;
+
+    float circle(vec2 uv, vec2 pos, float rad, float blur) {
+        return smoothstep(rad, rad - blur, length(uv - pos));
+    }
+
+    void main() {
+        vec2 uv = v_texCoord;
+        vec3 color = vec3(0.02, 0.02, 0.03); // Dark base
+        
+        // Animated Nodes
+        vec2 p1 = vec2(0.5 + sin(time) * 0.1, 0.5 + cos(time) * 0.1);
+        vec2 p2 = vec2(0.3 + cos(time * 0.8) * 0.15, 0.7 + sin(time * 0.8) * 0.1);
+        vec2 p3 = vec2(0.7 + sin(time * 1.2) * 0.12, 0.4 + cos(time * 1.2) * 0.15);
+        
+        float n1 = circle(uv, p1, 0.02, 0.01);
+        float n2 = circle(uv, p2, 0.015, 0.01);
+        float n3 = circle(uv, p3, 0.018, 0.01);
+        
+        // Connection lines
+        float dist = length(uv - p1);
+        // Simple glow around nodes
+        color += n1 * vec3(0.8, 1.0, 0.0);
+        color += n2 * vec3(0.5, 0.0, 1.0);
+        color += n3 * vec3(0.8, 1.0, 0.0);
+        
+        // Background scanning grid
+        vec2 grid = fract(uv * 30.0);
+        float lines = smoothstep(0.01, 0.0, grid.x) + smoothstep(0.01, 0.0, grid.y);
+        color += lines * vec3(0.1, 0.1, 0.15);
+
+        gl_FragColor = vec4(color, 1.0);
+    }
+  </script>
+</shader-art>
+<!-- Data Overlay Card -->
+<div class="absolute bottom-stack-md right-stack-md w-64 bg-surface/90 brutalist-border backdrop-blur-sm p-4 hidden md:block">
+<h4 class="font-label-mono text-label-mono text-primary mb-2 border-b-2 border-surface-variant pb-1">SELECTED NODE: #0X7A2F</h4>
+<p class="font-body-md text-body-md text-surface-variant mb-2">Cluster focus: "Neo-Brutalism in UI"</p>
+<div class="flex justify-between font-label-mono text-label-mono text-primary-fixed">
+<span>CONNECTION_STR:</span>
+<span>0.94</span>
+</div>
+</div>
+</div>
+<!-- Metrics Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-stack-md">
+<!-- Metric 1 -->
+<div class="bg-surface p-stack-md brutalist-border flex flex-col justify-between anim-ping-telemetry">
+<p class="font-label-mono text-label-mono text-surface-variant mb-stack-sm uppercase">Network Density</p>
+<p class="font-headline-lg text-headline-lg text-primary">84.2%</p>
+<div class="w-full h-2 mt-stack-md brutalist-border p-[1px]">
+<div class="h-full bg-primary-fixed data-bar-step w-[80%]"></div>
+</div>
+</div>
+<!-- Metric 2 -->
+<div class="bg-surface p-stack-md brutalist-border flex flex-col justify-between relative overflow-hidden anim-ping-telemetry" style="animation-delay: 0.5s;">
+<div class="relative z-10">
+<p class="font-label-mono text-label-mono text-surface-variant mb-stack-sm uppercase">Active Clusters</p>
+<p class="font-headline-lg text-headline-lg text-primary">1,402</p>
+<p class="font-label-mono text-label-mono text-primary-fixed mt-stack-sm">+12% LAST HR</p>
+</div>
+<!-- Decorative element -->
+<span class="material-symbols-outlined absolute -bottom-4 -right-4 text-[100px] text-surface-variant opacity-10 pointer-events-none">hub</span>
+</div>
+<!-- Metric 3 -->
+<div class="bg-secondary-container/20 p-stack-md brutalist-border border-secondary flex flex-col justify-between mystery-blur">
+<p class="font-label-mono text-label-mono text-secondary mb-stack-sm uppercase">Norm. Throughput</p>
+<p class="font-headline-lg text-headline-lg text-secondary">~450k</p>
+<p class="font-label-mono text-label-mono text-surface-variant mt-stack-sm">NODES/SEC</p>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-stretch h-16 bg-surface md:hidden border-t-2 border-primary">
+<a class="flex flex-col items-center justify-center text-on-surface-variant w-1/4 hover:bg-secondary-container hover:text-on-secondary-container transition-all duration-100 ease-in-out" href="#">
+<span class="material-symbols-outlined mb-1">explore</span>
+<span class="font-label-mono text-label-mono text-[10px] uppercase">DISCOVERY</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-fixed text-on-primary-fixed px-3 py-1 w-1/4 transition-all duration-100 ease-in-out" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">view_in_ar_new</span>
+<span class="font-label-mono text-label-mono text-[10px] uppercase">TOPICS</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant w-1/4 hover:bg-secondary-container hover:text-on-secondary-container transition-all duration-100 ease-in-out" href="#">
+<span class="material-symbols-outlined mb-1">radar</span>
+<span class="font-label-mono text-label-mono text-[10px] uppercase">MATCHES</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant w-1/4 hover:bg-secondary-container hover:text-on-secondary-container transition-all duration-100 ease-in-out" href="#">
+<span class="material-symbols-outlined mb-1">fingerprint</span>
+<span class="font-label-mono text-label-mono text-[10px] uppercase">PROFILE</span>
+</a>
+</nav>
+<script src="https://esm.sh/shader-art" type="module"></script>
+</body></html>

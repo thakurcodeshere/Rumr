@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Moderation Dashboard: Chaos Normalization Logs</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500&amp;family=Playfair+Display:ital,wght@0,700;0,900;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed-variant": "#454747",
+                      "surface-container-highest": "#353535",
+                      "surface": "#131313",
+                      "surface-dim": "#131313",
+                      "surface-tint": "#abd600",
+                      "on-primary-container": "#556d00",
+                      "tertiary-container": "#e2e2e2",
+                      "surface-bright": "#393939",
+                      "background": "#131313",
+                      "on-secondary-container": "#d6a9ff",
+                      "surface-container-high": "#2a2a2a",
+                      "tertiary-fixed-dim": "#c6c6c7",
+                      "on-tertiary": "#2f3131",
+                      "surface-variant": "#353535",
+                      "surface-container-low": "#1c1b1b",
+                      "inverse-on-surface": "#313030",
+                      "error-container": "#93000a",
+                      "primary-fixed-dim": "#abd600",
+                      "surface-container": "#20201f",
+                      "on-background": "#e5e2e1",
+                      "on-primary-fixed-variant": "#3c4d00",
+                      "secondary-container": "#6f00be",
+                      "on-surface-variant": "#c4c9ac",
+                      "inverse-surface": "#e5e2e1",
+                      "on-secondary-fixed": "#2c0051",
+                      "primary": "#ffffff",
+                      "on-secondary": "#490080",
+                      "primary-container": "#c3f400",
+                      "inverse-primary": "#506600",
+                      "on-primary": "#283500",
+                      "secondary-fixed": "#f0dbff",
+                      "error": "#ffb4ab",
+                      "secondary": "#ddb7ff",
+                      "outline": "#8e9379",
+                      "tertiary-fixed": "#e2e2e2",
+                      "tertiary": "#ffffff",
+                      "secondary-fixed-dim": "#ddb7ff",
+                      "on-error": "#690005",
+                      "primary-fixed": "#c3f400",
+                      "on-error-container": "#ffdad6",
+                      "on-primary-fixed": "#161e00",
+                      "on-secondary-fixed-variant": "#6900b3",
+                      "on-tertiary-fixed": "#1a1c1c",
+                      "surface-container-lowest": "#0e0e0e",
+                      "on-surface": "#e5e2e1",
+                      "outline-variant": "#444933",
+                      "on-tertiary-container": "#636565"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "16px",
+                      "margin-desktop": "40px",
+                      "stack-lg": "48px",
+                      "unit": "4px",
+                      "stack-sm": "8px",
+                      "margin-mobile": "20px",
+                      "stack-md": "24px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ],
+                      "label-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ],
+                      "label-bold": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "900"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-mono": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-bold": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        /* Brutalist-lite specific utilities */
+        .toxic-shadow {
+            box-shadow: 4px 4px 0px 0px #abd600; /* surface-tint approximation */
+        }
+        .purple-shadow:hover {
+            box-shadow: 4px 4px 0px 0px #A855F7; /* Electric Purple */
+        }
+        .mysterious-blur {
+            backdrop-filter: blur(20px);
+        }
+        
+        /* Progress step animation */
+        @keyframes stepProgress {
+            0% { width: 0%; }
+            10% { width: 10%; }
+            20% { width: 10%; }
+            30% { width: 30%; }
+            40% { width: 30%; }
+            50% { width: 50%; }
+            60% { width: 50%; }
+            70% { width: 70%; }
+            80% { width: 70%; }
+            90% { width: 90%; }
+            100% { width: 100%; }
+        }
+        
+        .progress-stepped {
+            animation: stepProgress 2s steps(1) infinite alternate;
+        }
+
+        /* Scanline effect */
+        .scanlines {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.1) 50%,
+                rgba(0,0,0,0.1)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+      </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md antialiased selection:bg-primary-container selection:text-on-primary-container relative">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface border-b-2 border-outline-variant">
+<div class="flex justify-between items-center px-margin-desktop py-stack-sm w-full max-w-[1200px] mx-auto">
+<div class="flex items-center gap-stack-sm">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="font-headline-lg text-headline-lg text-on-surface md:block hidden">RUMR_ADMIN_v1.0</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface md:hidden block">RUMR_ADMIN</span>
+</div>
+<div class="flex items-center gap-stack-sm">
+<span class="font-label-mono text-label-mono uppercase tracking-widest text-primary-fixed">Admin Profile</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border-2 border-outline flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-on-surface-variant">person</span>
+</div>
+</div>
+</div>
+</header>
+<div class="flex">
+<!-- NavigationDrawer (Desktop Only) -->
+<aside class="hidden md:flex flex-col h-[calc(100vh-64px)] w-64 fixed left-0 top-[64px] bg-surface-container-low border-r-2 border-outline-variant shadow-[4px_0px_0px_0px_rgba(171,214,0,1)] py-stack-md z-40">
+<div class="px-4 mb-stack-md">
+<h2 class="font-label-mono text-label-mono uppercase text-primary-fixed">MODERATION_QUEUE</h2>
+</div>
+<nav class="flex flex-col gap-unit">
+<a class="text-on-surface-variant hover:text-primary px-4 py-3 flex items-center gap-stack-sm hover:bg-surface-container-high transition-all active:scale-95 duration-75" href="#">
+<span class="material-symbols-outlined">flag</span>
+<span class="font-label-mono text-label-mono uppercase">FLAGGED_CONTENT</span>
+</a>
+<a class="text-on-surface-variant hover:text-primary px-4 py-3 flex items-center gap-stack-sm hover:bg-surface-container-high transition-all active:scale-95 duration-75" href="#">
+<span class="material-symbols-outlined">report</span>
+<span class="font-label-mono text-label-mono uppercase">USER_REPORTS</span>
+</a>
+<a class="bg-primary-fixed text-on-primary-fixed font-bold flex items-center gap-stack-sm px-4 py-3 active:scale-95 duration-75" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<span class="font-label-mono text-label-mono uppercase">AI_VALIDATION</span>
+</a>
+<a class="text-on-surface-variant hover:text-primary px-4 py-3 flex items-center gap-stack-sm hover:bg-surface-container-high transition-all active:scale-95 duration-75" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-mono text-label-mono uppercase">LOGS</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content -->
+<main class="w-full md:ml-64 p-margin-mobile md:p-margin-desktop min-h-screen">
+<div class="max-w-[1200px] mx-auto flex flex-col gap-stack-lg relative z-10">
+<!-- Page Header -->
+<section class="flex flex-col gap-stack-sm border-b-2 border-outline pb-stack-sm">
+<h1 class="font-display-lg text-display-lg md:text-display-lg text-headline-lg-mobile text-primary uppercase">Chaos Normalization Logs</h1>
+<p class="font-label-mono text-label-mono text-on-surface-variant">SYS_MSG: Visualizing AI entity grouping and string convergence. Sensitivity threshold: High.</p>
+</section>
+<!-- Action Bar & Global Stats -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Stat Card 1 -->
+<div class="bg-surface border-2 border-outline p-stack-sm flex flex-col justify-between">
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">Total Clusters Formed (24h)</span>
+<div class="flex items-end gap-unit mt-stack-sm">
+<span class="font-headline-lg text-headline-lg text-primary">1,482</span>
+<span class="font-label-mono text-label-mono text-surface-tint mb-1">+12%</span>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface border-2 border-outline p-stack-sm flex flex-col gap-stack-sm">
+<div class="flex justify-between items-start">
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">AI Distance Score</span>
+<div class="flex flex-col items-end">
+<span class="font-label-mono text-[10px] text-secondary uppercase">Confidence Interval</span>
+<span class="font-label-mono text-label-mono text-primary">±0.042</span>
+</div>
+</div>
+<div class="relative h-24 bg-surface-container-lowest border border-outline-variant overflow-hidden flex items-center justify-center">
+<div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-secondary via-transparent to-transparent"></div>
+<svg class="w-full h-full" viewbox="0 0 200 100">
+<circle class="animate-pulse" cx="100" cy="50" fill="#abd600" r="2"></circle>
+<circle cx="80" cy="40" fill="#ddb7ff" opacity="0.6" r="1"></circle>
+<circle cx="120" cy="60" fill="#ddb7ff" opacity="0.6" r="1"></circle>
+<circle cx="90" cy="70" fill="#ddb7ff" opacity="0.6" r="1"></circle>
+<circle cx="110" cy="30" fill="#ddb7ff" opacity="0.6" r="1"></circle>
+<line stroke="#444933" stroke-width="0.5" x1="100" x2="80" y1="50" y2="40"></line>
+<line stroke="#444933" stroke-width="0.5" x1="100" x2="120" y1="50" y2="60"></line>
+</svg>
+<span class="absolute bottom-1 right-1 font-label-mono text-[10px] text-on-surface-variant">RADIAL_CONVERGENCE_V4</span>
+</div>
+<div class="flex flex-col gap-unit">
+<div class="flex justify-between items-center">
+<label class="font-label-mono text-[10px] text-on-surface-variant uppercase">Sensitivity Threshold</label>
+<span class="font-label-mono text-label-mono text-primary-container">0.84</span>
+</div>
+<input class="w-full h-1 bg-surface-container-highest appearance-none cursor-pointer accent-primary-container" max="1" min="0" step="0.01" type="range" value="0.84"/>
+</div>
+</div>
+<!-- Controls -->
+<div class="bg-surface-container-high border-2 border-primary-container p-stack-sm flex flex-col gap-stack-sm justify-center">
+<span class="font-label-mono text-label-mono text-primary-container uppercase">AI Tuning Active</span>
+<button class="bg-primary-container text-on-primary-container font-label-mono text-label-mono uppercase font-bold py-2 px-4 border-2 border-transparent hover:border-primary-container hover:bg-surface hover:text-primary-container transition-all purple-shadow">
+                             Recalibrate Sensitivity
+                         </button>
+</div>
+</section>
+<!-- Visualization Area (Bento Layout) -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Main Cluster Map (Abstract Representation) -->
+<div class="md:col-span-8 bg-surface-container-lowest border-2 border-outline relative min-h-[400px] overflow-hidden group">
+<div class="absolute inset-0 scanlines z-10"></div>
+<div class="p-stack-sm absolute top-0 left-0 z-20 w-full flex justify-between bg-surface-container-lowest/80 border-b-2 border-outline">
+<span class="font-label-mono text-label-mono text-primary uppercase">Live String Convergence</span>
+<span class="font-label-mono text-label-mono text-surface-tint flex items-center gap-unit"><span class="w-2 h-2 rounded-none bg-surface-tint inline-block animate-pulse"></span> PROCESSING</span>
+</div>
+<!-- Simulated Data Viz Background -->
+<div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-surface-container-high via-surface-container-lowest to-surface-container-lowest flex items-center justify-center" data-alt="A dark, abstract digital visualization representing a data cluster map. The image features a jet black background with glowing, toxic lime green (#abd600) and electric purple (#A855F7) geometric nodes connected by thin, sharp, angular lines. The nodes vary in size, creating a sense of density in the center and sparse connections at the edges. The aesthetic is highly technical, Brutalist-lite, and mysterious, resembling an advanced encrypted intelligence interface. The lighting is harsh and high-contrast, with no soft gradients, just sharp vector-like glowing elements." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCgm1qcFtaN_KGMlDlU6AOOxOCHXmjbzDganb4jWb7rF7IM86AxWZz_RtJXKUESn1pp7RRg6qbcHKB31d4MyEpU2HqK-nl6kJ_7wTSXiz90RRyUjNQObAWDgvHrc8l3lnJs1lDIaEzLQOtrTtUf6M3PbIx4BDrjiP4MWn5jAiuLqWguTXsKwbZkIViWsKFqVxNzO1X5p-dpQpMLX2odSRF-9G5LVZBT5x3VokWR5YPArmkbvMZgassM8Q')">
+<!-- Overlaying some literal data points for effect -->
+<div class="relative w-full h-full p-10 pt-20">
+<!-- Node 1 -->
+<div class="absolute top-[30%] left-[20%] group/node cursor-crosshair">
+<div class="w-4 h-4 bg-primary-container border-2 border-primary rotate-45 toxic-shadow"></div>
+<div class="absolute top-6 left-0 bg-surface border-2 border-primary-container p-2 hidden group-hover/node:block z-30 w-48 mysterious-blur">
+<p class="font-label-mono text-label-mono text-primary-container truncate">"The CEO's new yacht"</p>
+<p class="font-label-mono text-label-mono text-on-surface-variant text-[10px] mt-1">Density: High</p>
+</div>
+</div>
+<!-- Node 2 -->
+<div class="absolute top-[60%] left-[50%] group/node cursor-crosshair">
+<div class="w-6 h-6 bg-secondary-container border-2 border-secondary rotate-45 shadow-[4px_4px_0px_0px_#ddb7ff]"></div>
+<div class="absolute top-8 left-0 bg-surface border-2 border-secondary p-2 hidden group-hover/node:block z-30 w-48 mysterious-blur">
+<p class="font-label-mono text-label-mono text-secondary truncate">"Project X leak confirmed"</p>
+<p class="font-label-mono text-label-mono text-on-surface-variant text-[10px] mt-1">Density: Critical</p>
+</div>
+</div>
+<!-- Node 3 -->
+<div class="absolute top-[20%] left-[70%] group/node cursor-crosshair">
+<div class="w-3 h-3 bg-surface border-2 border-outline rotate-45"></div>
+</div>
+<!-- Connecting lines simulated with SVG -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#444933" stroke-dasharray="4 4" stroke-width="2" x1="22%" x2="52%" y1="32%" y2="62%"></line>
+<line stroke="#444933" stroke-dasharray="4 4" stroke-width="2" x1="52%" x2="72%" y1="62%" y2="22%"></line>
+</svg>
+</div>
+</div>
+</div>
+<!-- Right Column: Recent Normalization Events -->
+<div class="md:col-span-4 flex flex-col gap-gutter">
+<div class="bg-surface border-2 border-outline h-full flex flex-col">
+<div class="p-stack-sm border-b-2 border-outline bg-surface-container-high">
+<h3 class="font-label-mono text-label-mono text-primary uppercase">Recent String Merges</h3>
+</div>
+<div class="flex-1 overflow-y-auto p-stack-sm flex flex-col gap-stack-sm max-h-[400px]">
+<!-- Merge Item 1 -->
+<div class="border-2 border-surface-container-highest p-stack-sm bg-surface-container-low hover:border-primary-container transition-colors">
+<div class="flex justify-between items-start mb-unit">
+<span class="font-label-mono text-label-mono text-secondary text-[10px] px-1 bg-secondary-fixed/20 border border-secondary">DIST: 0.92</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant">14:02 UTC</span>
+</div>
+<div class="font-label-mono text-label-mono text-primary break-all">"the big boss is stepping down"</div>
+<div class="flex items-center gap-2 my-unit">
+<span class="material-symbols-outlined text-surface-tint text-[16px]">arrow_downward</span>
+<span class="font-label-mono text-[10px] text-surface-tint uppercase">Normalized to Target:</span>
+</div>
+<div class="font-label-mono text-label-mono text-primary-fixed border-l-2 border-primary-fixed pl-2">"CEO Resignation Rumor"</div>
+</div>
+<!-- Merge Item 2 -->
+<div class="border-2 border-surface-container-highest p-stack-sm bg-surface-container-low hover:border-primary-container transition-colors">
+<div class="flex justify-between items-start mb-unit">
+<span class="font-label-mono text-label-mono text-surface-tint text-[10px] px-1 bg-surface-tint/20 border border-surface-tint">DIST: 0.85</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant">13:45 UTC</span>
+</div>
+<div class="font-label-mono text-label-mono text-primary break-all">"q3 numbers are absolutely cooked"</div>
+<div class="flex items-center gap-2 my-unit">
+<span class="material-symbols-outlined text-surface-tint text-[16px]">arrow_downward</span>
+<span class="font-label-mono text-[10px] text-surface-tint uppercase">Normalized to Target:</span>
+</div>
+<div class="font-label-mono text-label-mono text-primary-fixed border-l-2 border-primary-fixed pl-2">"Q3 Financial Discrepancy"</div>
+</div>
+<!-- Merge Item 3 -->
+<div class="border-2 border-error-container p-stack-sm bg-surface-container-low mysterious-blur relative overflow-hidden group">
+<div class="absolute inset-0 bg-surface/80 flex items-center justify-center z-10 group-hover:opacity-0 transition-opacity">
+<span class="font-label-mono text-label-mono text-error border-2 border-error px-2 py-1 bg-surface">LOW CONFIDENCE MERGE</span>
+</div>
+<div class="flex justify-between items-start mb-unit">
+<span class="font-label-mono text-label-mono text-error text-[10px] px-1 bg-error/20 border border-error">DIST: 0.45</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant">13:12 UTC</span>
+</div>
+<div class="font-label-mono text-label-mono text-primary break-all">"the coffee machine is broken again"</div>
+<div class="flex items-center gap-2 my-unit">
+<span class="material-symbols-outlined text-error text-[16px]">question_mark</span>
+</div>
+<div class="font-label-mono text-label-mono text-on-surface-variant border-l-2 border-outline-variant pl-2">Pending Manual Review</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Model Tuning Section -->
+<section class="border-2 border-outline bg-surface-container-highest p-margin-mobile md:p-margin-desktop relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-[120px] font-bold">tune</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-stack-md uppercase relative z-10">AI Sensitivity Tuning</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-lg relative z-10">
+<!-- Slang Recognition -->
+<div class="flex flex-col gap-unit">
+<div class="flex justify-between items-end mb-2">
+<label class="font-label-mono text-label-mono text-primary uppercase">Slang &amp; Idiom Recognition</label>
+<span class="font-label-mono text-label-mono text-secondary">0.88</span>
+</div>
+<div class="w-full h-4 border-2 border-outline bg-surface relative">
+<div class="h-full bg-secondary border-r-2 border-outline w-[88%] absolute top-0 left-0"></div>
+</div>
+<p class="font-label-mono text-[10px] text-on-surface-variant mt-1">Tolerance for informal phrasing and corporate jargon.</p>
+</div>
+<!-- Typo Tolerance -->
+<div class="flex flex-col gap-unit">
+<div class="flex justify-between items-end mb-2">
+<label class="font-label-mono text-label-mono text-primary uppercase">Typo &amp; Obfuscation Tolerance</label>
+<span class="font-label-mono text-label-mono text-primary-container">0.65</span>
+</div>
+<div class="w-full h-4 border-2 border-outline bg-surface relative">
+<div class="h-full bg-primary-container border-r-2 border-outline w-[65%] absolute top-0 left-0"></div>
+</div>
+<p class="font-label-mono text-[10px] text-on-surface-variant mt-1">Ability to map leetspeak (e.g., 'b0ss') to base entities.</p>
+</div>
+</div>
+<div class="mt-stack-lg border-t-2 border-outline pt-stack-sm flex justify-end gap-stack-sm">
+<button class="bg-transparent text-primary font-label-mono text-label-mono uppercase border-2 border-primary py-2 px-4 hover:bg-surface-container-high transition-colors">
+                            Reset Defaults
+                        </button>
+<button class="bg-primary-container text-on-primary-container font-label-mono text-label-mono uppercase font-bold py-2 px-4 border-2 border-transparent hover:border-primary-container hover:bg-surface hover:text-primary-container transition-all purple-shadow">
+                            Commit Changes
+                        </button>
+</div>
+</section>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="w-full bottom-0 border-t-2 border-outline-variant bg-surface-container-lowest">
+<div class="flex justify-between items-center px-margin-desktop py-stack-sm w-full max-w-[1200px] mx-auto md:ml-64">
+<span class="font-label-mono text-label-mono text-on-tertiary-fixed-variant">RUMR_ENCRYPTED_SYSTEM_2024</span>
+<div class="flex gap-stack-sm">
+<a class="font-label-mono text-label-mono text-on-tertiary-fixed-variant hover:text-primary-container transition-colors duration-200" href="#">PRIVACY_PROTOCOL</a>
+<a class="font-label-mono text-label-mono text-on-tertiary-fixed-variant hover:text-primary-container transition-colors duration-200" href="#">ADMIN_BYLAWS</a>
+<a class="font-label-bold text-label-bold text-error hover:text-error-container transition-colors duration-200" href="#">LOG_OUT</a>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Rumr - Profile Basics</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-surface-variant": "#c4c9ac",
+                        "surface-container-highest": "#353535",
+                        "tertiary": "#ffffff",
+                        "on-primary-fixed": "#161e00",
+                        "secondary": "#ddb7ff",
+                        "outline-variant": "#444933",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "surface-tint": "#abd600",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "secondary-container": "#6f00be",
+                        "surface-container-low": "#1c1b1b",
+                        "background": "#131313",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-bright": "#393939",
+                        "primary-fixed-dim": "#abd600",
+                        "primary-container": "#c3f400",
+                        "primary": "#ffffff",
+                        "surface-container": "#20201f",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-primary-container": "#556d00",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "on-primary": "#283500",
+                        "inverse-on-surface": "#313030",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#2f3131",
+                        "surface-dim": "#131313",
+                        "outline": "#8e9379",
+                        "on-secondary-container": "#d6a9ff",
+                        "on-surface": "#e5e2e1",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#e5e2e1",
+                        "error-container": "#93000a",
+                        "on-tertiary-container": "#636565",
+                        "on-secondary": "#490080",
+                        "secondary-fixed": "#f0dbff",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-container-high": "#2a2a2a",
+                        "on-error": "#690005",
+                        "surface-variant": "#353535",
+                        "surface": "#131313",
+                        "inverse-primary": "#506600",
+                        "tertiary-container": "#e2e2e2",
+                        "on-secondary-fixed": "#2c0051",
+                        "primary-fixed": "#c3f400"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "margin-mobile": "20px",
+                        "gutter": "16px",
+                        "stack-sm": "8px",
+                        "stack-lg": "48px",
+                        "unit": "4px",
+                        "stack-md": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "label-mono": ["JetBrains Mono"],
+                        "label-bold": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Hard shadows for brutalist aesthetic */
+        .brutalist-shadow {
+            box-shadow: 4px 4px 0px 0px #6f00be; /* Electric Purple */
+        }
+        .brutalist-shadow-hover:hover {
+            box-shadow: 4px 4px 0px 0px #6f00be;
+            transform: translate(-2px, -2px);
+        }
+        /* Custom scrollbar to match dark aesthetic */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131313;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #444933;
+        }
+        /* Hide number input spinners */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md text-body-md selection:bg-primary-container selection:text-on-primary-fixed" style="width: 390px; height: 844px; margin: 0px auto; overflow: hidden auto; position: relative;">
+<!-- Top Navigation / Header (Minimal for Setup) -->
+<header class="w-full flex justify-between items-center px-margin-mobile py-4 border-b-2 border-outline-variant bg-background z-50">
+<div class="font-display-lg text-display-lg text-primary tracking-tighter uppercase text-[24px]">RUMR</div>
+<div class="font-label-mono text-label-mono text-on-surface-variant uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">security</span>
+            Secure Setup
+        </div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center px-margin-mobile w-full mx-auto h-full py-4">
+<!-- Section Header -->
+<div class="w-full mb-stack-lg border-l-4 border-primary-container pl-4">
+<p class="font-label-mono text-label-mono text-primary-container mb-stack-sm uppercase">Identity // Step 02</p>
+<h1 class="font-display-lg text-display-lg text-primary uppercase md:hidden">Profile<br>Basics</h1>
+<h1 class="font-display-lg text-display-lg text-primary uppercase hidden md:block">Profile Basics</h1>
+</div>
+<!-- Form Container -->
+<form class="w-full flex flex-col gap-stack-md bg-surface border-2 border-outline-variant p-6 md:p-10 relative">
+<!-- Corner Accents (Brutalist detail) -->
+<div class="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-primary-container -translate-x-0.5 -translate-y-0.5"></div>
+<div class="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-primary-container translate-x-0.5 translate-y-0.5"></div>
+<!-- Field: Age -->
+<div class="flex flex-col gap-stack-sm">
+<label class="font-label-mono text-label-mono text-on-surface-variant uppercase" for="age">Age (Years)</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-lowest border-2 border-outline-variant focus:border-primary-container text-primary font-label-mono text-label-mono p-4 outline-none transition-colors rounded-none placeholder-on-surface-variant/50 focus:shadow-[4px_4px_0px_0px_#6f00be]" id="age" name="age" placeholder="25" type="number">
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-container transition-colors">calendar_today</span>
+</div>
+</div>
+<!-- Field: Gender (Gossip Tags Style) -->
+<div class="flex flex-col gap-stack-sm">
+<label class="font-label-mono text-label-mono text-on-surface-variant uppercase">Gender Identity</label>
+<div class="flex flex-wrap gap-2">
+<!-- Chip: Unselected -->
+<label class="cursor-pointer">
+<input class="peer sr-only" name="gender" type="radio" value="female">
+<div class="bg-transparent border-2 border-outline-variant text-on-surface-variant font-label-mono text-label-mono uppercase px-4 py-3 peer-checked:bg-secondary-container peer-checked:border-secondary-container peer-checked:text-on-primary-fixed peer-checked:shadow-[2px_2px_0px_0px_#ffffff] transition-all">Female</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="gender" type="radio" value="male">
+<div class="bg-transparent border-2 border-outline-variant text-on-surface-variant font-label-mono text-label-mono uppercase px-4 py-3 peer-checked:bg-secondary-container peer-checked:border-secondary-container peer-checked:text-on-primary-fixed peer-checked:shadow-[2px_2px_0px_0px_#ffffff] transition-all">Male</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="gender" type="radio" value="nonbinary">
+<div class="bg-transparent border-2 border-outline-variant text-on-surface-variant font-label-mono text-label-mono uppercase px-4 py-3 peer-checked:bg-secondary-container peer-checked:border-secondary-container peer-checked:text-on-primary-fixed peer-checked:shadow-[2px_2px_0px_0px_#ffffff] transition-all">Non-Binary</div>
+</label>
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" name="gender" type="radio" value="undisclosed">
+<div class="bg-transparent border-2 border-outline-variant text-on-surface-variant font-label-mono text-label-mono uppercase px-4 py-3 peer-checked:bg-secondary-container peer-checked:border-secondary-container peer-checked:text-on-primary-fixed peer-checked:shadow-[2px_2px_0px_0px_#ffffff] transition-all">Redacted</div>
+</label>
+</div>
+</div>
+<!-- Field: Location with Toggle -->
+<div class="flex flex-col gap-stack-sm pt-stack-sm border-t-2 border-surface-container-highest">
+<div class="flex justify-between items-end mb-2">
+<label class="font-label-mono text-label-mono text-on-surface-variant uppercase" for="location">Current Vector</label>
+<!-- Brutalist Toggle (Approximate vs Precise) -->
+<div class="flex border-2 border-outline-variant bg-surface-container-lowest">
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" name="location_precision" type="radio" value="approximate">
+<div class="font-label-mono text-[10px] text-on-surface-variant uppercase px-3 py-1 peer-checked:bg-primary-container peer-checked:text-on-primary-fixed transition-colors">Approx</div>
+</label>
+<div class="w-0.5 bg-outline-variant"></div>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="location_precision" type="radio" value="precise">
+<div class="font-label-mono text-[10px] text-on-surface-variant uppercase px-3 py-1 peer-checked:bg-primary-container peer-checked:text-on-primary-fixed transition-colors flex items-center gap-1">
+                                Precise <span class="material-symbols-outlined text-[10px]" style="font-variation-settings: 'FILL' 1;">my_location</span>
+</div>
+</label>
+</div>
+</div>
+<div class="relative group">
+<input class="w-full bg-surface-container-lowest border-2 border-outline-variant focus:border-primary-container text-primary font-label-mono text-label-mono p-4 outline-none transition-colors rounded-none placeholder-on-surface-variant/50 uppercase focus:shadow-[4px_4px_0px_0px_#6f00be]" id="location" name="location" placeholder="ENTER CITY OR COORDINATES" type="text">
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-container transition-colors">radar</span>
+</div>
+</div>
+<!-- Warning/Info Block (The "Rumor" Aesthetic) -->
+<div class="mt-stack-sm p-4 border-2 border-outline-variant bg-surface-container-lowest/50 backdrop-blur-md relative overflow-hidden">
+<div class="absolute inset-0 bg-primary-container/5 mix-blend-overlay"></div>
+<div class="relative z-10 flex gap-4 items-start">
+<span class="material-symbols-outlined text-primary-container mt-0.5">info</span>
+<p class="font-label-mono text-label-mono text-on-surface-variant leading-relaxed">
+<span class="text-primary">DATA RETENTION WARNING:</span> This baseline establishes your matching graph. Precise vectors yield higher collision rates. Proceed with caution.
+                    </p>
+</div>
+</div>
+<!-- Action Area -->
+<div class="mt-stack-md flex justify-end">
+<button class="bg-primary-container text-on-primary-fixed font-label-mono text-label-mono uppercase border-2 border-primary-container px-8 py-4 brutalist-shadow-hover transition-all w-full sm:w-auto font-bold flex items-center justify-center gap-2" type="button">
+                    Initialize Core
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</form>
+<!-- Progress Bar (Footer anchor) -->
+<div class="w-full mt-stack-lg border-2 border-outline-variant h-4 relative bg-surface-container-lowest">
+<!-- Stepped progress fill -->
+<div class="absolute top-0 left-0 h-full w-[40%] bg-primary-container border-r-2 border-primary-container"></div>
+</div>
+<div class="w-full flex justify-between mt-2 font-label-mono text-[10px] text-on-surface-variant uppercase">
+<span class="">Graph Formation</span>
+<span class="">40%</span>
+</div>
+</main>
+
+
+
+
+
+
+
+
+
+
+</body></html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rumr - Boost Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#e5e2e1",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "tertiary-container": "#e2e2e2",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-container": "#20201f",
+                        "on-tertiary": "#2f3131",
+                        "inverse-primary": "#506600",
+                        "on-tertiary-container": "#636565",
+                        "background": "#131313",
+                        "on-secondary-container": "#d6a9ff",
+                        "inverse-surface": "#e5e2e1",
+                        "primary": "#ffffff",
+                        "surface-container-highest": "#353535",
+                        "on-primary": "#283500",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-dim": "#131313",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#313030",
+                        "primary-container": "#c3f400",
+                        "on-error": "#690005",
+                        "primary-fixed": "#c3f400",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "surface-variant": "#353535",
+                        "surface": "#131313",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-primary-container": "#556d00",
+                        "outline-variant": "#444933",
+                        "on-background": "#e5e2e1",
+                        "secondary-fixed": "#f0dbff",
+                        "on-secondary": "#490080",
+                        "primary-fixed-dim": "#abd600",
+                        "surface-tint": "#abd600",
+                        "outline": "#8e9379",
+                        "surface-container-low": "#1c1b1b",
+                        "on-primary-fixed": "#161e00",
+                        "secondary-container": "#6f00be",
+                        "tertiary": "#ffffff",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed": "#2c0051",
+                        "secondary": "#ddb7ff",
+                        "on-surface-variant": "#c4c9ac",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-bright": "#393939",
+                        "on-tertiary-fixed-variant": "#454747"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "24px",
+                        "unit": "4px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px",
+                        "gutter": "16px",
+                        "stack-sm": "8px",
+                        "stack-lg": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Playfair Display"],
+                        "body-md": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "label-mono": ["JetBrains Mono"],
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        .hard-shadow-primary { box-shadow: 4px 4px 0 0 theme('colors.primary-container'); }
+        .hard-shadow-secondary { box-shadow: 4px 4px 0 0 theme('colors.secondary'); }
+        .brutalist-border { border: 2px solid theme('colors.primary'); }
+        .brutalist-border-lime { border: 2px solid theme('colors.primary-container'); }
+        .brutalist-border-purple { border: 2px solid theme('colors.secondary'); }
+        .rumor-blur { backdrop-filter: blur(20px); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen pb-24 md:pb-0 flex flex-col">
+<!-- TopAppBar (Suppressed per logic as this is a transactional/details sub-page intent, but wait, the prompt doesn't explicitly state sub-page, it's a high-level analytics screen for a boosted topic. It could be accessed from Profile. The navigation rules say: "Suppress if Task-Focused: Any sub-page featuring a 'Close' or 'Back' action". Let's provide a sub-page header since it's deep analytics for a specific topic). Actually, I'll include the TopAppBar as requested but adapt it for the sub-page feel, or better yet, follow the JSON but adjust to the context. I'll just render it as requested. -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile h-16 bg-background dark:bg-background border-b-2 border-primary dark:border-primary text-primary dark:text-primary transition-colors duration-100 ease-in-out md:hidden">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-fixed dark:text-primary-fixed" style="font-variation-settings: 'FILL' 1;">arrow_back</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-black tracking-tighter text-primary dark:text-primary">RUMR_DATA</h1>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant p-2">more_vert</span>
+</header>
+<main class="flex-grow pt-[80px] px-margin-mobile md:px-margin-desktop max-w-[1200px] mx-auto w-full flex flex-col gap-stack-md">
+<!-- Header -->
+<section class="mt-stack-sm">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase">BOOST ANALYTICS</h2>
+<div class="flex items-center gap-2 mt-unit">
+<span class="bg-secondary text-surface px-2 py-1 font-label-mono text-label-mono uppercase">TOPIC_ID: XA9-4B</span>
+<span class="text-on-surface-variant font-label-mono text-label-mono">LIVE</span>
+</div>
+</section>
+<!-- Hero Metric -->
+<section class="bg-surface-container border-2 border-primary-container p-4 relative">
+<div class="absolute -top-3 left-4 bg-background px-2 font-label-mono text-label-mono text-primary-container uppercase">PRIMARY_METRIC</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary-container mt-2">VIRALITY COEFFICIENT: 2.4x</h3>
+<!-- Progress Indicator -->
+<div class="mt-4 h-8 brutalist-border flex items-stretch">
+<div class="bg-primary-container w-[75%] border-r-2 border-primary relative flex items-center justify-end px-2">
+<span class="font-label-mono text-label-mono text-surface">75%</span>
+</div>
+</div>
+</section>
+<!-- Visualization Placeholder -->
+<section class="bg-surface-container border-2 border-primary p-4 h-64 relative overflow-hidden group">
+<div class="absolute -top-3 left-4 bg-background px-2 font-label-mono text-label-mono text-primary uppercase z-10">PROPAGATION_MAP</div>
+<div class="absolute inset-0 bg-surface-container-high w-full h-full flex items-center justify-center">
+<img class="object-cover opacity-50 w-full h-full mix-blend-screen" data-alt="A highly stylized, brutalist data visualization graph depicting network clusters and propagation nodes connected by precise, angular geometric lines. The palette relies on deep blacks, sharp stark whites, and vibrant toxic lime accents in a dark-mode environment. The overall feel is highly technical, encrypted, and exclusive." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUyb9TVCwtE2zmNsz-Pdd0OxSPHWQ2Y-zLJM3oF_-_eQlErGwRZrIf5YGrsmKZCoi36U6T2Wo2LiJOJPRYlhSvS5oLwwl7LGTpZj085z7DOYHa-ToD7c3_7L763yzcGkTrp-YkrfBRj6Cm4ZIlm9pacc6pD_KIk_LnMU4HaTSYKaSeSZIFVsiG1lpowxJADcXKBFX-oZQjcvfJBKoSLC3uD9I-FBCGaPU4q48x0vpy_rxtwV3JHEVpGA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent pointer-events-none"></div>
+<span class="font-label-mono text-label-mono text-primary-container z-20 bg-background px-2 py-1 brutalist-border-lime">RENDERING_NODES...</span>
+</div>
+</section>
+<!-- Data Points Bento Grid -->
+<section class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container border-2 border-primary p-4 hover:hard-shadow-primary transition-shadow">
+<p class="font-label-mono text-label-mono text-on-surface-variant mb-2">IMPRESSIONS</p>
+<p class="font-headline-lg-mobile text-headline-lg-mobile text-primary">~12.5k</p>
+</div>
+<div class="bg-surface-container border-2 border-primary p-4 hover:hard-shadow-primary transition-shadow">
+<p class="font-label-mono text-label-mono text-on-surface-variant mb-2">CONVERSION</p>
+<p class="font-headline-lg-mobile text-headline-lg-mobile text-primary">8.2%</p>
+</div>
+<div class="bg-surface-container border-2 border-primary p-4 col-span-2 hover:hard-shadow-primary transition-shadow">
+<p class="font-label-mono text-label-mono text-on-surface-variant mb-2">CLUSTER REACH</p>
+<p class="font-headline-lg-mobile text-headline-lg-mobile text-primary">14</p>
+</div>
+</section>
+<!-- AI Recommendation -->
+<section class="bg-secondary-fixed-dim/10 border-2 border-secondary p-4 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<p class="font-label-mono text-label-mono text-secondary mb-2">AI TIP</p>
+<p class="font-body-md text-body-md text-primary uppercase">HIGH ENGAGEMENT IN "STARTUP" CLUSTER. CROSS-POST TO SYNC.</p>
+<button class="mt-4 bg-primary-container text-surface font-label-mono text-label-mono px-4 py-2 uppercase border-2 border-primary-container hover:hard-shadow-secondary transition-all">EXECUTE</button>
+</section>
+</main>
+<!-- BottomNavBar (Hidden on desktop, this is a deep sub-page so logically we might suppress it, but keeping to fulfill the JSON generation if considered top-level for testing. The prompt doesn't specify if this is a top-level, but 'Boost Analytics' feels like a sub-page of Profile. I'll include it for the sake of the requirement and mark 'PROFILE' active). -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center bg-surface dark:bg-surface border-t-2 border-primary dark:border-primary md:hidden">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:bg-secondary-container dark:hover:bg-secondary-container transition-colors duration-100 ease-in-out" href="#">
+<span class="material-symbols-outlined mb-1">explore</span>
+<span class="font-label-mono text-label-mono uppercase">DISCOVER</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:bg-secondary-container dark:hover:bg-secondary-container transition-colors duration-100 ease-in-out" href="#">
+<span class="material-symbols-outlined mb-1">cloud_download</span>
+<span class="font-label-mono text-label-mono uppercase">TOPICS</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:bg-secondary-container dark:hover:bg-secondary-container transition-colors duration-100 ease-in-out" href="#">
+<span class="material-symbols-outlined mb-1">hub</span>
+<span class="font-label-mono text-label-mono uppercase">MATCHES</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary-container text-on-primary-container dark:text-on-primary-container p-2 hover:bg-secondary-container dark:hover:bg-secondary-container scale-95 transition-transform duration-75" href="#">
+<span class="material-symbols-outlined mb-1">account_circle</span>
+<span class="font-label-mono text-label-mono uppercase">PROFILE</span>
+</a>
+</nav>
+</body></html>

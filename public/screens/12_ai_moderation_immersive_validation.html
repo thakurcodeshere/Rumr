@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Intervention</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=Playfair+Display:wght@700;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed-variant": "#6900b3",
+                      "tertiary": "#ffffff",
+                      "surface-container-high": "#2a2a2a",
+                      "surface-container-low": "#1c1b1b",
+                      "primary-fixed": "#c3f400",
+                      "surface-container-lowest": "#0e0e0e",
+                      "primary-fixed-dim": "#abd600",
+                      "on-background": "#e5e2e1",
+                      "outline": "#8e9379",
+                      "tertiary-fixed": "#e2e2e2",
+                      "inverse-surface": "#e5e2e1",
+                      "tertiary-fixed-dim": "#c6c6c7",
+                      "secondary-container": "#6f00be",
+                      "surface-bright": "#393939",
+                      "on-surface-variant": "#c4c9ac",
+                      "primary-container": "#c3f400",
+                      "inverse-primary": "#506600",
+                      "surface": "#131313",
+                      "on-secondary-fixed": "#2c0051",
+                      "secondary": "#ddb7ff",
+                      "error": "#ffb4ab",
+                      "on-error": "#690005",
+                      "surface-container-highest": "#353535",
+                      "on-primary-fixed-variant": "#3c4d00",
+                      "on-secondary-container": "#d6a9ff",
+                      "background": "#131313",
+                      "surface-tint": "#abd600",
+                      "on-tertiary-fixed": "#1a1c1c",
+                      "secondary-fixed-dim": "#ddb7ff",
+                      "primary": "#ffffff",
+                      "on-secondary": "#490080",
+                      "on-primary-container": "#556d00",
+                      "on-primary": "#283500",
+                      "surface-dim": "#131313",
+                      "error-container": "#93000a",
+                      "tertiary-container": "#e2e2e2",
+                      "on-tertiary-container": "#636565",
+                      "on-surface": "#e5e2e1",
+                      "surface-container": "#20201f",
+                      "surface-variant": "#353535",
+                      "secondary-fixed": "#f0dbff",
+                      "inverse-on-surface": "#313030",
+                      "on-tertiary": "#2f3131",
+                      "on-error-container": "#ffdad6",
+                      "on-tertiary-fixed-variant": "#454747",
+                      "outline-variant": "#444933",
+                      "on-primary-fixed": "#161e00"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-sm": "8px",
+                      "stack-lg": "48px",
+                      "gutter": "16px",
+                      "stack-md": "24px",
+                      "margin-desktop": "40px",
+                      "margin-mobile": "20px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ],
+                      "display-lg": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ],
+                      "label-bold": [
+                              "Inter"
+                      ],
+                      "label-mono": [
+                              "JetBrains Mono"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "900"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-bold": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-mono": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+          .brutalist-border {
+              border: 2px solid #ffffff;
+          }
+          .brutalist-border-primary {
+              border: 2px solid #c3f400; /* Toxic Lime */
+          }
+          .brutalist-border-secondary {
+              border: 2px solid #A855F7; /* Electric Purple */
+          }
+          .shadow-primary-hard {
+              box-shadow: 4px 4px 0px 0px #c3f400;
+          }
+          .shadow-secondary-hard {
+              box-shadow: 4px 4px 0px 0px #A855F7;
+          }
+          .hover-shadow-secondary:hover {
+              box-shadow: 4px 4px 0px 0px #A855F7;
+              transform: translate(-2px, -2px);
+              transition: all 0.2s ease;
+          }
+          .progress-step {
+              background-image: linear-gradient(to right, #c3f400 0%, #c3f400 100%);
+              background-size: 10% 100%;
+              background-repeat: no-repeat;
+          }
+          .mysterious-blur {
+              backdrop-filter: blur(20px);
+          }
+          
+          /* Custom animation for the intervention pulse */
+          @keyframes intervention-pulse {
+              0% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.7); }
+              70% { box-shadow: 0 0 0 15px rgba(168, 85, 247, 0); }
+              100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0); }
+          }
+          .animate-pulse-purple {
+              animation: intervention-pulse 2s infinite;
+          }
+
+          /* New Animations */
+          @keyframes glow-pulse-lime {
+              0% { box-shadow: 0 0 5px #c3f400, 0 0 10px #c3f400, inset 0 0 5px #c3f400; }
+              50% { box-shadow: 0 0 20px #c3f400, 0 0 30px #c3f400, inset 0 0 10px #c3f400; }
+              100% { box-shadow: 0 0 5px #c3f400, 0 0 10px #c3f400, inset 0 0 5px #c3f400; }
+          }
+          .animate-glow-lime {
+              animation: glow-pulse-lime 2s infinite;
+          }
+
+          @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+          }
+          @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #c3f400; }
+          }
+          .typing-effect {
+            overflow: hidden;
+            border-right: .15em solid #c3f400;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: 
+              typing 3.5s steps(40, end),
+              blink-caret .75s step-end infinite;
+          }
+      </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-x-hidden selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Global TopAppBar -->
+<header class="w-full top-0 sticky bg-background dark:bg-background border-b-2 border-primary dark:border-primary shadow-[4px_4px_0px_0px_rgba(221,183,255,1)] z-50">
+<div class="flex justify-between items-center px-margin-mobile py-4 w-full z-50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed dark:text-primary-fixed">terminal</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-black tracking-tighter text-primary dark:text-primary uppercase">RUMR</h1>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed dark:text-primary-fixed">sensors</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex items-center justify-center p-margin-mobile md:p-margin-desktop relative overflow-hidden">
+<!-- Shader Background Container -->
+<div class="absolute inset-0 z-0 opacity-80" id="shader-container"></div>
+<script>
+        const container = document.getElementById('shader-container');
+        const renderer = new THREE.WebGLRenderer({alpha: true});
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+    
+        const scene = new THREE.Scene();
+        const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+        
+        const fragmentShader = `
+precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+varying vec2 v_texCoord;
+
+float hash(vec2 p) {
+    p = fract(p * vec2(123.34, 456.21));
+    p += dot(p, p + 45.32);
+    return fract(p.x * p.y);
+}
+
+void main() {
+    vec2 uv = v_texCoord;
+    vec3 color = vec3(0.01, 0.01, 0.02); // Deep dark base
+    
+    // Technical scanning grid
+    vec2 grid = fract(uv * 25.0);
+    float line = smoothstep(0.03, 0.0, grid.x) + smoothstep(0.03, 0.0, grid.y);
+    color += line * vec3(0.1, 0.0, 0.15) * (0.5 + 0.5 * sin(u_time));
+    
+    // Data "chaos" nodes
+    for(int i=0; i<8; i++) {
+        float t = u_time * 0.5 + float(i) * 1.5;
+        vec2 p = vec2(hash(vec2(float(i), 1.0)), hash(vec2(float(i), 2.0)));
+        p += vec2(sin(t), cos(t)) * 0.1;
+        float d = length(uv - p);
+        float circle = smoothstep(0.02, 0.01, d);
+        color += circle * vec3(0.8, 1.0, 0.0); // Lime-green nodes
+        
+        // Connections
+        if(i > 0) {
+            vec2 p2 = vec2(hash(vec2(float(i-1), 1.0)), hash(vec2(float(i-1), 2.0)));
+            p2 += vec2(sin(t - 1.5), cos(t - 1.5)) * 0.1;
+            float lineDist = length(uv - p);
+            // Simple line approximation
+            float l = smoothstep(0.005, 0.0, abs(dot(normalize(p-p2), uv-p2)) - length(uv-p2));
+            // color += l * 0.1 * vec3(0.5, 0.0, 1.0);
+        }
+    }
+    
+    // Vertical scanline interference
+    float scan = fract(uv.y * 10.0 - u_time * 2.0);
+    scan = pow(scan, 30.0);
+    color += scan * vec3(0.5, 0.0, 1.0) * 0.3; // Purple interference
+    
+    // Vignette
+    color *= smoothstep(1.2, 0.4, length(uv - 0.5));
+
+    gl_FragColor = vec4(color, 1.0);
+}
+`;
+    
+        const vertexShader = `
+        varying vec2 v_texCoord;
+        void main() {
+            v_texCoord = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+        `;
+    
+        const geometry = new THREE.PlaneGeometry(2, 2);
+        const material = new THREE.ShaderMaterial({
+            vertexShader: vertexShader,
+            fragmentShader: fragmentShader,
+            uniforms: {
+                u_time: { value: 0.0 },
+                u_resolution: { value: new THREE.Vector2() },
+                u_mouse: { value: new THREE.Vector2() }
+            }
+        });
+    
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+    
+        function onWindowResize() {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            material.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
+        }
+        window.addEventListener('resize', onWindowResize, false);
+        onWindowResize();
+    
+        document.addEventListener('mousemove', (e) => {
+            material.uniforms.u_mouse.value.set(e.clientX, window.innerHeight - e.clientY);
+        });
+    
+        function animate() {
+            requestAnimationFrame(animate);
+            material.uniforms.u_time.value += 0.05;
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+<div class="w-full max-w-[600px] relative z-10 bg-background/90 p-8 border-4 border-primary shadow-[8px_8px_0px_0px_rgba(255,255,255,1)]">
+<!-- Intervention Header -->
+<div class="text-center mb-stack-lg relative">
+<div class="inline-block bg-secondary-container text-on-secondary-container font-label-mono text-label-mono px-3 py-1 mb-stack-sm tracking-widest brutalist-border-secondary uppercase animate-pulse-purple">
+                    SYSTEM ALERT: TR-89X
+                </div>
+<h2 class="font-display-lg text-display-lg text-primary uppercase mt-2">AI Intervention</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-stack-sm max-w-[400px] mx-auto">
+                    Chaos threshold exceeded. The requested content pattern violates current stability protocols.
+                </p>
+</div>
+<!-- The Flagged Card -->
+<div class="bg-surface border-2 border-secondary p-stack-md relative shadow-secondary-hard mb-stack-lg group">
+<!-- Glitch decorative corner -->
+<div class="absolute -top-[2px] -left-[2px] w-4 h-4 bg-secondary border-r-2 border-b-2 border-background z-10"></div>
+<div class="flex items-center justify-between mb-stack-md border-b-2 border-surface-variant pb-2">
+<span class="font-label-mono text-label-mono text-secondary uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">warning</span> Flagged Input
+                    </span>
+<span class="font-label-mono text-label-mono bg-surface-container-high px-2 py-1 text-on-surface-variant border border-surface-variant">
+                        RISK_LEVEL: HIGH
+                    </span>
+</div>
+<!-- Blurred Input representation -->
+<div class="relative bg-surface-container-lowest border-2 border-surface-variant p-4 mb-stack-md min-h-[100px] flex items-center justify-center overflow-hidden cursor-not-allowed">
+<div class="absolute inset-0 bg-surface-container-low opacity-90 mysterious-blur flex items-center justify-center z-10">
+<span class="font-label-mono text-label-mono text-primary-fixed tracking-widest px-3 py-1 bg-surface-container-highest border-2 border-primary-fixed shadow-[0_0_10px_rgba(195,244,0,0.5)]">
+<div class="typing-effect">DECRYPTING... BLOCKED</div>
+</span>
+</div>
+<p class="font-label-mono text-label-mono text-on-surface-variant opacity-30 select-none">
+                        &gt; Initiating sub-routine bypass for targeted extraction of [REDACTED]...
+                    </p>
+</div>
+<!-- AI Reasoning -->
+<div class="space-y-stack-sm">
+<h3 class="font-label-mono text-label-mono text-primary uppercase tracking-wider border-l-4 border-secondary pl-2">Detection Reasoning</h3>
+<ul class="font-body-md text-body-md text-on-surface-variant space-y-2 list-none pl-4">
+<li class="relative before:content-['&gt;'] before:absolute before:-left-4 before:text-secondary before:font-label-mono">
+                            Semantic mapping indicates aggressive intent targeting external entities.
+                        </li>
+<li class="relative before:content-['&gt;'] before:absolute before:-left-4 before:text-secondary before:font-label-mono">
+                            Vocabulary structure aligns 88% with restricted "Chaos" patterns.
+                        </li>
+</ul>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex flex-col gap-stack-md sm:flex-row sm:items-center sm:justify-center">
+<!-- Primary Action -->
+<button class="bg-primary-fixed text-on-primary-fixed font-label-mono text-label-mono font-bold uppercase py-4 px-6 brutalist-border-primary hover-shadow-secondary flex-1 sm:flex-none flex items-center justify-center gap-2 group transition-all animate-glow-lime hover:scale-105 duration-200">
+<span class="material-symbols-outlined group-hover:rotate-180 transition-transform duration-500">refresh</span>
+                    Recalibrate Message
+                </button>
+<!-- Secondary Action -->
+<button class="bg-surface-container text-primary font-label-mono text-label-mono uppercase py-4 px-6 border-2 border-surface-variant hover:border-primary hover:bg-surface-container-high transition-colors flex-1 sm:flex-none flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">gavel</span>
+                    Request Manual Review
+                </button>
+</div>
+<div class="mt-stack-md text-center">
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors underline decoration-on-surface-variant hover:decoration-primary underline-offset-4" href="#">
+                    Review Protocol Guidelines
+                </a>
+</div>
+</div>
+</main>
+<!-- Note: BottomNavBar is intentionally suppressed here due to the semantic shell mandate: 
+         This is a Task-Focused/Linear/Transactional intervention screen where the user is in a "dead end" 
+         relative to the global nav until they resolve the moderation nudge. -->
+</body></html>

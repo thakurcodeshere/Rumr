@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rumr - Global Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#3c4d00",
+                    "on-secondary-fixed-variant": "#6900b3",
+                    "secondary-fixed": "#f0dbff",
+                    "on-secondary": "#490080",
+                    "on-primary-container": "#556d00",
+                    "inverse-primary": "#506600",
+                    "outline": "#8e9379",
+                    "surface-container-high": "#2a2a2a",
+                    "on-background": "#e5e2e1",
+                    "secondary-container": "#6f00be",
+                    "on-error": "#690005",
+                    "primary-container": "#c3f400",
+                    "primary-fixed-dim": "#abd600",
+                    "surface-dim": "#131313",
+                    "tertiary-fixed-dim": "#c6c6c7",
+                    "primary-fixed": "#c3f400",
+                    "tertiary-fixed": "#e2e2e2",
+                    "tertiary": "#ffffff",
+                    "secondary-fixed-dim": "#ddb7ff",
+                    "inverse-surface": "#e5e2e1",
+                    "surface-variant": "#353535",
+                    "primary": "#ffffff",
+                    "on-tertiary": "#2f3131",
+                    "surface-container-highest": "#353535",
+                    "outline-variant": "#444933",
+                    "on-tertiary-fixed-variant": "#454747",
+                    "on-tertiary-fixed": "#1a1c1c",
+                    "on-primary-fixed": "#161e00",
+                    "on-secondary-container": "#d6a9ff",
+                    "on-surface-variant": "#c4c9ac",
+                    "tertiary-container": "#e2e2e2",
+                    "on-surface": "#e5e2e1",
+                    "secondary": "#ddb7ff",
+                    "surface-bright": "#393939",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-primary": "#283500",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-low": "#1c1b1b",
+                    "error-container": "#93000a",
+                    "surface": "#131313",
+                    "surface-tint": "#abd600",
+                    "on-secondary-fixed": "#2c0051",
+                    "on-tertiary-container": "#636565",
+                    "background": "#131313",
+                    "error": "#ffb4ab",
+                    "inverse-on-surface": "#313030",
+                    "surface-container": "#20201f"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "20px",
+                    "margin-desktop": "40px",
+                    "stack-md": "24px",
+                    "unit": "4px",
+                    "stack-sm": "8px",
+                    "gutter": "16px",
+                    "stack-lg": "48px"
+            },
+            "fontFamily": {
+                    "label-bold": [
+                            "Inter"
+                    ],
+                    "label-mono": [
+                            "JetBrains Mono"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "headline-lg-mobile": [
+                            "Playfair Display"
+                    ],
+                    "headline-lg": [
+                            "Playfair Display"
+                    ],
+                    "display-lg": [
+                            "Playfair Display"
+                    ]
+            },
+            "fontSize": {
+                    "label-bold": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-mono": [
+                            "12px",
+                            {
+                                    "lineHeight": "1.0",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "28px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "900"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        
+        .brutalist-border {
+            border: 2px solid theme('colors.outline-variant');
+        }
+        
+        .brutalist-border-active {
+            border: 2px solid theme('colors.primary-fixed');
+        }
+
+        .toxic-shadow {
+            box-shadow: 4px 4px 0px 0px theme('colors.primary-fixed');
+        }
+
+        .toxic-shadow-hover:hover {
+            box-shadow: 4px 4px 0px 0px theme('colors.secondary-container');
+            transform: translate(-2px, -2px);
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Toggle switch styling */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: theme('colors.primary-fixed');
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: theme('colors.primary-fixed');
+        }
+        .toggle-checkbox:checked + .toggle-label:after {
+            transform: translateX(100%);
+            border-color: white;
+            background-color: theme('colors.background');
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen flex flex-col selection:bg-primary-fixed selection:text-background">
+<!-- TopAppBar -->
+<header class="bg-background dark:bg-background docked full-width top-0 border-b-2 border-outline-variant flat no shadows flex justify-between items-center w-full px-margin-mobile py-4 z-40 sticky">
+<button class="text-primary dark:text-primary hover:text-primary-fixed-dim transition-colors scale-95 duration-75">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<div class="text-headline-lg-mobile font-headline-lg-mobile uppercase tracking-tighter text-primary">GLOBAL_SETTINGS</div>
+<button class="text-primary dark:text-primary hover:text-primary-fixed-dim transition-colors scale-95 duration-75">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">tune</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col gap-stack-lg pb-[100px]">
+<!-- Header Area -->
+<div class="flex flex-col gap-stack-sm mb-stack-md">
+<h1 class="font-display-lg text-display-lg text-primary tracking-tighter uppercase border-b-2 border-outline-variant pb-stack-sm inline-block w-fit">Privacy &amp; Protocols</h1>
+<p class="font-label-mono text-label-mono text-on-surface-variant uppercase">Encrypted System Configuration</p>
+</div>
+<!-- Section: Identity Protection -->
+<section class="flex flex-col gap-stack-md">
+<div class="flex items-center gap-gutter border-b-2 border-outline-variant pb-unit">
+<span class="material-symbols-outlined text-primary-fixed">security</span>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase tracking-tight">Identity Protection</h2>
+</div>
+<div class="brutalist-border bg-surface p-stack-md flex flex-col gap-stack-md">
+<!-- Stealth Mode Toggle -->
+<div class="flex justify-between items-start gap-gutter">
+<div class="flex flex-col gap-unit">
+<span class="font-label-bold text-label-bold text-primary uppercase">Stealth Mode</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant">Obscures location data and connection timestamps from all active clusters.</span>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-none bg-background border-2 border-outline-variant appearance-none cursor-pointer z-10 transition-transform duration-200 ease-in-out top-0 left-0" id="stealth-toggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-none bg-surface-container-high border-2 border-outline-variant cursor-pointer relative before:content-[''] before:block before:absolute before:inset-0" for="stealth-toggle"></label>
+</div>
+</div>
+<!-- Ghost Protocol -->
+<div class="flex justify-between items-start gap-gutter pt-stack-sm border-t-2 border-outline-variant">
+<div class="flex flex-col gap-unit">
+<span class="font-label-bold text-label-bold text-error uppercase">Ghost Protocol</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant">Self-destruct message threads after 24 hours.</span>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-none bg-background border-2 border-outline-variant appearance-none cursor-pointer z-10 transition-transform duration-200 ease-in-out top-0 left-0" id="ghost-toggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-none bg-surface-container-high border-2 border-outline-variant cursor-pointer relative before:content-[''] before:block before:absolute before:inset-0" for="ghost-toggle"></label>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Reveal History -->
+<section class="flex flex-col gap-stack-md">
+<div class="flex items-center justify-between gap-gutter border-b-2 border-outline-variant pb-unit">
+<div class="flex items-center gap-gutter">
+<span class="material-symbols-outlined text-secondary">visibility</span>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase tracking-tight">Reveal History</h2>
+</div>
+<button class="font-label-mono text-label-mono text-on-surface-variant hover:text-error transition-colors uppercase">Clear Log</button>
+</div>
+<div class="flex flex-col gap-stack-sm">
+<!-- Log Entry 1 -->
+<div class="brutalist-border bg-surface p-stack-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-stack-sm hover:bg-surface-container-high transition-colors group">
+<div class="flex items-center gap-gutter w-full md:w-auto">
+<div class="w-12 h-12 brutalist-border bg-background flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant">person</span>
+</div>
+<div class="flex flex-col gap-unit">
+<span class="font-label-bold text-label-bold text-primary uppercase">User_X992A</span>
+<div class="flex gap-2">
+<span class="bg-secondary-container px-2 py-1 font-label-mono text-label-mono text-background">#FINANCE_LEAK</span>
+</div>
+</div>
+</div>
+<div class="flex flex-row md:flex-col justify-between w-full md:w-auto items-end gap-unit">
+<span class="font-label-mono text-label-mono text-on-surface-variant">UNMASKED: 12:04 AM</span>
+<span class="font-label-mono text-label-mono text-primary-fixed">DATA_PULLED</span>
+</div>
+</div>
+<!-- Log Entry 2 -->
+<div class="brutalist-border bg-surface p-stack-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-stack-sm hover:bg-surface-container-high transition-colors group">
+<div class="flex items-center gap-gutter w-full md:w-auto">
+<div class="w-12 h-12 brutalist-border bg-background flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant">person</span>
+</div>
+<div class="flex flex-col gap-unit">
+<span class="font-label-bold text-label-bold text-primary uppercase">Anon_Beta_44</span>
+<div class="flex gap-2">
+<span class="bg-secondary-container px-2 py-1 font-label-mono text-label-mono text-background">#TECH_LAYOFFS</span>
+</div>
+</div>
+</div>
+<div class="flex flex-row md:flex-col justify-between w-full md:w-auto items-end gap-unit">
+<span class="font-label-mono text-label-mono text-on-surface-variant">UNMASKED: YESTERDAY</span>
+<span class="font-label-mono text-label-mono text-primary-fixed">DATA_PULLED</span>
+</div>
+</div>
+<!-- Log Entry 3 -->
+<div class="brutalist-border bg-surface p-stack-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-stack-sm hover:bg-surface-container-high transition-colors group opacity-50">
+<div class="flex items-center gap-gutter w-full md:w-auto">
+<div class="w-12 h-12 brutalist-border bg-background flex items-center justify-center shrink-0 relative overflow-hidden">
+<div class="absolute inset-0 backdrop-blur-[10px] z-10"></div>
+<span class="material-symbols-outlined text-on-surface-variant">lock</span>
+</div>
+<div class="flex flex-col gap-unit">
+<span class="font-label-bold text-label-bold text-primary uppercase blur-[4px]">Hidden_User</span>
+<div class="flex gap-2">
+<span class="bg-surface-variant px-2 py-1 font-label-mono text-label-mono text-on-surface-variant">#REDACTED</span>
+</div>
+</div>
+</div>
+<div class="flex flex-row md:flex-col justify-between w-full md:w-auto items-end gap-unit">
+<span class="font-label-mono text-label-mono text-on-surface-variant">ACCESS_REVOKED</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Data Protocols -->
+<section class="flex flex-col gap-stack-md">
+<div class="flex items-center gap-gutter border-b-2 border-outline-variant pb-unit">
+<span class="material-symbols-outlined text-primary-fixed">terminal</span>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase tracking-tight">Data Protocols</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-sm">
+<!-- Card 1 -->
+<div class="brutalist-border bg-surface p-stack-md flex flex-col gap-stack-md justify-between toxic-shadow-hover cursor-pointer group">
+<div class="flex flex-col gap-unit">
+<span class="material-symbols-outlined text-primary-fixed text-2xl mb-unit">download</span>
+<h3 class="font-label-bold text-label-bold text-primary uppercase">Export Encrypted Logs</h3>
+<p class="font-label-mono text-label-mono text-on-surface-variant">Download a local copy of your activity timeline. Requires external decryption key.</p>
+</div>
+<button class="bg-primary-fixed text-background font-label-mono text-label-mono uppercase px-4 py-2 w-fit group-hover:bg-primary transition-colors">INITIATE_DUMP</button>
+</div>
+<!-- Card 2 -->
+<div class="brutalist-border border-error bg-surface p-stack-md flex flex-col gap-stack-md justify-between cursor-pointer group hover:bg-error-container transition-colors">
+<div class="flex flex-col gap-unit">
+<span class="material-symbols-outlined text-error text-2xl mb-unit">delete_forever</span>
+<h3 class="font-label-bold text-label-bold text-error uppercase">Purge All Data</h3>
+<p class="font-label-mono text-label-mono text-on-error-container">Irreversible action. Wipes all server-side traces, linked identities, and saved rumor caches.</p>
+</div>
+<button class="bg-transparent border-2 border-error text-error font-label-mono text-label-mono uppercase px-4 py-2 w-fit group-hover:bg-error group-hover:text-background transition-colors">EXECUTE_PURGE</button>
+</div>
+</div>
+</section>
+</main>
+<!-- SideNav (Hidden on Mobile) - Normally suppressed on Settings, but keeping as per prompt instructions if it was a main destination, here hiding to prioritize canvas as per rules -->
+<!-- Suppressed SideNav/BottomNav for focused Settings page -->
+<script>
+        // Simple toggle logic for visual feedback if needed beyond CSS
+        document.querySelectorAll('input[type="checkbox"]').forEach(toggle => {
+            toggle.addEventListener('change', (e) => {
+                if(e.target.checked) {
+                    e.target.parentElement.parentElement.classList.add('brutalist-border-active');
+                    e.target.parentElement.parentElement.classList.remove('brutalist-border');
+                } else {
+                     e.target.parentElement.parentElement.classList.remove('brutalist-border-active');
+                     e.target.parentElement.parentElement.classList.add('brutalist-border');
+                }
+            });
+        });
+    </script>
+</body></html>

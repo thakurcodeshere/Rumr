@@ -1,0 +1,317 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>14: Create Custom Topic</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-high": "#2a2a2a",
+                      "on-tertiary-fixed-variant": "#454747",
+                      "surface": "#131313",
+                      "on-surface-variant": "#c4c9ac",
+                      "error-container": "#93000a",
+                      "tertiary-fixed-dim": "#c6c6c7",
+                      "on-background": "#e5e2e1",
+                      "on-secondary-container": "#d6a9ff",
+                      "inverse-on-surface": "#313030",
+                      "primary-container": "#c3f400",
+                      "outline-variant": "#444933",
+                      "surface-dim": "#131313",
+                      "error": "#ffb4ab",
+                      "on-tertiary": "#2f3131",
+                      "on-primary-container": "#556d00",
+                      "surface-bright": "#393939",
+                      "inverse-primary": "#506600",
+                      "on-surface": "#e5e2e1",
+                      "on-primary": "#283500",
+                      "on-tertiary-container": "#636565",
+                      "on-error": "#690005",
+                      "on-secondary": "#490080",
+                      "on-primary-fixed": "#161e00",
+                      "inverse-surface": "#e5e2e1",
+                      "secondary-fixed": "#f0dbff",
+                      "surface-container-lowest": "#0e0e0e",
+                      "on-tertiary-fixed": "#1a1c1c",
+                      "surface-container": "#20201f",
+                      "primary": "#ffffff",
+                      "secondary": "#ddb7ff",
+                      "tertiary-container": "#e2e2e2",
+                      "secondary-fixed-dim": "#ddb7ff",
+                      "on-secondary-fixed": "#2c0051",
+                      "primary-fixed-dim": "#abd600",
+                      "background": "#131313",
+                      "tertiary": "#ffffff",
+                      "surface-tint": "#abd600",
+                      "on-error-container": "#ffdad6",
+                      "primary-fixed": "#c3f400",
+                      "surface-variant": "#353535",
+                      "surface-container-highest": "#353535",
+                      "secondary-container": "#6f00be",
+                      "on-secondary-fixed-variant": "#6900b3",
+                      "tertiary-fixed": "#e2e2e2",
+                      "outline": "#8e9379",
+                      "on-primary-fixed-variant": "#3c4d00",
+                      "surface-container-low": "#1c1b1b"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-md": "24px",
+                      "stack-lg": "48px",
+                      "stack-sm": "8px",
+                      "gutter": "16px",
+                      "unit": "4px",
+                      "margin-desktop": "40px",
+                      "margin-mobile": "20px"
+              },
+              "fontFamily": {
+                      "display-lg": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ],
+                      "label-bold": [
+                              "Inter"
+                      ],
+                      "label-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "900"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-bold": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-mono": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: #000000; /* Void */
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .mobile-container {
+            width: 390px;
+            height: 844px;
+            background-color: #131313; /* surface */
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #353535; /* surface-variant */
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Brutalist Shadows */
+        .brutal-shadow-primary {
+            box-shadow: 4px 4px 0px 0px #c3f400; /* Toxic Lime */
+        }
+        
+        .brutal-shadow-secondary {
+            box-shadow: 4px 4px 0px 0px #A855F7; /* Electric Purple */
+        }
+
+        /* Noise overlay for that gritty feel */
+        .noise-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            z-index: 10;
+        }
+
+        /* Custom Input Styling */
+        .toxic-input {
+            background-color: #000000;
+            border: 2px solid #353535;
+            color: #ffffff;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.2s ease;
+        }
+        .toxic-input:focus {
+            outline: none;
+            border-color: #c3f400; /* Toxic Lime */
+            box-shadow: 4px 4px 0px 0px #c3f400;
+        }
+        .toxic-input::placeholder {
+            color: #636565;
+        }
+
+        /* Chip Styling */
+        .gossip-chip {
+            background-color: #A855F7; /* Electric Purple */
+            color: #000000;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            text-transform: uppercase;
+            padding: 8px 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .gossip-chip:hover {
+            background-color: #000000;
+            color: #A855F7;
+            border-color: #A855F7;
+        }
+
+        /* Button Styling */
+        .btn-primary {
+            background-color: #c3f400;
+            color: #000000;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: none;
+            padding: 16px;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover {
+            box-shadow: 4px 4px 0px 0px #A855F7;
+            transform: translate(-2px, -2px);
+        }
+        .btn-primary:active {
+            transform: translate(0, 0);
+            box-shadow: 0px 0px 0px 0px #A855F7;
+        }
+    </style>
+</head>
+<body>
+<div class="mobile-container">
+<div class="noise-overlay"></div>
+<!-- TopAppBar (Transactional context, simplified/modified for 'Back' action) -->
+<header class="flex justify-between items-center px-margin-mobile py-4 w-full bg-background border-b-2 border-outline-variant z-20">
+<button aria-label="Go back" class="text-primary hover:text-primary-fixed-dim transition-colors cursor-pointer active:opacity-80 flex items-center justify-center p-2 -ml-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="font-display-lg text-display-lg text-primary tracking-tighter uppercase" style="font-size: 24px;">RUMR</h1>
+<div class="w-10"></div> <!-- Spacer for centering -->
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col px-margin-mobile py-stack-md overflow-y-auto z-20 relative">
+<div class="mb-stack-lg mt-stack-sm">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-2 uppercase">Forge<br>A Topic.</h2>
+<p class="font-label-mono text-label-mono text-on-surface-variant">Inject a new thread into the void.</p>
+</div>
+<!-- Input Section -->
+<div class="flex flex-col gap-unit relative mb-stack-md">
+<label class="font-label-mono text-label-mono text-primary-fixed uppercase tracking-wider mb-2 flex items-center gap-2" for="custom-topic">
+<span class="material-symbols-outlined text-[16px]">terminal</span>
+                    TOPIC_NAME
+                </label>
+<div class="relative">
+<input class="toxic-input w-full p-4 text-[16px]" id="custom-topic" maxlength="40" placeholder="ENTER_DESIGNATION..." type="text">
+<!-- Blinking cursor effect simulated via border -->
+</div>
+<!-- Validation Logic Area -->
+<div class="flex justify-between items-center mt-2 font-label-mono text-[10px]">
+<span class="text-error flex items-center gap-1 opacity-80">
+<span class="material-symbols-outlined text-[12px]">warning</span>
+                        MAXIMUM 3 WORDS
+                    </span>
+<span class="text-on-surface-variant">0/40</span>
+</div>
+</div>
+<!-- Suggestions Section (Bento/Asymmetric style layout for chips) -->
+<div class="mt-stack-md flex-1">
+<h3 class="font-label-mono text-label-mono text-on-surface-variant mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">insights</span>
+                    TRENDING_SUGGESTIONS
+                </h3>
+<div class="flex flex-wrap gap-3">
+<button class="gossip-chip">Corporate Drama</button>
+<button class="gossip-chip">Workplace Stories</button>
+<button class="gossip-chip" style="background-color: transparent; border: 2px solid #444933; color: #e5e2e1;">+ Layoffs 2024</button>
+<button class="gossip-chip" style="background-color: transparent; border: 2px solid #444933; color: #e5e2e1;">+ Executive Scandals</button>
+</div>
+</div>
+<!-- Action Area -->
+<div class="mt-auto pt-stack-lg pb-stack-sm w-full">
+<button class="btn-primary flex items-center justify-center gap-2">
+<span class="">INITIALIZE TOPIC</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+</button>
+</div>
+</main>
+<!-- Background Ambient Element (Pure CSS, no images) -->
+<div class="absolute bottom-[-100px] right-[-50px] w-[300px] h-[300px] rounded-full bg-secondary-container opacity-20 blur-[80px] pointer-events-none z-0"></div>
+<div class="absolute top-[20%] left-[-100px] w-[200px] h-[200px] rounded-full bg-primary-fixed opacity-10 blur-[60px] pointer-events-none z-0"></div>
+</div>
+
+
+</body></html>

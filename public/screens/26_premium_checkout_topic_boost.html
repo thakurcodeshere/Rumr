@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Premium Checkout - Topic Boosts</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "secondary-fixed": "#f0dbff",
+                        "on-secondary": "#490080",
+                        "on-primary-container": "#556d00",
+                        "inverse-primary": "#506600",
+                        "outline": "#8e9379",
+                        "surface-container-high": "#2a2a2a",
+                        "on-background": "#e5e2e1",
+                        "secondary-container": "#6f00be",
+                        "on-error": "#690005",
+                        "primary-container": "#c3f400",
+                        "primary-fixed-dim": "#abd600",
+                        "surface-dim": "#131313",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "primary-fixed": "#c3f400",
+                        "tertiary-fixed": "#e2e2e2",
+                        "tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-variant": "#353535",
+                        "primary": "#ffffff",
+                        "on-tertiary": "#2f3131",
+                        "surface-container-highest": "#353535",
+                        "outline-variant": "#444933",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-primary-fixed": "#161e00",
+                        "on-secondary-container": "#d6a9ff",
+                        "on-surface-variant": "#c4c9ac",
+                        "tertiary-container": "#e2e2e2",
+                        "on-surface": "#e5e2e1",
+                        "secondary": "#ddb7ff",
+                        "surface-bright": "#393939",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-primary": "#283500",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-low": "#1c1b1b",
+                        "error-container": "#93000a",
+                        "surface": "#131313",
+                        "surface-tint": "#abd600",
+                        "on-secondary-fixed": "#2c0051",
+                        "on-tertiary-container": "#636565",
+                        "background": "#131313",
+                        "error": "#ffb4ab",
+                        "inverse-on-surface": "#313030",
+                        "surface-container": "#20201f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px",
+                        "stack-md": "24px",
+                        "unit": "4px",
+                        "stack-sm": "8px",
+                        "gutter": "16px",
+                        "stack-lg": "48px"
+                    },
+                    "fontFamily": {
+                        "label-bold": ["Inter"],
+                        "label-mono": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }]
+                    }
+                }
+            }
+        }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        /* Custom Checkbox Style for Brutalist theme */
+        input[type="radio"]:checked {
+            background-color: #c3f400; /* primary-container */
+            border-color: #c3f400;
+        }
+        input[type="radio"]:focus {
+            --tw-ring-color: #c3f400;
+        }
+
+        /* Glitch Animations */
+        @keyframes glitch-in {
+            0% { transform: translate(-5px, 5px); opacity: 0; clip-path: polygon(0 0, 100% 0, 100% 10%, 0 10%); }
+            20% { transform: translate(5px, -5px); opacity: 0.5; clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%); }
+            40% { transform: translate(-2px, 2px); opacity: 0.8; clip-path: polygon(0 40%, 100% 40%, 100% 60%, 0 60%); }
+            60% { transform: translate(2px, -2px); opacity: 1; clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%); }
+            80% { transform: translate(-1px, 1px); opacity: 0.9; clip-path: polygon(0 80%, 100% 80%, 100% 100%, 0 100%); }
+            100% { transform: translate(0); opacity: 1; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+        }
+        .glitch-anim {
+            animation: glitch-in 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        }
+        .glitch-delay-1 { animation-delay: 0.1s; }
+        .glitch-delay-2 { animation-delay: 0.2s; }
+        .glitch-delay-3 { animation-delay: 0.3s; }
+
+        /* Button Pulse */
+        @keyframes lime-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(195, 244, 0, 0); border-color: #c3f400; }
+            50% { box-shadow: 0 0 15px 2px rgba(195, 244, 0, 0.6); border-color: #e2ff66; transform: scale(1.01); }
+        }
+        .btn-high-pulse {
+            animation: lime-pulse 0.2s infinite;
+        }
+        
+        /* Scanlines Overlay */
+        .scanlines {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+        }
+
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col items-center py-10 px-margin-mobile md:px-margin-desktop antialiased relative">
+<!-- Scanline Overlay -->
+<div class="pointer-events-none fixed inset-0 z-[100] scanlines mix-blend-overlay opacity-30"></div>
+<!-- TopAppBar (Suppressed as per rules for transactional pages, but keeping a minimal back navigation) -->
+<header class="w-full max-w-4xl flex justify-between items-center mb-stack-lg relative z-10">
+<button class="flex items-center gap-2 text-on-surface hover:text-primary transition-colors font-label-mono text-label-mono" onclick="history.back()">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+            ABORT TRANSACTION
+        </button>
+<div class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase tracking-tighter text-primary">
+            LONDON_UK
+        </div>
+<div class="w-8"></div> <!-- Spacer for centering -->
+</header>
+<main class="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-12 gap-gutter lg:gap-stack-md relative z-10">
+<!-- Left Column: Summary & Power -->
+<div class="lg:col-span-5 flex flex-col gap-stack-md">
+<div class="border-2 border-outline-variant bg-surface-container p-6 relative overflow-hidden group min-h-[300px] flex flex-col">
+<!-- Shader Canvas Background -->
+<canvas class="absolute inset-0 w-full h-full opacity-60 mix-blend-screen pointer-events-none z-0" id="hero-shader"></canvas>
+<!-- Abstract "Signal" Graphic -->
+<div class="absolute -right-10 -top-10 opacity-20 pointer-events-none group-hover:opacity-40 transition-opacity duration-500 z-10">
+<svg fill="none" height="200" viewbox="0 0 200 200" width="200" xmlns="http://www.w3.org/2000/svg">
+<circle cx="100" cy="100" r="90" stroke="#c3f400" stroke-dasharray="4 8" stroke-width="2"></circle>
+<circle cx="100" cy="100" r="70" stroke="#c3f400" stroke-dasharray="2 4" stroke-width="2"></circle>
+<circle cx="100" cy="100" r="50" stroke="#c3f400" stroke-width="2"></circle>
+</svg>
+</div>
+<div class="relative z-10 flex flex-col h-full">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<h1 class="font-headline-lg text-headline-lg text-primary uppercase">Topic Boost</h1>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 border-l-2 border-primary-container pl-4 bg-surface-container/50 backdrop-blur-sm">
+                        Amplify your signal. Override algorithm suppression and inject your topic directly into the primary feed. 
+                    </p>
+<div class="grid grid-cols-2 gap-unit border-t-2 border-outline-variant pt-4 mt-auto bg-surface-container/50 backdrop-blur-sm">
+<div class="flex flex-col">
+<span class="font-label-mono text-label-mono text-on-surface-variant mb-1">REACH_MULTIPLIER</span>
+<span class="font-label-bold text-label-bold text-primary-container">+500%</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-mono text-label-mono text-on-surface-variant mb-1">DURATION</span>
+<span class="font-label-bold text-label-bold text-primary">24 HOURS</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Security Badges -->
+<div class="flex gap-4">
+<div class="flex-1 border-2 border-outline-variant bg-surface-container-low p-3 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-secondary-container text-[18px]">lock</span>
+<span class="font-label-mono text-label-mono text-secondary-fixed-dim uppercase">Encrypted</span>
+</div>
+<div class="flex-1 border-2 border-outline-variant bg-surface-container-low p-3 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-secondary-container text-[18px]">verified_user</span>
+<span class="font-label-mono text-label-mono text-secondary-fixed-dim uppercase">Verified</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Tiers & Checkout -->
+<div class="lg:col-span-7 flex flex-col gap-stack-md">
+<h2 class="font-label-mono text-label-mono text-primary uppercase border-b-2 border-outline-variant pb-2">Select Injection Protocol</h2>
+<form class="flex flex-col gap-unit">
+<!-- Tier 1 -->
+<label class="cursor-pointer group relative glitch-anim glitch-delay-1">
+<input checked="" class="peer sr-only" name="boost_tier" type="radio" value="1"/>
+<div class="border-2 border-outline-variant bg-surface p-4 flex items-center justify-between peer-checked:border-primary-container peer-checked:bg-surface-container transition-all hover:border-primary-container/50">
+<div class="flex items-center gap-4">
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant peer-checked:border-primary-container flex items-center justify-center group-hover:border-primary-container/50 transition-colors">
+<div class="w-2.5 h-2.5 rounded-full bg-primary-container opacity-0 scale-50 transition-all peer-checked:opacity-100 peer-checked:scale-100"></div>
+</div>
+<div>
+<div class="font-label-bold text-label-bold text-primary uppercase">Single Injection</div>
+<div class="font-label-mono text-label-mono text-on-surface-variant mt-1">1 Boost Payload</div>
+</div>
+</div>
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">
+                            $5
+                        </div>
+</div>
+</label>
+<!-- Tier 2 -->
+<label class="cursor-pointer group relative glitch-anim glitch-delay-2">
+<input class="peer sr-only" name="boost_tier" type="radio" value="5"/>
+<div class="border-2 border-primary-container bg-surface-container p-4 flex items-center justify-between shadow-[4px_4px_0px_0px_#A855F7] transition-all transform peer-checked:translate-x-1 peer-checked:-translate-y-1 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_0px_#A855F7] z-10 relative">
+<!-- Trending Tag -->
+<div class="absolute -top-3 right-4 bg-secondary-container px-2 py-1 flex items-center gap-1 border-2 border-background">
+<span class="material-symbols-outlined text-[12px] text-on-secondary-container">trending_up</span>
+<span class="font-label-mono text-[10px] leading-none text-on-secondary-container font-bold">RECOMMENDED</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-5 h-5 rounded-full border-2 border-primary-container flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-primary-container opacity-0 scale-50 transition-all peer-checked:opacity-100 peer-checked:scale-100"></div>
+</div>
+<div>
+<div class="font-label-bold text-label-bold text-primary uppercase flex items-center gap-2">
+                                    Cluster Injection
+                                </div>
+<div class="font-label-mono text-label-mono text-primary-container mt-1">5 Boost Payload (Save 20%)</div>
+</div>
+</div>
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">
+                            $20
+                        </div>
+</div>
+</label>
+<!-- Tier 3 -->
+<label class="cursor-pointer group relative glitch-anim glitch-delay-3">
+<input class="peer sr-only" name="boost_tier" type="radio" value="10"/>
+<div class="border-2 border-outline-variant bg-surface p-4 flex items-center justify-between peer-checked:border-primary-container peer-checked:bg-surface-container transition-all hover:border-primary-container/50">
+<div class="flex items-center gap-4">
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant peer-checked:border-primary-container flex items-center justify-center group-hover:border-primary-container/50 transition-colors">
+<div class="w-2.5 h-2.5 rounded-full bg-primary-container opacity-0 scale-50 transition-all peer-checked:opacity-100 peer-checked:scale-100"></div>
+</div>
+<div>
+<div class="font-label-bold text-label-bold text-primary uppercase">Mass Override</div>
+<div class="font-label-mono text-label-mono text-on-surface-variant mt-1">10 Boost Payload (Save 30%)</div>
+</div>
+</div>
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">
+                            $35
+                        </div>
+</div>
+</label>
+</form>
+<!-- Loading Bar Divider -->
+<div class="h-2 w-full border-2 border-outline-variant mt-4 relative overflow-hidden bg-void">
+<div class="h-full bg-primary-container w-[80%] absolute top-0 left-0" style="transition: width 0.5s ease; animation: stepLoad 2s infinite alternate steps(10);"></div>
+</div>
+<style>
+                @keyframes stepLoad {
+                    0% { width: 60%; }
+                    100% { width: 95%; }
+                }
+            </style>
+<button class="w-full bg-primary-container text-on-primary-container border-2 border-primary-container font-label-mono text-label-mono font-bold uppercase py-4 flex items-center justify-center gap-2 hover:shadow-[4px_4px_0px_0px_#A855F7] transition-all hover:-translate-y-1 active:translate-y-0 active:shadow-none btn-high-pulse group" type="button">
+<span class="material-symbols-outlined group-hover:animate-pulse">terminal</span>
+                System Ready: Initialize Transaction
+            </button>
+<p class="font-label-mono text-[10px] text-on-surface-variant text-center opacity-70">
+                BY INITIALIZING, YOU AGREE TO THE PROTOCOL TERMS. TRANSACTIONS ARE IRREVERSIBLE.
+            </p>
+</div>
+</main>
+<script>
+        // Simple script to handle radio button states visibly for custom styling
+        document.querySelectorAll('input[name="boost_tier"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                // The CSS peer-checked handles most of the visuals, 
+                // but we could add additional sound effects or vibration here for the 'brutalist' feel
+            });
+        });
+
+        // WebGL Setup for Shader Background
+        const canvas = document.getElementById('hero-shader');
+        if (canvas) {
+            const gl = canvas.getContext('webgl');
+            if (gl) {
+                // Compile shader function
+                function compileShader(gl, source, type) {
+                    const shader = gl.createShader(type);
+                    gl.shaderSource(shader, source);
+                    gl.compileShader(shader);
+                    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                        console.error('Shader compile failed:', gl.getShaderInfoLog(shader));
+                        gl.deleteShader(shader);
+                        return null;
+                    }
+                    return shader;
+                }
+
+                // Shaders
+                const vsSource = `
+                    attribute vec4 aVertexPosition;
+                    varying vec2 v_texCoord;
+                    void main() {
+                        gl_Position = aVertexPosition;
+                        v_texCoord = aVertexPosition.xy * 0.5 + 0.5;
+                    }
+                `;
+                const fsSource = `<!-- STITCH_SHADER_START:ANIMATION_76 class="" -->
+<div class="" style="display:block;width:100%;height:100%;min-height:200px;">
+<canvas id="shader-canvas-ANIMATION_76" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_76');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+varying vec2 v_texCoord;
+
+float hash(vec2 p) {
+    p = fract(p * vec2(123.34, 456.21));
+    p += dot(p, p + 45.32);
+    return fract(p.x * p.y);
+}
+
+void main() {
+    vec2 uv = v_texCoord;
+    vec3 color = vec3(0.0);
+    
+    // Pulse grid
+    vec2 grid = fract(uv * 20.0);
+    float pulse = sin(u_time * 3.0) * 0.5 + 0.5;
+    float line = smoothstep(0.02, 0.0, grid.x) + smoothstep(0.02, 0.0, grid.y);
+    color += line * vec3(0.1, 0.0, 0.15) * pulse;
+    
+    // Injection streaks
+    float streak = fract(uv.y * 5.0 - u_time * 2.0);
+    streak = pow(streak, 40.0);
+    if (uv.x > 0.45 && uv.x < 0.55) {
+        color += streak * vec3(0.8, 1.0, 0.0); // Lime injection
+    }
+    
+    // Digital jitter
+    float jitter = hash(vec2(uv.y, u_time)) * 0.01;
+    if (hash(vec2(u_time)) > 0.95) uv.x += jitter;
+
+    gl_FragColor = vec4(color, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_76 -->`;
+
+                const vertexShader = compileShader(gl, vsSource, gl.VERTEX_SHADER);
+                const fragmentShader = compileShader(gl, fsSource, gl.FRAGMENT_SHADER);
+
+                // Create program
+                const program = gl.createProgram();
+                gl.attachShader(program, vertexShader);
+                gl.attachShader(program, fragmentShader);
+                gl.linkProgram(program);
+
+                if (gl.getProgramParameter(program, gl.LINK_STATUS)) {
+                    gl.useProgram(program);
+
+                    // Buffer data
+                    const positionBuffer = gl.createBuffer();
+                    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+                    const positions = [
+                        -1.0,  1.0,
+                         1.0,  1.0,
+                        -1.0, -1.0,
+                         1.0, -1.0,
+                    ];
+                    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+                    const positionAttributeLocation = gl.getAttribLocation(program, 'aVertexPosition');
+                    gl.enableVertexAttribArray(positionAttributeLocation);
+                    gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+
+                    // Uniforms
+                    const uTimeLocation = gl.getUniformLocation(program, 'u_time');
+                    const uResolutionLocation = gl.getUniformLocation(program, 'u_resolution');
+                    const uMouseLocation = gl.getUniformLocation(program, 'u_mouse');
+
+                    // Resize handler
+                    function resize() {
+                        const displayWidth  = canvas.clientWidth;
+                        const displayHeight = canvas.clientHeight;
+                        if (canvas.width !== displayWidth || canvas.height !== displayHeight) {
+                            canvas.width  = displayWidth;
+                            canvas.height = displayHeight;
+                            gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+                            gl.uniform2f(uResolutionLocation, gl.canvas.width, gl.canvas.height);
+                        }
+                    }
+
+                    // Render loop
+                    function render(time) {
+                        resize();
+                        gl.uniform1f(uTimeLocation, time * 0.001);
+                        gl.uniform2f(uMouseLocation, 0.5, 0.5); // Default mouse
+                        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+                        requestAnimationFrame(render);
+                    }
+                    requestAnimationFrame(render);
+                }
+            }
+        }
+    </script>
+</body></html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>31: Thread Detail: Ghosting Discussion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;family=JetBrains+Mono:wght@500;700&amp;family=Inter:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#8e9379",
+                        "inverse-on-surface": "#313030",
+                        "surface": "#131313",
+                        "on-secondary": "#490080",
+                        "on-surface": "#e5e2e1",
+                        "tertiary": "#ffffff",
+                        "on-error": "#690005",
+                        "secondary": "#ddb7ff",
+                        "inverse-primary": "#506600",
+                        "on-tertiary-container": "#636565",
+                        "on-error-container": "#ffdad6",
+                        "primary-fixed": "#c3f400",
+                        "on-tertiary": "#2f3131",
+                        "surface-container-low": "#1c1b1b",
+                        "background": "#131313",
+                        "primary-container": "#c3f400",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "surface-tint": "#abd600",
+                        "primary-fixed-dim": "#abd600",
+                        "error": "#ffb4ab",
+                        "tertiary-container": "#e2e2e2",
+                        "on-background": "#e5e2e1",
+                        "primary": "#ffffff",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-primary-fixed": "#161e00",
+                        "error-container": "#93000a",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "inverse-surface": "#e5e2e1",
+                        "on-secondary-container": "#d6a9ff",
+                        "surface-variant": "#353535",
+                        "on-surface-variant": "#c4c9ac",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-bright": "#393939",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "surface-dim": "#131313",
+                        "on-primary-container": "#556d00",
+                        "surface-container-highest": "#353535",
+                        "secondary-container": "#6f00be",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "on-primary": "#283500",
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary-fixed": "#f0dbff",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container": "#20201f",
+                        "outline-variant": "#444933",
+                        "on-secondary-fixed": "#2c0051"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "stack-md": "24px",
+                        "gutter": "16px",
+                        "stack-lg": "48px",
+                        "unit": "4px",
+                        "stack-sm": "8px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Playfair Display"],
+                        "label-bold": ["Inter"],
+                        "headline-lg": ["Playfair Display"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #131313; color: #e5e2e1; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .filled-icon { font-variation-settings: 'FILL' 1; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col font-body-md overflow-x-hidden selection:bg-primary-fixed selection:text-on-primary-fixed pb-safe w-full md:w-[390px] md:mx-auto relative border-x border-surface-container-high md:min-h-[844px]">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-surface dark:bg-surface border-b-2 border-primary dark:border-primary shadow-none">
+<div class="flex justify-between items-center px-margin-mobile py-4">
+<button aria-label="Go back" class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-95 duration-75 p-2 -ml-2">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<div class="font-display-lg text-display-lg tracking-tighter text-on-surface dark:text-on-surface uppercase truncate max-w-[200px]">
+                THREAD
+            </div>
+<button aria-label="Thread options" class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-95 duration-75 p-2 -mr-2">
+<span class="material-symbols-outlined text-[24px]">more_horiz</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col pt-stack-sm pb-24">
+<!-- Original Post (Topic Card) -->
+<article class="px-margin-mobile mb-stack-md">
+<div class="bg-surface-container-low border-2 border-primary-fixed p-6 relative group hover:-translate-y-1 transition-transform duration-300">
+<div class="absolute -inset-[2px] bg-primary-fixed opacity-0 group-hover:opacity-10 blur-md transition-opacity duration-300 pointer-events-none"></div>
+<!-- OP Metadata -->
+<div class="flex items-center justify-between mb-stack-sm">
+<div class="flex items-center gap-2">
+<span class="bg-secondary-container px-2 py-1 font-label-mono text-label-mono text-surface font-bold uppercase tracking-widest border border-secondary-fixed">
+                            OP // ENCRYPTED
+                        </span>
+<span class="font-label-mono text-[10px] text-on-surface-variant uppercase">3H AGO</span>
+</div>
+<span class="material-symbols-outlined text-primary-fixed text-[20px]">verified_user</span>
+</div>
+<!-- Headline -->
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-tertiary mb-stack-md leading-tight">
+                    Why do managers ghost after final round interviews?
+                </h1>
+<!-- Body text -->
+<p class="font-body-md text-body-md text-on-surface-variant mb-stack-md line-clamp-4">
+                    It's been three weeks. Five rounds of interviews. A take-home assignment that took my entire weekend. They said "we'll be in touch by Monday." I've followed up twice. Total radio silence. Is this the new standard? What's going on internally that makes this acceptable behavior at top-tier firms?
+                </p>
+<!-- Tags / Data -->
+<div class="flex flex-wrap gap-2 mb-stack-md">
+<span class="bg-secondary-container px-2 py-1 font-label-mono text-[10px] text-surface font-bold uppercase border-none">
+                        #TECH_INDUSTRY
+                    </span>
+<span class="bg-surface-container-high px-2 py-1 font-label-mono text-[10px] text-on-surface uppercase border border-outline">
+                        #RECRUITING
+                    </span>
+</div>
+<!-- Action Bar -->
+<div class="flex items-center justify-between pt-stack-sm border-t border-surface-container-high">
+<div class="flex gap-4">
+<button class="flex items-center gap-1.5 text-on-surface hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-[20px] filled-icon">arrow_upward</span>
+<span class="font-label-mono text-label-mono font-bold">2.4K</span>
+</button>
+<button class="flex items-center gap-1.5 text-on-surface hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[20px]">arrow_downward</span>
+</button>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">forum</span>
+<span class="font-label-mono text-label-mono">142 REPLIES</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Divider -->
+<div class="h-px bg-surface-container-high w-full mb-stack-sm"></div>
+<!-- Replies Section -->
+<section class="px-margin-mobile flex flex-col gap-4">
+<!-- Reply Header -->
+<div class="flex items-center justify-between py-2">
+<h2 class="font-label-mono text-label-mono text-tertiary uppercase tracking-widest">
+                    DECRYPTED_RESPONSES [142]
+                </h2>
+<div class="flex gap-2 font-label-mono text-[10px] uppercase">
+<span class="text-primary-fixed cursor-pointer">HOT</span>
+<span class="text-on-surface-variant cursor-pointer hover:text-tertiary">NEW</span>
+</div>
+</div>
+<!-- Reply 1: High Contrast / Staff -->
+<div class="border-l-2 border-primary-fixed pl-4 py-2 relative">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<span class="font-label-mono text-label-mono text-primary-fixed uppercase font-bold">
+                            ANON_RECRUITER_L5
+                        </span>
+<span class="font-label-mono text-[10px] text-on-surface-variant">2H AGO</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-tertiary mb-3">
+                    Internal headcount freezes happen instantly and quietly. We're told to "keep candidates warm" without making offers. We ghost because HR won't let us send a rejection for a role that technically still exists but has zero budget attached to it.
+                </p>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<button class="flex items-center gap-1 hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span>
+<span class="font-label-mono text-[10px] font-bold">850</span>
+</button>
+<button class="font-label-mono text-[10px] uppercase hover:text-tertiary transition-colors">
+                        REPLY
+                    </button>
+</div>
+</div>
+<!-- Reply 2: Blurred / Locked (Mystery element) -->
+<div class="border-l-2 border-surface-container-high pl-4 py-2 relative overflow-hidden group">
+<div class="absolute inset-0 bg-surface-container-low/80 backdrop-blur-[15px] z-10 flex flex-col items-center justify-center opacity-100 transition-opacity duration-300">
+<span class="material-symbols-outlined text-secondary-container mb-1 text-[24px]">lock</span>
+<span class="font-label-mono text-label-mono text-secondary-container font-bold uppercase tracking-widest text-center px-4">
+                        TOPIC LOCKED<br><span class="text-[10px] text-on-surface-variant font-normal">Requires 500 REP to decrypt</span>
+</span>
+</div>
+<div class="flex items-center gap-2 mb-2">
+<span class="font-label-mono text-label-mono text-on-surface uppercase font-bold blur-[2px]">
+                        UNKNOWN_USER_99
+                    </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant blur-[4px] pointer-events-none select-none">
+                    I actually saw the internal memo for this specific company. The manager wanted to hire you but the VP vetoed it because of some ridiculous internal politics regarding budget allocation between Q2 and Q3.
+                </p>
+</div>
+<!-- Reply 3: Standard -->
+<div class="border-l-2 border-surface-container-high pl-4 py-2">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<span class="font-label-mono text-label-mono text-on-surface uppercase">
+                            DEV_OPS_BURN
+                        </span>
+<span class="font-label-mono text-[10px] text-on-surface-variant">45M AGO</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">
+                    Name and shame the company. If they waste 15 hours of your life, they deserve the PR hit.
+                </p>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<button class="flex items-center gap-1 hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span>
+<span class="font-label-mono text-[10px] font-bold">312</span>
+</button>
+<button class="font-label-mono text-[10px] uppercase hover:text-tertiary transition-colors">
+                        REPLY
+                    </button>
+</div>
+</div>
+<!-- Nested Reply -->
+<div class="border-l-2 border-surface-container-high pl-4 py-2 ml-4">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<span class="font-label-mono text-label-mono text-on-surface uppercase">
+                            OP // ENCRYPTED
+                        </span>
+<span class="bg-primary-fixed text-surface px-1 text-[8px] font-bold uppercase">OP</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant">12M AGO</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3 text-sm">
+                    I wish I could, but I signed an NDA before the final round (which is insane in hindsight).
+                </p>
+</div>
+</section>
+</main>
+<!-- Floating Action / Input Area -->
+<div class="fixed bottom-0 w-full md:w-[390px] bg-surface border-t-2 border-surface-container-high z-50 p-4 pb-safe backdrop-blur-md bg-opacity-90">
+<div class="flex items-center gap-3">
+<div class="flex-1 bg-surface-container-low border-2 border-surface-container-high focus-within:border-primary-fixed transition-colors rounded-none flex items-center px-3 py-2">
+<input class="bg-transparent border-none focus:ring-0 text-tertiary font-label-mono text-label-mono w-full placeholder:text-on-surface-variant placeholder:font-label-mono outline-none" placeholder="ENCRYPT A REPLY..." type="text">
+</div>
+<button class="bg-primary-fixed text-surface font-label-mono text-label-mono font-bold uppercase px-4 py-3 border-none shadow-[4px_4px_0_0_#6f00be] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0_0_#6f00be] active:shadow-none active:translate-y-[4px] active:translate-x-[4px] transition-all flex items-center justify-center">
+                SEND
+            </button>
+</div>
+</div>
+
+
+</body></html>

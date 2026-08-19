@@ -1,0 +1,181 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Report &amp; Safety</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&amp;family=JetBrains+Mono:wght@500&amp;family=Inter:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#c3f400",
+                        "on-secondary": "#490080",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "surface-variant": "#353535",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "on-surface-variant": "#c4c9ac",
+                        "surface-dim": "#131313",
+                        "on-secondary-fixed": "#2c0051",
+                        "primary": "#ffffff",
+                        "surface-bright": "#393939",
+                        "on-tertiary": "#2f3131",
+                        "tertiary": "#ffffff",
+                        "on-primary-container": "#556d00",
+                        "surface-container-lowest": "#0e0e0e",
+                        "inverse-on-surface": "#313030",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "inverse-surface": "#e5e2e1",
+                        "on-surface": "#e5e2e1",
+                        "surface-container-highest": "#353535",
+                        "secondary-fixed": "#f0dbff",
+                        "error-container": "#93000a",
+                        "on-primary": "#283500",
+                        "on-background": "#e5e2e1",
+                        "primary-fixed-dim": "#abd600",
+                        "secondary-container": "#6f00be",
+                        "on-tertiary-container": "#636565",
+                        "surface-container-high": "#2a2a2a",
+                        "secondary": "#ddb7ff",
+                        "primary-container": "#c3f400",
+                        "outline-variant": "#444933",
+                        "surface-container-low": "#1c1b1b",
+                        "tertiary-container": "#e2e2e2",
+                        "surface": "#131313",
+                        "error": "#ffb4ab",
+                        "outline": "#8e9379",
+                        "surface-container": "#20201f",
+                        "inverse-primary": "#506600",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "background": "#131313",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-tint": "#abd600",
+                        "on-primary-fixed": "#161e00",
+                        "on-error-container": "#ffdad6",
+                        "on-error": "#690005",
+                        "on-secondary-container": "#d6a9ff",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-primary-fixed-variant": "#3c4d00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "stack-lg": "48px",
+                        "stack-md": "24px",
+                        "stack-sm": "8px",
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "label-bold": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #000000; color: #ffffff; }
+        .brutalist-border { border: 2px solid #ffffff; }
+        .brutalist-border-lime { border: 2px solid #c3f400; }
+        .hard-shadow { box-shadow: 4px 4px 0px 0px #A855F7; }
+        .hard-shadow-lime { box-shadow: 4px 4px 0px 0px #c3f400; }
+        .blur-overlay { backdrop-filter: blur(20px); }
+    </style>
+</head>
+<body class="font-body-md bg-background text-on-background min-h-screen flex flex-col" style="width: 390px; height: 844px; margin: 0px auto; overflow-y: auto; position: relative; display: flex; flex-direction: column;">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile py-4 bg-background border-b-2 border-primary dark:border-primary">
+<button class="text-primary dark:text-primary active:opacity-80 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">close</span>
+</button>
+<div class="font-label-mono text-label-mono uppercase tracking-widest text-primary-fixed">41: Safety &amp; Reporting</div>
+<div class="w-6"></div> <!-- Spacer for alignment -->
+</header>
+<!-- Main Content -->
+<main class="flex-grow pt-24 px-margin-mobile md:px-margin-desktop md:max-w-[800px] md:mx-auto w-full pb-4">
+<div class="mb-stack-lg">
+<h1 class="font-display-lg text-display-lg text-primary mb-stack-sm">REPORT USER</h1>
+<p class="font-label-mono text-label-mono text-on-surface-variant">SELECT A REASON FOR REPORTING THIS SESSION.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter mb-stack-lg">
+<!-- Option: Person Targeting -->
+<label class="block relative cursor-pointer group">
+<input class="peer sr-only" name="report_reason" type="radio" value="person_targeting">
+<div class="brutalist-border bg-surface p-6 h-full transition-all peer-checked:brutalist-border-lime peer-checked:hard-shadow-lime hover:hard-shadow">
+<span class="material-symbols-outlined text-primary mb-4 block" style="font-variation-settings: 'FILL' 0;">person_off</span>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-2">Person Targeting</h3>
+<p class="font-label-mono text-label-mono text-on-surface-variant">Directed harassment or attacks.</p>
+</div>
+</label>
+<!-- Option: Harassment -->
+<label class="block relative cursor-pointer group">
+<input class="peer sr-only" name="report_reason" type="radio" value="harassment">
+<div class="brutalist-border bg-surface p-6 h-full transition-all peer-checked:brutalist-border-lime peer-checked:hard-shadow-lime hover:hard-shadow">
+<span class="material-symbols-outlined text-primary mb-4 block" style="font-variation-settings: 'FILL' 0;">gavel</span>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-2">Harassment</h3>
+<p class="font-label-mono text-label-mono text-on-surface-variant">Threats, bullying, or intimidation.</p>
+</div>
+</label>
+<!-- Option: Spam -->
+<label class="block relative cursor-pointer group">
+<input class="peer sr-only" name="report_reason" type="radio" value="spam">
+<div class="brutalist-border bg-surface p-6 h-full transition-all peer-checked:brutalist-border-lime peer-checked:hard-shadow-lime hover:hard-shadow">
+<span class="material-symbols-outlined text-primary mb-4 block" style="font-variation-settings: 'FILL' 0;">block</span>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-2">Spam</h3>
+<p class="font-label-mono text-label-mono text-on-surface-variant">Unsolicited or repetitive content.</p>
+</div>
+</label>
+<!-- Option: Doxxing -->
+<label class="block relative cursor-pointer group">
+<input class="peer sr-only" name="report_reason" type="radio" value="doxxing">
+<div class="brutalist-border bg-surface p-6 h-full transition-all peer-checked:brutalist-border-lime peer-checked:hard-shadow-lime hover:hard-shadow">
+<span class="material-symbols-outlined text-primary mb-4 block" style="font-variation-settings: 'FILL' 0;">public_off</span>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-2">Doxxing</h3>
+<p class="font-label-mono text-label-mono text-on-surface-variant">Sharing private or identifying info.</p>
+</div>
+</label>
+</div>
+<div class="mb-stack-lg">
+<label class="block font-label-mono text-label-mono text-primary mb-2 uppercase" for="context">Add context (Optional)</label>
+<textarea class="w-full bg-surface-container-lowest brutalist-border p-4 font-body-md text-primary placeholder-surface-variant focus:outline-none focus:border-primary-fixed resize-none transition-colors" id="context" name="context" placeholder="Provide any additional details..." rows="4"></textarea>
+</div>
+<div class="bg-surface-container-high p-4 brutalist-border mb-stack-lg flex items-start gap-4">
+<span class="material-symbols-outlined text-primary-fixed mt-1" style="font-variation-settings: 'FILL' 1;">security</span>
+<div>
+<p class="font-label-bold text-label-bold text-primary">AI Moderation is reviewing this session.</p>
+<p class="font-label-mono text-label-mono text-on-surface-variant mt-1">Your anonymity remains protected.</p>
+</div>
+</div>
+<button class="w-full bg-primary-fixed text-[#000000] font-label-mono text-label-mono font-bold uppercase py-4 brutalist-border transition-all hover:hard-shadow hover:-translate-y-1 active:translate-y-0 active:box-shadow-none mb-0">
+            SUBMIT REPORT
+        </button>
+</main>
+
+
+
+
+
+
+</body></html>

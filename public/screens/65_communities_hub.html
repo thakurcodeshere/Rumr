@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Communities</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=JetBrains+Mono:wght@100..800&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#8e9379",
+                        "inverse-on-surface": "#313030",
+                        "surface": "#131313",
+                        "on-secondary": "#490080",
+                        "on-surface": "#e5e2e1",
+                        "tertiary": "#ffffff",
+                        "on-error": "#690005",
+                        "secondary": "#ddb7ff",
+                        "inverse-primary": "#506600",
+                        "on-tertiary-container": "#636565",
+                        "on-error-container": "#ffdad6",
+                        "primary-fixed": "#c3f400",
+                        "on-tertiary": "#2f3131",
+                        "surface-container-low": "#1c1b1b",
+                        "background": "#131313",
+                        "primary-container": "#c3f400",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "surface-tint": "#abd600",
+                        "primary-fixed-dim": "#abd600",
+                        "error": "#ffb4ab",
+                        "tertiary-container": "#e2e2e2",
+                        "on-background": "#e5e2e1",
+                        "primary": "#ffffff",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-primary-fixed": "#161e00",
+                        "error-container": "#93000a",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "inverse-surface": "#e5e2e1",
+                        "on-secondary-container": "#d6a9ff",
+                        "surface-variant": "#353535",
+                        "on-surface-variant": "#c4c9ac",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-bright": "#393939",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "surface-dim": "#131313",
+                        "on-primary-container": "#556d00",
+                        "surface-container-highest": "#353535",
+                        "secondary-container": "#6f00be",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "on-primary": "#283500",
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary-fixed": "#f0dbff",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container": "#20201f",
+                        "outline-variant": "#444933",
+                        "on-secondary-fixed": "#2c0051"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "stack-md": "24px",
+                        "gutter": "16px",
+                        "stack-lg": "48px",
+                        "unit": "4px",
+                        "stack-sm": "8px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Playfair Display"],
+                        "label-bold": ["Inter"],
+                        "headline-lg": ["Playfair Display"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #131313; /* background */
+            color: #e5e2e1; /* on-background */
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col md:hidden pb-16">
+<header class="pt-12 pb-4 px-margin-mobile flex justify-between items-center sticky top-0 bg-background/80 backdrop-blur-md z-10">
+<h1 class="font-headline-lg-mobile text-on-background">Communities Hub</h1>
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined">search</span>
+</button>
+</header>
+<main class="flex-1 px-margin-mobile flex flex-col gap-stack-lg mt-4">
+<!-- Filter Tabs -->
+<div class="flex gap-2 overflow-x-auto hide-scrollbar -mx-margin-mobile px-margin-mobile snap-x">
+<button class="snap-start shrink-0 px-4 py-2 rounded-full bg-primary-container text-on-primary-container font-label-bold">All</button>
+<button class="snap-start shrink-0 px-4 py-2 rounded-full border border-outline text-on-surface-variant font-label-bold">Meditation</button>
+<button class="snap-start shrink-0 px-4 py-2 rounded-full border border-outline text-on-surface-variant font-label-bold">Sleep</button>
+<button class="snap-start shrink-0 px-4 py-2 rounded-full border border-outline text-on-surface-variant font-label-bold">Focus</button>
+<button class="snap-start shrink-0 px-4 py-2 rounded-full border border-outline text-on-surface-variant font-label-bold">Yoga</button>
+</div>
+<!-- Featured Communities -->
+<section class="flex flex-col gap-stack-sm">
+<div class="flex justify-between items-end mb-2">
+<h2 class="font-label-bold text-on-background uppercase tracking-wider text-sm">Featured</h2>
+<a class="font-label-bold text-primary-fixed-dim text-sm" href="#">View all</a>
+</div>
+<div class="flex gap-gutter overflow-x-auto hide-scrollbar -mx-margin-mobile px-margin-mobile snap-x pb-4">
+<!-- Card 1 -->
+<div class="snap-center shrink-0 w-[280px] bg-surface-container rounded-xl overflow-hidden border border-surface-variant shadow-lg flex flex-col">
+<div class="h-32 bg-surface-variant relative">
+<img alt="Yoga Studio" class="w-full h-full object-cover opacity-80 mix-blend-overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGKH3LqClEGLD0jEz94ndyVCvViyHacE7Hkj-U1MC3K4rictdA5JjqGlJACaB-JkiP9jtd6josTHYl-FhZUXKupffQ3M9jMIFCXRHP16gQPlK14daBMxjLemNITAJKNmMnHaO9EKZI2uO6TDNQSL7o11AQyti0tkhy9fvJxnPT8YweJYPIGRi334dkT4EHfVbkBCYbRzssCc7BzmDqFa-bSdnx5v7vaia6yPLyvfwM9sNCWFBxMbxJpQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container to-transparent"></div>
+<div class="absolute bottom-4 left-4 flex -space-x-2">
+<img alt="Avatar" class="w-8 h-8 rounded-full border-2 border-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKN8h_8lsDM9mg5eBkQ-ZDCnRTzuJsPhB-vDZUvOI_KrR7XR_92SU9Ha1Wl_h_dhmleV85f8ypYxE01WnXYIvRtiUha3FUrKDfz5laPNwuSwfnucQyV54pkieeAdbKdWLZcOhB_boENVR6slqXQlw7e2EtU413N7m6elBvYOGGrwemUWR9bvaTgJ4jVU5SVEt1rGM8ezqTbDT2rew8ApnFhZ8FqgMrgJYu1x3m3jM4geHjs7KDgbEirA"/>
+<img alt="Avatar" class="w-8 h-8 rounded-full border-2 border-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOY8JxufCU-B6o8tlrzVRKBi4iKj6DGpv1yWA0mgAnofUS_CZQ8H9yNStr2JabBW2P_eFHBPzxvfulrhxSsoBsIq0e9FgjQeUGBlx8WYenY2kDgAmkzXpyDRS6JXkQgg8hu-EljdetbjI1JpL-vGAc8qazoetIJZluG9fAuISrcPm7x0JsNatbF6ffIc1im50GSRB2bweDvYUaJ8go3sSR3ZWthDW2h1OXy0eX4cv0fEWiBnPt8zYKDg"/>
+<img alt="Avatar" class="w-8 h-8 rounded-full border-2 border-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCb8VDMAEOjnJauQo2Kj0aRLA8V9gtHO6BVx2Y1tZgALQOZtjblQzHr-O4jVp2L4abXkN7AgZE4mnw_nFf39osnnKkBva3zDLksy1XDdUglp3vreoVuhqVPGxkkg0D_W1mNEOKdJ5F_pUWVipOxxWAtRaxXPogHIa4P_EfSzPcu9-WUWFgnJMEIboaNrQLWJQTDmG5t1hee7VARSmwCa5_ZdDXq0PSpksBtSXoZrAQjW3lBwJPOK_6a5g"/>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-headline-lg-mobile text-xl mb-1">Morning Mindfulness</h3>
+<p class="font-body-md text-sm text-on-surface-variant line-clamp-2">Start your day right with guided breathing and gentle stretching.</p>
+</div>
+<div class="mt-4 flex items-center justify-between">
+<span class="font-label-mono text-xs text-secondary-fixed-dim">1.2k Members</span>
+<button class="px-4 py-1.5 rounded-full bg-inverse-surface text-inverse-on-surface font-label-bold text-sm">Join</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="snap-center shrink-0 w-[280px] bg-surface-container rounded-xl overflow-hidden border border-surface-variant shadow-lg flex flex-col">
+<div class="h-32 bg-surface-variant relative">
+<img alt="Deep Sleep" class="w-full h-full object-cover opacity-80 mix-blend-overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAXHtOp_OJeAGZEOWMmefHOa6sqB09tXF39w-WVfzRUgwDkf5ZthgFMD1qix1gkuXT0_YkBv5FT9HvZasEo9H0LhMO0DBfPZVqt-_TnOe_Y5MiE6MCeb-Xm6OqpiZn_yofRf0I-wvlIGew3nxqYMUAZjHczP80Dh8Kt0nqj2EE6rhNXVJekS12WvMy4LMVD1hEtZc6rHFpWS0l8EWb6Ec2GGQHuL9IFd5Iq-W6PH4SM80G4_a99zRrvQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container to-transparent"></div>
+<div class="absolute bottom-4 left-4 flex -space-x-2">
+<img alt="Avatar" class="w-8 h-8 rounded-full border-2 border-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-S_76kb7HK4Hv_mS2JhREA63PuMSAzOW1fl6JGEFAxPS14QrsIKCN2wvHAHdGhNJxi6BnajhtJk9rSdtZaDbaBWoC_5fo5eciSqFS2DmxzxH39sEnYpZbtK0AcRrZb8jtjDn-ONpca4__yOQu9lWK0jWuHUH6dOKyqbbRNviriAfM5pIm3lePTlUBWG2DdqzDzM56orZYM6mo0n5BRB8LK30OsA5-OOPNbKSH67vqHaqu-AshOnpz0w"/>
+<img alt="Avatar" class="w-8 h-8 rounded-full border-2 border-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZT5sdCFJDUy2ufsVgEtQFapd7ipPRqQxJQ_hR8p3Nfl5x11gtr9KOrKRNDp8p7EqQdxwjTL9Z-f36IIrOJRjQVViBNo77E5ILWLXnePfEAz0ITd6Dg95WffIyG_bGJaJOnfWP1k7GI5mb8cCtvBzQq0TT4E3m9vp22_0lOagK--0bk_E90YCeXdpWDsUOxaMYNDKWRgzSDUw2bnsNE2sWZBB-jwetdb4ZicZZFXrdUOIusfvDbWaVOQ"/>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-headline-lg-mobile text-xl mb-1">Deep Sleepers</h3>
+<p class="font-body-md text-sm text-on-surface-variant line-clamp-2">Tips, ambient sounds, and support for overcoming insomnia.</p>
+</div>
+<div class="mt-4 flex items-center justify-between">
+<span class="font-label-mono text-xs text-secondary-fixed-dim">850 Members</span>
+<button class="px-4 py-1.5 rounded-full bg-inverse-surface text-inverse-on-surface font-label-bold text-sm">Join</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Suggested for You -->
+<section class="flex flex-col gap-stack-sm mb-8">
+<h2 class="font-label-bold text-on-background uppercase tracking-wider text-sm mb-2">Suggested for you</h2>
+<div class="flex flex-col gap-4">
+<!-- List Item 1 -->
+<div class="flex items-center gap-4 p-3 rounded-lg bg-surface-container-low border border-surface-variant">
+<div class="w-16 h-16 rounded-lg bg-surface-variant overflow-hidden shrink-0">
+<img alt="Nature" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRFoGZhhqst6k77l-eBClQUP1aY7oSOJoMEgDDluT9RUP8J5Gz6OyLZ8GORL3MxK2tr7_Mdx2Yv0ykR4NyZJRL3Gn_jI2ANUZnrtekKTxlNUEvInSgB33njGozxni9dgx0xBFWDp8vhNo35ef9nz0Ly1qvXv0kisWECYn0Th8cquNBCSEes_MUFpe26IpzQSXUO4667ACdJCaiFjqh5woYsSGTyvaXbpzWjnLejDd8vFUZZ0DGB97axg"/>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-label-bold text-base truncate">Nature Walkers</h4>
+<p class="font-body-md text-sm text-on-surface-variant truncate">Connect with the outdoors</p>
+</div>
+<button class="w-10 h-10 rounded-full border border-outline flex items-center justify-center text-on-surface shrink-0">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<!-- List Item 2 -->
+<div class="flex items-center gap-4 p-3 rounded-lg bg-surface-container-low border border-surface-variant">
+<div class="w-16 h-16 rounded-lg bg-surface-variant overflow-hidden shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl text-primary-fixed-dim">self_improvement</span>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-label-bold text-base truncate">Daily Zen</h4>
+<p class="font-body-md text-sm text-on-surface-variant truncate">5-minute daily challenges</p>
+</div>
+<button class="w-10 h-10 rounded-full border border-outline flex items-center justify-center text-on-surface shrink-0">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<!-- List Item 3 -->
+<div class="flex items-center gap-4 p-3 rounded-lg bg-surface-container-low border border-surface-variant">
+<div class="w-16 h-16 rounded-lg bg-surface-variant overflow-hidden shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl text-secondary-fixed-dim">forum</span>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-label-bold text-base truncate">Anxiety Support</h4>
+<p class="font-body-md text-sm text-on-surface-variant truncate">Safe space to share</p>
+</div>
+<button class="w-10 h-10 rounded-full border border-outline flex items-center justify-center text-on-surface shrink-0">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 h-16 bg-surface-container border-t border-surface-variant flex items-center justify-around px-4 pb-safe">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-mono text-[10px]">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-mono text-[10px]">Explore</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary-fixed-dim" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="font-label-mono text-[10px]">Community</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-mono text-[10px]">Profile</span>
+</a>
+</nav>
+</body></html>
