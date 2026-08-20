@@ -26,10 +26,10 @@ export const CatalogView: React.FC = () => {
       <div>
         <div className="flex items-center gap-2 mb-1">
           <Layers className="w-5 h-5 text-[#ccff00]" />
-          <BrutalistBadge variant="lime">MASTER CATALOG // {ALL_66_SCREENS.length} SCREENS</BrutalistBadge>
+          <BrutalistBadge variant="lime">DESIGN SYSTEM CATALOG</BrutalistBadge>
         </div>
         <h2 className="font-serif text-2xl font-black text-white">Stitch Design Catalog</h2>
-        <p className="font-mono text-xs text-gray-400">Interactive live renderer and mapping for all {ALL_66_SCREENS.length} project screens</p>
+        <p className="font-mono text-xs text-gray-400">Interactive live renderer and mapping for all project screens</p>
       </div>
 
       {/* Search & Category Filter */}
@@ -38,7 +38,7 @@ export const CatalogView: React.FC = () => {
           <Search className="w-4 h-4 absolute left-3 top-3.5 text-gray-500" />
           <input
             type="text"
-            placeholder={`Filter ${ALL_66_SCREENS.length} screens by title or ID...`}
+            placeholder="Filter screens by title or ID..."
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="w-full bg-[#161616] border-2 border-[#333] focus:border-[#ccff00] pl-9 pr-4 py-2.5 font-mono text-xs text-white outline-none"
@@ -62,7 +62,7 @@ export const CatalogView: React.FC = () => {
         </div>
       </div>
 
-      {/* Grid of all 66 screens */}
+      {/* Grid of design screens */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {filtered.map(screen => (
           <div 

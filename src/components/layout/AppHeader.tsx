@@ -46,34 +46,6 @@ export const AppHeader: React.FC = () => {
 
         {/* Controls & Badges */}
         <div className="flex items-center gap-2">
-          {/* Workflow Architecture Button */}
-          <button
-            onClick={() => navigate('workflow')}
-            className={`px-2.5 py-1.5 border-2 transition-all flex items-center gap-1.5 ${
-              currentView === 'workflow'
-                ? 'bg-[#ccff00] text-black border-[#ccff00] font-bold shadow-[2px_2px_0px_#a855f7]'
-                : 'bg-[#1b1724] text-[#ccff00] border-[#a855f7] hover:bg-[#a855f7] hover:text-black font-bold'
-            }`}
-            title="Inspect Master Screen Workflow Architecture"
-          >
-            <GitBranch className="w-3.5 h-3.5" />
-            <span className="font-mono text-[11px] uppercase tracking-wider">Workflow Map</span>
-          </button>
-
-          {/* Catalog / All 66 Screens Button */}
-          <button
-            onClick={() => navigate('catalog')}
-            className={`p-1.5 border-2 ${
-              currentView === 'catalog'
-                ? 'bg-[#ccff00] text-black border-[#ccff00]'
-                : 'bg-[#181818] text-white border-[#333] hover:border-[#ccff00]'
-            } transition-colors flex items-center gap-1`}
-            title="View All 66 Design Screens"
-          >
-            <Layers className="w-4 h-4" />
-            <span className="hidden md:inline font-mono text-[10px] font-bold uppercase">66 Screens</span>
-          </button>
-
           {/* Toggle Mobile Frame / Desktop View */}
           <button
             onClick={toggleMobileFrame}

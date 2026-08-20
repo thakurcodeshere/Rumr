@@ -161,14 +161,6 @@ export const FeedView: React.FC = () => {
           >
             <Filter className="w-3 h-3" /> Filters
           </button>
-
-          <button
-            onClick={() => navigate('workflow')}
-            className="font-mono text-[11px] bg-[#1a1726] border border-[#a855f7] text-[#ddb7ff] hover:text-white px-2.5 py-1.5 flex items-center gap-1"
-            title="Inspect Screen Workflow Architecture"
-          >
-            <GitBranch className="w-3 h-3 text-[#ccff00]" /> Map
-          </button>
         </div>
       </div>
 

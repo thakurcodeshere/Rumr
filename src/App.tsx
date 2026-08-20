@@ -20,7 +20,7 @@ const ViewRouter: React.FC = () => {
 
   return (
     <div className="flex-1 flex flex-col">
-      {/* If viewing a selected screen from the 66-screen catalog */}
+      {/* If viewing a selected screen from the design catalog */}
       {selectedCatalogScreen && (
         <div className="bg-[#1b1526] border-b-2 border-[#a855f7] px-4 py-2 flex items-center justify-between sticky top-0 z-20">
           <div className="flex items-center gap-2">
@@ -30,7 +30,7 @@ const ViewRouter: React.FC = () => {
                 navigate('catalog');
               }}
               className="p-1 text-[#ccff00] hover:text-white"
-              title="Return to 66-Screen Catalog"
+              title="Return to Design Catalog"
             >
               <ArrowLeft className="w-4 h-4" />
             </button>
