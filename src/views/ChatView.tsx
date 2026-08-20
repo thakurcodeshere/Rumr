@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useApp } from '../lib/store';
 import { BrutalistButton } from '../components/ui/BrutalistButton';
 import { BrutalistBadge } from '../components/ui/BrutalistBadge';
-import { Send, Eye, Lock, Clock, Sparkles, Shield, AlertTriangle, ArrowLeft } from 'lucide-react';
+import { Send, Eye, Lock, Unlock, Clock, Sparkles, Shield, AlertTriangle, ArrowLeft, Zap } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { IdentityDecryptedModal } from '../components/ui/IdentityDecryptedModal';
 
 export const ChatView: React.FC = () => {
   const { 
@@ -22,8 +23,9 @@ export const ChatView: React.FC = () => {
 
   const [input, setInput] = useState('');
   const [showUnmaskAnimation, setShowUnmaskAnimation] = useState(false);
+  const [showDecryptedModal, setShowDecryptedModal] = useState(false);
 
-    if (isGuest) {
+  if (isGuest) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center p-6 bg-[#0e0e0e] text-center space-y-5 min-h-[500px]">
         <div className="w-16 h-16 bg-[#1a1726] border-2 border-[#a855f7] flex items-center justify-center text-[#ccff00] shadow-[4px_4px_0px_#a855f7]">
@@ -143,7 +145,11 @@ export const ChatView: React.FC = () => {
               <div className="flex items-center justify-between text-[#ccff00]">
                 <span>Layer 2: "{partner.tagline}"</span>
                 <button 
-                  onClick={() => { advanceReveal(); triggerCelebration(); }}
+                  onClick={() => { 
+                    advanceReveal(); 
+                    setShowDecryptedModal(true);
+                    triggerCelebration(); 
+                  }}
                   className="text-[#a855f7] font-bold hover:underline"
                 >
                   Full Unmasking →
@@ -152,18 +158,43 @@ export const ChatView: React.FC = () => {
             )}
 
             {revealStage === 3 && (
-              <div className="flex items-center gap-3">
-                <img 
-                  src={partner.realPhoto} 
-                  alt={partner.realName} 
-                  className="w-10 h-10 border border-[#ccff00] object-cover" 
-                />
-                <div>
-                  <div className="font-bold text-white text-sm">{partner.realName}</div>
-                  <div className="text-[10px] text-gray-400">{partner.role} @ Tier 1 Cloud Infra</div>
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <img 
+                    src={partner.realPhoto} 
+                    alt={partner.realName} 
+                    className="w-10 h-10 border-2 border-[#ccff00] object-cover" 
+                  />
+                  <div>
+                    <div className="font-bold text-white text-sm">{partner.realName}</div>
+                    <div className="text-[10px] text-gray-400">{partner.role} • {partner.city}</div>
+                  </div>
                 </div>
+
+                <button
+                  onClick={() => setShowDecryptedModal(true)}
+                  className="bg-[#ccff00] text-black font-mono text-[10px] font-black px-2.5 py-1 uppercase shadow-[2px_2px_0px_#a855f7] hover:bg-white transition-all flex items-center gap-1"
+                >
+                  <Unlock className="w-3 h-3" />
+                  VIEW DECRYPTED
+                </button>
               </div>
             )}
+          </div>
+
+          {/* Direct Decrypted Modal Trigger Bar */}
+          <div className="mt-2 pt-2 border-t border-[#222] flex items-center justify-between font-mono text-[10px]">
+            <span className="text-gray-400">Vault Anonymity Protocol:</span>
+            <button
+              onClick={() => {
+                setShowDecryptedModal(true);
+                triggerCelebration();
+              }}
+              className="text-[#ccff00] font-bold hover:underline flex items-center gap-1"
+            >
+              <Sparkles className="w-3 h-3" />
+              THEY SHARED MORE (IDENTITY DECRYPTED) ↗
+            </button>
           </div>
         </div>
       </div>
@@ -219,6 +250,13 @@ export const ChatView: React.FC = () => {
           <Send className="w-3.5 h-3.5 text-black" />
         </BrutalistButton>
       </form>
+
+      {/* Merged Identity Decrypted Screen-Frame Modal */}
+      <IdentityDecryptedModal
+        isOpen={showDecryptedModal}
+        onClose={() => setShowDecryptedModal(false)}
+        partner={partner}
+      />
     </div>
   );
 };

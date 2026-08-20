@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { DiscoveryFiltersModal } from '../components/ui/DiscoveryFiltersModal';
+import { EncryptedMatchModal } from '../components/ui/EncryptedMatchModal';
 
 export const FeedView: React.FC = () => {
   const { 
@@ -350,55 +351,17 @@ export const FeedView: React.FC = () => {
         </div>
       )}
 
-      {/* Match Reveal Celebration Modal (SCR-013) */}
-      {showMatchModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in">
-          <div className="bg-[#121212] border-4 border-[#ccff00] p-6 max-w-sm w-full space-y-4 shadow-[8px_8px_0px_#a855f7] text-center">
-            <div className="font-mono text-xs font-bold text-[#a855f7] uppercase tracking-widest">
-              MUTUAL SIGNAL CONFIRMED
-            </div>
-            
-            <h3 className="font-serif text-3xl font-black text-white">
-              IT'S A MATCH!
-            </h3>
-            
-            <p className="font-serif text-sm text-[#ccff00] font-bold">
-              "SAME CHAOS. SAME TOPICS."
-            </p>
-
-            <div className="bg-[#1a1726] border border-[#a855f7] p-3 text-left space-y-1">
-              <div className="font-mono text-[10px] text-gray-400 uppercase">Shared Overlaps:</div>
-              <div className="font-serif text-sm font-bold text-white">
-                ● Office Politics<br />
-                ● Ghosting After Dates<br />
-                ● Startup Drama
-              </div>
-            </div>
-
-            <div className="space-y-2 pt-2">
-              <BrutalistButton
-                variant="primary"
-                size="md"
-                onClick={() => {
-                  setShowMatchModal(false);
-                  navigate('chat');
-                }}
-                className="w-full justify-center"
-              >
-                <MessageSquare className="w-4 h-4 text-black" />
-                SAY SOMETHING (START CHAT)
-              </BrutalistButton>
-
-              <button
-                onClick={() => setShowMatchModal(false)}
-                className="w-full py-2 font-mono text-xs text-gray-400 hover:text-white"
-              >
-                Maybe later / Keep Swiping
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Redesigned After-Match Screen (Screen fb0fcae2 + Encrypted Identity) */}
+      <EncryptedMatchModal
+        isOpen={showMatchModal}
+        onClose={() => setShowMatchModal(false)}
+        onStartChat={() => {
+          setShowMatchModal(false);
+          navigate('chat');
+        }}
+        matchRate={88}
+        overlappingTopics={['Ghosting After Dates', 'Startup Drama', 'Office Politics', 'Dating Friction']}
+      />
 
       {/* Merged Discovery Filters & Preferences Screen-Frame Modal */}
       <DiscoveryFiltersModal
