@@ -3,12 +3,14 @@ export type ViewType =
   | 'feed'
   | 'topics'
   | 'rooms'
+  | 'matches'
   | 'matchmaker'
   | 'chat'
   | 'profile'
   | 'boost'
   | 'safety'
-  | 'catalog';
+  | 'catalog'
+  | 'workflow';
 
 export interface Topic {
   id: string;

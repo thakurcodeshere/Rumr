@@ -5,13 +5,15 @@ import { OnboardingView } from './views/OnboardingView';
 import { FeedView } from './views/FeedView';
 import { TopicsView } from './views/TopicsView';
 import { RoomsView } from './views/RoomsView';
+import { MatchesView } from './views/MatchesView';
 import { MatchmakerView } from './views/MatchmakerView';
 import { ChatView } from './views/ChatView';
 import { ProfileView } from './views/ProfileView';
 import { BoostView } from './views/BoostView';
 import { SafetyView } from './views/SafetyView';
 import { CatalogView } from './views/CatalogView';
-import { ArrowLeft, Layers, Sparkles } from 'lucide-react';
+import { WorkflowView } from './views/WorkflowView';
+import { ArrowLeft, Layers, GitBranch } from 'lucide-react';
 
 const ViewRouter: React.FC = () => {
   const { currentView, selectedCatalogScreen, clearSelectedCatalogScreen, navigate } = useApp();
@@ -60,12 +62,14 @@ const ViewRouter: React.FC = () => {
       {currentView === 'feed' && <FeedView />}
       {currentView === 'topics' && <TopicsView />}
       {currentView === 'rooms' && <RoomsView />}
+      {currentView === 'matches' && <MatchesView />}
       {currentView === 'matchmaker' && <MatchmakerView />}
       {currentView === 'chat' && <ChatView />}
       {currentView === 'profile' && <ProfileView />}
       {currentView === 'boost' && <BoostView />}
       {currentView === 'safety' && <SafetyView />}
       {currentView === 'catalog' && <CatalogView />}
+      {currentView === 'workflow' && <WorkflowView />}
     </div>
   );
 };

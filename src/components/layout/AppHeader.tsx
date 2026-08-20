@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Sparkles, Smartphone, Monitor, Layers, Radio } from 'lucide-react';
+import { Shield, Sparkles, Smartphone, Monitor, Layers, Radio, GitBranch } from 'lucide-react';
 import { useApp } from '../../lib/store';
 import { BrutalistBadge } from '../ui/BrutalistBadge';
 
@@ -17,7 +17,7 @@ export const AppHeader: React.FC = () => {
           <div>
             <div className="flex items-center gap-1.5">
               <span className="font-serif font-black text-lg tracking-tight text-white">RUMR</span>
-              <span className="font-mono text-[9px] bg-[#a855f7] text-black px-1 font-bold">2026</span>
+              <span className="font-mono text-[9px] bg-[#a855f7] text-black px-1 font-bold">TOPIC-FIRST</span>
             </div>
           </div>
         </div>
@@ -37,20 +37,28 @@ export const AppHeader: React.FC = () => {
 
         {/* Controls & Badges */}
         <div className="flex items-center gap-2">
-          {/* Chaos Index Ticker */}
-          <div 
-            onClick={() => navigate('profile')}
-            className="flex items-center gap-1.5 bg-[#1a1a1a] border border-[#333] px-2 py-1 cursor-pointer hover:border-[#ccff00]"
-            title="Your Chaos Index"
+          {/* Workflow Architecture Button */}
+          <button
+            onClick={() => navigate('workflow')}
+            className={`px-2.5 py-1.5 border-2 transition-all flex items-center gap-1.5 ${
+              currentView === 'workflow'
+                ? 'bg-[#ccff00] text-black border-[#ccff00] font-bold shadow-[2px_2px_0px_#a855f7]'
+                : 'bg-[#1b1724] text-[#ccff00] border-[#a855f7] hover:bg-[#a855f7] hover:text-black font-bold'
+            }`}
+            title="Inspect Master Screen Workflow Architecture"
           >
-            <span className="font-mono text-[10px] text-gray-400">CHAOS:</span>
-            <span className="font-mono text-xs font-bold text-[#ccff00]">{user.chaosIndex}%</span>
-          </div>
+            <GitBranch className="w-3.5 h-3.5" />
+            <span className="font-mono text-[11px] uppercase tracking-wider">Workflow Map</span>
+          </button>
 
           {/* Catalog / All 66 Screens Button */}
           <button
             onClick={() => navigate('catalog')}
-            className={`p-1.5 border-2 ${currentView === 'catalog' ? 'bg-[#ccff00] text-black border-[#ccff00]' : 'bg-[#181818] text-white border-[#333] hover:border-[#ccff00]'} transition-colors flex items-center gap-1`}
+            className={`p-1.5 border-2 ${
+              currentView === 'catalog'
+                ? 'bg-[#ccff00] text-black border-[#ccff00]'
+                : 'bg-[#181818] text-white border-[#333] hover:border-[#ccff00]'
+            } transition-colors flex items-center gap-1`}
             title="View All 66 Design Screens"
           >
             <Layers className="w-4 h-4" />

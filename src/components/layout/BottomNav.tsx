@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flame, Compass, MessageSquare, Radio, User, Zap } from 'lucide-react';
+import { Flame, Compass, Heart, MessageSquare, User } from 'lucide-react';
 import { useApp } from '../../lib/store';
 import { ViewType } from '../../types';
 
@@ -7,11 +7,11 @@ export const BottomNav: React.FC = () => {
   const { currentView, navigate } = useApp();
 
   const tabs: { id: ViewType; label: string; icon: React.FC<{ className?: string }> }[] = [
-    { id: 'feed', label: 'Feed', icon: Flame },
+    { id: 'feed', label: 'Discover', icon: Flame },
     { id: 'topics', label: 'Topics', icon: Compass },
-    { id: 'rooms', label: 'Rooms', icon: Radio },
-    { id: 'chat', label: 'Chat', icon: MessageSquare },
-    { id: 'profile', label: 'Chaos ID', icon: User },
+    { id: 'matches', label: 'Matches', icon: Heart },
+    { id: 'chat', label: 'Chats', icon: MessageSquare },
+    { id: 'profile', label: 'Me', icon: User },
   ];
 
   if (currentView === 'onboarding') return null;
