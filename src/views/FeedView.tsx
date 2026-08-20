@@ -23,6 +23,7 @@ import {
   GitBranch
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { DiscoveryFiltersModal } from '../components/ui/DiscoveryFiltersModal';
 
 export const FeedView: React.FC = () => {
   const { 
@@ -38,6 +39,15 @@ export const FeedView: React.FC = () => {
   } = useApp();
 
   const [viewMode, setViewMode] = useState<'card_deck' | 'discussions'>('card_deck');
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [activeFilters, setActiveFilters] = useState<any>({
+    minAge: 18,
+    maxAge: 45,
+    gender: 'everyone',
+    proximity: 'nearby',
+    radius: 25,
+    similarityMode: 'balanced'
+  });
   const [currentCardIndex, setCurrentCardIndex] = useState<number>(0);
   const [swipeFeedback, setSwipeFeedback] = useState<'like' | 'pass' | null>(null);
   const [showMatchModal, setShowMatchModal] = useState<boolean>(false);
@@ -143,14 +153,43 @@ export const FeedView: React.FC = () => {
           </button>
         </div>
 
-        <button
-          onClick={() => navigate('workflow')}
-          className="font-mono text-[11px] bg-[#1a1726] border border-[#a855f7] text-[#ddb7ff] hover:text-white px-2.5 py-1.5 flex items-center gap-1"
-          title="Inspect Screen Workflow Architecture"
-        >
-          <GitBranch className="w-3 h-3 text-[#ccff00]" /> Workflow Map
-        </button>
+        <div className="flex items-center gap-1.5">
+          <button
+            onClick={() => setIsFilterModalOpen(true)}
+            className="font-mono text-[11px] bg-[#161616] border border-[#ccff00] text-[#ccff00] hover:bg-[#ccff00] hover:text-black font-bold px-2.5 py-1.5 flex items-center gap-1 transition-all shadow-[1px_1px_0px_#a855f7]"
+            title="Open Combined Discovery Filters & Preferences"
+          >
+            <Filter className="w-3 h-3" /> Filters
+          </button>
+
+          <button
+            onClick={() => navigate('workflow')}
+            className="font-mono text-[11px] bg-[#1a1726] border border-[#a855f7] text-[#ddb7ff] hover:text-white px-2.5 py-1.5 flex items-center gap-1"
+            title="Inspect Screen Workflow Architecture"
+          >
+            <GitBranch className="w-3 h-3 text-[#ccff00]" /> Map
+          </button>
+        </div>
       </div>
+
+      {/* Active Filter Parameters Bar */}
+      {activeFilters && (
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-[10px] font-mono select-none">
+          <span className="text-gray-500 uppercase shrink-0">Active:</span>
+          <span className="bg-[#141414] border border-[#333] px-2 py-0.5 text-gray-300 shrink-0">
+            {activeFilters.minAge}-{activeFilters.maxAge} YRS
+          </span>
+          <span className="bg-[#141414] border border-[#333] px-2 py-0.5 text-gray-300 shrink-0 uppercase">
+            {activeFilters.gender}
+          </span>
+          <span className="bg-[#1b1724] border border-[#a855f7] px-2 py-0.5 text-[#ddb7ff] shrink-0 font-bold uppercase">
+            {activeFilters.similarityMode} MODE
+          </span>
+          <span className="bg-[#141414] border border-[#333] px-2 py-0.5 text-gray-300 shrink-0">
+            {activeFilters.radius} MI ({Math.round(activeFilters.radius * 1.6)} KM)
+          </span>
+        </div>
+      )}
 
       {/* MODE 1: Topic Discovery Card Deck (SCR-010) */}
       {viewMode === 'card_deck' ? (
@@ -368,6 +407,15 @@ export const FeedView: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Merged Discovery Filters & Preferences Screen-Frame Modal */}
+      <DiscoveryFiltersModal
+        isOpen={isFilterModalOpen}
+        onClose={() => setIsFilterModalOpen(false)}
+        onApply={(filters) => {
+          setActiveFilters(filters);
+        }}
+      />
     </div>
   );
 };
