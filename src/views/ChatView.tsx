@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useApp } from '../lib/store';
-import { BrutalistBadge } from '../components/ui/BrutalistBadge';
 import { BrutalistButton } from '../components/ui/BrutalistButton';
-import { Lock, Unlock, Sparkles } from 'lucide-react';
+import { BrutalistBadge } from '../components/ui/BrutalistBadge';
+import { Send, Lock, Unlock, Sparkles } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { IdentityDecryptedModal } from '../components/ui/IdentityDecryptedModal';
 
@@ -50,6 +50,13 @@ export const ChatView: React.FC = () => {
     );
   }
 
+  const handleSend = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+    sendChatMessage(input);
+    setInput('');
+  };
+
   const handleRevealRequest = () => {
     requestRevealConsent();
   };
@@ -64,10 +71,12 @@ export const ChatView: React.FC = () => {
   };
 
   return (
-    <div className="p-4 bg-[#0e0e0e] min-h-[500px] flex flex-col justify-start">
-      {/* Mutual Identity Unmasking Frame */}
-      <div className="bg-[#141414] border border-[#2a2a2a] p-4 space-y-3 shadow-[4px_4px_0px_#a855f7]">
-        {/* Stage Header */}
+    <div className="flex-1 flex flex-col justify-between p-4 bg-[#0e0e0e] min-h-[620px] select-none">
+      
+      {/* 1. TOP FRAME: MUTUAL IDENTITY UNMASKING */}
+      <div className="bg-[#141414] border-2 border-[#2a2a2a] p-3.5 space-y-3 shadow-[4px_4px_0px_#a855f7] mb-3">
+        
+        {/* Header Title + Stage Badge */}
         <div className="flex justify-between items-center">
           <span className="font-mono text-xs text-gray-300 font-bold uppercase tracking-wider">
             MUTUAL IDENTITY UNMASKING
@@ -84,7 +93,7 @@ export const ChatView: React.FC = () => {
           <div className={`h-1.5 ${revealStage >= 3 ? 'bg-[#ccff00]' : 'bg-[#262626]'}`} />
         </div>
 
-        {/* Dynamic Stage Content Box */}
+        {/* Dynamic Unmask Layer Box */}
         <div className="text-xs font-mono bg-[#1a1a1a] p-3 border border-[#333]">
           {revealStage === 0 && (
             <div className="flex items-center justify-between">
@@ -151,7 +160,7 @@ export const ChatView: React.FC = () => {
           )}
         </div>
 
-        {/* Vault Anonymity Protocol / Decrypted Launcher */}
+        {/* Vault Anonymity Protocol / Decrypted Launcher Trigger */}
         <div className="pt-2 border-t border-[#222] flex items-center justify-between font-mono text-xs">
           <span className="text-gray-400">Vault Anonymity Protocol:</span>
           <button
@@ -166,6 +175,58 @@ export const ChatView: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {/* 2. CHATS BELOW: Message Stream */}
+      <div className="flex-1 overflow-y-auto space-y-3 py-2 pr-1 max-h-[360px]">
+        {chatMessages.map(msg => {
+          if (msg.sender === 'system') {
+            return (
+              <div key={msg.id} className="text-center my-2">
+                <span className="font-mono text-[10px] text-gray-500 bg-[#161616] px-3 py-1 border border-[#222]">
+                  {msg.text}
+                </span>
+              </div>
+            );
+          }
+
+          const isMe = msg.sender === 'me';
+          return (
+            <div key={msg.id} className={`flex flex-col ${isMe ? 'items-end' : 'items-start'}`}>
+              <div className="font-mono text-[9px] text-gray-500 mb-0.5 px-1">
+                {isMe ? 'You' : partner.handle} • {msg.timestamp}
+              </div>
+              <div
+                className={`max-w-[85%] p-3 text-xs font-sans leading-relaxed border ${
+                  isMe
+                    ? 'bg-[#1a2414] border-[#ccff00] text-white shadow-[2px_2px_0px_#ccff00]'
+                    : 'bg-[#181524] border-[#a855f7] text-[#e5e2e1] shadow-[2px_2px_0px_#a855f7]'
+                }`}
+              >
+                {msg.text}
+              </div>
+              {msg.expiresInSeconds && (
+                <div className="font-mono text-[8px] text-gray-600 mt-0.5">
+                  Ephemeral expiry: ~5m
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* 3. Message Input Form */}
+      <form onSubmit={handleSend} className="flex gap-2 pt-3 border-t border-[#262626]">
+        <input
+          type="text"
+          placeholder="Send encrypted debate point..."
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          className="flex-1 bg-[#161616] border-2 border-[#333] focus:border-[#ccff00] px-3 py-2 font-mono text-xs text-white outline-none rounded-none"
+        />
+        <BrutalistButton variant="primary" size="md" type="submit">
+          <Send className="w-3.5 h-3.5 text-black" />
+        </BrutalistButton>
+      </form>
 
       {/* Merged Identity Decrypted Screen-Frame Modal */}
       <IdentityDecryptedModal
