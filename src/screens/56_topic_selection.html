@@ -1,0 +1,320 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Topic Selection - Clean Chaos</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary": "#ffffff",
+                      "on-background": "#e5e2e1",
+                      "on-primary-fixed-variant": "#3c4d00",
+                      "outline": "#8e9379",
+                      "primary-container": "#c3f400",
+                      "surface-container-high": "#2a2a2a",
+                      "primary-fixed-dim": "#abd600",
+                      "on-tertiary-container": "#636565",
+                      "secondary-fixed-dim": "#ddb7ff",
+                      "surface-tint": "#abd600",
+                      "surface": "#131313",
+                      "surface-container": "#20201f",
+                      "on-surface-variant": "#c4c9ac",
+                      "inverse-on-surface": "#313030",
+                      "on-tertiary-fixed-variant": "#454747",
+                      "on-secondary-fixed": "#2c0051",
+                      "on-primary-container": "#556d00",
+                      "on-secondary": "#490080",
+                      "secondary-fixed": "#f0dbff",
+                      "inverse-surface": "#e5e2e1",
+                      "surface-bright": "#393939",
+                      "surface-container-low": "#1c1b1b",
+                      "on-primary-fixed": "#161e00",
+                      "tertiary-container": "#e2e2e2",
+                      "secondary-container": "#6f00be",
+                      "on-surface": "#e5e2e1",
+                      "secondary": "#ddb7ff",
+                      "on-tertiary": "#2f3131",
+                      "on-tertiary-fixed": "#1a1c1c",
+                      "on-secondary-fixed-variant": "#6900b3",
+                      "outline-variant": "#444933",
+                      "inverse-primary": "#506600",
+                      "error-container": "#93000a",
+                      "surface-dim": "#131313",
+                      "surface-container-lowest": "#0e0e0e",
+                      "tertiary": "#ffffff",
+                      "tertiary-fixed": "#e2e2e2",
+                      "tertiary-fixed-dim": "#c6c6c7",
+                      "on-secondary-container": "#d6a9ff",
+                      "primary-fixed": "#c3f400",
+                      "on-error-container": "#ffdad6",
+                      "on-primary": "#283500",
+                      "surface-variant": "#353535",
+                      "surface-container-highest": "#353535",
+                      "error": "#ffb4ab",
+                      "background": "#131313",
+                      "on-error": "#690005"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-sm": "8px",
+                      "unit": "4px",
+                      "stack-md": "24px",
+                      "margin-mobile": "20px",
+                      "margin-desktop": "40px",
+                      "stack-lg": "48px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ],
+                      "label-bold": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ],
+                      "display-lg": [
+                              "Playfair Display"
+                      ],
+                      "label-mono": [
+                              "JetBrains Mono"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-bold": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "900"
+                              }
+                      ],
+                      "label-mono": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: #000000; /* Void */
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .topic-card {
+            background-color: #1A1A1A; /* Surface Grey */
+            border: 2px solid #ffffff;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .topic-card.selected {
+            border-color: #c3f400; /* Toxic Lime */
+        }
+        
+        .topic-card.selected::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 12px;
+            height: 12px;
+            background-color: #c3f400;
+        }
+
+        .btn-primary {
+            background-color: #c3f400;
+            color: #000000;
+            text-transform: uppercase;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 4px 4px 0px 0px #A855F7; /* Electric Purple hard shadow */
+            transform: translate(-2px, -2px);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid #ffffff;
+            color: #ffffff;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 4px 4px 0px 0px #A855F7;
+            transform: translate(-2px, -2px);
+        }
+        
+        /* Progress Indicator Data Loading Bar Style */
+        .progress-bar-container {
+            border: 2px solid #ffffff;
+            height: 16px;
+            width: 100%;
+            background-color: #000000;
+        }
+        
+        .progress-bar-fill {
+            background-color: #c3f400;
+            height: 100%;
+            width: 20%; /* 1 of 5 steps */
+            transition: width 0.3s steps(5, end);
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen max-w-[390px] mx-auto overflow-x-hidden relative">
+<!-- Header Section -->
+<header class="px-margin-mobile pt-stack-lg pb-stack-md flex flex-col gap-stack-sm border-b-2 border-surface-variant z-10 bg-surface">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase">WHAT'S YOUR KIND OF CHAOS?</h1>
+<p class="font-label-mono text-label-mono text-on-surface-variant flex justify-between items-center">
+<span class="">Pick at least 5 topics.</span>
+<span class="text-primary-container" id="selection-count">0/5</span>
+</p>
+<!-- Brutalist Progress Bar -->
+<div class="progress-bar-container mt-unit">
+<div class="progress-bar-fill" id="progress-fill" style="width: 0%;"></div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow px-margin-mobile py-stack-md flex flex-col gap-stack-md z-10 bg-surface relative">
+<!-- Atmospheric Background Pattern -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#353535 1px, transparent 1px); background-size: 16px 16px;"></div>
+<!-- Topic Grid -->
+<div class="grid grid-cols-2 gap-gutter relative z-20">
+<!-- Topic Card 1 -->
+<button class="topic-card flex flex-col justify-between p-gutter h-32 text-left group" onclick="toggleSelection(this)">
+<span class="font-headline-lg-mobile text-[20px] leading-tight text-primary">Ghosting</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant group-[.selected]:text-primary-container uppercase">MATCH_RATE: 92%</span>
+</button>
+<!-- Topic Card 2 -->
+<button class="topic-card flex flex-col justify-between p-gutter h-32 text-left group" onclick="toggleSelection(this)">
+<span class="font-headline-lg-mobile text-[20px] leading-tight text-primary">Office Drama</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant group-[.selected]:text-primary-container uppercase">TRENDING</span>
+</button>
+<!-- Topic Card 3 -->
+<button class="topic-card flex flex-col justify-between p-gutter h-32 text-left group" onclick="toggleSelection(this)">
+<span class="font-headline-lg-mobile text-[20px] leading-tight text-primary">Dating</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant group-[.selected]:text-primary-container uppercase">MATCH_RATE: 88%</span>
+</button>
+<!-- Topic Card 4 -->
+<button class="topic-card flex flex-col justify-between p-gutter h-32 text-left group" onclick="toggleSelection(this)">
+<span class="font-headline-lg-mobile text-[20px] leading-tight text-primary">Startup Life</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant group-[.selected]:text-primary-container uppercase">VOLATILE</span>
+</button>
+<!-- Topic Card 5 -->
+<button class="topic-card flex flex-col justify-between p-gutter h-32 text-left group" onclick="toggleSelection(this)">
+<span class="font-headline-lg-mobile text-[20px] leading-tight text-primary">Bollywood</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant group-[.selected]:text-primary-container uppercase">MATCH_RATE: 75%</span>
+</button>
+<!-- Topic Card 6 -->
+<button class="topic-card flex flex-col justify-between p-gutter h-32 text-left group" onclick="toggleSelection(this)">
+<span class="font-headline-lg-mobile text-[20px] leading-tight text-primary">Unpopular Opinions</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant group-[.selected]:text-primary-container uppercase">HIGH FRICTION</span>
+</button>
+</div>
+<!-- Create Action -->
+<button class="btn-secondary w-full py-stack-sm font-label-mono text-label-mono flex items-center justify-center gap-unit uppercase z-20">
+<span class="material-symbols-outlined text-[16px]">add</span>
+            Create Topic
+        </button>
+<!-- Empty space to push continue button down if needed -->
+<div class="flex-grow"></div>
+</main>
+<!-- Sticky Footer Action -->
+<div class="sticky bottom-0 w-full px-margin-mobile pb-margin-mobile pt-stack-sm bg-surface z-30 border-t-2 border-surface-variant">
+<button class="btn-primary w-full py-stack-sm font-label-mono text-label-mono opacity-50 cursor-not-allowed" disabled="" id="continue-btn">
+            CONTINUE
+        </button>
+</div>
+<script>
+        let selectedCount = 0;
+        const requiredCount = 5;
+        const countDisplay = document.getElementById('selection-count');
+        const progressBar = document.getElementById('progress-fill');
+        const continueBtn = document.getElementById('continue-btn');
+
+        function toggleSelection(btn) {
+            const isSelected = btn.classList.toggle('selected');
+            
+            if (isSelected) {
+                selectedCount++;
+            } else {
+                selectedCount--;
+            }
+
+            // Update UI
+            countDisplay.innerText = `${selectedCount}/${requiredCount}`;
+            
+            // Stepped progress bar logic (0, 20, 40, 60, 80, 100%)
+            const progressPercentage = Math.min((selectedCount / requiredCount) * 100, 100);
+            progressBar.style.width = `${progressPercentage}%`;
+
+            // Validate Continue button
+            if (selectedCount >= requiredCount) {
+                continueBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                continueBtn.removeAttribute('disabled');
+            } else {
+                continueBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                continueBtn.setAttribute('disabled', 'true');
+            }
+        }
+    </script>
+
+
+
+
+</body></html>

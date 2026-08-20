@@ -1,0 +1,239 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=390, initial-scale=1.0" name="viewport">
+<title>22: Matches Feed</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#131313",
+                        "surface-container-low": "#1c1b1b",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#313030",
+                        "surface-container-lowest": "#0e0e0e",
+                        "inverse-primary": "#506600",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#2f3131",
+                        "on-background": "#e5e2e1",
+                        "primary-container": "#c3f400",
+                        "on-primary": "#283500",
+                        "primary-fixed": "#c3f400",
+                        "primary": "#ffffff",
+                        "surface-container-high": "#2a2a2a",
+                        "on-surface": "#e5e2e1",
+                        "on-secondary-container": "#d6a9ff",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-dim": "#131313",
+                        "secondary-container": "#6f00be",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "tertiary-container": "#e2e2e2",
+                        "primary-fixed-dim": "#abd600",
+                        "secondary": "#ddb7ff",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "on-secondary-fixed": "#2c0051",
+                        "outline-variant": "#444933",
+                        "on-surface-variant": "#c4c9ac",
+                        "secondary-fixed": "#f0dbff",
+                        "outline": "#8e9379",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "surface-variant": "#353535",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#636565",
+                        "surface-container": "#20201f",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary-container": "#556d00",
+                        "surface-container-highest": "#353535",
+                        "surface-bright": "#393939",
+                        "surface": "#131313",
+                        "on-primary-fixed": "#161e00",
+                        "tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "error-container": "#93000a",
+                        "on-secondary": "#490080",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-tint": "#abd600"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "margin-mobile": "20px",
+                        "gutter": "16px",
+                        "stack-lg": "48px",
+                        "stack-md": "24px",
+                        "unit": "4px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "label-bold": ["Inter"],
+                        "label-mono": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .brutalist-border {
+            border: 2px solid theme('colors.outline');
+        }
+        .brutalist-shadow {
+            box-shadow: 4px 4px 0px 0px theme('colors.secondary-container');
+        }
+        .data-bar {
+            background-image: repeating-linear-gradient(
+                45deg,
+                theme('colors.primary-container'),
+                theme('colors.primary-container') 10px,
+                transparent 10px,
+                transparent 20px
+            );
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased pb-[80px]">
+<!-- TopAppBar -->
+<nav class="bg-background dark:bg-background border-b-2 border-outline-variant flex justify-between items-center w-full px-margin-mobile py-4 sticky top-0 z-40">
+<div class="flex items-center hover:text-primary-fixed-dim transition-colors text-on-surface-variant cursor-pointer">
+<span class="material-symbols-outlined text-primary dark:text-primary">location_on</span>
+</div>
+<div class="text-headline-lg-mobile font-headline-lg-mobile uppercase tracking-tighter text-primary">LONDON_UK</div>
+<div class="flex items-center hover:text-primary-fixed-dim transition-colors text-on-surface-variant cursor-pointer">
+<span class="material-symbols-outlined text-primary dark:text-primary">tune</span>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="flex-grow px-margin-mobile pt-stack-md flex flex-col gap-stack-lg relative overflow-hidden">
+<!-- Header Section -->
+<header class="flex flex-col gap-stack-sm border-l-4 border-primary-container pl-4">
+<h1 class="text-display-lg font-display-lg text-primary tracking-tighter">THREADS</h1>
+<p class="text-label-mono font-label-mono text-on-surface-variant uppercase">Encrypted Matches // Awaiting Decryption</p>
+</header>
+<!-- Match Cards Grid (Asymmetric Mobile Layout) -->
+<div class="flex flex-col gap-stack-md">
+<!-- Featured / High Match Card -->
+<article class="bg-surface border-2 border-primary-container relative group overflow-hidden">
+<!-- Glitch/Blur BG Element -->
+<div class="absolute -right-10 -top-10 w-32 h-32 bg-secondary-container blur-[40px] opacity-30 pointer-events-none"></div>
+<div class="p-4 flex flex-col gap-stack-md">
+<!-- Metadata Header -->
+<div class="flex justify-between items-end border-b-2 border-surface-variant pb-2">
+<div class="flex flex-col">
+<span class="text-label-mono font-label-mono text-on-surface-variant">SUBJECT_ID:</span>
+<span class="text-headline-lg-mobile font-headline-lg-mobile text-primary">26</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-label-mono font-label-mono text-primary-fixed">MATCH_RATE: 94%</span>
+<!-- Progress Bar Brutalist -->
+<div class="w-24 h-2 border-2 border-outline-variant mt-1 flex">
+<div class="w-[94%] bg-primary-container border-r-2 border-background"></div>
+</div>
+</div>
+</div>
+<!-- Shared Topics Cluster -->
+<div class="flex flex-col gap-stack-sm">
+<span class="text-label-mono font-label-mono text-on-surface-variant uppercase tracking-widest">4 Shared Vectors</span>
+<div class="flex flex-wrap gap-unit">
+<!-- Gossip Tags -->
+<span class="bg-secondary-container text-primary text-[10px] font-label-mono uppercase px-2 py-1 tracking-wider">Ghosting</span>
+<span class="bg-secondary-container text-primary text-[10px] font-label-mono uppercase px-2 py-1 tracking-wider">Dating</span>
+<span class="bg-secondary-container text-primary text-[10px] font-label-mono uppercase px-2 py-1 tracking-wider">Drama</span>
+<span class="border-2 border-secondary-container text-secondary-container text-[10px] font-label-mono uppercase px-2 py-1 tracking-wider">+1 REDACTED</span>
+</div>
+</div>
+<!-- Action -->
+<button class="w-full bg-primary-container text-on-primary-container font-label-bold text-label-bold uppercase py-3 border-2 border-transparent hover:border-secondary-container hover:shadow-[4px_4px_0px_0px_#6f00be] transition-all flex justify-center items-center gap-2 group-hover:bg-primary-fixed-dim">
+<span class="">SAY HI</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- Standard Match Card -->
+<article class="bg-surface-container-low border-2 border-outline-variant relative ml-4">
+<div class="p-4 flex flex-col gap-stack-md">
+<div class="flex justify-between items-center">
+<div class="flex gap-2 items-center">
+<span class="material-symbols-outlined text-on-surface-variant">lock</span>
+<span class="text-headline-lg-mobile font-headline-lg-mobile text-on-surface">31</span>
+</div>
+<span class="text-label-mono font-label-mono text-on-surface-variant border-2 border-outline px-2 py-1">MR: 78%</span>
+</div>
+<div class="flex flex-col gap-2">
+<span class="text-label-mono font-label-mono text-surface-variant uppercase">Vectors</span>
+<div class="flex flex-wrap gap-unit">
+<span class="bg-surface-variant text-on-surface text-[10px] font-label-mono uppercase px-2 py-1">Coffee Snobs</span>
+<span class="bg-surface-variant text-on-surface text-[10px] font-label-mono uppercase px-2 py-1">Late Nights</span>
+</div>
+</div>
+<button class="w-full bg-transparent text-primary font-label-bold text-label-bold uppercase py-2 border-2 border-primary hover:bg-surface-bright transition-all">
+                        INITIATE
+                    </button>
+</div>
+</article>
+<!-- Degraded/Rumor Match Card -->
+<article class="bg-surface-container-lowest border-2 border-outline-variant border-dashed opacity-80 relative mr-4">
+<!-- Decrypting Overlay -->
+<div class="absolute inset-0 bg-background/40 backdrop-blur-[15px] z-10 flex flex-col items-center justify-center border-2 border-error/50">
+<span class="material-symbols-outlined text-error mb-2 animate-pulse">warning</span>
+<span class="text-label-mono font-label-mono text-error uppercase tracking-widest text-center px-4 bg-background border-y-2 border-error">DECRYPTING...</span>
+</div>
+<div class="p-4 flex flex-col gap-stack-md blur-[2px]">
+<div class="flex justify-between items-center">
+<span class="text-headline-lg-mobile font-headline-lg-mobile text-on-surface">??</span>
+<span class="text-label-mono font-label-mono text-on-surface-variant">MR: CALC</span>
+</div>
+<div class="flex flex-wrap gap-unit h-12">
+<!-- fake chips -->
+</div>
+<div class="h-10 border-2 border-outline-variant bg-surface-variant"></div>
+</div>
+</article>
+</div>
+<!-- Bottom Spacer for visual rhythm -->
+<div class="h-stack-lg"></div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-mobile py-2 bg-surface dark:bg-surface border-t-2 border-outline-variant">
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="text-label-mono font-label-mono mt-1 hidden">explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">layers</span>
+<span class="text-label-mono font-label-mono mt-1 hidden">layers</span>
+</a>
+<!-- Active Tab (Matches -> Favorite icon as proxy based on standard social apps and given JSON) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container p-2 shadow-[4px_4px_0px_0px_#6f00be] scale-95 duration-100 translate-y-0.5 border-2 border-transparent" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">replace_video</span>
+<span class="text-label-mono font-label-mono mt-1 hidden">Favorite</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-label-mono font-label-mono mt-1 hidden">person</span>
+</a>
+</nav>
+
+
+</body></html>

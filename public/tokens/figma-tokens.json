@@ -1,0 +1,285 @@
+{
+  "$schema": "https://raw.githubusercontent.com/tokens-studio/figma-plugin/main/packages/tokens-studio-for-figma/schema/tokens.json",
+  "name": "Rumr Clean Chaos Design Tokens",
+  "version": "1.0.0",
+  "global": {
+    "color": {
+      "void-black": {
+        "value": "#070707",
+        "type": "color",
+        "description": "Infinite void canvas for high-energy accents"
+      },
+      "background": {
+        "value": "#131313",
+        "type": "color",
+        "description": "Base app background"
+      },
+      "toxic-lime": {
+        "value": "#ccff00",
+        "type": "color",
+        "description": "Primary action color representing signal and hot debates"
+      },
+      "electric-purple": {
+        "value": "#a855f7",
+        "type": "color",
+        "description": "Secondary accent representing mystery, encryption, and gossip tags"
+      },
+      "electric-lilac": {
+        "value": "#ddb7ff",
+        "type": "color",
+        "description": "Muted secondary tone for chips and active borders"
+      },
+      "surface-container-lowest": {
+        "value": "#0e0e0e",
+        "type": "color"
+      },
+      "surface-container-low": {
+        "value": "#1c1b1b",
+        "type": "color"
+      },
+      "surface-container": {
+        "value": "#20201f",
+        "type": "color"
+      },
+      "surface-container-high": {
+        "value": "#2a2a2a",
+        "type": "color"
+      },
+      "surface-container-highest": {
+        "value": "#353535",
+        "type": "color"
+      },
+      "surface-bright": {
+        "value": "#393939",
+        "type": "color"
+      },
+      "on-surface": {
+        "value": "#e5e2e1",
+        "type": "color",
+        "description": "Primary typography readout"
+      },
+      "on-surface-variant": {
+        "value": "#c4c9ac",
+        "type": "color",
+        "description": "Muted metadata color"
+      },
+      "error": {
+        "value": "#ffb4ab",
+        "type": "color"
+      },
+      "error-container": {
+        "value": "#93000a",
+        "type": "color"
+      }
+    },
+    "fontFamilies": {
+      "serif": {
+        "value": "Playfair Display",
+        "type": "fontFamilies",
+        "description": "Headlines & Topic Titles — Classical editorial tension"
+      },
+      "sans": {
+        "value": "Inter",
+        "type": "fontFamilies",
+        "description": "Body copy & general UI neutrality"
+      },
+      "mono": {
+        "value": "JetBrains Mono",
+        "type": "fontFamilies",
+        "description": "Technical metadata, timestamps, match rates, terminal readouts"
+      }
+    },
+    "fontSizes": {
+      "display-lg": {
+        "value": "48px",
+        "type": "fontSizes"
+      },
+      "headline-lg": {
+        "value": "32px",
+        "type": "fontSizes"
+      },
+      "headline-lg-mobile": {
+        "value": "28px",
+        "type": "fontSizes"
+      },
+      "headline-md": {
+        "value": "20px",
+        "type": "fontSizes"
+      },
+      "body-md": {
+        "value": "16px",
+        "type": "fontSizes"
+      },
+      "label-bold": {
+        "value": "14px",
+        "type": "fontSizes"
+      },
+      "label-mono": {
+        "value": "12px",
+        "type": "fontSizes"
+      },
+      "label-mono-sm": {
+        "value": "10px",
+        "type": "fontSizes"
+      }
+    },
+    "fontWeights": {
+      "regular": {
+        "value": "400",
+        "type": "fontWeights"
+      },
+      "medium": {
+        "value": "500",
+        "type": "fontWeights"
+      },
+      "bold": {
+        "value": "700",
+        "type": "fontWeights"
+      },
+      "black": {
+        "value": "900",
+        "type": "fontWeights"
+      }
+    },
+    "lineHeights": {
+      "tight": {
+        "value": "1.1",
+        "type": "lineHeights"
+      },
+      "headline": {
+        "value": "1.2",
+        "type": "lineHeights"
+      },
+      "body": {
+        "value": "1.6",
+        "type": "lineHeights"
+      },
+      "single": {
+        "value": "1.0",
+        "type": "lineHeights"
+      }
+    },
+    "spacing": {
+      "unit": {
+        "value": "4px",
+        "type": "spacing"
+      },
+      "stack-sm": {
+        "value": "8px",
+        "type": "spacing"
+      },
+      "gutter": {
+        "value": "16px",
+        "type": "spacing"
+      },
+      "margin-mobile": {
+        "value": "20px",
+        "type": "spacing"
+      },
+      "stack-md": {
+        "value": "24px",
+        "type": "spacing"
+      },
+      "margin-desktop": {
+        "value": "40px",
+        "type": "spacing"
+      },
+      "stack-lg": {
+        "value": "48px",
+        "type": "spacing"
+      }
+    },
+    "borderRadius": {
+      "sharp": {
+        "value": "0px",
+        "type": "borderRadius",
+        "description": "Brutalist-lite core shape rule (all cards, inputs, buttons)"
+      },
+      "pill": {
+        "value": "9999px",
+        "type": "borderRadius",
+        "description": "Reserved exclusively for status badges and live indicators"
+      }
+    },
+    "borderWidth": {
+      "standard": {
+        "value": "2px",
+        "type": "borderWidth"
+      },
+      "heavy": {
+        "value": "4px",
+        "type": "borderWidth"
+      }
+    },
+    "boxShadow": {
+      "hard-lime": {
+        "value": {
+          "x": "4px",
+          "y": "4px",
+          "blur": "0px",
+          "spread": "0px",
+          "color": "#ccff00",
+          "type": "dropShadow"
+        },
+        "type": "boxShadow"
+      },
+      "hard-purple": {
+        "value": {
+          "x": "4px",
+          "y": "4px",
+          "blur": "0px",
+          "spread": "0px",
+          "color": "#a855f7",
+          "type": "dropShadow"
+        },
+        "type": "boxShadow"
+      }
+    },
+    "screenFrames": {
+      "iphone-16-pro": {
+        "value": {
+          "width": "393px",
+          "height": "852px",
+          "scale": "3x",
+          "safeAreaTop": "59px",
+          "safeAreaBottom": "34px",
+          "description": "Recommended standard for iOS flagship layout"
+        },
+        "type": "custom"
+      },
+      "iphone-14-15": {
+        "value": {
+          "width": "390px",
+          "height": "844px",
+          "scale": "3x",
+          "safeAreaTop": "47px",
+          "safeAreaBottom": "34px",
+          "description": "Baseline standard for iOS modern devices"
+        },
+        "type": "custom"
+      },
+      "google-pixel-8": {
+        "value": {
+          "width": "412px",
+          "height": "915px",
+          "scale": "2.625x",
+          "safeAreaTop": "48px",
+          "safeAreaBottom": "24px",
+          "description": "Standard Android modern flagship"
+        },
+        "type": "custom"
+      },
+      "samsung-galaxy-s24": {
+        "value": {
+          "width": "360px",
+          "height": "780px",
+          "scale": "3x",
+          "safeAreaTop": "40px",
+          "safeAreaBottom": "24px",
+          "description": "Compact Android mainstream baseline"
+        },
+        "type": "custom"
+      }
+    }
+  }
+}

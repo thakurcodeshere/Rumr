@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rumr - Identity Reveal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface": "#e5e2e1",
+                      "secondary-fixed-dim": "#ddb7ff",
+                      "tertiary-container": "#e2e2e2",
+                      "surface-container-high": "#2a2a2a",
+                      "surface-container": "#20201f",
+                      "on-tertiary": "#2f3131",
+                      "inverse-primary": "#506600",
+                      "on-tertiary-container": "#636565",
+                      "background": "#131313",
+                      "on-secondary-container": "#d6a9ff",
+                      "inverse-surface": "#e5e2e1",
+                      "primary": "#ffffff",
+                      "surface-container-highest": "#353535",
+                      "on-primary": "#283500",
+                      "on-tertiary-fixed": "#1a1c1c",
+                      "surface-dim": "#131313",
+                      "on-error-container": "#ffdad6",
+                      "inverse-on-surface": "#313030",
+                      "primary-container": "#c3f400",
+                      "on-error": "#690005",
+                      "primary-fixed": "#c3f400",
+                      "on-secondary-fixed-variant": "#6900b3",
+                      "surface-variant": "#353535",
+                      "surface": "#131313",
+                      "tertiary-fixed": "#e2e2e2",
+                      "on-primary-fixed-variant": "#3c4d00",
+                      "error": "#ffb4ab",
+                      "tertiary-fixed-dim": "#c6c6c7",
+                      "on-primary-container": "#556d00",
+                      "outline-variant": "#444933",
+                      "on-background": "#e5e2e1",
+                      "secondary-fixed": "#f0dbff",
+                      "on-secondary": "#490080",
+                      "primary-fixed-dim": "#abd600",
+                      "surface-tint": "#abd600",
+                      "outline": "#8e9379",
+                      "surface-container-low": "#1c1b1b",
+                      "on-primary-fixed": "#161e00",
+                      "secondary-container": "#6f00be",
+                      "tertiary": "#ffffff",
+                      "error-container": "#93000a",
+                      "on-secondary-fixed": "#2c0051",
+                      "secondary": "#ddb7ff",
+                      "on-surface-variant": "#c4c9ac",
+                      "surface-container-lowest": "#0e0e0e",
+                      "surface-bright": "#393939",
+                      "on-tertiary-fixed-variant": "#454747"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-md": "24px",
+                      "unit": "4px",
+                      "margin-mobile": "20px",
+                      "margin-desktop": "40px",
+                      "gutter": "16px",
+                      "stack-sm": "8px",
+                      "stack-lg": "48px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Playfair Display"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-bold": [
+                              "Inter"
+                      ],
+                      "label-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "display-lg": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-bold": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-mono": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "900"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        /* Custom Glitch Animation for chaotic vibe */
+        @keyframes glitch {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
+        }
+        .glitch-hover:hover {
+            animation: glitch 0.2s cubic-bezier(.25, .46, .45, .94) both infinite;
+        }
+
+        /* High-tension glitch for avatars */
+        @keyframes glitch-tension {
+            0%, 100% { transform: translate(0) skew(0deg); opacity: 1; }
+            2% { transform: translate(-2px, 1px) skew(2deg); opacity: 0.8; }
+            4% { transform: translate(2px, -1px) skew(-2deg); opacity: 0.9; }
+            6% { transform: translate(0) skew(0deg); opacity: 1; }
+            50% { transform: translate(0) skew(0deg); opacity: 1; }
+            52% { transform: translate(-1px, 2px) skew(-1deg); opacity: 0.7; }
+            54% { transform: translate(1px, -2px) skew(1deg); opacity: 0.8; }
+            56% { transform: translate(0) skew(0deg); opacity: 1; }
+        }
+        .animate-glitch-tension {
+            animation: glitch-tension 2s infinite;
+        }
+
+        /* Pulse for confirm button */
+        @keyframes pulse-lime {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(195, 244, 0, 0); }
+            50% { box-shadow: 0 0 20px 5px rgba(195, 244, 0, 0.5); }
+        }
+        .animate-pulse-lime {
+            animation: pulse-lime 1.5s infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+        
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col items-center justify-center font-body-md overflow-x-hidden md:hidden">
+<!-- Semi-transparent scanline overlay -->
+<div class="fixed inset-0 pointer-events-none z-[100] bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px] opacity-60"></div>
+<!-- Top Navigation (Transactional, no shell required but keeping a back action) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile h-16 bg-background dark:bg-background border-b-2 border-surface-variant">
+<button class="text-primary p-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">close</span>
+</button>
+<div class="font-label-mono text-label-mono uppercase tracking-widest text-primary-fixed">SECURE_CHANNEL</div>
+<div class="w-10"></div> <!-- Spacer -->
+</header>
+<main class="w-full max-w-md px-margin-mobile pt-24 pb-32 flex flex-col items-center justify-center flex-grow space-y-stack-md">
+<!-- Headline -->
+<h1 class="font-label-mono text-xl md:text-2xl font-bold text-primary text-center uppercase border-2 border-primary-fixed p-4 w-full bg-surface-container shadow-[4px_4px_0_0_#A855F7]">
+            IDENTITY<br/>UNMASKING
+        </h1>
+<!-- Visual Core: Avatars Merging -->
+<div class="relative w-full aspect-square border-2 border-surface-variant bg-surface flex items-center justify-center overflow-hidden">
+<!-- Background Texture/Blur -->
+<div class="absolute inset-0 bg-secondary-container opacity-20 backdrop-blur-xl z-0"></div>
+<!-- Shader Background -->
+<canvas class="absolute inset-0 w-full h-full z-0" id="shader-canvas"></canvas>
+<div class="relative flex items-center justify-center w-full h-full">
+<!-- Avatar Left (User) -->
+<div class="absolute left-8 w-32 h-32 border-2 border-primary-fixed bg-surface-container-high z-10 animate-glitch-tension glitch-hover" data-alt="Abstract, highly stylized anonymous profile avatar in a dark, brutalist digital style. Chaotic purple and lime green digital interference patterns obscure the face. High contrast, sharp geometric edges. Raw, edgy, encrypted communication vibe." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBASw-FNRGyv36U7ebu54O73Z1wBWrN0IS_Poe95tNPQI0vwdTtBQ1TF3qqBXw4cCxstiijKdyzIJZzW5SZCEfWV3BtlB_aq-lM2ryM90u9JCCuVOTgaRUm_wtSIfT4DrkRg3pKwlb5AgieAwm82RpjYh0P98pTZe6Ep8RaY2JichACVM60Dn7pUiZ8objGnSmyw8ABq5kT_PBVFc5u1TD2uellDG7G36uqvXi7F8IP4hs9mi0Jxk_t2A')">
+</div>
+<!-- Avatar Right (Match) -->
+<div class="absolute right-8 w-32 h-32 border-2 border-secondary bg-surface-container-high z-10 mix-blend-screen animate-glitch-tension glitch-hover" data-alt="Abstract, highly stylized anonymous profile avatar representing another user in a dark, brutalist digital style. Glitchy digital artifacts and heavy contrast. Obscured facial features replaced by harsh typographic symbols and noise." style="animation-delay: 0.5s; background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD6EedRoF26JLBfNhIwJrhvMLQn_U9l2Bw-NSbwTlCu33B0-8SjyVaBidiUOn8c3OTXGmRUmzsZMyXwLEHFC3CKqkFVW8laIVhKLHNhNbOnB8JxB73PUBMCxH-XHygpXddNOZpJAuWHJs5mXleJhY2F6dxVhBG6nULz80n6OG2mlFJDMIYIUVC2YaOmcOBN9cRo8kiQvoRduODOV3U4l3ZT_a1NYBb8EbdiU7aHTaHMMUyJWSStoFH8Ug')">
+</div>
+</div>
+<!-- Scanning Line Effect -->
+<div class="absolute top-0 left-0 w-full h-1 bg-primary-fixed opacity-50 shadow-[0_0_10px_#c3f400] animate-[scan_2s_linear_infinite]" style="animation: scan 2s linear infinite;"></div>
+</div>
+<!-- Status Badge -->
+<div class="bg-primary-fixed text-on-primary-fixed font-label-mono text-label-mono px-4 py-2 uppercase tracking-wide shadow-[2px_2px_0_0_#A855F7] w-full text-center border-2 border-black">
+            STATUS: MUTUAL CONSENT DETECTED
+        </div>
+<!-- Warning Message -->
+<div class="border-2 border-error p-4 bg-surface text-center shadow-[4px_4px_0_0_#93000a] w-full mt-stack-sm relative overflow-hidden">
+<!-- Glitch decoration -->
+<div class="absolute top-0 right-0 w-4 h-4 bg-error"></div>
+<p class="font-label-mono text-label-mono text-error uppercase">
+<span class="material-symbols-outlined align-middle mr-1 text-base">warning</span>
+                SYSTEM WARNING: PROCEEDING WILL REVEAL YOUR LINKED SOCIALS AND PHOTO TO THIS MATCH. THIS ACTION IS IRREVERSIBLE.
+            </p>
+</div>
+<!-- Action Buttons -->
+<div class="w-full space-y-stack-sm pt-stack-sm">
+<button class="w-full bg-primary-fixed text-black font-label-mono text-label-mono font-bold uppercase py-4 border-2 border-black hover:shadow-[4px_4px_0_0_#A855F7] transition-shadow duration-150 ease-in-out animate-pulse-lime active:translate-y-1 active:translate-x-1 active:shadow-[0_0_0_0_#A855F7]">
+                CONFIRM REVEAL
+            </button>
+<button class="w-full bg-transparent text-primary font-label-mono text-label-mono uppercase py-4 border-2 border-primary hover:bg-surface-variant transition-colors duration-150 ease-in-out active:bg-surface-container">
+                STAY ANONYMOUS
+            </button>
+</div>
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const canvas = document.getElementById('shader-canvas');
+        if (!canvas) return;
+        const gl = canvas.getContext('webgl');
+        if (!gl) return;
+        
+        const vsSource = `
+            attribute vec4 a_position;
+            varying vec2 v_texCoord;
+            void main() {
+                gl_Position = a_position;
+                v_texCoord = a_position.xy * 0.5 + 0.5;
+            }
+        `;
+        
+        const fsSource = `
+            precision highp float;
+            uniform float u_time;
+            uniform vec2 u_resolution;
+            uniform vec2 u_mouse;
+            varying vec2 v_texCoord;
+
+            float hash(vec2 p) {
+                p = fract(p * vec2(123.34, 456.21));
+                p += dot(p, p + 45.32);
+                return fract(p.x * p.y);
+            }
+
+            void main() {
+                vec2 uv = v_texCoord;
+                vec3 color = vec3(0.0);
+                
+                // Grid lines
+                vec2 grid = fract(uv * 40.0 + u_time * 0.1);
+                float line = smoothstep(0.02, 0.0, grid.x) + smoothstep(0.02, 0.0, grid.y);
+                color += line * vec3(0.07, 0.0, 0.12); // Deep purple base
+                
+                // Digital noise/interference
+                float n = hash(uv + u_time * 0.05);
+                if (n > 0.98) color += vec3(0.8, 1.0, 0.0); // Lime sparks
+                
+                // Scanner bar
+                float scanLine = sin(uv.y * 10.0 - u_time * 5.0) * 0.5 + 0.5;
+                scanLine = pow(scanLine, 20.0);
+                color += scanLine * vec3(0.5, 0.0, 1.0) * 0.5; // Purple scan
+                
+                // Vignette
+                float d = length(uv - 0.5);
+                color *= smoothstep(0.8, 0.2, d);
+
+                gl_FragColor = vec4(color, 1.0);
+            }
+        `;
+
+        function createShader(gl, type, source) {
+            const shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            return shader;
+        }
+
+        const vertexShader = createShader(gl, gl.VERTEX_SHADER, vsSource);
+        const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
+
+        const program = gl.createProgram();
+        gl.attachShader(program, vertexShader);
+        gl.attachShader(program, fragmentShader);
+        gl.linkProgram(program);
+        gl.useProgram(program);
+
+        const positionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        const positions = [
+            -1.0, -1.0,
+             1.0, -1.0,
+            -1.0,  1.0,
+            -1.0,  1.0,
+             1.0, -1.0,
+             1.0,  1.0,
+        ];
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+        const positionLocation = gl.getAttribLocation(program, "a_position");
+        gl.enableVertexAttribArray(positionLocation);
+        gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+        const timeLocation = gl.getUniformLocation(program, "u_time");
+        const resolutionLocation = gl.getUniformLocation(program, "u_resolution");
+
+        function render(time) {
+            time *= 0.001; 
+            
+            const displayWidth  = canvas.clientWidth;
+            const displayHeight = canvas.clientHeight;
+            if (canvas.width !== displayWidth || canvas.height !== displayHeight) {
+                canvas.width  = displayWidth;
+                canvas.height = displayHeight;
+                gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+            }
+
+            gl.uniform1f(timeLocation, time);
+            gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+
+            gl.drawArrays(gl.TRIANGLES, 0, 6);
+            requestAnimationFrame(render);
+        }
+        requestAnimationFrame(render);
+    });
+</script>
+</body></html>

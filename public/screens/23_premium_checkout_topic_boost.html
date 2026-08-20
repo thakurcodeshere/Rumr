@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Premium Checkout - Topic Boosts</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "secondary-fixed": "#f0dbff",
+                        "on-secondary": "#490080",
+                        "on-primary-container": "#556d00",
+                        "inverse-primary": "#506600",
+                        "outline": "#8e9379",
+                        "surface-container-high": "#2a2a2a",
+                        "on-background": "#e5e2e1",
+                        "secondary-container": "#6f00be",
+                        "on-error": "#690005",
+                        "primary-container": "#c3f400",
+                        "primary-fixed-dim": "#abd600",
+                        "surface-dim": "#131313",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "primary-fixed": "#c3f400",
+                        "tertiary-fixed": "#e2e2e2",
+                        "tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-variant": "#353535",
+                        "primary": "#ffffff",
+                        "on-tertiary": "#2f3131",
+                        "surface-container-highest": "#353535",
+                        "outline-variant": "#444933",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-primary-fixed": "#161e00",
+                        "on-secondary-container": "#d6a9ff",
+                        "on-surface-variant": "#c4c9ac",
+                        "tertiary-container": "#e2e2e2",
+                        "on-surface": "#e5e2e1",
+                        "secondary": "#ddb7ff",
+                        "surface-bright": "#393939",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-primary": "#283500",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-low": "#1c1b1b",
+                        "error-container": "#93000a",
+                        "surface": "#131313",
+                        "surface-tint": "#abd600",
+                        "on-secondary-fixed": "#2c0051",
+                        "on-tertiary-container": "#636565",
+                        "background": "#131313",
+                        "error": "#ffb4ab",
+                        "inverse-on-surface": "#313030",
+                        "surface-container": "#20201f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px",
+                        "stack-md": "24px",
+                        "unit": "4px",
+                        "stack-sm": "8px",
+                        "gutter": "16px",
+                        "stack-lg": "48px"
+                    },
+                    "fontFamily": {
+                        "label-bold": ["Inter"],
+                        "label-mono": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }]
+                    }
+                }
+            }
+        }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        /* Custom Checkbox Style for Brutalist theme */
+        input[type="radio"]:checked {
+            background-color: #c3f400; /* primary-container */
+            border-color: #c3f400;
+        }
+        input[type="radio"]:focus {
+            --tw-ring-color: #c3f400;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col items-center py-10 px-margin-mobile md:px-margin-desktop antialiased">
+<!-- TopAppBar (Suppressed as per rules for transactional pages, but keeping a minimal back navigation) -->
+<header class="w-full max-w-4xl flex justify-between items-center mb-stack-lg">
+<button class="flex items-center gap-2 text-on-surface hover:text-primary transition-colors font-label-mono text-label-mono" onclick="history.back()">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+            ABORT TRANSACTION
+        </button>
+<div class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase tracking-tighter text-primary">
+            LONDON_UK
+        </div>
+<div class="w-8"></div> <!-- Spacer for centering -->
+</header>
+<main class="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-12 gap-gutter lg:gap-stack-md">
+<!-- Left Column: Summary & Power -->
+<div class="lg:col-span-5 flex flex-col gap-stack-md">
+<div class="border-2 border-outline-variant bg-surface-container p-6 relative overflow-hidden group">
+<!-- Abstract "Signal" Graphic -->
+<div class="absolute -right-10 -top-10 opacity-20 pointer-events-none group-hover:opacity-40 transition-opacity duration-500">
+<svg fill="none" height="200" viewbox="0 0 200 200" width="200" xmlns="http://www.w3.org/2000/svg">
+<circle cx="100" cy="100" r="90" stroke="#c3f400" stroke-dasharray="4 8" stroke-width="2"></circle>
+<circle cx="100" cy="100" r="70" stroke="#c3f400" stroke-dasharray="2 4" stroke-width="2"></circle>
+<circle cx="100" cy="100" r="50" stroke="#c3f400" stroke-width="2"></circle>
+</svg>
+</div>
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<h1 class="font-headline-lg text-headline-lg text-primary uppercase">Topic Boost</h1>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 border-l-2 border-primary-container pl-4">
+                    Amplify your signal. Override algorithm suppression and inject your topic directly into the primary feed. 
+                </p>
+<div class="grid grid-cols-2 gap-unit border-t-2 border-outline-variant pt-4 mt-auto">
+<div class="flex flex-col">
+<span class="font-label-mono text-label-mono text-on-surface-variant mb-1">REACH_MULTIPLIER</span>
+<span class="font-label-bold text-label-bold text-primary-container">+500%</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-mono text-label-mono text-on-surface-variant mb-1">DURATION</span>
+<span class="font-label-bold text-label-bold text-primary">24 HOURS</span>
+</div>
+</div>
+</div>
+<!-- Security Badges -->
+<div class="flex gap-4">
+<div class="flex-1 border-2 border-outline-variant bg-surface-container-low p-3 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-secondary-container text-[18px]">lock</span>
+<span class="font-label-mono text-label-mono text-secondary-fixed-dim uppercase">Encrypted</span>
+</div>
+<div class="flex-1 border-2 border-outline-variant bg-surface-container-low p-3 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-secondary-container text-[18px]">verified_user</span>
+<span class="font-label-mono text-label-mono text-secondary-fixed-dim uppercase">Verified</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Tiers & Checkout -->
+<div class="lg:col-span-7 flex flex-col gap-stack-md">
+<h2 class="font-label-mono text-label-mono text-primary uppercase border-b-2 border-outline-variant pb-2">Select Injection Protocol</h2>
+<form class="flex flex-col gap-unit">
+<!-- Tier 1 -->
+<label class="cursor-pointer group relative">
+<input checked="" class="peer sr-only" name="boost_tier" type="radio" value="1"/>
+<div class="border-2 border-outline-variant bg-surface p-4 flex items-center justify-between peer-checked:border-primary-container peer-checked:bg-surface-container transition-all hover:border-primary-container/50">
+<div class="flex items-center gap-4">
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant peer-checked:border-primary-container flex items-center justify-center group-hover:border-primary-container/50 transition-colors">
+<div class="w-2.5 h-2.5 rounded-full bg-primary-container opacity-0 scale-50 transition-all peer-checked:opacity-100 peer-checked:scale-100"></div>
+</div>
+<div>
+<div class="font-label-bold text-label-bold text-primary uppercase">Single Injection</div>
+<div class="font-label-mono text-label-mono text-on-surface-variant mt-1">1 Boost Payload</div>
+</div>
+</div>
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">
+                            $5
+                        </div>
+</div>
+</label>
+<!-- Tier 2 -->
+<label class="cursor-pointer group relative">
+<input class="peer sr-only" name="boost_tier" type="radio" value="5"/>
+<div class="border-2 border-primary-container bg-surface-container p-4 flex items-center justify-between shadow-[4px_4px_0px_0px_#A855F7] transition-all transform peer-checked:translate-x-1 peer-checked:-translate-y-1 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_0px_#A855F7] z-10 relative">
+<!-- Trending Tag -->
+<div class="absolute -top-3 right-4 bg-secondary-container px-2 py-1 flex items-center gap-1 border-2 border-background">
+<span class="material-symbols-outlined text-[12px] text-on-secondary-container">trending_up</span>
+<span class="font-label-mono text-[10px] leading-none text-on-secondary-container font-bold">RECOMMENDED</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-5 h-5 rounded-full border-2 border-primary-container flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-primary-container opacity-0 scale-50 transition-all peer-checked:opacity-100 peer-checked:scale-100"></div>
+</div>
+<div>
+<div class="font-label-bold text-label-bold text-primary uppercase flex items-center gap-2">
+                                    Cluster Injection
+                                </div>
+<div class="font-label-mono text-label-mono text-primary-container mt-1">5 Boost Payload (Save 20%)</div>
+</div>
+</div>
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">
+                            $20
+                        </div>
+</div>
+</label>
+<!-- Tier 3 -->
+<label class="cursor-pointer group relative">
+<input class="peer sr-only" name="boost_tier" type="radio" value="10"/>
+<div class="border-2 border-outline-variant bg-surface p-4 flex items-center justify-between peer-checked:border-primary-container peer-checked:bg-surface-container transition-all hover:border-primary-container/50">
+<div class="flex items-center gap-4">
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant peer-checked:border-primary-container flex items-center justify-center group-hover:border-primary-container/50 transition-colors">
+<div class="w-2.5 h-2.5 rounded-full bg-primary-container opacity-0 scale-50 transition-all peer-checked:opacity-100 peer-checked:scale-100"></div>
+</div>
+<div>
+<div class="font-label-bold text-label-bold text-primary uppercase">Mass Override</div>
+<div class="font-label-mono text-label-mono text-on-surface-variant mt-1">10 Boost Payload (Save 30%)</div>
+</div>
+</div>
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">
+                            $35
+                        </div>
+</div>
+</label>
+</form>
+<!-- Loading Bar Divider -->
+<div class="h-2 w-full border-2 border-outline-variant mt-4 relative overflow-hidden bg-void">
+<div class="h-full bg-primary-container w-[80%] absolute top-0 left-0" style="transition: width 0.5s ease; animation: stepLoad 2s infinite alternate steps(10);"></div>
+</div>
+<style>
+                @keyframes stepLoad {
+                    0% { width: 60%; }
+                    100% { width: 95%; }
+                }
+            </style>
+<button class="w-full bg-primary-container text-on-primary-container border-2 border-primary-container font-label-mono text-label-mono font-bold uppercase py-4 flex items-center justify-center gap-2 hover:shadow-[4px_4px_0px_0px_#A855F7] transition-all hover:-translate-y-1 active:translate-y-0 active:shadow-none group" type="button">
+<span class="material-symbols-outlined group-hover:animate-pulse">terminal</span>
+                System Ready: Initialize Transaction
+            </button>
+<p class="font-label-mono text-[10px] text-on-surface-variant text-center opacity-70">
+                BY INITIALIZING, YOU AGREE TO THE PROTOCOL TERMS. TRANSACTIONS ARE IRREVERSIBLE.
+            </p>
+</div>
+</main>
+<script>
+        // Simple script to handle radio button states visibly for custom styling
+        document.querySelectorAll('input[name="boost_tier"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                // The CSS peer-checked handles most of the visuals, 
+                // but we could add additional sound effects or vibration here for the 'brutalist' feel
+            });
+        });
+    </script>
+</body></html>

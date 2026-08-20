@@ -1,0 +1,227 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>11: Safety Promise</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&amp;family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-high": "#2a2a2a",
+                      "on-tertiary-fixed-variant": "#454747",
+                      "surface": "#131313",
+                      "on-surface-variant": "#c4c9ac",
+                      "error-container": "#93000a",
+                      "tertiary-fixed-dim": "#c6c6c7",
+                      "on-background": "#e5e2e1",
+                      "on-secondary-container": "#d6a9ff",
+                      "inverse-on-surface": "#313030",
+                      "primary-container": "#c3f400",
+                      "outline-variant": "#444933",
+                      "surface-dim": "#131313",
+                      "error": "#ffb4ab",
+                      "on-tertiary": "#2f3131",
+                      "on-primary-container": "#556d00",
+                      "surface-bright": "#393939",
+                      "inverse-primary": "#506600",
+                      "on-surface": "#e5e2e1",
+                      "on-primary": "#283500",
+                      "on-tertiary-container": "#636565",
+                      "on-error": "#690005",
+                      "on-secondary": "#490080",
+                      "on-primary-fixed": "#161e00",
+                      "inverse-surface": "#e5e2e1",
+                      "secondary-fixed": "#f0dbff",
+                      "surface-container-lowest": "#0e0e0e",
+                      "on-tertiary-fixed": "#1a1c1c",
+                      "surface-container": "#20201f",
+                      "primary": "#ffffff",
+                      "secondary": "#ddb7ff",
+                      "tertiary-container": "#e2e2e2",
+                      "secondary-fixed-dim": "#ddb7ff",
+                      "on-secondary-fixed": "#2c0051",
+                      "primary-fixed-dim": "#abd600",
+                      "background": "#131313",
+                      "tertiary": "#ffffff",
+                      "surface-tint": "#abd600",
+                      "on-error-container": "#ffdad6",
+                      "primary-fixed": "#c3f400",
+                      "surface-variant": "#353535",
+                      "surface-container-highest": "#353535",
+                      "secondary-container": "#6f00be",
+                      "on-secondary-fixed-variant": "#6900b3",
+                      "tertiary-fixed": "#e2e2e2",
+                      "outline": "#8e9379",
+                      "on-primary-fixed-variant": "#3c4d00",
+                      "surface-container-low": "#1c1b1b"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-md": "24px",
+                      "stack-lg": "48px",
+                      "stack-sm": "8px",
+                      "gutter": "16px",
+                      "unit": "4px",
+                      "margin-desktop": "40px",
+                      "margin-mobile": "20px"
+              },
+              "fontFamily": {
+                      "display-lg": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ],
+                      "label-bold": [
+                              "Inter"
+                      ],
+                      "label-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "900"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-bold": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-mono": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: #000000; /* Void Black */
+            color: #ffffff;
+        }
+      </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+<!-- Mobile Container (390x844px equivalent) -->
+<main class="w-full max-w-[390px] h-screen max-h-[844px] bg-background relative flex flex-col overflow-hidden border-2 border-surface-container-highest md:rounded-xl shadow-2xl">
+<!-- Background Blur/Atmosphere -->
+<div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+<div class="absolute top-[-10%] left-[-20%] w-[150%] h-[50%] bg-secondary-container opacity-20 blur-[60px] rounded-full mix-blend-screen"></div>
+</div>
+<!-- Content Canvas -->
+<div class="relative z-10 flex flex-col flex-1 px-margin-mobile pt-stack-lg pb-margin-mobile">
+<!-- Header Section -->
+<header class="mb-stack-lg text-center">
+<span class="material-symbols-outlined text-primary-fixed mb-stack-sm" style="font-size: 48px; font-variation-settings: 'FILL' 1;">shield</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase tracking-tighter">YOUR SPACE</h1>
+<div class="w-16 h-1 bg-primary-fixed mx-auto mt-stack-sm"></div>
+</header>
+<!-- Safety Promises List -->
+<ul class="flex-1 flex flex-col gap-stack-md justify-center">
+<!-- Promise 1 -->
+<li class="flex items-start gap-gutter bg-surface-container border-2 border-surface-container-highest p-4 relative group">
+<!-- Hard Shadow Effect (simulated with before element) -->
+<div class="absolute inset-0 border-2 border-primary-fixed translate-x-[4px] translate-y-[4px] -z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-secondary mt-1">visibility_off</span>
+<div>
+<h2 class="font-label-mono text-label-mono text-secondary mb-1">PRIVACY</h2>
+<p class="font-body-md text-body-md text-on-surface">You control what you reveal.</p>
+</div>
+</li>
+<!-- Promise 2 -->
+<li class="flex items-start gap-gutter bg-surface-container border-2 border-surface-container-highest p-4 relative group">
+<div class="absolute inset-0 border-2 border-error translate-x-[4px] translate-y-[4px] -z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-error mt-1">flag</span>
+<div>
+<h2 class="font-label-mono text-label-mono text-error mb-1">MODERATION</h2>
+<p class="font-body-md text-body-md text-on-surface">Report harmful content.</p>
+</div>
+</li>
+<!-- Promise 3 -->
+<li class="flex items-start gap-gutter bg-surface-container border-2 border-surface-container-highest p-4 relative group">
+<div class="absolute inset-0 border-2 border-primary-fixed translate-x-[4px] translate-y-[4px] -z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-primary-fixed mt-1">block</span>
+<div>
+<h2 class="font-label-mono text-label-mono text-primary-fixed mb-1">CONTROL</h2>
+<p class="font-body-md text-body-md text-on-surface">Block anyone, anytime.</p>
+</div>
+</li>
+<!-- Promise 4 -->
+<li class="flex items-start gap-gutter bg-surface-container border-2 border-surface-container-highest p-4 relative group">
+<div class="absolute inset-0 border-2 border-secondary translate-x-[4px] translate-y-[4px] -z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-secondary mt-1">gpp_bad</span>
+<div>
+<h2 class="font-label-mono text-label-mono text-secondary mb-1">NO HARASSMENT</h2>
+<p class="font-body-md text-body-md text-on-surface">Personal targeting isn't allowed.</p>
+</div>
+</li>
+</ul>
+<!-- CTA Section -->
+<div class="mt-stack-lg pb-stack-md">
+<button class="w-full bg-primary-fixed text-on-primary-fixed font-label-mono text-label-mono py-4 uppercase border-2 border-transparent hover:border-primary transition-all relative group overflow-hidden">
+<!-- Hover Effect Shadow -->
+<div class="absolute inset-0 shadow-[4px_4px_0_#A855F7] group-hover:shadow-[2px_2px_0_#A855F7] transition-shadow"></div>
+<span class="relative z-10 flex items-center justify-center gap-2">
+                        I UNDERSTAND <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+</span>
+</button>
+<div class="text-center mt-stack-sm">
+<span class="font-label-mono text-label-mono text-on-surface-variant opacity-50 block mt-2">ENCRYPTED CONNECTION ESTABLISHED</span>
+</div>
+</div>
+</div>
+</main>
+
+
+</body></html>

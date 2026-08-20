@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Moderation Dashboard: User Reports</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container-highest": "#353535",
+                        "surface": "#131313",
+                        "surface-dim": "#131313",
+                        "surface-tint": "#abd600",
+                        "on-primary-container": "#556d00",
+                        "tertiary-container": "#e2e2e2",
+                        "surface-bright": "#393939",
+                        "background": "#131313",
+                        "on-secondary-container": "#d6a9ff",
+                        "surface-container-high": "#2a2a2a",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-tertiary": "#2f3131",
+                        "surface-variant": "#353535",
+                        "surface-container-low": "#1c1b1b",
+                        "inverse-on-surface": "#313030",
+                        "error-container": "#93000a",
+                        "primary-fixed-dim": "#abd600",
+                        "surface-container": "#20201f",
+                        "on-background": "#e5e2e1",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "secondary-container": "#6f00be",
+                        "on-surface-variant": "#c4c9ac",
+                        "inverse-surface": "#e5e2e1",
+                        "on-secondary-fixed": "#2c0051",
+                        "primary": "#ffffff",
+                        "on-secondary": "#490080",
+                        "primary-container": "#c3f400",
+                        "inverse-primary": "#506600",
+                        "on-primary": "#283500",
+                        "secondary-fixed": "#f0dbff",
+                        "error": "#ffb4ab",
+                        "secondary": "#ddb7ff",
+                        "outline": "#8e9379",
+                        "tertiary-fixed": "#e2e2e2",
+                        "tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "on-error": "#690005",
+                        "primary-fixed": "#c3f400",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-fixed": "#161e00",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-surface": "#e5e2e1",
+                        "outline-variant": "#444933",
+                        "on-tertiary-container": "#636565"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "margin-desktop": "40px",
+                        "stack-lg": "48px",
+                        "unit": "4px",
+                        "stack-sm": "8px",
+                        "margin-mobile": "20px",
+                        "stack-md": "24px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-lg": ["Playfair Display"],
+                        "label-bold": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #000000; color: #e5e2e1; }
+        .brutalist-border { border: 2px solid #ffffff; }
+        .brutalist-border-primary { border: 2px solid #c3f400; }
+        .hard-shadow-purple { box-shadow: 4px 4px 0px 0px #A855F7; }
+        .hard-shadow-lime { box-shadow: 4px 4px 0px 0px #c3f400; }
+        .blur-overlay { backdrop-filter: blur(20px); }
+        .rumor-blur { filter: blur(5px); transition: filter 0.3s ease; }
+        .rumor-blur:hover { filter: blur(0px); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface text-primary dark:text-primary w-full top-0 sticky border-b-2 border-outline-variant dark:border-outline-variant flat no shadows flex justify-between items-center px-margin-desktop py-stack-sm w-full max-w-[1200px] mx-auto z-50">
+<div class="flex items-center gap-stack-sm">
+<span class="material-symbols-outlined font-label-mono text-label-mono uppercase tracking-widest text-primary-container dark:text-primary-fixed">security</span>
+<h1 class="font-headline-lg text-headline-lg dark:text-on-surface">RUMR_ADMIN_v1.0</h1>
+</div>
+<div class="flex items-center gap-stack-sm hover:bg-secondary-container dark:hover:bg-secondary-container hover:text-on-secondary-container transition-colors p-unit cursor-pointer">
+<span class="font-label-mono text-label-mono">Admin Profile</span>
+<div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center border border-outline">
+<span class="material-symbols-outlined text-sm">person</span>
+</div>
+</div>
+</header>
+<div class="flex flex-1 max-w-[1200px] mx-auto w-full">
+<!-- NavigationDrawer (Desktop Only) -->
+<nav class="hidden md:flex flex-col h-full py-stack-md bg-surface-container-low dark:bg-surface-container-low text-primary-fixed dark:text-primary-fixed-dim font-label-mono text-label-mono uppercase h-screen w-64 fixed left-0 border-r-2 border-outline-variant shadow-[4px_0px_0px_0px_rgba(171,214,0,1)] z-40 top-[88px]">
+<div class="px-4 py-4 border-b-2 border-outline-variant mb-4">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">MODERATION_QUEUE</h2>
+</div>
+<ul class="flex flex-col gap-1">
+<li>
+<a class="text-on-surface-variant hover:text-primary px-4 py-3 flex items-center gap-stack-sm hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">flag</span> FLAGGED_CONTENT
+                    </a>
+</li>
+<li>
+<a class="bg-primary-fixed text-on-primary-fixed font-bold flex items-center gap-stack-sm px-4 py-3 hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">report</span> USER_REPORTS
+                    </a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:text-primary px-4 py-3 flex items-center gap-stack-sm hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">psychology</span> AI_VALIDATION
+                    </a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:text-primary px-4 py-3 flex items-center gap-stack-sm hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">history</span> LOGS
+                    </a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 p-margin-mobile md:p-margin-desktop md:ml-64 w-full">
+<header class="mb-stack-lg flex flex-col md:flex-row justify-between items-start md:items-end gap-stack-md border-b-2 border-surface-variant pb-stack-sm">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary mb-unit">USER_REPORTS</h2>
+<p class="font-label-mono text-label-mono text-on-surface-variant">PRIORITY_QUEUE: HIGH_SEVERITY</p>
+</div>
+<div class="flex gap-stack-sm">
+<span class="bg-[#A855F7] text-[#000000] font-label-mono text-[10px] px-2 py-1 uppercase">TOTAL: 142</span>
+<span class="bg-[#A855F7] text-[#000000] font-label-mono text-[10px] px-2 py-1 uppercase">CRITICAL: 12</span>
+</div>
+</header>
+<!-- Grid Layout for Reports -->
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-gutter">
+<!-- Report Card 1 -->
+<article class="bg-surface brutalist-border p-stack-md flex flex-col gap-stack-md relative overflow-hidden group">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-stack-sm">
+<img class="w-12 h-12 rounded-none border border-outline-variant object-cover" data-alt="A glitchy, distorted portrait avatar in a cyberpunk style, dark background with neon green and purple artifacting, evoking a sense of digital anonymity and high-tech secrecy in a dark mode UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbMfEgQaAui4a1Jde_B6Z1-cJh0rhsjvb-3ZmcWnW-N2UpXvNPM-aisV20wEw4oOetWN1EJF9BKb0p2kQIGi0YGXarKQDLKnCLWliQTDOPqIBkcmXl-n3thsuvEmrXRz_bUdeDeXm9UdbWHVpzH9uZ9hOnDBaH-Zs9F-rIenZkcdudlwdVuV1j4KMS6N9HNVGlLTelr5KqqHb0gVo6hxNq_N6GoxbD_A1ZdzcEjv3giiDxMGRnCDDp-Q"/>
+<div>
+<h3 class="font-headline-lg text-headline-lg text-primary leading-none">@CipherGhost</h3>
+<p class="font-label-mono text-label-mono text-on-surface-variant mt-1">ID: #882A-F9</p>
+</div>
+</div>
+<span class="bg-error text-on-error font-label-mono text-[10px] px-2 py-1 uppercase brutalist-border border-error">SEVERITY: CRITICAL</span>
+</div>
+<div class="border-l-2 border-surface-variant pl-stack-sm my-unit">
+<p class="font-label-mono text-label-mono text-on-surface-variant mb-1">REPORTED_FOR: <span class="text-primary">Doxxing / PII Leak</span></p>
+<p class="font-body-md text-body-md text-on-surface line-clamp-3">
+                            "User posted home addresses of multiple targeted individuals in the #finance thread. Information verified as accurate by AI-Scanner-4."
+                        </p>
+</div>
+<div class="flex justify-between items-center mt-auto pt-stack-sm border-t-2 border-surface-variant">
+<a class="font-label-mono text-label-mono text-secondary hover:text-primary transition-colors underline flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[14px]">history</span> VIEW_HISTORY
+                        </a>
+<div class="flex gap-stack-sm">
+<button class="bg-transparent border-2 border-primary text-primary font-label-mono font-bold uppercase px-4 py-2 hover:hard-shadow-purple transition-all text-sm">WARN</button>
+<button class="bg-[#c3f400] text-[#000000] font-label-mono font-bold uppercase px-4 py-2 hover:hard-shadow-purple transition-all text-sm">BAN_USER</button>
+</div>
+</div>
+</article>
+<!-- Report Card 2 (Blur Example) -->
+<article class="bg-surface brutalist-border p-stack-md flex flex-col gap-stack-md relative overflow-hidden group border-outline-variant">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-stack-sm">
+<div class="w-12 h-12 rounded-none border border-outline-variant bg-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-outline">person_off</span>
+</div>
+<div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface-variant leading-none">@NullVoid</h3>
+<p class="font-label-mono text-label-mono text-outline mt-1">ID: #110C-B2</p>
+</div>
+</div>
+<span class="bg-surface-variant text-on-surface-variant font-label-mono text-[10px] px-2 py-1 uppercase brutalist-border border-outline-variant">SEVERITY: MODERATE</span>
+</div>
+<div class="border-l-2 border-surface-variant pl-stack-sm my-unit relative">
+<!-- Blur Overlay -->
+<div class="absolute inset-0 bg-surface-container/60 blur-overlay flex items-center justify-center z-10 cursor-pointer hover:opacity-0 transition-opacity duration-300">
+<span class="font-label-mono text-label-mono text-primary bg-surface p-2 border border-primary">HOVER_TO_DECRYPT</span>
+</div>
+<p class="font-label-mono text-label-mono text-on-surface-variant mb-1">REPORTED_FOR: <span class="text-primary">Harassment</span></p>
+<p class="font-body-md text-body-md text-on-surface line-clamp-3">
+                            "Repeated targeted messaging in private channels. Encrypted logs suggest continuous automated pinging violating rate limits."
+                        </p>
+</div>
+<div class="flex justify-between items-center mt-auto pt-stack-sm border-t-2 border-surface-variant">
+<a class="font-label-mono text-label-mono text-secondary hover:text-primary transition-colors underline flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[14px]">history</span> VIEW_HISTORY
+                        </a>
+<div class="flex gap-stack-sm">
+<button class="bg-transparent border-2 border-primary text-primary font-label-mono font-bold uppercase px-4 py-2 hover:hard-shadow-purple transition-all text-sm">WARN</button>
+<button class="bg-[#c3f400] text-[#000000] font-label-mono font-bold uppercase px-4 py-2 hover:hard-shadow-purple transition-all text-sm">BAN_USER</button>
+</div>
+</div>
+</article>
+<!-- Report Card 3 -->
+<article class="bg-surface brutalist-border p-stack-md flex flex-col gap-stack-md relative overflow-hidden group">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-stack-sm">
+<img class="w-12 h-12 rounded-none border border-outline-variant object-cover" data-alt="A shadowy silhouette of a user avatar against a toxic lime green glowing grid background, emphasizing high-contrast brutalist aesthetics in a dark mode admin dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGgLUqtL6lwJTrVJy2JOIfphF4IMyK6WhD7gZ2KDEUsIEdjQZw_F5sjBYy1s9zcTEuGbJNvAA7VtglvLfpHgj-6a1S90ETIa1l8BtBQ6tBuYriMesu_xG2Wbxa1Qmxhjp9Y9Uq2Mrz8lKS8lfogxb20ZMR6DFAVGjO0DPgjJyk3LKtozxEcmCX5dTg8G3ZUYQjDpK4b0yT5BWjoQxLwlXxfGGJ3DGM3Z0vBEuRuiagxTKjjMxuBY8LNQ"/>
+<div>
+<h3 class="font-headline-lg text-headline-lg text-primary leading-none">@NeonGrifter</h3>
+<p class="font-label-mono text-label-mono text-on-surface-variant mt-1">ID: #993X-Q1</p>
+</div>
+</div>
+<span class="bg-[#A855F7] text-[#000000] font-label-mono text-[10px] px-2 py-1 uppercase brutalist-border border-[#A855F7]">SEVERITY: HIGH</span>
+</div>
+<div class="border-l-2 border-surface-variant pl-stack-sm my-unit">
+<p class="font-label-mono text-label-mono text-on-surface-variant mb-1">REPORTED_FOR: <span class="text-primary">Spam / Botting</span></p>
+<p class="font-body-md text-body-md text-on-surface line-clamp-3">
+                            "Account detected generating 500+ topics per minute. Content consists of obfuscated links to external malware sites."
+                        </p>
+</div>
+<div class="flex justify-between items-center mt-auto pt-stack-sm border-t-2 border-surface-variant">
+<a class="font-label-mono text-label-mono text-secondary hover:text-primary transition-colors underline flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[14px]">history</span> VIEW_HISTORY
+                        </a>
+<div class="flex gap-stack-sm">
+<button class="bg-transparent border-2 border-primary text-primary font-label-mono font-bold uppercase px-4 py-2 hover:hard-shadow-purple transition-all text-sm">WARN</button>
+<button class="bg-[#c3f400] text-[#000000] font-label-mono font-bold uppercase px-4 py-2 hover:hard-shadow-purple transition-all text-sm">BAN_USER</button>
+</div>
+</div>
+</article>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest text-on-tertiary-fixed-variant dark:text-on-tertiary-fixed-variant font-label-mono text-label-mono w-full bottom-0 border-t-2 border-outline-variant flat no shadows flex justify-between items-center px-margin-desktop py-stack-sm w-full max-w-[1200px] mx-auto md:ml-64 mt-auto">
+<div class="flex items-center gap-stack-md">
+<span class="font-label-bold text-label-bold text-error">RUMR_ENCRYPTED_SYSTEM_2024</span>
+</div>
+<ul class="flex gap-stack-md">
+<li><a class="text-on-tertiary-fixed-variant dark:text-on-tertiary-fixed-variant hover:text-primary-container dark:hover:text-primary-container transition-colors duration-200 ease-in-out" href="#">PRIVACY_PROTOCOL</a></li>
+<li><a class="text-on-tertiary-fixed-variant dark:text-on-tertiary-fixed-variant hover:text-primary-container dark:hover:text-primary-container transition-colors duration-200 ease-in-out" href="#">ADMIN_BYLAWS</a></li>
+<li><a class="text-on-tertiary-fixed-variant dark:text-on-tertiary-fixed-variant hover:text-primary-container dark:hover:text-primary-container transition-colors duration-200 ease-in-out" href="#">LOG_OUT</a></li>
+</ul>
+</footer>
+</body></html>

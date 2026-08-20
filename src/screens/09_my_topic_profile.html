@@ -1,0 +1,233 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>09: My Topic Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#131313",
+                        "surface-container-low": "#1c1b1b",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#313030",
+                        "surface-container-lowest": "#0e0e0e",
+                        "inverse-primary": "#506600",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#2f3131",
+                        "on-background": "#e5e2e1",
+                        "primary-container": "#c3f400",
+                        "on-primary": "#283500",
+                        "primary-fixed": "#c3f400",
+                        "primary": "#ffffff",
+                        "surface-container-high": "#2a2a2a",
+                        "on-surface": "#e5e2e1",
+                        "on-secondary-container": "#d6a9ff",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-dim": "#131313",
+                        "secondary-container": "#6f00be",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "tertiary-container": "#e2e2e2",
+                        "primary-fixed-dim": "#abd600",
+                        "secondary": "#ddb7ff",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "on-secondary-fixed": "#2c0051",
+                        "outline-variant": "#444933",
+                        "on-surface-variant": "#c4c9ac",
+                        "secondary-fixed": "#f0dbff",
+                        "outline": "#8e9379",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "surface-variant": "#353535",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#636565",
+                        "surface-container": "#20201f",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary-container": "#556d00",
+                        "surface-container-highest": "#353535",
+                        "surface-bright": "#393939",
+                        "surface": "#131313",
+                        "on-primary-fixed": "#161e00",
+                        "tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "error-container": "#93000a",
+                        "on-secondary": "#490080",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-tint": "#abd600"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "margin-mobile": "20px",
+                        "gutter": "16px",
+                        "stack-lg": "48px",
+                        "stack-md": "24px",
+                        "unit": "4px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "label-bold": ["Inter"],
+                        "label-mono": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom Utilities for Clean Chaos */
+        .shadow-hard-primary {
+            box-shadow: 4px 4px 0px 0px #c3f400;
+        }
+        .shadow-hard-secondary {
+            box-shadow: 4px 4px 0px 0px #6f00be;
+        }
+        .blur-mystery {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-x-hidden selection:bg-primary-container selection:text-on-primary">
+<!-- TopAppBar (from JSON) -->
+<header class="bg-background dark:bg-background docked full-width top-0 flat no shadows border-b-2 border-outline-variant flex justify-between items-center w-full px-margin-mobile py-4 z-40 sticky">
+<button class="text-primary dark:text-primary hover:text-primary-fixed-dim transition-colors hover:scale-95 duration-75">
+<span class="material-symbols-outlined">location_on</span>
+</button>
+<h1 class="text-headline-lg-mobile font-headline-lg-mobile uppercase tracking-tighter text-primary">LONDON_UK</h1>
+<button class="text-primary dark:text-primary hover:text-primary-fixed-dim transition-colors hover:scale-95 duration-75">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 px-margin-mobile py-stack-md flex flex-col gap-stack-lg pb-[100px] max-w-[1200px] mx-auto w-full">
+<!-- Profile Header Segment -->
+<section class="flex flex-col items-center justify-center pt-stack-md relative">
+<div class="relative mb-stack-md group">
+<div class="w-32 h-32 bg-surface-container-low border-2 border-primary overflow-hidden relative">
+<!-- Placeholder Image for Profile Avatar -->
+<div class="w-full h-full bg-cover bg-center grayscale contrast-125 brightness-75 mix-blend-luminosity" data-alt="A striking portrait photo in a dark, atmospheric setting. The subject is partially obscured by harsh, conceptual neon lighting in toxic lime green and deep shadows. The composition is brutalist, edgy, and mysterious, feeling like an exclusive underground editorial fashion shot against a pure black background." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDoaUnvsoCNBiqh9Ww7-8UTrng3wPTgNB4VA_YPs7hG9sq3PhiuRP3Nafb39vdQ5ZnVs5XhKhOSTVx5FC3SAHWuVlupE3tKDEjwooeSm-DznV4brp3c3KiL6Y2zdMqh-Ot8ewHHQ4yoOTT62WZtJNVfGEHQaem9PSCDxZslFf50GsxAtCFigJ-wVPLN72brnju48NLuOIMlO3pnkcdRC1Sr7sIr4BsiwUCWl1DODjrMhD2uj7JnMVLQ6A')"></div>
+<!-- Overlay text -->
+<div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<span class="font-label-mono text-label-mono text-primary">EDIT</span>
+</div>
+</div>
+<!-- ID Tag -->
+<div class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-surface-container border-2 border-primary px-4 py-1">
+<span class="font-display-lg text-headline-lg-mobile text-primary tracking-tighter">26</span>
+</div>
+</div>
+<div class="text-center mt-stack-sm flex flex-col items-center">
+<h2 class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-widest">ID_AUTHORIZED</h2>
+<div class="flex items-center gap-2 mt-2">
+<span class="w-2 h-2 bg-primary-container rounded-full animate-pulse"></span>
+<span class="font-label-mono text-[10px] text-primary-container">SYS_ACTIVE</span>
+</div>
+</div>
+</section>
+<!-- Stats Segment -->
+<section class="grid grid-cols-2 gap-gutter">
+<!-- Connections Stat -->
+<div class="bg-surface p-stack-md border-2 border-surface-container-high flex flex-col items-center justify-center gap-stack-sm hover:border-outline-variant transition-colors group relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-surface-container-high group-hover:bg-primary-container transition-colors"></div>
+<span class="font-display-lg text-display-lg text-primary">1,402</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">Connections</span>
+</div>
+<!-- Communities Stat -->
+<div class="bg-surface p-stack-md border-2 border-surface-container-high flex flex-col items-center justify-center gap-stack-sm hover:border-outline-variant transition-colors group relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-surface-container-high group-hover:bg-secondary-container transition-colors"></div>
+<span class="font-display-lg text-display-lg text-primary">8</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">Communities</span>
+</div>
+</section>
+<!-- Topics Segment -->
+<section class="flex flex-col gap-stack-md relative">
+<div class="flex justify-between items-end border-b-2 border-surface-container-high pb-2">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase">MY TOPICS</h3>
+<span class="font-label-mono text-[10px] text-on-surface-variant">DATA_INDEX: 04</span>
+</div>
+<!-- Chips Container -->
+<div class="flex flex-wrap gap-2">
+<div class="bg-secondary-container px-3 py-1.5 flex items-center gap-1 hover:shadow-hard-secondary transition-shadow cursor-pointer">
+<span class="font-label-mono text-[10px] text-black">CRYPTOGRAPHY</span>
+</div>
+<div class="bg-secondary-container px-3 py-1.5 flex items-center gap-1 hover:shadow-hard-secondary transition-shadow cursor-pointer">
+<span class="font-label-mono text-[10px] text-black">SYNTH_POP</span>
+</div>
+<div class="bg-secondary-container px-3 py-1.5 flex items-center gap-1 hover:shadow-hard-secondary transition-shadow cursor-pointer">
+<span class="font-label-mono text-[10px] text-black">NEO_TOKYO_RUMORS</span>
+</div>
+<div class="bg-surface-container-high border border-outline-variant px-3 py-1.5 flex items-center gap-1 opacity-50">
+<span class="material-symbols-outlined text-[12px] text-on-surface-variant">lock</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant">REDACTED</span>
+</div>
+</div>
+<!-- Add Topic Button -->
+<button class="mt-stack-sm w-full bg-transparent border-2 border-primary text-primary font-label-mono text-label-bold uppercase py-4 hover:shadow-hard-secondary transition-shadow flex justify-center items-center gap-2 group">
+<span class="material-symbols-outlined text-primary group-hover:rotate-90 transition-transform duration-300">add</span>
+                ADD TOPIC
+            </button>
+</section>
+<!-- Mystery Container (Locked Stats) -->
+<section class="relative bg-surface-container-high border-2 border-outline-variant p-stack-md flex flex-col gap-unit overflow-hidden min-h-[120px] justify-center items-center group">
+<!-- Abstract background pattern simulating encrypted data -->
+<div class="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary-container via-background to-background"></div>
+<div class="absolute inset-0 blur-mystery bg-surface-dim/60 z-10 flex items-center justify-center">
+<div class="border border-outline-variant bg-background/80 px-4 py-2 flex items-center gap-2 backdrop-blur-sm">
+<span class="material-symbols-outlined text-primary-container animate-pulse">enhanced_encryption</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant">TOPIC LOCKED</span>
+</div>
+</div>
+<!-- Obscured content behind blur -->
+<div class="z-0 opacity-30 blur-sm pointer-events-none w-full">
+<div class="h-2 bg-primary-container w-3/4 mb-2"></div>
+<div class="h-2 bg-secondary-container w-1/2"></div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (from JSON) -->
+<!-- Logic: Active state is 'person' based on Profile screen intent -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-mobile py-2 bg-surface dark:bg-surface border-t-2 border-outline-variant flat no shadows">
+<!-- explore: Inactive -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">explore</span>
+</a>
+<!-- layers: Inactive -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">layers</span>
+</a>
+<!-- Favorite: Inactive -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">replace_video</span>
+</a>
+<!-- person: Active -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container p-2 shadow-[4px_4px_0px_0px_#6f00be] translate-y-0.5 duration-100 hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">person</span>
+</a>
+</nav>
+
+
+</body></html>

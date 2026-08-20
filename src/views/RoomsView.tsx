@@ -7,7 +7,7 @@ import { Radio, Mic, MicOff, Volume2, Users, ArrowLeft, Send } from 'lucide-reac
 import { TopicRoom } from '../types';
 
 export const RoomsView: React.FC = () => {
-  const { rooms, activeAudioRoom, joinRoom, leaveRoom, isMicActive, toggleMic, sendChatMessage } = useApp();
+  const { rooms, activeAudioRoom, joinRoom, leaveRoom, isMicActive, toggleMic, sendChatMessage, isGuest, triggerGuestLock } = useApp();
   const [chatInput, setChatInput] = React.useState('');
 
   const handleSend = (e: React.FormEvent) => {
@@ -37,107 +37,127 @@ export const RoomsView: React.FC = () => {
           <div className="bg-[#181424] border-2 border-[#a855f7] p-4 mb-4 shadow-[4px_4px_0px_#ccff00]">
             <div className="flex items-center gap-2 mb-1">
               <Radio className="w-4 h-4 text-[#ccff00] animate-pulse" />
-              <span className="font-mono text-[10px] text-[#ccff00] font-bold uppercase">{activeAudioRoom.category}</span>
+              <span className="font-mono text-[10px] text-[#ccff00] font-bold uppercase">BROADCASTING</span>
             </div>
-            <h2 className="font-serif text-xl font-bold text-white">{activeAudioRoom.title}</h2>
-            <p className="font-mono text-xs text-gray-400 mt-1">
-              Moderator: <span className="text-[#a855f7]">{activeAudioRoom.hostHandle}</span> • {activeAudioRoom.listeners} Anonymous Listeners
-            </p>
+            <h2 className="font-serif text-2xl font-black text-white">{activeAudioRoom.title}</h2>
+            <div className="flex items-center gap-4 mt-2 font-mono text-xs text-gray-300">
+              <span>Speakers: {activeAudioRoom.activeSpeakers}</span>
+              <span>Listeners: {activeAudioRoom.listeners + 1}</span>
+            </div>
           </div>
 
-          {/* Speaker Podium Grid */}
-          <div className="space-y-2 mb-4">
-            <div className="font-mono text-xs text-gray-400 font-bold">SPEAKERS ON STAGE</div>
-            <div className="grid grid-cols-3 gap-2">
-              {[
-                { name: activeAudioRoom.hostHandle, role: 'Host', isSpeaking: true },
-                { name: 'matrix_hacker', role: 'Speaker', isSpeaking: false },
-                { name: 'ghost_philosopher', role: 'Speaker', isSpeaking: true },
-                { name: 'You (Anonymous)', role: 'Listener', isSpeaking: isMicActive }
-              ].map((sp, idx) => (
-                <div 
-                  key={idx} 
-                  className={`p-3 border ${sp.isSpeaking ? 'border-[#ccff00] bg-[#1a2014]' : 'border-[#262626] bg-[#141414]'} flex flex-col items-center justify-center text-center`}
-                >
-                  <div className={`w-10 h-10 border-2 ${sp.isSpeaking ? 'border-[#ccff00] bg-[#ccff00]/20' : 'border-gray-600 bg-gray-800'} flex items-center justify-center font-mono font-bold text-xs mb-1.5`}>
-                    {sp.name.slice(0, 2).toUpperCase()}
-                  </div>
-                  <div className="font-mono text-[11px] text-white font-bold truncate max-w-full">{sp.name}</div>
-                  <div className="font-mono text-[9px] text-[#a855f7]">{sp.role}</div>
-                </div>
-              ))}
+          {/* Speaker Grid */}
+          <div className="grid grid-cols-2 gap-3 mb-4">
+            <div className="bg-[#141414] border-2 border-[#ccff00] p-3 flex items-center gap-3">
+              <div className="w-10 h-10 bg-[#ccff00] text-black font-mono font-bold flex items-center justify-center text-sm">
+                HOST
+              </div>
+              <div>
+                <div className="font-serif font-bold text-sm text-white">{activeAudioRoom.hostHandle}</div>
+                <div className="font-mono text-[10px] text-[#ccff00]">Speaking (Live)</div>
+              </div>
+            </div>
+
+            <div className="bg-[#141414] border border-[#333] p-3 flex items-center gap-3">
+              <div className="w-10 h-10 bg-[#a855f7] text-black font-mono font-bold flex items-center justify-center text-sm">
+                YOU
+              </div>
+              <div>
+                <div className="font-serif font-bold text-sm text-white">anonymous_ghost_42</div>
+                <div className="font-mono text-[10px] text-gray-400">{isMicActive ? 'Speaking' : 'Muted'}</div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Audio Controls & In-Room Chat */}
-        <div className="border-t border-[#262626] pt-3 space-y-3">
-          <div className="flex items-center justify-between bg-[#141414] border border-[#333] p-3">
-            <div className="flex items-center gap-2">
-              <Volume2 className="w-4 h-4 text-[#ccff00]" />
-              <span className="font-mono text-xs text-gray-300">Spatial Audio Enabled</span>
-            </div>
-            <BrutalistButton 
-              variant={isMicActive ? 'danger' : 'primary'} 
-              size="sm"
+        {/* Bottom Audio Controls & Chat */}
+        <div className="space-y-3 pt-3 border-t border-[#262626]">
+          <div className="flex items-center justify-between gap-3">
+            <button
               onClick={toggleMic}
+              className={`flex-1 py-3 px-4 font-mono text-xs font-bold uppercase flex items-center justify-center gap-2 border-2 transition-all ${
+                isMicActive 
+                  ? 'bg-[#ccff00] text-black border-[#ccff00] shadow-[2px_2px_0px_#a855f7]' 
+                  : 'bg-[#1a1a1a] text-gray-300 border-[#444] hover:text-white'
+              }`}
             >
-              {isMicActive ? <><MicOff className="w-3.5 h-3.5" /> Mute</> : <><Mic className="w-3.5 h-3.5" /> Request Mic</>}
-            </BrutalistButton>
-          </div>
+              {isMicActive ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4 text-red-400" />}
+              {isMicActive ? 'Mic Active (Live)' : 'Unmute Mic'}
+            </button>
 
-          <form onSubmit={handleSend} className="flex gap-2">
-            <input
-              type="text"
-              placeholder="Send anonymous room reaction..."
-              value={chatInput}
-              onChange={e => setChatInput(e.target.value)}
-              className="flex-1 bg-[#161616] border border-[#333] px-3 py-2 font-mono text-xs text-white outline-none focus:border-[#ccff00]"
-            />
-            <BrutalistButton variant="primary" size="sm" type="submit">
-              <Send className="w-3.5 h-3.5 text-black" />
-            </BrutalistButton>
-          </form>
+            <button
+              onClick={leaveRoom}
+              className="py-3 px-4 bg-red-900/30 border border-red-500 text-red-300 font-mono text-xs font-bold uppercase hover:bg-red-900/50"
+            >
+              Leave
+            </button>
+          </div>
         </div>
       </div>
     );
   }
 
-  // Room Discovery List
+  // Default: Rooms Directory
   return (
-    <div className="p-4 space-y-4">
+    <div className="p-4 space-y-5">
       <div>
-        <h2 className="font-serif text-2xl font-black text-white">Topic Rooms</h2>
-        <p className="font-mono text-xs text-gray-400">Live anonymous voice & text discussion spaces</p>
+        <div className="flex items-center gap-2 mb-1">
+          <Radio className="w-5 h-5 text-[#ccff00]" />
+          <BrutalistBadge variant="lime">LIVE TOPIC AUDIO ROOMS</BrutalistBadge>
+        </div>
+        <h2 className="font-serif text-2xl font-black text-white">Encrypted Voice Pods</h2>
+        <p className="font-mono text-xs text-gray-400">Anonymous drop-in voice rooms organized by topic chaos.</p>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {rooms.map(room => (
-          <BrutalistCard key={room.id} className="space-y-3">
-            <div className="flex justify-between items-start">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#ccff00] animate-ping" />
-                <BrutalistBadge variant="purple">{room.category}</BrutalistBadge>
+          <BrutalistCard key={room.id} isHot={room.isLive} className="space-y-3">
+            <div className="flex items-start justify-between">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <BrutalistBadge variant={room.isLive ? 'lime' : 'grey'}>
+                    {room.category}
+                  </BrutalistBadge>
+                  {room.isLive && (
+                    <span className="flex items-center gap-1 font-mono text-[10px] text-[#ccff00] font-bold">
+                      <span className="w-2 h-2 rounded-full bg-[#ccff00] animate-ping" /> LIVE NOW
+                    </span>
+                  )}
+                </div>
+                <h3 className="font-serif text-lg font-bold text-white">{room.title}</h3>
               </div>
-              <div className="flex items-center gap-1 font-mono text-xs text-gray-400">
-                <Users className="w-3.5 h-3.5 text-[#ccff00]" />
-                <span>{room.listeners} Listening</span>
+
+              <div className="text-right">
+                <div className="font-mono text-xs font-bold text-white flex items-center gap-1 justify-end">
+                  <Users className="w-3.5 h-3.5 text-[#ccff00]" /> {room.listeners}
+                </div>
+                <div className="font-mono text-[9px] text-gray-500 uppercase">Listening</div>
               </div>
             </div>
 
-            <div>
-              <h3 className="font-serif text-lg font-bold text-white">{room.title}</h3>
-              <p className="font-sans text-xs text-gray-400 mt-1 italic border-l border-gray-700 pl-2">
-                "{room.recentDebate}"
-              </p>
-            </div>
+            <p className="font-mono text-xs text-gray-300 bg-[#141414] p-2.5 border-l-2 border-[#a855f7]">
+              Current debate: "{room.recentDebate}"
+            </p>
 
-            <div className="flex justify-between items-center pt-2 border-t border-[#222]">
-              <div className="font-mono text-[11px] text-gray-500">
-                Host: <span className="text-white">{room.hostHandle}</span>
-              </div>
-              <BrutalistButton variant="primary" size="sm" onClick={() => joinRoom(room)}>
-                <Radio className="w-3 h-3 text-black" /> Drop In
+            <div className="flex items-center justify-between pt-2 border-t border-[#222]">
+              <span className="font-mono text-[10px] text-gray-400">
+                Host: <strong className="text-white">{room.hostHandle}</strong>
+              </span>
+
+              <BrutalistButton
+                variant="primary"
+                size="sm"
+                onClick={() => {
+                  if (isGuest) {
+                    triggerGuestLock('Live Audio Room', 'Guest users cannot enter live audio debates or speak. Register with your phone number to join the stage.');
+                    return;
+                  }
+                  joinRoom(room);
+                }}
+                className="flex items-center gap-1"
+              >
+                <Radio className="w-3.5 h-3.5 text-black" />
+                Drop In Audio
               </BrutalistButton>
             </div>
           </BrutalistCard>

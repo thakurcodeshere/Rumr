@@ -4,7 +4,14 @@ import { useApp } from '../../lib/store';
 import { BrutalistBadge } from '../ui/BrutalistBadge';
 
 export const AppHeader: React.FC = () => {
-  const { currentView, navigate, user, isMobileFrame, toggleMobileFrame, activeAudioRoom } = useApp();
+  const { 
+    currentView, 
+    navigate, 
+    user, 
+    isMobileFrame, 
+    toggleMobileFrame, 
+    activeAudioRoom
+  } = useApp();
 
   return (
     <header className="bg-[#111111] border-b-2 border-[#262626] px-4 py-3 sticky top-0 z-30">
@@ -17,7 +24,9 @@ export const AppHeader: React.FC = () => {
           <div>
             <div className="flex items-center gap-1.5">
               <span className="font-serif font-black text-lg tracking-tight text-white">RUMR</span>
-              <span className="font-mono text-[9px] bg-[#a855f7] text-black px-1 font-bold">TOPIC-FIRST</span>
+              <span className="font-mono text-[9px] bg-[#a855f7] text-black px-1.5 py-0.5 font-bold uppercase tracking-wider">
+                TOPIC-FIRST
+              </span>
             </div>
           </div>
         </div>

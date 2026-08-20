@@ -1,0 +1,305 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>28: Topic Rooms Discovery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#353535",
+                        "on-secondary-container": "#d6a9ff",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#e5e2e1",
+                        "on-primary-container": "#556d00",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-surface": "#e5e2e1",
+                        "background": "#131313",
+                        "on-primary-fixed": "#161e00",
+                        "surface": "#131313",
+                        "tertiary-fixed": "#e2e2e2",
+                        "secondary-fixed": "#f0dbff",
+                        "surface-variant": "#353535",
+                        "primary-fixed-dim": "#abd600",
+                        "tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "error": "#ffb4ab",
+                        "surface-tint": "#abd600",
+                        "primary-fixed": "#c3f400",
+                        "on-tertiary-container": "#636565",
+                        "on-error-container": "#ffdad6",
+                        "surface-container": "#20201f",
+                        "surface-bright": "#393939",
+                        "on-background": "#e5e2e1",
+                        "primary-container": "#c3f400",
+                        "tertiary-container": "#e2e2e2",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "primary": "#ffffff",
+                        "secondary": "#ddb7ff",
+                        "surface-container-low": "#1c1b1b",
+                        "outline": "#8e9379",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-tertiary": "#2f3131",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#c4c9ac",
+                        "on-primary": "#283500",
+                        "surface-dim": "#131313",
+                        "inverse-on-surface": "#313030",
+                        "secondary-container": "#6f00be",
+                        "inverse-primary": "#506600",
+                        "on-secondary": "#490080",
+                        "on-secondary-fixed": "#2c0051",
+                        "outline-variant": "#444933",
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container-high": "#2a2a2a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-lg": "48px",
+                        "margin-desktop": "40px",
+                        "stack-sm": "8px",
+                        "stack-md": "24px",
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-lg": ["Playfair Display"],
+                        "label-bold": ["Inter"],
+                        "display-lg": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Brutalist / Clean Chaos custom overrides */
+        body {
+            background-color: #000000; /* Void Black */
+            color: #e5e2e1;
+        }
+        .btn-primary {
+            background-color: #c3f400; /* Toxic Lime */
+            color: #000000;
+            border: none;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover {
+            box-shadow: 4px 4px 0px 0px #A855F7; /* Electric Purple */
+            transform: translate(-2px, -2px);
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            transition: all 0.2s ease;
+        }
+        .btn-secondary:hover {
+            box-shadow: 4px 4px 0px 0px #A855F7;
+            transform: translate(-2px, -2px);
+        }
+        .topic-card {
+            background-color: #1A1A1A; /* Surface Grey */
+            border: 2px solid #ffffff;
+            transition: border-color 0.2s ease;
+        }
+        .topic-card.trending {
+            border-color: #c3f400; /* Toxic Lime */
+        }
+        .gossip-tag {
+            background-color: #A855F7;
+            color: #000000;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            border-radius: 0;
+            padding: 4px 8px;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+        .input-field {
+            background-color: #000000;
+            border: none;
+            border-bottom: 2px solid #353535;
+            color: #e5e2e1;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .input-field:focus {
+            outline: none;
+            border-bottom-color: #c3f400;
+        }
+        .input-field::placeholder {
+            color: #636565;
+        }
+        /* TopAppBar / BottomNavBar specifics (no borders on shell) */
+        .no-shell-border {
+            border: none !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5); /* Subtle drop shadow instead of lines */
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col font-body-md text-body-md pt-16 md:pb-0 w-[390px] h-[844px] mx-auto overflow-x-hidden relative overflow-hidden">
+<!-- TopAppBar (Mobile & Desktop) -->
+<header class="bg-background dark:bg-background fixed docked full-width top-0 z-50 flex justify-between items-center w-full px-margin-mobile h-16 no-shell-border">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-container dark:text-primary-container" style="font-variation-settings: 'FILL' 1;">sensors</span>
+<span class="font-label-mono text-label-mono font-bold tracking-widest text-primary-container dark:text-primary-container uppercase">LONDON_UK</span>
+</div>
+<!-- Desktop Nav Cluster -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary-container transition-colors font-label-mono text-label-mono uppercase" href="#">explore</a>
+<a class="text-primary-container dark:text-primary-container hover:text-primary-container transition-colors font-label-mono text-label-mono uppercase" href="#">forum</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary-container transition-colors font-label-mono text-label-mono uppercase" href="#">favorite</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary-container transition-colors font-label-mono text-label-mono uppercase" href="#">person</a>
+</nav>
+<div>
+<span class="material-symbols-outlined text-primary-container dark:text-primary-container" style="font-variation-settings: 'FILL' 1;">chevron_left</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop py-stack-md flex flex-col gap-stack-lg overflow-y-auto">
+<!-- Search & Filters Header -->
+<section class="flex flex-col md:flex-row justify-between items-start md:items-end gap-stack-md">
+<div class="w-full md:w-1/2">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg mb-stack-sm text-tertiary">ACTIVE_CHANNELS</h1>
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="input-field w-full pl-8 py-2 bg-transparent focus:ring-0" placeholder="LOCATE_TOPIC..." type="text">
+</div>
+</div>
+<div class="flex gap-4">
+<button class="btn-primary px-6 py-2">CITY</button>
+<button class="btn-secondary px-6 py-2 font-label-mono text-label-mono uppercase font-bold">GLOBAL</button>
+</div>
+</section>
+<!-- Topic Grid (Bento/Asymmetric) -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Featured Trending Room -->
+<article class="topic-card trending md:col-span-8 p-stack-md flex flex-col justify-between min-h-[300px] relative overflow-hidden">
+<div class="absolute top-4 right-4 flex gap-2">
+<span class="gossip-tag">TRENDING</span>
+<span class="gossip-tag bg-primary-container text-black">URGENT</span>
+</div>
+<div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-tertiary mb-2">Office Politics (Gurgaon)</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">Corporate restructuring rumors. High volatility detected in senior management nodes.</p>
+</div>
+<div class="flex justify-between items-end mt-stack-md">
+<div class="flex flex-col">
+<span class="font-label-mono text-label-mono text-on-surface-variant">ACTIVE_RUMORS</span>
+<span class="font-label-bold text-label-bold text-primary-container text-xl">1,402</span>
+</div>
+<button class="btn-primary px-8 py-3">JOIN_NODE</button>
+</div>
+</article>
+<!-- Secondary Room -->
+<article class="topic-card md:col-span-4 p-stack-md flex flex-col justify-between min-h-[300px]">
+<div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-tertiary mb-2">Dating Disasters</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Unverified encounter reports.</p>
+</div>
+<div class="flex justify-between items-end mt-stack-md">
+<div class="flex flex-col">
+<span class="font-label-mono text-label-mono text-on-surface-variant">ACTIVE_RUMORS</span>
+<span class="font-label-bold text-label-bold text-tertiary text-lg">845</span>
+</div>
+<button class="btn-secondary px-6 py-2 font-label-mono text-label-mono font-bold uppercase">JOIN</button>
+</div>
+</article>
+<!-- Standard Rooms -->
+<article class="topic-card md:col-span-4 p-stack-md flex flex-col justify-between min-h-[250px]">
+<div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-tertiary mb-2">Tech Layoffs_Q3</h2>
+</div>
+<div class="flex justify-between items-end mt-stack-md">
+<div class="flex flex-col">
+<span class="font-label-mono text-label-mono text-on-surface-variant">ACTIVE_RUMORS</span>
+<span class="font-label-bold text-label-bold text-tertiary text-lg">3,210</span>
+</div>
+<button class="btn-secondary px-6 py-2 font-label-mono text-label-mono font-bold uppercase">JOIN</button>
+</div>
+</article>
+<article class="topic-card md:col-span-4 p-stack-md flex flex-col justify-between min-h-[250px]">
+<div class="absolute top-4 right-4">
+<span class="gossip-tag">LOCKED</span>
+</div>
+<div class="relative z-10">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-tertiary mb-2">Project 'Neon'</h2>
+</div>
+<!-- The Rumor Blur -->
+<div class="absolute inset-0 backdrop-blur-[15px] bg-secondary-container/20 flex items-center justify-center z-20">
+<span class="font-label-mono text-label-mono text-tertiary font-bold tracking-widest bg-surface px-4 py-2 border-2 border-tertiary">TOPIC LOCKED</span>
+</div>
+<div class="flex justify-between items-end mt-stack-md relative z-10 opacity-50">
+<div class="flex flex-col">
+<span class="font-label-mono text-label-mono text-on-surface-variant">ACTIVE_RUMORS</span>
+<span class="font-label-bold text-label-bold text-tertiary text-lg">??</span>
+</div>
+<button class="btn-secondary px-6 py-2 font-label-mono text-label-mono font-bold uppercase disabled">JOIN</button>
+</div>
+</article>
+<article class="topic-card md:col-span-4 p-stack-md flex flex-col justify-between min-h-[250px]">
+<div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-tertiary mb-2">Underground Gigs</h2>
+</div>
+<div class="flex justify-between items-end mt-stack-md">
+<div class="flex flex-col">
+<span class="font-label-mono text-label-mono text-on-surface-variant">ACTIVE_RUMORS</span>
+<span class="font-label-bold text-label-bold text-tertiary text-lg">112</span>
+</div>
+<button class="btn-secondary px-6 py-2 font-label-mono text-label-mono font-bold uppercase">JOIN</button>
+</div>
+</article>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden bg-surface-container-lowest dark:bg-surface-container-lowest fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-4 no-shell-border">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">explore</span>
+<span class="font-label-mono text-label-mono mt-1 hidden">explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary-container dark:text-primary-container scale-110 transform translate-y-[-2px] transition-all duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">forum</span>
+<span class="font-label-mono text-label-mono mt-1 hidden">forum</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">favorite</span>
+<span class="font-label-mono text-label-mono mt-1 hidden">favorite</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="font-label-mono text-label-mono mt-1 hidden">person</span>
+</a>
+</nav>
+
+
+
+
+
+
+</body></html>

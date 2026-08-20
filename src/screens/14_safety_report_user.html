@@ -1,0 +1,290 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=390, height=844, initial-scale=1.0" name="viewport">
+<title>Safety &amp; Reporting</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&amp;family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#e2e2e2",
+                        "inverse-on-surface": "#313030",
+                        "error-container": "#93000a",
+                        "tertiary": "#ffffff",
+                        "on-surface-variant": "#c4c9ac",
+                        "surface-dim": "#131313",
+                        "on-surface": "#e5e2e1",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container": "#20201f",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary": "#2f3131",
+                        "surface-tint": "#abd600",
+                        "on-secondary-container": "#d6a9ff",
+                        "primary-container": "#c3f400",
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary": "#ddb7ff",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-bright": "#393939",
+                        "surface-container-high": "#2a2a2a",
+                        "primary-fixed-dim": "#abd600",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "inverse-primary": "#506600",
+                        "secondary-fixed": "#f0dbff",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "primary-fixed": "#c3f400",
+                        "background": "#131313",
+                        "tertiary-container": "#e2e2e2",
+                        "on-primary": "#283500",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-container-highest": "#353535",
+                        "on-tertiary-container": "#636565",
+                        "on-primary-container": "#556d00",
+                        "outline-variant": "#444933",
+                        "outline": "#8e9379",
+                        "primary": "#ffffff",
+                        "surface-variant": "#353535",
+                        "on-secondary-fixed": "#2c0051",
+                        "surface": "#131313",
+                        "surface-container-low": "#1c1b1b",
+                        "secondary-container": "#6f00be",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-primary-fixed": "#161e00",
+                        "on-secondary": "#490080",
+                        "on-background": "#e5e2e1",
+                        "error": "#ffb4ab",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px",
+                        "unit": "4px",
+                        "stack-md": "24px",
+                        "gutter": "16px",
+                        "stack-sm": "8px",
+                        "stack-lg": "48px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "body-md": ["Inter"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-lg": ["Playfair Display"],
+                        "label-bold": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-mono": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-bold": ["14px", {"lineHeight": "1.2", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+            font-family: theme('fontFamily.body-md');
+            margin: 0;
+            padding: 0;
+            width: 390px;
+            height: 844px;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Custom Checkbox Styling for the specific dark/brutalist look */
+        .report-checkbox {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid theme('colors.outline');
+            background-color: transparent;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .report-checkbox:checked {
+            border-color: theme('colors.primary-fixed');
+            background-color: theme('colors.primary-fixed');
+        }
+
+        .report-checkbox:checked::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 6px;
+            width: 5px;
+            height: 10px;
+            border: solid theme('colors.surface-container-lowest');
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        /* Tonal Layer for Category Items */
+        .category-item {
+            background-color: theme('colors.surface-container-low');
+            border: 2px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .category-item.selected {
+            border-color: theme('colors.primary-fixed');
+        }
+    </style>
+</head>
+<body class="bg-background dark:bg-background relative">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile py-4 bg-background border-b-2 border-surface-variant">
+<button aria-label="Close" class="text-on-surface-variant hover:text-primary-fixed transition-colors active:opacity-80">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">close</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">40: Safety: Report User</h1>
+<div class="w-6 h-6"></div> <!-- Spacer for flex balance -->
+</header>
+<!-- Main Content Canvas -->
+<!-- Added top padding to account for fixed header -->
+<main class="flex-1 px-margin-mobile pt-[88px] pb-[100px] overflow-y-auto">
+<!-- Header Text -->
+<div class="mb-stack-md">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-stack-sm">Why are you reporting this user?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                Your report is anonymous. If someone is in immediate danger, call local emergency services.
+            </p>
+</div>
+<!-- Warning Box -->
+<div class="bg-surface-container border-2 border-outline-variant p-gutter mb-stack-md">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary-fixed mt-1" style="font-variation-settings: 'FILL' 1;">security</span>
+<div>
+<span class="font-label-mono text-label-mono text-primary-fixed block mb-1 uppercase">Secure Protocol</span>
+<p class="font-body-md text-body-md text-on-surface text-sm">
+                        All reports are encrypted and sent directly to our moderation team. False reporting is heavily penalized.
+                    </p>
+</div>
+</div>
+</div>
+<!-- Reporting Categories (Bento-ish Grid) -->
+<form class="space-y-unit" id="report-form">
+<!-- Category: Harassment -->
+<label class="category-item flex items-center justify-between p-gutter cursor-pointer">
+<span class="font-label-bold text-label-bold text-primary tracking-wide">Harassment or Bullying</span>
+<input class="report-checkbox" name="reason" type="checkbox" value="harassment">
+</label>
+<!-- Category: Spam -->
+<label class="category-item flex items-center justify-between p-gutter cursor-pointer">
+<span class="font-label-bold text-label-bold text-primary tracking-wide">Spam or Misleading</span>
+<input class="report-checkbox" name="reason" type="checkbox" value="spam">
+</label>
+<!-- Category: Scam -->
+<label class="category-item flex items-center justify-between p-gutter cursor-pointer">
+<span class="font-label-bold text-label-bold text-primary tracking-wide">Scam or Fraud</span>
+<input class="report-checkbox" name="reason" type="checkbox" value="scam">
+</label>
+<!-- Category: Threat -->
+<label class="category-item flex items-center justify-between p-gutter cursor-pointer">
+<span class="font-label-bold text-label-bold text-primary tracking-wide">Threat or Violence</span>
+<input class="report-checkbox" name="reason" type="checkbox" value="threat">
+</label>
+<!-- Category: Sexual misconduct -->
+<label class="category-item flex items-center justify-between p-gutter cursor-pointer">
+<span class="font-label-bold text-label-bold text-primary tracking-wide">Sexual Misconduct</span>
+<input class="report-checkbox" name="reason" type="checkbox" value="sexual_misconduct">
+</label>
+<!-- Category: Personal information -->
+<label class="category-item flex items-center justify-between p-gutter cursor-pointer">
+<span class="font-label-bold text-label-bold text-primary tracking-wide">Sharing Personal Info</span>
+<input class="report-checkbox" name="reason" type="checkbox" value="personal_info">
+</label>
+<!-- Category: Other -->
+<label class="category-item flex items-center justify-between p-gutter cursor-pointer">
+<span class="font-label-bold text-label-bold text-primary tracking-wide">Other</span>
+<input class="report-checkbox" name="reason" type="checkbox" value="other">
+</label>
+<!-- Additional Details (Hidden by default, shown if Other is selected or for more context) -->
+<div class="mt-stack-sm pt-stack-sm border-t-2 border-surface-variant hidden" id="details-section">
+<label class="font-label-mono text-label-mono text-on-surface-variant block mb-2 uppercase" for="report-details">Provide context (Optional)</label>
+<textarea class="w-full bg-surface-container-lowest border-2 border-outline-variant text-on-surface font-body-md p-3 focus:outline-none focus:border-primary-fixed placeholder-outline" id="report-details" placeholder="DECRYPTING... Type additional details here." rows="3"></textarea>
+</div>
+</form>
+</main>
+<!-- Bottom Action Area -->
+<div class="fixed bottom-0 w-full bg-surface-container border-t-2 border-surface-variant px-margin-mobile py-4 z-40">
+<button class="w-full bg-primary-fixed text-surface-container-lowest font-label-mono text-label-mono font-bold uppercase py-4 flex justify-center items-center gap-2 hover:shadow-[4px_4px_0px_0px_#A855F7] transition-all active:translate-y-1 active:shadow-none disabled:opacity-50 disabled:cursor-not-allowed" disabled="" id="submit-btn">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">warning</span>
+            SUBMIT REPORT
+        </button>
+</div>
+<script>
+        // Micro-interaction: Toggle selection border and enable submit button
+        document.addEventListener('DOMContentLoaded', () => {
+            const checkboxes = document.querySelectorAll('.report-checkbox');
+            const submitBtn = document.getElementById('submit-btn');
+            const detailsSection = document.getElementById('details-section');
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    const parentLabel = e.target.closest('label');
+                    
+                    // Toggle selection border
+                    if (e.target.checked) {
+                        parentLabel.classList.add('selected');
+                    } else {
+                        parentLabel.classList.remove('selected');
+                    }
+
+                    // Enable submit if at least one checked
+                    const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+                    submitBtn.disabled = !anyChecked;
+
+                    // Show details if 'other' is checked
+                    const otherCheckbox = document.querySelector('input[value="other"]');
+                    if (otherCheckbox.checked) {
+                        detailsSection.classList.remove('hidden');
+                    } else {
+                        // Optional: Keep it hidden unless specifically 'other', or you could show it anytime something is checked.
+                        // Let's show it if ANY is checked for better reporting.
+                        if(anyChecked) {
+                           detailsSection.classList.remove('hidden');
+                        } else {
+                           detailsSection.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+
+            // Simulate submit
+            submitBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if(!submitBtn.disabled) {
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> ENCRYPTING...';
+                    setTimeout(() => {
+                        submitBtn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> SUBMITTED';
+                        submitBtn.classList.replace('bg-primary-fixed', 'bg-surface-variant');
+                        submitBtn.classList.replace('text-surface-container-lowest', 'text-primary');
+                    }, 1500);
+                }
+            });
+        });
+    </script>
+
+
+</body></html>

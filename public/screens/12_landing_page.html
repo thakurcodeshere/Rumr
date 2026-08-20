@@ -1,0 +1,266 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>43: Landing Page</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=JetBrains+Mono:wght@100..800&amp;family=Inter:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed": "#c3f400",
+                      "on-secondary": "#490080",
+                      "on-secondary-fixed-variant": "#6900b3",
+                      "surface-variant": "#353535",
+                      "secondary-fixed-dim": "#ddb7ff",
+                      "on-surface-variant": "#c4c9ac",
+                      "surface-dim": "#131313",
+                      "on-secondary-fixed": "#2c0051",
+                      "primary": "#ffffff",
+                      "surface-bright": "#393939",
+                      "on-tertiary": "#2f3131",
+                      "tertiary": "#ffffff",
+                      "on-primary-container": "#556d00",
+                      "surface-container-lowest": "#0e0e0e",
+                      "inverse-on-surface": "#313030",
+                      "tertiary-fixed-dim": "#c6c6c7",
+                      "inverse-surface": "#e5e2e1",
+                      "on-surface": "#e5e2e1",
+                      "surface-container-highest": "#353535",
+                      "secondary-fixed": "#f0dbff",
+                      "error-container": "#93000a",
+                      "on-primary": "#283500",
+                      "on-background": "#e5e2e1",
+                      "primary-fixed-dim": "#abd600",
+                      "secondary-container": "#6f00be",
+                      "on-tertiary-container": "#636565",
+                      "surface-container-high": "#2a2a2a",
+                      "secondary": "#ddb7ff",
+                      "primary-container": "#c3f400",
+                      "outline-variant": "#444933",
+                      "surface-container-low": "#1c1b1b",
+                      "tertiary-container": "#e2e2e2",
+                      "surface": "#131313",
+                      "error": "#ffb4ab",
+                      "outline": "#8e9379",
+                      "surface-container": "#20201f",
+                      "inverse-primary": "#506600",
+                      "on-tertiary-fixed-variant": "#454747",
+                      "background": "#131313",
+                      "tertiary-fixed": "#e2e2e2",
+                      "surface-tint": "#abd600",
+                      "on-primary-fixed": "#161e00",
+                      "on-error-container": "#ffdad6",
+                      "on-error": "#690005",
+                      "on-secondary-container": "#d6a9ff",
+                      "on-tertiary-fixed": "#1a1c1c",
+                      "on-primary-fixed-variant": "#3c4d00"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "stack-lg": "48px",
+                      "stack-md": "24px",
+                      "stack-sm": "8px",
+                      "gutter": "16px",
+                      "unit": "4px",
+                      "margin-desktop": "40px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Playfair Display"
+                      ],
+                      "display-lg": [
+                              "Playfair Display"
+                      ],
+                      "label-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ],
+                      "label-bold": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "900"
+                              }
+                      ],
+                      "label-mono": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-bold": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .brutalist-border {
+            border: 2px solid theme('colors.primary');
+        }
+        .brutalist-border-lime {
+            border: 2px solid theme('colors.primary-fixed');
+        }
+        .shadow-hard-lime {
+            box-shadow: 4px 4px 0 0 theme('colors.primary-fixed');
+        }
+        .shadow-hard-purple {
+            box-shadow: 4px 4px 0 0 theme('colors.secondary-container');
+        }
+        .blur-mystic {
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface-dim text-primary min-h-screen flex flex-col font-body-md overflow-x-hidden selection:bg-primary-fixed selection:text-on-primary-fixed" style="width: 390px; height: 844px; margin: 0px auto; overflow: hidden auto; position: relative; background-attachment: fixed;">
+<!-- Top Navigation (Hidden as per intent logic, but keeping the requested header style if needed, though this is a landing page so we might want a minimal brand header) -->
+<header class="flex justify-between items-center px-margin-mobile py-4 bg-background w-full fixed top-0 z-50 border-b-2 border-surface-variant md:px-margin-desktop max-w-[390px]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed">sensors</span>
+<span class="font-label-mono text-label-mono uppercase tracking-widest text-primary-fixed">LONDON_UK</span>
+</div>
+<div class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg font-bold tracking-tight">RUMR</div>
+</header>
+<main class="flex-grow pt-24 flex flex-col">
+<!-- Hero Section -->
+<section class="flex flex-col items-center justify-center text-center px-margin-mobile md:px-margin-desktop py-stack-lg relative overflow-hidden min-h-[500px]">
+<!-- Background abstraction -->
+<div class="absolute inset-0 opacity-20 pointer-events-none flex items-center justify-center">
+<div class="bg-cover bg-center w-full h-full" data-alt="A highly abstract, glitch art style digital texture in pure deep black and off-white. The texture looks like encrypted data bleeding through a corrupted screen, adding a raw, underground cyberpunk atmosphere. It feels chaotic, mysterious, and slightly dangerous." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDymu_OIPey5BfsZVstfgHuBcF9CuYlvHnHAjmDPfbBYv9w8g1xw7eaFBOUvnKJgQ6N3ilI3hOCTFVLoKApP6X2ApkzPvP6n2fdGWBfaBeGLQJ-0sDe9XsQsg-6boWhbVvhVkBMHwr5fIzumC4QAd1lo1dmuL_itvwj6W0vF-iWQXMAFlcSOvbmvq3TsA-jwX4tpbA1p3TpCiHPQx9voDYpxH2cqVv0XLJUgcAWDo1HOLhRrJThfK8y-A')"></div>
+</div>
+<div class="relative z-10 max-w-4xl mx-auto flex flex-col gap-stack-md">
+<div class="inline-block mx-auto px-4 py-2 bg-secondary-container brutalist-border mb-4">
+<span class="font-label-mono text-label-mono text-primary uppercase">Beta Access // Encrypted</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-primary tracking-tighter uppercase max-w-3xl mx-auto leading-none">
+                    THE ANTI-DATING APP.
+                </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto md:text-lg">
+                    Connect over the things you actually want to talk about. Skip the small talk. Embrace the chaos.
+                </p>
+<div class="mt-stack-md flex flex-col sm:flex-row items-center justify-center gap-gutter">
+<button class="bg-primary-fixed text-on-primary-fixed font-label-mono text-label-mono uppercase px-8 py-4 w-full sm:w-auto hover:shadow-hard-purple hover:-translate-y-1 transition-all duration-200 border-2 border-primary-fixed">
+                        JOIN THE CHAOS
+                    </button>
+<button class="bg-transparent text-primary font-label-mono text-label-mono uppercase px-8 py-4 w-full sm:w-auto hover:bg-surface-variant transition-all duration-200 brutalist-border">
+                        READ THE MANIFESTO
+                    </button>
+</div>
+</div>
+</section>
+<!-- Topics Preview Section -->
+<section class="px-margin-mobile md:px-margin-desktop bg-surface py-4">
+<div class="max-w-6xl mx-auto flex flex-col gap-stack-md">
+<div class="flex items-center justify-between border-b-2 border-surface-variant pb-4 mb-stack-sm">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg uppercase">Trending Topics</h2>
+<span class="font-label-mono text-label-mono text-primary-fixed">LIVE_DATA</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Topic Card 1: Office Politics -->
+<div class="bg-surface-dim brutalist-border-lime p-6 flex flex-col h-full relative group hover:-translate-y-1 transition-transform">
+<div class="absolute -top-3 -right-3 bg-secondary-container px-2 py-1 brutalist-border z-10">
+<span class="font-label-mono text-[10px] text-primary">HOT</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile mb-auto break-words">Office Politics &amp; Survival</h3>
+<div class="mt-stack-md flex flex-col gap-unit">
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+                                "Anyone else dealing with a micromanaging boss who uses corporate jargon to mask incompetence? Let's decode."
+                            </p>
+<div class="flex justify-between items-center mt-4 border-t-2 border-surface-variant pt-2">
+<span class="font-label-mono text-label-mono text-primary-fixed">MATCH_RATE: 94%</span>
+<span class="material-symbols-outlined text-surface-variant group-hover:text-primary transition-colors">arrow_forward</span>
+</div>
+</div>
+</div>
+<!-- Topic Card 2: Situationships -->
+<div class="bg-surface-dim brutalist-border p-6 flex flex-col h-full relative group hover:-translate-y-1 transition-transform">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile mb-auto break-words">Situationships Deconstructed</h3>
+<div class="mt-stack-md flex flex-col gap-unit">
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+                                "We text every day, hang out on weekends, but they 'aren't ready for a label'. Analyzing the gray area."
+                            </p>
+<div class="flex justify-between items-center mt-4 border-t-2 border-surface-variant pt-2">
+<span class="font-label-mono text-label-mono text-on-surface-variant">MATCH_RATE: 88%</span>
+<span class="material-symbols-outlined text-surface-variant group-hover:text-primary transition-colors">arrow_forward</span>
+</div>
+</div>
+</div>
+<!-- Topic Card 3: Ghosting -->
+<div class="bg-surface-dim brutalist-border p-6 flex flex-col h-full relative group hover:-translate-y-1 transition-transform overflow-hidden">
+<!-- Blur Overlay for "Locked" feel -->
+<div class="absolute inset-0 bg-surface-dim/80 blur-mystic z-10 flex items-center justify-center flex-col gap-2">
+<span class="material-symbols-outlined text-primary-fixed text-4xl">lock</span>
+<span class="font-label-mono text-label-mono tracking-widest uppercase">TOPIC LOCKED</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant">JOIN TO DECRYPT</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile mb-auto break-words opacity-50">The Art of Ghosting</h3>
+<div class="mt-stack-md flex flex-col gap-unit opacity-50">
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+                                [ENCRYPTED DATA] [ENCRYPTED DATA] [ENCRYPTED DATA] [ENCRYPTED DATA]
+                            </p>
+<div class="flex justify-between items-center mt-4 border-t-2 border-surface-variant pt-2">
+<span class="font-label-mono text-label-mono text-on-surface-variant">MATCH_RATE: --%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+
+
+
+
+
+
+</body></html>

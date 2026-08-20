@@ -1,0 +1,269 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>30: Topic Detail: Office Politics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#8e9379",
+                        "inverse-on-surface": "#313030",
+                        "surface": "#131313",
+                        "on-secondary": "#490080",
+                        "on-surface": "#e5e2e1",
+                        "tertiary": "#ffffff",
+                        "on-error": "#690005",
+                        "secondary": "#ddb7ff",
+                        "inverse-primary": "#506600",
+                        "on-tertiary-container": "#636565",
+                        "on-error-container": "#ffdad6",
+                        "primary-fixed": "#c3f400",
+                        "on-tertiary": "#2f3131",
+                        "surface-container-low": "#1c1b1b",
+                        "background": "#131313",
+                        "primary-container": "#c3f400",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "surface-tint": "#abd600",
+                        "primary-fixed-dim": "#abd600",
+                        "error": "#ffb4ab",
+                        "tertiary-container": "#e2e2e2",
+                        "on-background": "#e5e2e1",
+                        "primary": "#ffffff",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-primary-fixed": "#161e00",
+                        "error-container": "#93000a",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "inverse-surface": "#e5e2e1",
+                        "on-secondary-container": "#d6a9ff",
+                        "surface-variant": "#353535",
+                        "on-surface-variant": "#c4c9ac",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-bright": "#393939",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "surface-dim": "#131313",
+                        "on-primary-container": "#556d00",
+                        "surface-container-highest": "#353535",
+                        "secondary-container": "#6f00be",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "on-primary": "#283500",
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary-fixed": "#f0dbff",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container": "#20201f",
+                        "outline-variant": "#444933",
+                        "on-secondary-fixed": "#2c0051"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "stack-md": "24px",
+                        "gutter": "16px",
+                        "stack-lg": "48px",
+                        "unit": "4px",
+                        "stack-sm": "8px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Playfair Display"],
+                        "label-bold": ["Inter"],
+                        "headline-lg": ["Playfair Display"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900"}],
+                        "label-bold": ["14px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-mono": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #000000; color: #e5e2e1; }
+        .brutalist-border { border: 2px solid #ffffff; }
+        .brutalist-border-primary { border: 2px solid #c3f400; }
+        .hard-shadow-primary { box-shadow: 4px 4px 0 0 #c3f400; }
+        .hard-shadow-secondary { box-shadow: 4px 4px 0 0 #a855f7; }
+        .btn-primary { background-color: #c3f400; color: #000000; text-transform: uppercase; border: 2px solid #c3f400; transition: all 0.2s ease; }
+        .btn-primary:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 0 #a855f7; }
+        .btn-primary:active { transform: translate(0, 0); box-shadow: 0 0 0 0 #a855f7; }
+        .btn-secondary { background-color: transparent; color: #ffffff; border: 2px solid #ffffff; text-transform: uppercase; transition: all 0.2s ease; }
+        .btn-secondary:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 0 #a855f7; border-color: #a855f7; }
+        .btn-secondary:active { transform: translate(0, 0); box-shadow: 0 0 0 0 #a855f7; }
+        
+        .gossip-tag { background-color: #a855f7; color: #000000; padding: 4px 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; border: none; border-radius: 0; }
+        
+        /* Blur for mystery */
+        .mystery-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background-color: rgba(111, 0, 190, 0.2); border: 2px solid rgba(168, 85, 247, 0.5); }
+        
+        /* Hide scrollbar but keep functionality */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Loading Bar Animation */
+        @keyframes stepLoad {
+            0% { width: 0%; }
+            20% { width: 20%; }
+            25% { width: 40%; }
+            60% { width: 40%; }
+            70% { width: 88%; }
+            100% { width: 88%; }
+        }
+        .step-loader-fill { animation: stepLoad 2s steps(5, end) forwards; }
+    </style>
+</head>
+<body class="antialiased min-h-screen w-full flex flex-col max-w-[390px] mx-auto relative overflow-x-hidden font-body-md text-body-md">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-surface dark:bg-surface border-b-2 border-primary dark:border-primary shadow-none flex justify-between items-center px-margin-mobile py-4">
+<button aria-label="Go Back" class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-95 duration-75 p-2 -ml-2">
+<span class="material-symbols-outlined" style="font-size: 24px;">arrow_back</span>
+</button>
+<div class="font-display-lg text-display-lg tracking-tighter text-on-surface dark:text-on-surface text-[24px] leading-none text-center flex-1">RUMR</div>
+<button aria-label="Settings" class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-95 duration-75 p-2 -mr-2">
+<span class="material-symbols-outlined" style="font-size: 24px;">settings</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full bg-background flex flex-col pb-24 pt-stack-sm relative z-10">
+<!-- Hero Section: Topic Header -->
+<section class="px-margin-mobile mb-stack-md flex flex-col gap-stack-sm">
+<div class="flex items-center gap-2 mb-2">
+<span class="gossip-tag">TRENDING</span>
+<span class="gossip-tag bg-primary-fixed text-on-primary-fixed">HOT</span>
+</div>
+<h1 class="font-display-lg text-display-lg leading-[1.1] text-tertiary uppercase break-words" style="font-size: 42px;">#Office<br>Politics</h1>
+<!-- Stats Bar -->
+<div class="flex items-center gap-4 mt-stack-sm border-t-2 border-b-2 border-surface-variant py-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed" style="font-size: 18px; font-variation-settings: 'FILL' 1;">visibility</span>
+<span class="font-label-mono text-label-mono text-on-surface">2.4K INTERESTED</span>
+</div>
+<div class="w-2 h-2 bg-secondary rounded-full"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-size: 18px; font-variation-settings: 'FILL' 1;">forum</span>
+<span class="font-label-mono text-label-mono text-on-surface">156 ACTIVE</span>
+</div>
+</div>
+<!-- Description -->
+<p class="font-body-md text-body-md text-on-surface-variant mt-stack-sm max-w-[90%]">
+                Whispers from the water cooler. Power struggles, secret alliances, and the unwritten rules of the corporate ladder.
+            </p>
+<!-- Actions -->
+<div class="flex gap-gutter mt-stack-md w-full">
+<button class="btn-primary flex-1 py-3 px-4 font-label-mono text-label-mono font-bold flex justify-center items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+                    FOLLOW
+                </button>
+<button class="btn-secondary flex-1 py-3 px-4 font-label-mono text-label-mono font-bold flex justify-center items-center gap-2 bg-surface-container-low">
+<span class="material-symbols-outlined" style="font-size: 18px;">login</span>
+                    JOIN ROOM
+                </button>
+</div>
+</section>
+<!-- Topic Intensity Meter -->
+<section class="px-margin-mobile mb-stack-md">
+<div class="bg-surface p-4 brutalist-border">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-mono text-label-mono text-on-surface-variant">VOLATILITY INDEX</span>
+<span class="font-label-mono text-label-mono text-primary-fixed">88%</span>
+</div>
+<div class="w-full h-4 brutalist-border relative overflow-hidden bg-background">
+<div class="h-full bg-primary-fixed step-loader-fill absolute top-0 left-0"></div>
+</div>
+</div>
+</section>
+<!-- Top Discussions Header -->
+<div class="px-margin-mobile mb-stack-sm flex items-end justify-between">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-tertiary">TOP<br>DISCUSSIONS</h2>
+<span class="material-symbols-outlined text-outline" style="font-size: 24px;">filter_list</span>
+</div>
+<!-- Discussions List (Bento-ish Vertical) -->
+<div class="px-margin-mobile flex flex-col gap-stack-md">
+<!-- Card 1: Trending High -->
+<article class="bg-surface brutalist-border-primary p-5 relative group cursor-pointer transition-transform hover:-translate-y-1">
+<div class="absolute -top-3 -right-3 bg-primary-fixed text-on-primary-fixed font-label-mono text-label-mono px-2 py-1 border-2 border-black font-bold z-10 flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">local_fire_department</span>
+                    LOCKED
+                </div>
+<h3 class="font-headline-lg-mobile text-[22px] leading-tight text-tertiary mb-3 line-clamp-2">"The VP of Sales just reorged out his main rival. Check the org chart."</h3>
+<div class="flex gap-2 mb-4 flex-wrap">
+<span class="gossip-tag bg-surface-variant text-on-surface-variant">REORG</span>
+<span class="gossip-tag bg-surface-variant text-on-surface-variant">DRAMA</span>
+</div>
+<div class="flex justify-between items-center border-t border-surface-variant pt-3">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-none brutalist-border bg-secondary flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover grayscale mix-blend-multiply opacity-50" data-alt="A gritty, high-contrast, black and white extreme close up of a corporate ID badge displaying a silhouette. Brutalist UI style, raw and unpolished." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwDZKjzyc3qdLx_KhicMvTGhS0uBGQzrsM3cTGzn6jNBKz0EJ_JTTSnh8cMDWsy204qglfJ52XES6-GJ2luEELtyBUf01KMcQI3izImnZBYokomFozy-8tmmkX1r0yoWCwg38BLfMWat7VWEg_2-HWooZ9sIOBJcYez-lm8IdQo23muVyKOLw9Gr4THvJSZ6bDzl3cprvl2P5og7yCMwrGrW4eXYzVad-q2jzPGwS9aLX7unWeDvGcHA">
+</div>
+<div class="w-6 h-6 rounded-none brutalist-border bg-primary-fixed flex items-center justify-center overflow-hidden">
+<span class="font-label-mono text-[8px] text-black">A2</span>
+</div>
+<div class="w-6 h-6 rounded-none brutalist-border bg-surface-variant flex items-center justify-center z-10">
+<span class="font-label-mono text-[8px] text-tertiary">+12</span>
+</div>
+</div>
+<span class="font-label-mono text-label-mono text-outline">4m ago</span>
+</div>
+<!-- Overlay to suggest locked content -->
+<div class="absolute inset-0 mystery-blur flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
+<span class="font-label-mono text-label-mono text-tertiary bg-black px-3 py-1 border border-secondary mb-2">DECRYPTING...</span>
+<span class="material-symbols-outlined text-secondary" style="font-size: 32px;">lock_open</span>
+</div>
+</article>
+<!-- Card 2: Image Heavy -->
+<article class="bg-surface brutalist-border p-5 relative cursor-pointer hover:border-secondary transition-colors group">
+<div class="w-full h-32 mb-4 border-2 border-surface-variant bg-surface-container-low overflow-hidden relative">
+<img class="w-full h-full object-cover filter grayscale contrast-125 opacity-70 group-hover:scale-105 transition-transform duration-500" data-alt="A distorted, glitch-art rendering of an empty, stark corporate boardroom table under harsh fluorescent lights. Dark mode aesthetic, heavy shadows, feeling of isolation and tension." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGs3aa2X6yx7AnHNZjkx9VRj0ojTioxV4TkDy7DAD2gLxozh7iyYUaBhbdASahnShKVngUN3vLPh3ip41l69E2fbfPn_fAJbNBF7mR78mytKMAflV5I2pdJdgQ40gYy1fdIN20gaQXrIHH_S4zO8wvxCJSHGITl4mZYxq6oa4X1i-rt986H3uQRuO6qOZG-O7WwuT_lm9141wrllrlBwnPE4Ikt9WCfN09t-6A6E86o6f9WLoZ2a-sGg">
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
+<span class="absolute bottom-2 left-2 font-label-mono text-[10px] text-primary-fixed bg-black px-1 border border-primary-fixed">IMAGE_EVIDENCE_01</span>
+</div>
+<h3 class="font-headline-lg-mobile text-[22px] leading-tight text-tertiary mb-3 line-clamp-2">"Found this printed schedule left on the printer. Q3 layoffs confirmed?"</h3>
+<div class="flex justify-between items-center border-t border-surface-variant pt-3 mt-4">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="flex items-center gap-1 font-label-mono text-label-mono"><span class="material-symbols-outlined" style="font-size: 16px;">forum</span> 42</span>
+<span class="flex items-center gap-1 font-label-mono text-label-mono"><span class="material-symbols-outlined" style="font-size: 16px;">arrow_upward</span> 108</span>
+</div>
+<span class="font-label-mono text-label-mono text-outline">1h ago</span>
+</div>
+</article>
+<!-- Card 3: Text Only Minimal -->
+<article class="bg-surface border-l-4 border-secondary p-4 relative cursor-pointer hover:bg-surface-container-low transition-colors">
+<p class="font-body-md text-body-md text-on-surface italic mb-3">
+                    "Whoever keeps taking the good coffee pods and leaving the decaf... HR knows. They are pulling keycard logs."
+                </p>
+<div class="flex justify-between items-center">
+<span class="font-label-mono text-[10px] text-secondary">SOURCE: UNVERIFIED</span>
+<span class="font-label-mono text-[10px] text-outline">3h ago</span>
+</div>
+</article>
+<!-- Load More -->
+<button class="w-full py-4 border-2 border-surface-variant text-on-surface-variant font-label-mono text-label-mono hover:bg-surface-variant hover:text-tertiary transition-colors flex justify-center items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 18px;">expand_more</span>
+                LOAD MORE FRAGMENTS
+            </button>
+</div>
+</main>
+<!-- Bottom NavBar is Suppressed per Semantic Shell Mandate (Task-focused Detail Screen implies back action exists) -->
+<!-- Leaving an empty div or nothing here is correct. The user must use TopAppBar 'back' arrow to escape the detail view. -->
+
+
+</body></html>

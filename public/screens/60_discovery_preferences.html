@@ -1,0 +1,222 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Rumr - Discovery Preferences</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&amp;family=Playfair+Display:wght@700;900&amp;family=Inter:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#e5e2e1",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "inverse-surface": "#e5e2e1",
+                        "error": "#ffb4ab",
+                        "secondary": "#ddb7ff",
+                        "on-secondary": "#490080",
+                        "surface": "#131313",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#313030",
+                        "surface-variant": "#353535",
+                        "on-secondary-container": "#d6a9ff",
+                        "surface-container": "#20201f",
+                        "on-primary": "#283500",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-dim": "#131313",
+                        "on-tertiary-container": "#636565",
+                        "tertiary": "#ffffff",
+                        "on-primary-fixed": "#161e00",
+                        "tertiary-container": "#e2e2e2",
+                        "surface-tint": "#abd600",
+                        "primary-fixed": "#c3f400",
+                        "primary": "#ffffff",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "secondary-fixed": "#f0dbff",
+                        "on-surface-variant": "#c4c9ac",
+                        "outline-variant": "#444933",
+                        "on-primary-container": "#556d00",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-bright": "#393939",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "background": "#131313",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#2f3131",
+                        "inverse-primary": "#506600",
+                        "primary-container": "#c3f400",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "surface-container-low": "#1c1b1b",
+                        "primary-fixed-dim": "#abd600",
+                        "secondary-container": "#6f00be",
+                        "outline": "#8e9379",
+                        "on-background": "#e5e2e1",
+                        "surface-container-high": "#2a2a2a",
+                        "on-secondary-fixed": "#2c0051",
+                        "surface-container-highest": "#353535",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "gutter": "16px",
+                        "stack-lg": "48px",
+                        "unit": "4px",
+                        "stack-md": "24px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "label-mono": ["JetBrains Mono"],
+                        "label-bold": ["Inter"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .custom-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #abd600; /* Toxic Lime */
+            cursor: pointer;
+            border: 2px solid #000;
+        }
+        .custom-range::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #abd600;
+            cursor: pointer;
+            border: 2px solid #000;
+            border-radius: 0;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen w-[390px] mx-auto overflow-x-hidden flex flex-col relative font-body-md" style="height: 844px; outline: 1px solid #333;">
+<!-- Background Void -->
+<div class="absolute inset-0 bg-surface-container-lowest -z-10"></div>
+<!-- Header (Suppressed main nav, using generic back header due to transactional nature) -->
+<header class="w-full top-0 border-b-2 border-outline-variant bg-background dark:bg-background flex justify-between items-center px-margin-mobile py-4 z-10 sticky">
+<button aria-label="Go back" class="text-primary flex items-center justify-center p-2 rounded-full hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tighter uppercase text-center flex-1">Discovery Preferences</h1>
+<div class="w-10"></div> <!-- Spacer for centering -->
+</header>
+<main class="flex-1 overflow-y-auto px-margin-mobile py-stack-md flex flex-col gap-stack-lg pb-32">
+<!-- Who can appear? Section -->
+<section class="flex flex-col gap-stack-md">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">Who can appear?</h2>
+<div class="flex flex-col gap-stack-sm border-2 border-surface-variant bg-surface p-gutter">
+<label class="font-label-mono text-label-mono text-on-surface-variant uppercase flex justify-between">
+<span class="">Age Range</span>
+<span class="text-primary">18 - 45</span>
+</label>
+<div class="relative pt-4 pb-2">
+<!-- Fake double range slider styling -->
+<div class="h-1 w-full bg-surface-variant absolute top-5 rounded-none"></div>
+<div class="h-1 bg-surface-tint absolute top-5 left-[10%] right-[40%] rounded-none"></div>
+<div class="w-4 h-4 bg-surface-tint border-2 border-black absolute top-3.5 left-[10%] cursor-pointer hover:scale-110 transition-transform"></div>
+<div class="w-4 h-4 bg-surface-tint border-2 border-black absolute top-3.5 right-[40%] cursor-pointer hover:scale-110 transition-transform"></div>
+</div>
+</div>
+<div class="flex flex-col gap-stack-sm border-2 border-surface-variant bg-surface p-gutter">
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">Gender</span>
+<div class="flex flex-wrap gap-2 mt-2">
+<button class="bg-surface-tint text-on-primary font-label-mono text-label-mono px-4 py-2 border-2 border-transparent uppercase">Everyone</button>
+<button class="bg-transparent text-primary font-label-mono text-label-mono px-4 py-2 border-2 border-surface-variant uppercase hover:border-primary transition-colors">Women</button>
+<button class="bg-transparent text-primary font-label-mono text-label-mono px-4 py-2 border-2 border-surface-variant uppercase hover:border-primary transition-colors">Men</button>
+</div>
+</div>
+<div class="flex flex-col gap-stack-sm border-2 border-surface-variant bg-surface p-gutter">
+<div class="flex justify-between items-center">
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">Location Radius</span>
+<span class="font-label-mono text-label-mono text-primary">25 MI</span>
+</div>
+<input class="w-full h-1 bg-surface-variant rounded-none appearance-none cursor-pointer custom-range mt-4" max="100" min="1" style="background: linear-gradient(to right, #abd600 25%, #353535 25%);" type="range" value="25">
+</div>
+</section>
+<!-- Topic Similarity Section -->
+<section class="flex flex-col gap-stack-md relative">
+<div class="absolute -inset-4 bg-secondary opacity-5 blur-xl -z-10"></div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">Topic similarity</h2>
+<p class="font-body-md text-body-md text-on-surface-variant -mt-2">How closely should we match your active tags?</p>
+<div class="grid grid-cols-2 gap-4 mt-2">
+<!-- Exact -->
+<button class="flex flex-col items-start p-4 border-2 border-surface-variant bg-surface hover:border-outline-variant transition-colors group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary mb-2" style="font-variation-settings: 'FILL' 0;">my_location</span>
+<span class="font-label-bold text-label-bold text-primary mb-1">Exact</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant text-left opacity-70">100% Match only</span>
+</button>
+<!-- Related -->
+<button class="flex flex-col items-start p-4 border-2 border-surface-variant bg-surface hover:border-outline-variant transition-colors group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary mb-2" style="font-variation-settings: 'FILL' 0;">hub</span>
+<span class="font-label-bold text-label-bold text-primary mb-1">Related</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant text-left opacity-70">Overlapping tags</span>
+</button>
+<!-- Balanced (Selected) -->
+<button class="flex flex-col items-start p-4 border-2 border-surface-tint bg-surface relative shadow-[4px_4px_0px_0px_rgba(171,214,0,1)] hover:-translate-y-1 transition-transform">
+<div class="absolute top-2 right-2 w-2 h-2 bg-surface-tint"></div>
+<span class="material-symbols-outlined text-surface-tint mb-2" style="font-variation-settings: 'FILL' 1;">balance</span>
+<span class="font-label-bold text-label-bold text-primary mb-1">Balanced</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant text-left opacity-70">Mix of known &amp; new</span>
+</button>
+<!-- Exploratory -->
+<button class="flex flex-col items-start p-4 border-2 border-surface-variant bg-surface hover:border-outline-variant transition-colors group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary mb-2" style="font-variation-settings: 'FILL' 0;">explore</span>
+<span class="font-label-bold text-label-bold text-primary mb-1">Exploratory</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant text-left opacity-70">Wildcards allowed</span>
+</button>
+</div>
+</section>
+<!-- Visibility Toggle -->
+<section class="flex flex-col gap-stack-md border-t-2 border-surface-variant pt-stack-md mt-4">
+<div class="flex justify-between items-center">
+<div class="flex flex-col">
+<span class="font-label-bold text-label-bold text-primary">Global Visibility</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant mt-1">Currently showing to: <strong class="text-secondary">Topic compatible only</strong></span>
+</div>
+<!-- Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox">
+<div class="w-12 h-6 bg-surface-variant border-2 border-black peer-focus:outline-none peer-checked:after:translate-x-full peer-checked:after:border-black after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-secondary after:border-2 after:border-black after:h-4 after:w-5 after:transition-all peer-checked:bg-surface"></div>
+</label>
+</div>
+</section>
+</main>
+<!-- Save FAB (Contextual for Settings) -->
+<div class="fixed bottom-6 w-full px-margin-mobile max-w-[390px]">
+<button class="w-full bg-surface-tint text-on-primary font-label-mono text-[14px] font-bold tracking-wider uppercase py-4 border-2 border-black shadow-[4px_4px_0px_0px_#A855F7] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#A855F7] transition-all flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">save</span>
+            APPLY PREFERENCES
+        </button>
+</div>
+<!-- BottomNavBar Suppressed (Transactional Page) -->
+
+
+
+
+</body></html>

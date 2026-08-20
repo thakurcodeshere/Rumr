@@ -12,6 +12,28 @@ export type ViewType =
   | 'catalog'
   | 'workflow';
 
+export type ScreenFrameId = 
+  | 'iphone-16-pro'
+  | 'iphone-14-15'
+  | 'pixel-8'
+  | 'galaxy-s24'
+  | 'iphone-se'
+  | 'fluid';
+
+export interface ScreenFrameSpec {
+  id: ScreenFrameId;
+  name: string;
+  width: number;
+  height: number;
+  ratio: string;
+  os: 'iOS' | 'Android' | 'Responsive';
+  cornerRadius: number;
+  notchType: 'dynamic-island' | 'notch' | 'punch-hole' | 'none';
+  safeAreaTop: number;
+  safeAreaBottom: number;
+  description: string;
+}
+
 export interface Topic {
   id: string;
   title: string;

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Flagged Content Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500&amp;family=Playfair+Display:wght@700;900&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "rumr-black": "#000000",
+                        "rumr-lime": "#ccff00",
+                        "rumr-purple": "#A855F7",
+                        "rumr-gray": "#1a1a1a",
+                        "rumr-text-dim": "#8e9379",
+                        "rumr-error": "#ffb4ab",
+                    },
+                    fontFamily: {
+                        "headline": ["Playfair Display", "serif"],
+                        "data": ["Space Grotesk", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    spacing: {
+                        "unit": "4px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "xl": "32px",
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #000;
+            background-image: linear-gradient(rgba(204, 255, 0, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(204, 255, 0, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: #e5e2e1;
+        }
+        .brutalist-border {
+            border: 2px solid #333;
+        }
+        .brutalist-border-lime {
+            border: 2px solid #ccff00;
+        }
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 50;
+        }
+    </style>
+</head>
+<body class="font-data min-h-[844px] w-full max-w-[390px] mx-auto flex flex-col relative overflow-x-hidden border-x-2 border-rumr-gray">
+<div class="scanlines"></div>
+<!-- Top Navigation Area -->
+<header class="bg-rumr-black border-b-2 border-rumr-gray sticky top-0 z-40">
+<div class="flex flex-col p-md gap-sm">
+<div class="flex justify-between items-center w-full">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-rumr-lime">security</span>
+<span class="font-mono text-xs uppercase tracking-widest text-rumr-lime">RUMR_ADMIN_v1.0</span>
+</div>
+<button class="material-symbols-outlined text-white">menu</button>
+</div>
+<!-- Horizontal Scroll Nav for Mobile -->
+<nav class="overflow-x-auto no-scrollbar py-sm border-t-2 border-rumr-gray mt-sm">
+<ul class="flex gap-md whitespace-nowrap font-mono text-xs uppercase">
+<li>
+<a class="text-rumr-black bg-rumr-lime px-2 py-1 flex items-center gap-1 font-bold" href="#">
+<span class="material-symbols-outlined text-[14px]">flag</span> FLAGGED_CONTENT
+                        </a>
+</li>
+<li>
+<a class="text-rumr-text-dim hover:text-white flex items-center gap-1 px-2 py-1 transition-colors" href="#">
+<span class="material-symbols-outlined text-[14px]">report</span> USER_REPORTS
+                        </a>
+</li>
+<li>
+<a class="text-rumr-text-dim hover:text-white flex items-center gap-1 px-2 py-1 transition-colors" href="#">
+<span class="material-symbols-outlined text-[14px]">psychology</span> AI_VALIDATION
+                        </a>
+</li>
+</ul>
+</nav>
+</div>
+</header>
+<!-- Main Scrollable Content -->
+<main class="flex-1 flex flex-col gap-md p-md relative z-10 pb-xl">
+<!-- Context Area -->
+<div class="flex flex-col gap-md">
+<!-- Topic Card -->
+<section class="bg-rumr-gray bg-opacity-50 brutalist-border-lime p-md flex flex-col gap-sm">
+<h2 class="font-headline text-2xl text-white">TARGET_ENTITY</h2>
+<p class="font-mono text-sm text-rumr-text-dim">User: @anon_x88</p>
+<div class="flex gap-2 flex-wrap mt-1">
+<span class="bg-rumr-purple text-white font-mono text-[10px] px-2 py-1 uppercase tracking-wider">Harassment 88%</span>
+<span class="bg-rumr-purple text-white font-mono text-[10px] px-2 py-1 uppercase tracking-wider">Spam 92%</span>
+</div>
+</section>
+<!-- Actions -->
+<section class="bg-rumr-black brutalist-border p-md flex flex-col gap-sm">
+<h3 class="font-mono text-[10px] uppercase text-rumr-text-dim mb-2 tracking-widest">MODERATION_ACTIONS</h3>
+<button class="bg-rumr-lime text-rumr-black font-mono font-bold uppercase py-3 px-4 border-2 border-transparent active:scale-95 transition-transform w-full text-left flex justify-between items-center shadow-[2px_2px_0px_0px_#A855F7]">
+                    CONFIRM_FLAG
+                    <span class="material-symbols-outlined">gavel</span>
+</button>
+<div class="flex gap-sm mt-2">
+<button class="flex-1 bg-transparent text-white font-mono uppercase py-2 px-2 border-2 border-white active:bg-white active:text-black transition-colors text-xs text-center flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-sm">close</span>
+                        REJECT
+                    </button>
+<button class="flex-1 bg-transparent text-rumr-error font-mono uppercase py-2 px-2 border-2 border-rumr-error active:bg-rumr-error active:text-black transition-colors text-xs text-center flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-sm">block</span>
+                        BAN
+                    </button>
+</div>
+</section>
+<!-- Progress Log -->
+<section class="bg-rumr-black brutalist-border p-md">
+<h3 class="font-mono text-[10px] uppercase text-rumr-text-dim mb-3 tracking-widest">SYSTEM_LOG</h3>
+<div class="border-2 border-rumr-gray h-3 w-full relative">
+<div class="bg-rumr-lime h-full absolute left-0 top-0 w-[40%] border-r-2 border-black"></div>
+</div>
+<p class="font-mono text-[10px] mt-2 text-rumr-lime text-right">PROCESSING: 40%</p>
+</section>
+</div>
+<!-- Thread View -->
+<section class="flex flex-col gap-md mt-sm">
+<h2 class="font-headline text-2xl text-white border-b-2 border-rumr-gray pb-2">THREAD_DUMP</h2>
+<div class="flex flex-col gap-lg">
+<!-- Message 1 -->
+<div class="max-w-[90%] self-start bg-rumr-gray bg-opacity-40 brutalist-border p-3">
+<p class="font-mono text-[10px] text-rumr-text-dim mb-1">@user_122 [10:42 PM]</p>
+<p class="text-sm text-white">Did anyone hear about the new protocol drop?</p>
+</div>
+<!-- Message 2 (Flagged) -->
+<div class="max-w-[90%] self-end bg-rumr-error bg-opacity-10 border-2 border-rumr-error p-3 relative">
+<span class="absolute -top-3 -right-2 bg-rumr-error text-black font-mono text-[9px] px-2 py-0.5 font-bold uppercase">FLAGGED</span>
+<p class="font-mono text-[10px] text-rumr-error mb-1">@anon_x88 [10:45 PM]</p>
+<p class="text-sm text-white blur-[2px] active:blur-none transition-all duration-300">Buy these cheap tokens now before they crash the network! [LINK REDACTED]</p>
+<p class="font-mono text-[8px] text-rumr-error mt-2 uppercase opacity-70">* Tap to reveal</p>
+</div>
+<!-- Message 3 -->
+<div class="max-w-[90%] self-start bg-rumr-gray bg-opacity-40 brutalist-border p-3">
+<p class="font-mono text-[10px] text-rumr-text-dim mb-1">@user_122 [10:46 PM]</p>
+<p class="text-sm text-white">Reported. Not dealing with this noise today.</p>
+</div>
+</div>
+<!-- AI Reasoning -->
+<div class="mt-lg border-t-2 border-rumr-gray pt-md bg-rumr-black brutalist-border p-md mt-4">
+<h3 class="font-mono text-xs uppercase text-rumr-lime mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">psychology</span>
+                    AI_ANALYSIS
+                </h3>
+<p class="text-sm text-rumr-text-dim leading-relaxed">Pattern match confirmed for known spam botnet vocabulary. High confidence of malicious link injection attempt. User behavior aligns with previous banned accounts.</p>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-rumr-black border-t-2 border-rumr-gray p-md z-40 mt-auto">
+<div class="flex flex-col items-center gap-2">
+<span class="font-mono text-[10px] text-rumr-error font-bold tracking-widest">RUMR_ENCRYPTED_SYSTEM_2024</span>
+<div class="flex gap-4 font-mono text-[9px]">
+<a class="text-rumr-text-dim hover:text-rumr-lime uppercase" href="#">Privacy</a>
+<a class="text-rumr-text-dim hover:text-rumr-lime uppercase" href="#">Bylaws</a>
+<a class="text-rumr-text-dim hover:text-rumr-lime uppercase" href="#">Log_Out</a>
+</div>
+</div>
+</footer>
+</body></html>

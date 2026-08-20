@@ -1,0 +1,202 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Edit Topics - RUMR</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#e5e2e1",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "inverse-surface": "#e5e2e1",
+                        "error": "#ffb4ab",
+                        "secondary": "#ddb7ff",
+                        "on-secondary": "#490080",
+                        "surface": "#131313",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#313030",
+                        "surface-variant": "#353535",
+                        "on-secondary-container": "#d6a9ff",
+                        "surface-container": "#20201f",
+                        "on-primary": "#283500",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-dim": "#131313",
+                        "on-tertiary-container": "#636565",
+                        "tertiary": "#ffffff",
+                        "on-primary-fixed": "#161e00",
+                        "tertiary-container": "#e2e2e2",
+                        "surface-tint": "#abd600",
+                        "primary-fixed": "#c3f400",
+                        "primary": "#ffffff",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "secondary-fixed": "#f0dbff",
+                        "on-surface-variant": "#c4c9ac",
+                        "outline-variant": "#444933",
+                        "on-primary-container": "#556d00",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-bright": "#393939",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "background": "#131313",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#2f3131",
+                        "inverse-primary": "#506600",
+                        "primary-container": "#c3f400",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "surface-container-low": "#1c1b1b",
+                        "primary-fixed-dim": "#abd600",
+                        "secondary-container": "#6f00be",
+                        "outline": "#8e9379",
+                        "on-background": "#e5e2e1",
+                        "surface-container-high": "#2a2a2a",
+                        "on-secondary-fixed": "#2c0051",
+                        "surface-container-highest": "#353535",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "gutter": "16px",
+                        "stack-lg": "48px",
+                        "unit": "4px",
+                        "stack-md": "24px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "label-mono": ["JetBrains Mono"],
+                        "label-bold": ["Inter"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md h-screen w-full overflow-hidden flex flex-col items-center justify-center relative">
+<!-- Mobile Device Container for Preview -->
+<div class="relative w-full h-full max-w-[390px] max-h-[844px] bg-background border border-surface-variant md:border md:border-surface-variant md:rounded-3xl overflow-hidden flex flex-col shadow-2xl">
+<!-- TopAppBar (Transactional - Hidden/Modified for Task Focus) -->
+<header class="w-full flex justify-between items-center px-margin-mobile py-4 bg-background z-10 border-b-2 border-outline-variant">
+<button class="text-primary cursor-pointer active:opacity-80 hover:text-primary-fixed-dim transition-colors flex items-center justify-center p-2 rounded-full hover:bg-surface-container-highest">
+<span class="material-symbols-outlined text-2xl" data-icon="close">close</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">EDIT TOPICS</h1>
+<div class="w-[40px]"></div> <!-- Spacer for centering -->
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto px-margin-mobile py-stack-md flex flex-col gap-stack-lg relative z-0">
+<!-- Topic Visibility Toggle -->
+<section class="flex flex-col gap-stack-sm bg-surface-container-low p-gutter border-2 border-surface-variant">
+<div class="flex justify-between items-center w-full">
+<div class="flex flex-col">
+<span class="font-label-bold text-label-bold text-primary">VISIBILITY</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant mt-1">Controls incoming matches</span>
+</div>
+<!-- Brutalist Toggle Switch -->
+<label class="flex items-center cursor-pointer relative" for="visibility-toggle">
+<input checked="" class="sr-only peer" id="visibility-toggle" type="checkbox">
+<div class="w-14 h-7 bg-surface-container-highest border-2 border-outline-variant peer-focus:outline-none rounded-none peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-primary-fixed-dim after:border-2 after:border-black after:h-5 after:w-6 after:transition-all peer-checked:bg-primary-container peer-checked:border-primary-fixed-dim"></div>
+</label>
+</div>
+<div class="flex justify-between items-center w-full mt-2 font-label-mono text-label-mono">
+<span class="text-on-surface-variant peer-checked:text-primary-fixed-dim transition-colors" id="status-private">Private</span>
+<span class="text-primary-fixed-dim peer-checked:text-on-surface-variant transition-colors" id="status-discoverable">Discoverable</span>
+</div>
+</section>
+<!-- Your Topics Section -->
+<section class="flex flex-col gap-stack-md">
+<h2 class="font-label-mono text-label-mono text-secondary tracking-widest uppercase border-b-2 border-surface-variant pb-unit">YOUR TOPICS</h2>
+<ul class="flex flex-col gap-unit">
+<!-- Topic Item -->
+<li class="group flex justify-between items-center bg-surface p-3 border-2 border-surface-variant hover:border-primary transition-colors cursor-pointer relative overflow-hidden">
+<span class="font-label-bold text-label-bold text-primary relative z-10">Ghosting</span>
+<button class="text-on-surface-variant hover:text-error transition-colors p-1 relative z-10">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+<div class="absolute inset-0 bg-surface-container-highest transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left z-0"></div>
+</li>
+<!-- Topic Item -->
+<li class="group flex justify-between items-center bg-surface p-3 border-2 border-surface-variant hover:border-primary transition-colors cursor-pointer relative overflow-hidden">
+<span class="font-label-bold text-label-bold text-primary relative z-10">Dating</span>
+<button class="text-on-surface-variant hover:text-error transition-colors p-1 relative z-10">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+<div class="absolute inset-0 bg-surface-container-highest transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left z-0"></div>
+</li>
+<!-- Topic Item -->
+<li class="group flex justify-between items-center bg-surface p-3 border-2 border-surface-variant hover:border-primary transition-colors cursor-pointer relative overflow-hidden">
+<span class="font-label-bold text-label-bold text-primary relative z-10">Office Politics</span>
+<button class="text-on-surface-variant hover:text-error transition-colors p-1 relative z-10">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+<div class="absolute inset-0 bg-surface-container-highest transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left z-0"></div>
+</li>
+<!-- Topic Item -->
+<li class="group flex justify-between items-center bg-surface p-3 border-2 border-surface-variant hover:border-primary transition-colors cursor-pointer relative overflow-hidden">
+<span class="font-label-bold text-label-bold text-primary relative z-10">Startup Drama</span>
+<button class="text-on-surface-variant hover:text-error transition-colors p-1 relative z-10">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+<div class="absolute inset-0 bg-surface-container-highest transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left z-0"></div>
+</li>
+</ul>
+<!-- Add Topic Action -->
+<button class="mt-stack-sm flex items-center justify-center gap-2 w-full border-2 border-dashed border-outline-variant py-4 text-primary hover:border-primary-fixed-dim hover:text-primary-fixed-dim transition-colors bg-surface-container-lowest">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span class="font-label-mono text-label-mono uppercase tracking-widest">ADD TOPIC</span>
+</button>
+</section>
+</main>
+<!-- No Bottom Navigation as this is a task-focused sub-page -->
+</div>
+<script>
+        // Simple toggle logic for visual feedback (though CSS handles most of it)
+        const toggle = document.getElementById('visibility-toggle');
+        const statusPrivate = document.getElementById('status-private');
+        const statusDiscoverable = document.getElementById('status-discoverable');
+
+        toggle.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                // Discoverable state (handled by peer-checked classes in HTML, keeping js for complex state if needed later)
+            } else {
+                // Private state
+            }
+        });
+    </script>
+
+
+
+
+</body></html>

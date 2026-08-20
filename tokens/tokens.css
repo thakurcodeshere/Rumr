@@ -1,0 +1,52 @@
+/* Rumr Design Tokens - Clean Chaos */
+:root {
+  /* Colors */
+  --color-void-black: #070707;
+  --color-background: #131313;
+  --color-toxic-lime: #ccff00;
+  --color-electric-purple: #a855f7;
+  --color-electric-lilac: #ddb7ff;
+  
+  --color-surface-container-lowest: #0e0e0e;
+  --color-surface-container-low: #1c1b1b;
+  --color-surface-container: #20201f;
+  --color-surface-container-high: #2a2a2a;
+  --color-surface-container-highest: #353535;
+  --color-surface-bright: #393939;
+  
+  --color-on-surface: #e5e2e1;
+  --color-on-surface-variant: #c4c9ac;
+  --color-error: #ffb4ab;
+  --color-error-container: #93000a;
+
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Spacing */
+  --spacing-unit: 4px;
+  --spacing-sm: 8px;
+  --spacing-gutter: 16px;
+  --spacing-margin-mobile: 20px;
+  --spacing-md: 24px;
+  --spacing-margin-desktop: 40px;
+  --spacing-lg: 48px;
+
+  /* Borders & Shadows */
+  --border-sharp: 0px;
+  --border-width-standard: 2px;
+  --border-width-heavy: 4px;
+  --shadow-hard-lime: 4px 4px 0px #ccff00;
+  --shadow-hard-purple: 4px 4px 0px #a855f7;
+
+  /* Frame Dimensions */
+  --frame-iphone-16-pro-w: 393px;
+  --frame-iphone-16-pro-h: 852px;
+  --frame-iphone-14-15-w: 390px;
+  --frame-iphone-14-15-h: 844px;
+  --frame-pixel-8-w: 412px;
+  --frame-pixel-8-h: 915px;
+  --frame-galaxy-s24-w: 360px;
+  --frame-galaxy-s24-h: 780px;
+}

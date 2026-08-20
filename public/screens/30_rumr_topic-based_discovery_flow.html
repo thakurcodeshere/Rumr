@@ -1,0 +1,152 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>04: Welcome Onboarding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#2a2a2a",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface": "#131313",
+                        "on-surface-variant": "#c4c9ac",
+                        "error-container": "#93000a",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-background": "#e5e2e1",
+                        "on-secondary-container": "#d6a9ff",
+                        "inverse-on-surface": "#313030",
+                        "primary-container": "#c3f400",
+                        "outline-variant": "#444933",
+                        "surface-dim": "#131313",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#2f3131",
+                        "on-primary-container": "#556d00",
+                        "surface-bright": "#393939",
+                        "inverse-primary": "#506600",
+                        "on-surface": "#e5e2e1",
+                        "on-primary": "#283500",
+                        "on-tertiary-container": "#636565",
+                        "on-error": "#690005",
+                        "on-secondary": "#490080",
+                        "on-primary-fixed": "#161e00",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary-fixed": "#f0dbff",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-container": "#20201f",
+                        "primary": "#ffffff",
+                        "secondary": "#ddb7ff",
+                        "tertiary-container": "#e2e2e2",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "on-secondary-fixed": "#2c0051",
+                        "primary-fixed-dim": "#abd600",
+                        "background": "#131313",
+                        "tertiary": "#ffffff",
+                        "surface-tint": "#abd600",
+                        "on-error-container": "#ffdad6",
+                        "primary-fixed": "#c3f400",
+                        "surface-variant": "#353535",
+                        "surface-container-highest": "#353535",
+                        "secondary-container": "#6f00be",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "tertiary-fixed": "#e2e2e2",
+                        "outline": "#8e9379",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "surface-container-low": "#1c1b1b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "24px",
+                        "stack-lg": "48px",
+                        "stack-sm": "8px",
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "label-bold": ["Inter"],
+                        "label-mono": ["JetBrains Mono"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .noise-bg {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            mix-blend-mode: overlay;
+        }
+        .btn-shadow-hover:hover {
+            box-shadow: 4px 4px 0px 0px #A855F7;
+            transform: translate(-2px, -2px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen w-full flex flex-col justify-between overflow-hidden relative">
+<div class="absolute inset-0 noise-bg pointer-events-none z-0"></div>
+<div class="absolute inset-0 z-0 opacity-40">
+<img class="w-full h-full object-cover grayscale mix-blend-multiply" data-alt="A dark, moody abstract composition in a Brutalist style featuring stark geometric planes and subtle gradients of deep black and electric purple. The lighting is harsh and directional, creating deep shadows that emphasize a sense of mystery and edgy exclusivity. The overall aesthetic is raw, underground, and highly textured, fitting a high-end digital magazine interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDo8GuqCuXxgNrIWg961C_QPTPxob_NYeLuD2E-mZ-w6Xr3ESWT2tPC__usC4kNh-IDVq9gVeqB22duI6xE0RyLiyYGTPiAoROq8UJCmbjW9RJ8hW0nUzGWnSbKg8IKTwMwrronC2KuDexjrwwjy3hylPMrapZUxhRFN3TPZRZ7qQjp3bgdBhSlnWK2cDiquQBFt2oGXEvryjspzk0x0qS7zeQo9AJUNajpmCJSFmrXB17j1Ww5I5fWOg">
+</div>
+<!-- Header Section (Suppressed Navigation for First-Time Welcome screen) -->
+<header class="relative z-10 w-full flex justify-between items-center px-margin-mobile py-4 border-b-2 border-surface-container-high bg-background/80 backdrop-blur-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[24px]" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="font-display-lg text-[24px] font-black text-primary tracking-tighter uppercase leading-none">RUMR</span>
+</div>
+</header>
+<!-- Main Content -->
+<main class="relative z-10 flex-1 flex flex-col justify-center px-margin-mobile py-stack-lg max-w-[400px] mx-auto w-full">
+<div class="space-y-stack-md flex-1 flex flex-col justify-center">
+<div class="inline-block bg-secondary-container px-3 py-1 self-start border-l-2 border-primary-fixed">
+<span class="font-label-mono text-label-mono text-primary uppercase tracking-widest">System_Init</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-primary uppercase">
+                DON'T SWIPE ON <span class="text-surface-container-high line-through decoration-primary-fixed decoration-4">PEOPLE.</span>
+<br>
+                SWIPE ON <span class="text-primary-fixed">TOPICS.</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-sm">
+                Find people who want to talk about the same things you do. Total anonymity until connection is established.
+            </p>
+</div>
+<!-- Call to Action Actions -->
+<div class="space-y-stack-sm pb-stack-lg mt-auto">
+<button class="w-full bg-primary-fixed text-on-primary-fixed font-label-mono text-label-mono font-bold uppercase py-4 border-2 border-primary-fixed transition-all btn-shadow-hover flex items-center justify-center gap-2">
+                GET STARTED
+                <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+<button class="w-full bg-transparent text-primary font-label-mono text-label-mono uppercase py-4 border-2 border-primary transition-all btn-shadow-hover hover:bg-surface-container-low">
+                Log in
+            </button>
+</div>
+</main>
+<!-- Visual Element Overlay -->
+<div class="absolute bottom-[20%] right-[-10%] w-64 h-64 bg-secondary-container rounded-full blur-[80px] opacity-20 z-0 pointer-events-none"></div>
+
+
+</body></html>

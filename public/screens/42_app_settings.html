@@ -1,0 +1,280 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>Settings - Clean Chaos</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#131313",
+                        "surface-container-low": "#1c1b1b",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#313030",
+                        "surface-container-lowest": "#0e0e0e",
+                        "inverse-primary": "#506600",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#2f3131",
+                        "on-background": "#e5e2e1",
+                        "primary-container": "#c3f400",
+                        "on-primary": "#283500",
+                        "primary-fixed": "#c3f400",
+                        "primary": "#ffffff",
+                        "surface-container-high": "#2a2a2a",
+                        "on-surface": "#e5e2e1",
+                        "on-secondary-container": "#d6a9ff",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-dim": "#131313",
+                        "secondary-container": "#6f00be",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "tertiary-container": "#e2e2e2",
+                        "primary-fixed-dim": "#abd600",
+                        "secondary": "#ddb7ff",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "on-secondary-fixed": "#2c0051",
+                        "outline-variant": "#444933",
+                        "on-surface-variant": "#c4c9ac",
+                        "secondary-fixed": "#f0dbff",
+                        "outline": "#8e9379",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "surface-variant": "#353535",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#636565",
+                        "surface-container": "#20201f",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary-container": "#556d00",
+                        "surface-container-highest": "#353535",
+                        "surface-bright": "#393939",
+                        "surface": "#131313",
+                        "on-primary-fixed": "#161e00",
+                        "tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "error-container": "#93000a",
+                        "on-secondary": "#490080",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-tint": "#abd600"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "margin-mobile": "20px",
+                        "gutter": "16px",
+                        "stack-lg": "48px",
+                        "stack-md": "24px",
+                        "unit": "4px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "label-bold": ["Inter"],
+                        "label-mono": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            /* Brutalist-lite specific global styles */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Hide scrollbar for clean aesthetic */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        .rumor-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        
+        .brutalist-border {
+            border: 2px solid #353535;
+        }
+        
+        .brutalist-border-active {
+            border: 2px solid #c3f400; /* Toxic Lime */
+        }
+
+        .settings-card {
+            background-color: #1a1a1a;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .settings-card:active {
+            transform: scale(0.98);
+            border-color: #A855F7; /* Electric Purple */
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md">
+<!-- TopAppBar -->
+<header class="bg-background dark:bg-background text-primary dark:text-primary full-width top-0 border-b-2 border-outline-variant flex justify-between items-center w-full px-margin-mobile py-4 z-50 sticky">
+<button aria-label="Location" class="hover:text-primary-fixed-dim transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">location_on</span>
+</button>
+<h1 class="text-headline-lg-mobile font-headline-lg-mobile uppercase tracking-tighter text-primary">LONDON_UK</h1>
+<button aria-label="Tune" class="hover:text-primary-fixed-dim transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">tune</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow px-margin-mobile pt-stack-md pb-[100px] flex flex-col gap-stack-lg max-w-[1200px] mx-auto w-full">
+<!-- Page Title -->
+<section class="flex flex-col gap-unit">
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile text-primary">App Settings</h2>
+<p class="text-label-mono font-label-mono text-on-surface-variant uppercase">User Configuration &amp; Data Control</p>
+</section>
+<!-- Profile Snapshot (Topic Card Style) -->
+<section class="settings-card brutalist-border p-4 flex flex-col gap-gutter relative overflow-hidden group">
+<div class="flex items-center gap-4 relative z-10">
+<div class="w-16 h-16 rounded-full overflow-hidden border-2 border-primary-container relative">
+<img class="w-full h-full object-cover" data-alt="A striking portrait of an anonymous individual in a dimly lit, brutalist concrete room. High-contrast lighting casts dramatic shadows, highlighting sharp architectural angles. The overall mood is mysterious and edgy, adhering to a high-end editorial aesthetic with deep blacks and stark, cold accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7cOgdyJk8cUu8ht0aTxwvuqDF6EkrmflHh64RBRGxVNyCV2JXxyC8-Dvvrz-7gMflrmmbJzFw56pkBIPEq9xNqqRVoJa3jtSIWrO_oMg6_vaBQUVF7l4s7t4-fEfkgp8RjmKv6LKSP2j3k6e7c0AbHPrEeP157AZ0DS2_vugI0GX3dfl4nMKrGDhnQU3_JFeapZK9PGOyNxuQwSIXdNgo5mFj9V25MJk1dyxMLgSCSU5JbrcJFSCjtg">
+<!-- Optional subtle overlay -->
+<div class="absolute inset-0 bg-primary-container/20"></div>
+</div>
+<div class="flex flex-col">
+<span class="text-headline-lg-mobile font-headline-lg-mobile text-primary">USER_9482</span>
+<span class="text-label-mono font-label-mono text-primary-container mt-1">STATUS: VERIFIED</span>
+</div>
+</div>
+<button class="bg-primary-container text-on-primary font-label-mono text-label-mono uppercase py-3 px-4 w-full mt-2 hover:bg-surface-tint active:translate-y-0.5 transition-all shadow-[4px_4px_0px_0px_#A855F7]">
+                Manage Identity
+            </button>
+</section>
+<!-- Settings Groups -->
+<div class="flex flex-col gap-stack-md">
+<!-- Account Group -->
+<section class="flex flex-col gap-stack-sm">
+<h3 class="text-label-mono font-label-mono text-secondary uppercase border-b-2 border-surface-variant pb-2">Account Dynamics</h3>
+<div class="flex flex-col gap-unit">
+<button class="settings-card brutalist-border p-4 flex items-center justify-between text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">person</span>
+<span class="text-label-bold font-label-bold">Personal Information</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</button>
+<button class="settings-card brutalist-border p-4 flex items-center justify-between text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">payments</span>
+<span class="text-label-bold font-label-bold">Transaction History</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Discovery Group -->
+<section class="flex flex-col gap-stack-sm">
+<h3 class="text-label-mono font-label-mono text-secondary uppercase border-b-2 border-surface-variant pb-2">Discovery Vectors</h3>
+<div class="flex flex-col gap-unit">
+<button class="settings-card brutalist-border p-4 flex items-center justify-between text-left relative overflow-hidden">
+<div class="flex items-center gap-3 relative z-10">
+<span class="material-symbols-outlined text-on-surface-variant">radar</span>
+<span class="text-label-bold font-label-bold">Global Radius</span>
+</div>
+<span class="text-label-mono font-label-mono text-on-surface-variant relative z-10">50 KM</span>
+<!-- Subtle background effect -->
+<div class="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-surface-variant/20 to-transparent"></div>
+</button>
+<button class="settings-card brutalist-border p-4 flex items-center justify-between text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">filter_list</span>
+<span class="text-label-bold font-label-bold">Content Filters</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Privacy & Safety Group (Highlighting "Mystery") -->
+<section class="flex flex-col gap-stack-sm">
+<h3 class="text-label-mono font-label-mono text-secondary uppercase border-b-2 border-surface-variant pb-2">Encryption &amp; Safety</h3>
+<div class="flex flex-col gap-unit">
+<div class="settings-card brutalist-border p-4 flex items-center justify-between text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">visibility_off</span>
+<span class="text-label-bold font-label-bold">Ghost Mode</span>
+</div>
+<!-- Custom Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value="">
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-none peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-background after:border-gray-300 after:border after:rounded-none after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container border-2 border-outline-variant"></div>
+</label>
+</div>
+<button class="settings-card brutalist-border p-4 flex items-center justify-between text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error">gpp_maybe</span>
+<span class="text-label-bold font-label-bold">Blocked Entities</span>
+</div>
+<span class="text-label-mono font-label-mono text-error">3 BLOCKED</span>
+</button>
+<div class="relative mt-2">
+<!-- Locked Setting Example -->
+<div class="settings-card brutalist-border p-4 flex items-center justify-between text-left opacity-50 pointer-events-none">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">vpn_key</span>
+<span class="text-label-bold font-label-bold">Advanced Biometrics</span>
+</div>
+</div>
+<!-- The Blur Overlay -->
+<div class="absolute inset-0 rumor-blur flex items-center justify-center border-2 border-secondary/30 bg-secondary/10">
+<span class="text-label-mono font-label-mono text-secondary uppercase bg-background/80 px-2 py-1">Feature Locked</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Notifications Group -->
+<section class="flex flex-col gap-stack-sm">
+<h3 class="text-label-mono font-label-mono text-secondary uppercase border-b-2 border-surface-variant pb-2">Comms Settings</h3>
+<div class="flex flex-col gap-unit">
+<button class="settings-card brutalist-border p-4 flex items-center justify-between text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="text-label-bold font-label-bold">Push Alerts</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</button>
+</div>
+</section>
+</div>
+<!-- Log Out Action -->
+<div class="mt-stack-md pt-stack-md border-t-2 border-surface-variant flex justify-center">
+<button class="text-label-mono font-label-mono text-on-surface-variant hover:text-error transition-colors uppercase flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 16px;">logout</span>
+                Terminate Session
+            </button>
+</div>
+</main>
+<!-- BottomNavBar (Suppressed as per rules: Settings is a task-focused/sub-page, suppressing global nav to prioritize canvas) -->
+
+
+
+
+</body></html>

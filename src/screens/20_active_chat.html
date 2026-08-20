@@ -1,0 +1,299 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>24: Active Chat</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed-variant": "#3c4d00",
+                      "on-surface": "#e5e2e1",
+                      "outline": "#8e9379",
+                      "inverse-on-surface": "#313030",
+                      "surface-container-highest": "#353535",
+                      "on-error-container": "#ffdad6",
+                      "surface-variant": "#353535",
+                      "on-secondary": "#490080",
+                      "error": "#ffb4ab",
+                      "tertiary-fixed": "#e2e2e2",
+                      "on-primary-fixed": "#161e00",
+                      "on-primary-container": "#556d00",
+                      "on-secondary-container": "#d6a9ff",
+                      "surface-container": "#20201f",
+                      "surface-tint": "#abd600",
+                      "tertiary-container": "#e2e2e2",
+                      "on-secondary-fixed-variant": "#6900b3",
+                      "surface": "#131313",
+                      "surface-container-high": "#2a2a2a",
+                      "surface-bright": "#393939",
+                      "secondary-fixed-dim": "#ddb7ff",
+                      "on-secondary-fixed": "#2c0051",
+                      "on-background": "#e5e2e1",
+                      "inverse-surface": "#e5e2e1",
+                      "error-container": "#93000a",
+                      "surface-dim": "#131313",
+                      "background": "#131313",
+                      "inverse-primary": "#506600",
+                      "on-tertiary": "#2f3131",
+                      "surface-container-low": "#1c1b1b",
+                      "on-primary": "#283500",
+                      "primary": "#ffffff",
+                      "on-tertiary-fixed-variant": "#454747",
+                      "tertiary": "#ffffff",
+                      "tertiary-fixed-dim": "#c6c6c7",
+                      "on-tertiary-fixed": "#1a1c1c",
+                      "secondary-fixed": "#f0dbff",
+                      "secondary-container": "#6f00be",
+                      "on-tertiary-container": "#636565",
+                      "primary-fixed": "#c3f400",
+                      "secondary": "#ddb7ff",
+                      "outline-variant": "#444933",
+                      "on-error": "#690005",
+                      "surface-container-lowest": "#0e0e0e",
+                      "primary-container": "#c3f400",
+                      "on-surface-variant": "#c4c9ac",
+                      "primary-fixed-dim": "#abd600"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "gutter": "16px",
+                      "margin-desktop": "40px",
+                      "stack-sm": "8px",
+                      "stack-md": "24px",
+                      "unit": "4px",
+                      "stack-lg": "48px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "display-lg": [
+                              "Playfair Display"
+                      ],
+                      "label-bold": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-mono": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "900"
+                              }
+                      ],
+                      "label-bold": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .blur-rumor {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .brutal-shadow-primary {
+            box-shadow: 4px 4px 0px 0px #c3f400; /* primary-container approx / toxic lime */
+        }
+        .brutal-shadow-secondary {
+            box-shadow: 4px 4px 0px 0px #a855f7; /* electric purple */
+        }
+        /* Custom scrollbar for chat area */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131313;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #353535;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8e9379;
+        }
+      </style>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md antialiased h-screen flex flex-col overflow-hidden" style="width: 390px; height: 844px; margin: 0px auto; position: relative; overflow: hidden; background-color: rgb(19, 19, 19);">
+<!-- TopAppBar -->
+<header class="bg-background border-b-2 border-outline-variant docked full-width top-0 z-10">
+<div class="flex justify-between items-center w-full px-margin-mobile py-4 max-w-[1200px] mx-auto">
+<button class="text-primary hover:text-primary-fixed-dim transition-colors scale-95 duration-75 flex items-center justify-center w-10 h-10">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">arrow_back</span>
+</button>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-outline-variant relative">
+<img class="w-full h-full object-cover blur-[2px]" data-alt="A close up, heavily stylized and slightly blurred portrait of a person in a cyberpunk or dark editorial setting. High contrast, cinematic lighting with neon accents against a deep black background. The image should feel mysterious and anonymous, fitting a 'Clean Chaos' brutalist-lite aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZu-ld10XoV8TZ5gnTETLf19ns5b968KFMvv860687EaCl8FQzYIA_KbpWA5DPvVx0X1dkJrSixjdfcz9jRBYGDs367KIkD6_iG4ajmsdGbPTf7EC8f1pXl7XqEFEUF87OcuewGk--88Br4q7o6V_GKEwQvnAu9mQAwQ3gK_5YeMZKfHJSwIXsZd90vf0pC67GLcczxFLR-Kn-WNrVCPOENpUkfOLJ65P9XUc7cE7Jm9MTrVQq7punnA">
+<div class="absolute inset-0 bg-surface/30"></div>
+</div>
+<h1 class="text-headline-lg-mobile font-headline-lg-mobile uppercase tracking-tighter text-primary">PRIYA</h1>
+</div>
+<button class="text-primary hover:text-primary-fixed-dim transition-colors scale-95 duration-75 flex items-center justify-center w-10 h-10">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</header>
+<!-- Main Chat Area -->
+<main class="flex-1 overflow-y-auto w-full max-w-[1200px] mx-auto px-margin-mobile py-stack-md flex flex-col gap-stack-md bg-surface-dim">
+<!-- AI Opener -->
+<div class="w-full max-w-[800px] mx-auto bg-surface border-2 border-primary-container brutal-shadow-primary p-stack-md mb-stack-md relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-2 opacity-50">
+<span class="material-symbols-outlined text-primary-container text-4xl">smart_toy</span>
+</div>
+<div class="flex flex-col gap-stack-sm relative z-10">
+<span class="font-label-mono text-label-mono text-primary-container tracking-widest uppercase flex items-center gap-2">
+<span class="w-2 h-2 bg-primary-container inline-block"></span>
+                    AI OPENER
+                </span>
+<p class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface leading-tight mt-2">
+                    What's the wildest office political move you've actually seen work?
+                </p>
+<div class="mt-4 flex gap-2 flex-wrap">
+<span class="bg-secondary-container text-black font-label-mono text-[10px] px-2 py-1 uppercase tracking-wider brutal-shadow-secondary">#office_politics</span>
+<span class="bg-secondary-container text-black font-label-mono text-[10px] px-2 py-1 uppercase tracking-wider brutal-shadow-secondary">#rumors</span>
+</div>
+</div>
+</div>
+<!-- Chat History -->
+<div class="flex flex-col gap-stack-sm w-full max-w-[800px] mx-auto">
+<!-- System / Timestamp -->
+<div class="text-center w-full my-stack-sm">
+<span class="font-label-mono text-label-mono text-on-surface-variant bg-surface px-4 py-1 border border-outline-variant">ENCRYPTED SESSION START // 14:02</span>
+</div>
+<!-- Receiver Message (Priya) -->
+<div class="flex flex-col items-start max-w-[85%] self-start mb-4">
+<div class="font-label-mono text-label-mono text-outline mb-1 pl-2">PRIYA</div>
+<div class="bg-surface-container border-2 border-outline-variant p-4 text-on-surface font-body-md text-body-md rounded-tr-xl rounded-br-xl rounded-bl-xl">
+                    I once saw a guy CC the CEO on a minor complaint about the coffee machine, but hidden in the thread was proof his manager was embezzling budget. 
+                </div>
+<span class="font-label-mono text-[10px] text-on-surface-variant mt-1 pl-2">14:05</span>
+</div>
+<!-- Receiver Message (Priya) Follow up -->
+<div class="flex flex-col items-start max-w-[85%] self-start mb-4">
+<div class="bg-surface-container border-2 border-outline-variant p-4 text-on-surface font-body-md text-body-md rounded-tr-xl rounded-br-xl rounded-bl-xl">
+                    The manager got fired the next week. The coffee machine never got fixed though.
+                </div>
+<span class="font-label-mono text-[10px] text-on-surface-variant mt-1 pl-2">14:06</span>
+</div>
+<!-- Sender Message (User) -->
+<div class="flex flex-col items-end max-w-[85%] self-end mb-4">
+<div class="font-label-mono text-label-mono text-primary-container mb-1 pr-2">YOU</div>
+<div class="bg-primary-container text-on-primary-fixed font-body-md text-body-md p-4 rounded-tl-xl rounded-bl-xl rounded-br-xl brutal-shadow-primary border-2 border-on-primary-fixed">
+                    No way. That is weaponized incompetence mixed with absolute genius.
+                </div>
+<div class="flex items-center gap-1 mt-1 pr-2">
+<span class="font-label-mono text-[10px] text-on-surface-variant">14:08</span>
+<span class="material-symbols-outlined text-primary-container text-[12px]">done_all</span>
+</div>
+</div>
+<!-- Receiver Message - Locked/Rumor (Priya) -->
+<div class="flex flex-col items-start w-full self-start mb-4 relative group">
+<div class="font-label-mono text-label-mono text-outline mb-1 pl-2">PRIYA</div>
+<div class="relative w-[85%]">
+<!-- The underlying "content" that is blurred -->
+<div class="bg-surface border-2 border-secondary p-4 text-on-surface font-body-md text-body-md rounded-tr-xl rounded-br-xl rounded-bl-xl blur-[8px] select-none pointer-events-none opacity-50">
+                        Speaking of the CEO, there is a massive rumor going around that he's actually stepping down next quarter due to a scandal involving the HR director.
+                    </div>
+<!-- The Blur Overlay Component -->
+<div class="absolute inset-0 bg-secondary-container/20 blur-rumor flex flex-col items-center justify-center rounded-tr-xl rounded-br-xl rounded-bl-xl border-2 border-secondary cursor-pointer hover:bg-secondary-container/30 transition-colors">
+<span class="material-symbols-outlined text-primary mb-2">lock</span>
+<span class="font-label-mono text-label-mono text-primary tracking-widest bg-black px-3 py-1">TOPIC LOCKED</span>
+</div>
+</div>
+<span class="font-label-mono text-[10px] text-on-surface-variant mt-1 pl-2">14:12</span>
+</div>
+</div>
+<!-- Spacer to ensure last message isn't hidden by input -->
+
+</main>
+<!-- Chat Input Area -->
+<footer class="bg-surface border-t-2 border-outline-variant p-margin-mobile z-20">
+<div class="max-w-[1200px] mx-auto w-full flex items-end gap-2 relative">
+<button aria-label="Reference Topic" class="bg-transparent border-2 border-outline-variant text-on-surface p-3 flex items-center justify-center hover:border-primary-container hover:text-primary-container transition-colors shrink-0 h-[56px]">
+<span class="material-symbols-outlined">tag</span>
+</button>
+<div class="flex-1 relative">
+<textarea class="w-full bg-black border-2 border-outline-variant text-on-surface placeholder:text-on-surface-variant font-label-mono text-body-md p-4 min-h-[56px] max-h-[120px] resize-none focus:ring-0 focus:border-primary-container transition-colors focus:brutal-shadow-primary outline-none" placeholder="Type your encrypted message..." rows="1"></textarea>
+<div class="absolute right-2 bottom-2 font-label-mono text-[10px] text-on-surface-variant bg-black px-1 pointer-events-none">
+                    E2E ENCRYPTED
+                </div>
+</div>
+<button aria-label="Send Message" class="bg-primary-container text-black font-label-bold uppercase p-3 flex items-center justify-center border-2 border-on-primary-fixed hover:brutal-shadow-secondary transition-all shrink-0 h-[56px]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</footer>
+<!-- BottomNavBar explicitly omitted as per instructions "BottomNavBar is NOT visible in active chat." -->
+<script>
+        // Simple auto-resize for textarea
+        const textarea = document.querySelector('textarea');
+        textarea.addEventListener('input', function() {
+            this.style.height = '56px'; // Reset to base
+            const newHeight = Math.min(this.scrollHeight, 120);
+            this.style.height = newHeight + 'px';
+        });
+    </script>
+
+
+
+
+
+
+</body></html>

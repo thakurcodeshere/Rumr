@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { ViewType, Topic, RumorPost, ChatMessage, UserPersona, TopicRoom, CatalogScreenItem } from '../types';
+import React, { createContext, useContext, useState } from 'react';
+import { ViewType, Topic, RumorPost, ChatMessage, UserPersona, TopicRoom, CatalogScreenItem, ScreenFrameId } from '../types';
 import { INITIAL_TOPICS, INITIAL_RUMORS, MOCK_MATCH_PARTNER, MOCK_ROOMS, ALL_66_SCREENS } from './mock-data';
+import { SCREEN_FRAME_SPECS } from './frame-specs';
 
 interface AppContextType {
   currentView: ViewType;
@@ -22,9 +23,12 @@ interface AppContextType {
   revealStage: number;
   revealConsent: { me: boolean; them: boolean };
   isMobileFrame: boolean;
+  selectedFrame: ScreenFrameId;
+  compareFrame: ScreenFrameId | null;
   activeAudioRoom: TopicRoom | null;
   isMicActive: boolean;
   aiNudge: { isOpen: boolean; message: string; severity: 'warning' | 'info' } | null;
+  copyToast: string | null;
   
   // Actions
   navigate: (view: ViewType) => void;
@@ -48,13 +52,62 @@ interface AppContextType {
   dismissNudge: () => void;
   triggerNudge: (message: string) => void;
   toggleMobileFrame: () => void;
+  setSelectedFrame: (frame: ScreenFrameId) => void;
+  setCompareFrame: (frame: ScreenFrameId | null) => void;
+  isRegistered: boolean;
+  isGuest: boolean;
+  guestLock: { isOpen: boolean; featureName: string; description: string } | null;
+  triggerGuestLock: (featureName: string, description?: string) => void;
+  dismissGuestLock: () => void;
+  continueAsGuest: () => void;
+  setRegistered: (registered: boolean) => void;
+  resetToBeforeRegister: () => void;
   completeOnboarding: (handle: string) => void;
+  copyFigmaTokens: () => void;
+  copyCurrentScreenCode: () => void;
+  clearToast: () => void;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isRegistered, setIsRegistered] = useState<boolean>(true);
+  const [isGuest, setIsGuest] = useState<boolean>(false);
+  const [guestLock, setGuestLock] = useState<{ isOpen: boolean; featureName: string; description: string } | null>(null);
+
+  const continueAsGuest = () => {
+    setIsGuest(true);
+    setIsRegistered(false);
+    setCurrentView('feed');
+  };
+
+  const triggerGuestLock = (featureName: string, description?: string) => {
+    setGuestLock({
+      isOpen: true,
+      featureName,
+      description: description || 'Register your phone number to unlock this feature.'
+    });
+  };
+
+  const dismissGuestLock = () => {
+    setGuestLock(null);
+  };
   const [currentView, setCurrentView] = useState<ViewType>('feed');
+
+  const resetToBeforeRegister = () => {
+    setIsRegistered(false);
+    setIsGuest(false);
+    setCurrentView('onboarding');
+  };
+
+  const setRegistered = (registered: boolean) => {
+    setIsRegistered(registered);
+    if (registered) {
+      setCurrentView('feed');
+    } else {
+      setCurrentView('onboarding');
+    }
+  };
   const [selectedCatalogScreen, setSelectedCatalogScreen] = useState<CatalogScreenItem | null>(null);
   const [activeTopic, setActiveTopic] = useState<Topic | null>(null);
   const [topics, setTopics] = useState<Topic[]>(INITIAL_TOPICS);
@@ -100,9 +153,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [revealStage, setRevealStage] = useState<number>(0);
   const [revealConsent, setRevealConsent] = useState<{ me: boolean; them: boolean }>({ me: false, them: false });
   const [isMobileFrame, setIsMobileFrame] = useState<boolean>(true);
+  const [selectedFrame, setSelectedFrame] = useState<ScreenFrameId>('iphone-16-pro');
+  const [compareFrame, setCompareFrame] = useState<ScreenFrameId | null>(null);
   const [activeAudioRoom, setActiveAudioRoom] = useState<TopicRoom | null>(null);
   const [isMicActive, setIsMicActive] = useState<boolean>(false);
   const [aiNudge, setAiNudge] = useState<{ isOpen: boolean; message: string; severity: 'warning' | 'info' } | null>(null);
+  const [copyToast, setCopyToast] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setCopyToast(msg);
+    setTimeout(() => {
+      setCopyToast(null);
+    }, 3000);
+  };
+
+  const clearToast = () => setCopyToast(null);
 
   const navigate = (view: ViewType) => {
     setSelectedCatalogScreen(null);
@@ -192,7 +257,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     setChatMessages(prev => [...prev, newMsg]);
 
-    // Simulated reply
     setTimeout(() => {
       const replies = [
         "That contradicts the telemetry data I analyzed in Q1.",
@@ -276,8 +340,35 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const completeOnboarding = (handle: string) => {
+    setIsRegistered(true);
     setUser(prev => ({ ...prev, handle: handle || prev.handle }));
     navigate('feed');
+  };
+
+  const copyFigmaTokens = async () => {
+    try {
+      const res = await fetch('/tokens/figma-tokens.json');
+      if (res.ok) {
+        const text = await res.text();
+        await navigator.clipboard.writeText(text);
+        showToast('✓ Figma Tokens copied! Paste directly into Tokens Studio.');
+      } else {
+        showToast('Tokens file ready in tokens/figma-tokens.json');
+      }
+    } catch {
+      showToast('Tokens ready in tokens/figma-tokens.json');
+    }
+  };
+
+  const copyCurrentScreenCode = async () => {
+    const spec = SCREEN_FRAME_SPECS[selectedFrame];
+    const frameInfo = `Frame: ${spec.name} (${spec.width}x${spec.height}px, ${spec.ratio})`;
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      showToast(`✓ Link copied for html.to.design! [${frameInfo}]`);
+    } catch {
+      showToast(`Frame info: ${frameInfo}`);
+    }
   };
 
   return (
@@ -294,9 +385,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       revealStage,
       revealConsent,
       isMobileFrame,
+      selectedFrame,
+      compareFrame,
+      isRegistered,
+      isGuest,
+      guestLock,
+      triggerGuestLock,
+      dismissGuestLock,
+      continueAsGuest,
+      setRegistered,
+      resetToBeforeRegister,
       activeAudioRoom,
       isMicActive,
       aiNudge,
+      copyToast,
       navigate,
       selectCatalogScreen,
       clearSelectedCatalogScreen,
@@ -318,7 +420,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       dismissNudge,
       triggerNudge,
       toggleMobileFrame,
-      completeOnboarding
+      setSelectedFrame,
+      setCompareFrame,
+      completeOnboarding,
+      copyFigmaTokens,
+      copyCurrentScreenCode,
+      clearToast
     }}>
       {children}
     </AppContext.Provider>

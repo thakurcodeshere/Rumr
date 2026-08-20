@@ -15,11 +15,39 @@ export const ChatView: React.FC = () => {
     requestRevealConsent, 
     advanceReveal,
     resetReveal,
-    navigate 
+    navigate,
+    isGuest,
+    resetToBeforeRegister
   } = useApp();
 
   const [input, setInput] = useState('');
   const [showUnmaskAnimation, setShowUnmaskAnimation] = useState(false);
+
+    if (isGuest) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center p-6 bg-[#0e0e0e] text-center space-y-5 min-h-[500px]">
+        <div className="w-16 h-16 bg-[#1a1726] border-2 border-[#a855f7] flex items-center justify-center text-[#ccff00] shadow-[4px_4px_0px_#a855f7]">
+          <Lock className="w-8 h-8" />
+        </div>
+        <div className="space-y-1 max-w-xs">
+          <BrutalistBadge variant="purple">GUEST RESTRICTION</BrutalistBadge>
+          <h3 className="font-serif text-2xl font-black text-white mt-1">Encrypted Chat Locked</h3>
+          <p className="font-sans text-xs text-gray-400 leading-relaxed">
+            1-on-1 encrypted topic tunnels and progressive unmasking are reserved for phone-verified users.
+          </p>
+        </div>
+        <BrutalistButton
+          variant="primary"
+          size="md"
+          onClick={() => resetToBeforeRegister()}
+          className="flex items-center gap-1.5"
+        >
+          <Sparkles className="w-4 h-4 text-black" />
+          REGISTER WITH PHONE TO UNLOCK
+        </BrutalistButton>
+      </div>
+    );
+  }
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();

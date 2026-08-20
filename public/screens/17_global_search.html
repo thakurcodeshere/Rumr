@@ -1,0 +1,276 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>RUMR - Global Search</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&amp;family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-high": "#2a2a2a",
+                      "on-tertiary-fixed-variant": "#454747",
+                      "surface": "#131313",
+                      "on-surface-variant": "#c4c9ac",
+                      "error-container": "#93000a",
+                      "tertiary-fixed-dim": "#c6c6c7",
+                      "on-background": "#e5e2e1",
+                      "on-secondary-container": "#d6a9ff",
+                      "inverse-on-surface": "#313030",
+                      "primary-container": "#c3f400",
+                      "outline-variant": "#444933",
+                      "surface-dim": "#131313",
+                      "error": "#ffb4ab",
+                      "on-tertiary": "#2f3131",
+                      "on-primary-container": "#556d00",
+                      "surface-bright": "#393939",
+                      "inverse-primary": "#506600",
+                      "on-surface": "#e5e2e1",
+                      "on-primary": "#283500",
+                      "on-tertiary-container": "#636565",
+                      "on-error": "#690005",
+                      "on-secondary": "#490080",
+                      "on-primary-fixed": "#161e00",
+                      "inverse-surface": "#e5e2e1",
+                      "secondary-fixed": "#f0dbff",
+                      "surface-container-lowest": "#0e0e0e",
+                      "on-tertiary-fixed": "#1a1c1c",
+                      "surface-container": "#20201f",
+                      "primary": "#ffffff",
+                      "secondary": "#ddb7ff",
+                      "tertiary-container": "#e2e2e2",
+                      "secondary-fixed-dim": "#ddb7ff",
+                      "on-secondary-fixed": "#2c0051",
+                      "primary-fixed-dim": "#abd600",
+                      "background": "#131313",
+                      "tertiary": "#ffffff",
+                      "surface-tint": "#abd600",
+                      "on-error-container": "#ffdad6",
+                      "primary-fixed": "#c3f400",
+                      "surface-variant": "#353535",
+                      "surface-container-highest": "#353535",
+                      "secondary-container": "#6f00be",
+                      "on-secondary-fixed-variant": "#6900b3",
+                      "tertiary-fixed": "#e2e2e2",
+                      "outline": "#8e9379",
+                      "on-primary-fixed-variant": "#3c4d00",
+                      "surface-container-low": "#1c1b1b"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-md": "24px",
+                      "stack-lg": "48px",
+                      "stack-sm": "8px",
+                      "gutter": "16px",
+                      "unit": "4px",
+                      "margin-desktop": "40px",
+                      "margin-mobile": "20px"
+              },
+              "fontFamily": {
+                      "display-lg": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ],
+                      "label-bold": [
+                              "Inter"
+                      ],
+                      "label-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "900"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-bold": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-mono": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: #000000; /* Void Black */
+            color: #e5e2e1;
+        }
+        .bg-void {
+            background-color: #000000;
+        }
+        .bg-surface-grey {
+            background-color: #1A1A1A;
+        }
+        .border-toxic-lime {
+            border-color: #c3f400;
+        }
+        .text-toxic-lime {
+            color: #c3f400;
+        }
+        .bg-toxic-lime {
+            background-color: #c3f400;
+        }
+        .text-electric-purple {
+            color: #A855F7;
+        }
+        .bg-electric-purple {
+            background-color: #A855F7;
+        }
+        .shadow-hard-primary {
+            box-shadow: 4px 4px 0px 0px #c3f400;
+        }
+        .shadow-hard-secondary {
+            box-shadow: 4px 4px 0px 0px #A855F7;
+        }
+        
+        /* Hide scrollbar for clean look */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased min-h-screen flex justify-center bg-void">
+<!-- Mobile Container (390x844) -->
+<div class="w-full max-w-[390px] h-[844px] bg-background relative overflow-hidden flex flex-col border-x-2 border-surface-container-high md:border-none">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center px-margin-mobile py-4 w-full top-0 bg-background dark:bg-background z-10">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary cursor-pointer active:opacity-80 transition-colors hover:text-primary-fixed-dim" data-icon="arrow_back">arrow_back</span>
+<span class="font-display-lg text-display-lg text-primary tracking-tighter uppercase ml-2 text-[24px]">Global Search</span>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto px-margin-mobile pb-[100px] flex flex-col gap-stack-md">
+<!-- Search Input (Active) -->
+<div class="w-full">
+<div class="relative w-full border-b-2 border-toxic-lime flex items-center bg-void py-2">
+<span class="material-symbols-outlined text-toxic-lime absolute left-0" data-icon="search">search</span>
+<input autofocus="" class="w-full bg-transparent border-none text-primary font-label-mono text-label-mono focus:ring-0 pl-8 pr-8" placeholder="SEARCH..." type="text" value="startup">
+<span class="material-symbols-outlined text-surface-variant absolute right-0 cursor-pointer hover:text-primary transition-colors" data-icon="close">close</span>
+</div>
+</div>
+<!-- Tabs -->
+<div class="flex gap-gutter overflow-x-auto pb-2 border-b-2 border-surface-container-highest whitespace-nowrap">
+<button class="font-label-mono text-label-mono text-surface-variant hover:text-primary transition-colors uppercase px-2 py-1">People</button>
+<button class="font-label-mono text-label-mono text-toxic-lime border-b-2 border-toxic-lime uppercase px-2 py-1 relative top-[2px]">Topics</button>
+<button class="font-label-mono text-label-mono text-surface-variant hover:text-primary transition-colors uppercase px-2 py-1">Discussions</button>
+<button class="font-label-mono text-label-mono text-surface-variant hover:text-primary transition-colors uppercase px-2 py-1">Communities</button>
+</div>
+<!-- Results -->
+<div class="flex flex-col gap-stack-md mt-unit">
+<!-- Topic Card: #StartupDrama -->
+<div class="bg-surface-grey border-2 border-toxic-lime p-gutter flex flex-col gap-stack-sm relative overflow-hidden group cursor-pointer transition-transform hover:translate-y-[-2px] shadow-hard-primary">
+<div class="absolute top-2 right-2 bg-toxic-lime text-on-primary font-label-mono text-[10px] px-1 py-[2px] uppercase">Trending</div>
+<div class="flex items-start justify-between">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">#StartupDrama</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Leaked memos suggest a major pivot and executive departures at a prominent Series B fintech. Anonymity requested.</p>
+<div class="mt-2 flex gap-2 flex-wrap">
+<span class="bg-electric-purple text-on-primary font-label-mono text-[10px] px-2 py-1 uppercase border border-electric-purple">Fintech</span>
+<span class="bg-surface-container text-on-surface font-label-mono text-[10px] px-2 py-1 uppercase border border-surface-container-high">Layoffs</span>
+</div>
+<div class="mt-4 border-t-2 border-surface-container-high pt-2 flex justify-between items-center">
+<div class="flex items-center gap-1 text-toxic-lime">
+<span class="material-symbols-outlined text-[16px]" data-icon="whatshot" data-weight="fill" style="font-variation-settings: 'FILL' 1;">whatshot</span>
+<span class="font-label-mono text-label-mono">ACTIVITY: HIGH</span>
+</div>
+<span class="font-label-mono text-label-mono text-surface-variant">42 MINS AGO</span>
+</div>
+</div>
+<!-- Discussion Item 1 -->
+<div class="border-2 border-surface-container-high p-gutter flex flex-col gap-stack-sm bg-void cursor-pointer hover:border-primary transition-colors">
+<div class="flex items-center gap-2 mb-1">
+<div class="w-2 h-2 bg-electric-purple rounded-full"></div>
+<span class="font-label-mono text-[10px] text-surface-variant uppercase tracking-widest">Active Thread</span>
+</div>
+<h4 class="font-label-bold text-label-bold text-primary">Is the 'AI Wrapper' startup era officially over? VCs pulling term sheets.</h4>
+<div class="flex items-center gap-4 mt-2">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]" data-icon="forum">forum</span>
+<span class="font-label-mono text-[10px]">128</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]" data-icon="visibility">visibility</span>
+<span class="font-label-mono text-[10px]">3.4K</span>
+</div>
+</div>
+</div>
+<!-- Discussion Item 2 -->
+<div class="border-2 border-surface-container-high p-gutter flex flex-col gap-stack-sm bg-void cursor-pointer hover:border-primary transition-colors relative">
+<!-- Rumor Blur Overlay for Locked Content -->
+<div class="absolute inset-0 bg-surface/40 backdrop-blur-[15px] flex items-center justify-center z-10 border-2 border-surface-container-high">
+<div class="flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[24px]" data-icon="lock">lock</span>
+<span class="font-label-mono text-label-mono text-primary bg-void px-2 py-1 border border-surface-variant uppercase">Thread Locked</span>
+</div>
+</div>
+<div class="flex items-center gap-2 mb-1 opacity-50">
+<div class="w-2 h-2 bg-surface-variant rounded-full"></div>
+<span class="font-label-mono text-[10px] text-surface-variant uppercase tracking-widest">Archived</span>
+</div>
+<h4 class="font-label-bold text-label-bold text-primary opacity-50">Founder equity split drama: Co-founder locked out of AWS.</h4>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Hidden per intent rule, but providing visual spacer if needed. Since it's a search results page, it might be a sub-page, but to adhere to the prompt's structural context, we'll hide the actual global nav and rely on the back button above.) -->
+</div>
+
+
+
+
+</body></html>

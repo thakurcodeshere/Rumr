@@ -4,7 +4,7 @@ import { useApp } from '../../lib/store';
 import { ViewType } from '../../types';
 
 export const BottomNav: React.FC = () => {
-  const { currentView, navigate } = useApp();
+  const { currentView, navigate, isRegistered } = useApp();
 
   const tabs: { id: ViewType; label: string; icon: React.FC<{ className?: string }> }[] = [
     { id: 'feed', label: 'Discover', icon: Flame },
@@ -14,7 +14,7 @@ export const BottomNav: React.FC = () => {
     { id: 'profile', label: 'Me', icon: User },
   ];
 
-  if (currentView === 'onboarding') return null;
+  if (!isRegistered || currentView === 'onboarding') return null;
 
   return (
     <nav className="bg-[#0e0e0e] border-t-2 border-[#262626] px-2 py-2 sticky bottom-0 z-30">

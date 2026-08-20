@@ -32,7 +32,9 @@ export const FeedView: React.FC = () => {
     toggleRumorDebate, 
     decryptRumor, 
     navigate, 
-    setActiveTopic 
+    setActiveTopic,
+    isGuest,
+    triggerGuestLock
   } = useApp();
 
   const [viewMode, setViewMode] = useState<'card_deck' | 'discussions'>('card_deck');
@@ -91,6 +93,10 @@ export const FeedView: React.FC = () => {
   const currentCard = discoveryCards[currentCardIndex % discoveryCards.length];
 
   const handleSwipe = (action: 'like' | 'pass') => {
+    if (isGuest && action === 'like') {
+      triggerGuestLock('Topic Matching & Swiping', 'Guest mode is read-only. Register with your phone number to swipe right on gossip topics and unlock matches.');
+      return;
+    }
     setSwipeFeedback(action);
     if (action === 'like') {
       confetti({

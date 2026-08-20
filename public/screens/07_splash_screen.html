@@ -1,0 +1,200 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>02: Splash Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-high": "#2a2a2a",
+                      "on-tertiary-fixed-variant": "#454747",
+                      "surface": "#131313",
+                      "on-surface-variant": "#c4c9ac",
+                      "error-container": "#93000a",
+                      "tertiary-fixed-dim": "#c6c6c7",
+                      "on-background": "#e5e2e1",
+                      "on-secondary-container": "#d6a9ff",
+                      "inverse-on-surface": "#313030",
+                      "primary-container": "#c3f400",
+                      "outline-variant": "#444933",
+                      "surface-dim": "#131313",
+                      "error": "#ffb4ab",
+                      "on-tertiary": "#2f3131",
+                      "on-primary-container": "#556d00",
+                      "surface-bright": "#393939",
+                      "inverse-primary": "#506600",
+                      "on-surface": "#e5e2e1",
+                      "on-primary": "#283500",
+                      "on-tertiary-container": "#636565",
+                      "on-error": "#690005",
+                      "on-secondary": "#490080",
+                      "on-primary-fixed": "#161e00",
+                      "inverse-surface": "#e5e2e1",
+                      "secondary-fixed": "#f0dbff",
+                      "surface-container-lowest": "#0e0e0e",
+                      "on-tertiary-fixed": "#1a1c1c",
+                      "surface-container": "#20201f",
+                      "primary": "#ffffff",
+                      "secondary": "#ddb7ff",
+                      "tertiary-container": "#e2e2e2",
+                      "secondary-fixed-dim": "#ddb7ff",
+                      "on-secondary-fixed": "#2c0051",
+                      "primary-fixed-dim": "#abd600",
+                      "background": "#131313",
+                      "tertiary": "#ffffff",
+                      "surface-tint": "#abd600",
+                      "on-error-container": "#ffdad6",
+                      "primary-fixed": "#c3f400",
+                      "surface-variant": "#353535",
+                      "surface-container-highest": "#353535",
+                      "secondary-container": "#6f00be",
+                      "on-secondary-fixed-variant": "#6900b3",
+                      "tertiary-fixed": "#e2e2e2",
+                      "outline": "#8e9379",
+                      "on-primary-fixed-variant": "#3c4d00",
+                      "surface-container-low": "#1c1b1b"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-md": "24px",
+                      "stack-lg": "48px",
+                      "stack-sm": "8px",
+                      "gutter": "16px",
+                      "unit": "4px",
+                      "margin-desktop": "40px",
+                      "margin-mobile": "20px"
+              },
+              "fontFamily": {
+                      "display-lg": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ],
+                      "label-bold": [
+                              "Inter"
+                      ],
+                      "label-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "900"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-bold": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-mono": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .loading-bar-step {
+            animation: step-loading 2s infinite steps(10, end);
+        }
+        @keyframes step-loading {
+            0% { width: 0; }
+            100% { width: 100%; }
+        }
+        
+        /* Noise overlay for that gritty editorial feel */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+      </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col items-center justify-center relative overflow-hidden font-body-md" style="width: 390px; height: 844px; margin: 0 auto; outline: 1px solid #333;">
+<div class="noise-overlay"></div>
+<!-- Central Branding -->
+<main class="flex-1 flex flex-col items-center justify-center w-full px-margin-mobile relative z-10">
+<!-- Logo -->
+<h1 class="font-display-lg text-display-lg text-primary tracking-tighter uppercase mb-stack-sm drop-shadow-[0_4px_0_theme(colors.secondary-container)] relative">
+            RUMR
+            <span class="absolute -top-4 -right-6 text-primary-container material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">security</span>
+</h1>
+<!-- Tagline -->
+<p class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-widest text-center mt-stack-md">
+            Your Topics.<br>Your People.
+        </p>
+</main>
+<!-- Bottom Loading Indicator -->
+<footer class="w-full px-margin-mobile pb-stack-lg relative z-10">
+<div class="flex flex-col items-center gap-unit">
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase text-[10px]">Decrypting...</span>
+<div class="w-48 h-2 border-2 border-outline-variant bg-surface relative overflow-hidden">
+<div class="h-full bg-primary-container loading-bar-step absolute top-0 left-0"></div>
+</div>
+</div>
+</footer>
+
+
+
+
+</body></html>

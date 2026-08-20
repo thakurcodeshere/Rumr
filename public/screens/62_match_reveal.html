@@ -1,0 +1,279 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>20: Match Reveal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#ffffff",
+                        "on-background": "#e5e2e1",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "outline": "#8e9379",
+                        "primary-container": "#c3f400",
+                        "surface-container-high": "#2a2a2a",
+                        "primary-fixed-dim": "#abd600",
+                        "on-tertiary-container": "#636565",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "surface-tint": "#abd600",
+                        "surface": "#131313",
+                        "surface-container": "#20201f",
+                        "on-surface-variant": "#c4c9ac",
+                        "inverse-on-surface": "#313030",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-secondary-fixed": "#2c0051",
+                        "on-primary-container": "#556d00",
+                        "on-secondary": "#490080",
+                        "secondary-fixed": "#f0dbff",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-bright": "#393939",
+                        "surface-container-low": "#1c1b1b",
+                        "on-primary-fixed": "#161e00",
+                        "tertiary-container": "#e2e2e2",
+                        "secondary-container": "#6f00be",
+                        "on-surface": "#e5e2e1",
+                        "secondary": "#ddb7ff",
+                        "on-tertiary": "#2f3131",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "outline-variant": "#444933",
+                        "inverse-primary": "#506600",
+                        "error-container": "#93000a",
+                        "surface-dim": "#131313",
+                        "surface-container-lowest": "#0e0e0e",
+                        "tertiary": "#ffffff",
+                        "tertiary-fixed": "#e2e2e2",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-secondary-container": "#d6a9ff",
+                        "primary-fixed": "#c3f400",
+                        "on-error-container": "#ffdad6",
+                        "on-primary": "#283500",
+                        "surface-variant": "#353535",
+                        "surface-container-highest": "#353535",
+                        "error": "#ffb4ab",
+                        "background": "#131313",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "unit": "4px",
+                        "stack-md": "24px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px",
+                        "stack-lg": "48px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter", "sans-serif"],
+                        "headline-lg-mobile": ["Playfair Display", "serif"],
+                        "label-bold": ["Inter", "sans-serif"],
+                        "headline-lg": ["Playfair Display", "serif"],
+                        "display-lg": ["Playfair Display", "serif"],
+                        "label-mono": ["JetBrains Mono", "monospace"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        body {
+            background-color: #000000; /* Void background */
+            color: #e5e2e1;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* For fixed size presentation */
+        }
+        
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .screen-container {
+            width: 100%;
+            max-width: 390px;
+            height: 844px;
+            margin: 0 auto;
+            background-color: #1A1A1A; /* Surface Grey */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            border-left: 2px solid #353535;
+            border-right: 2px solid #353535;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        .glitch-text {
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch-text::before, .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -2px 0 #A855F7; /* Electric Purple */
+            animation: glitch-anim 2s infinite linear alternate-reverse;
+            clip: rect(44px, 450px, 56px, 0);
+        }
+
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -2px 0 #c3f400; /* Toxic Lime */
+            animation: glitch-anim2 3s infinite linear alternate-reverse;
+            clip: rect(44px, 450px, 56px, 0);
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(10px, 9999px, 83px, 0); }
+            20% { clip: rect(65px, 9999px, 2px, 0); }
+            40% { clip: rect(23px, 9999px, 54px, 0); }
+            60% { clip: rect(87px, 9999px, 45px, 0); }
+            80% { clip: rect(12px, 9999px, 91px, 0); }
+            100% { clip: rect(54px, 9999px, 32px, 0); }
+        }
+
+        @keyframes glitch-anim2 {
+            0% { clip: rect(89px, 9999px, 12px, 0); }
+            20% { clip: rect(34px, 9999px, 76px, 0); }
+            40% { clip: rect(9px, 9999px, 55px, 0); }
+            60% { clip: rect(78px, 9999px, 23px, 0); }
+            80% { clip: rect(45px, 9999px, 88px, 0); }
+            100% { clip: rect(21px, 9999px, 67px, 0); }
+        }
+        
+        .brutalist-button-primary {
+            background-color: #c3f400; /* Toxic Lime */
+            color: #000000;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 2px solid #c3f400;
+            transition: all 0.2s ease;
+        }
+        
+        .brutalist-button-primary:hover, .brutalist-button-primary:active {
+            box-shadow: 4px 4px 0 #A855F7; /* Electric Purple hard shadow */
+            transform: translate(-2px, -2px);
+        }
+
+        .gossip-tag {
+            background-color: #A855F7; /* Electric Purple */
+            color: #000000;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            border-radius: 0;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="bg-background antialiased flex items-center justify-center min-h-screen">
+<div class="noise-overlay"></div>
+<main class="screen-container bg-surface relative">
+<!-- Top App Bar - Simplified for splash screen but keeping structure -->
+<header class="flex justify-between items-center w-full px-margin-mobile h-16 border-b-2 border-surface-variant shrink-0 relative z-20 bg-background">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-primary-container text-xl" data-icon="sensors" style="font-variation-settings: 'FILL' 1;">sensors</span>
+</div>
+<div class="font-label-mono text-label-mono font-bold tracking-widest text-primary-container uppercase">
+                LONDON_UK
+            </div>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-primary-container text-xl" data-icon="encryption" style="font-variation-settings: 'FILL' 1;">chevron_left</span>
+</div>
+</header>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col justify-between px-margin-mobile py-stack-lg relative overflow-y-auto">
+<!-- Graphic Element / Avatar representation -->
+<div class="flex justify-center mb-stack-md mt-stack-md relative h-48 w-full">
+<!-- A brutalist representation of a match - two overlapping circles or geometric shapes -->
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 border-2 border-primary-container rounded-none rotate-12 flex items-center justify-center opacity-80 mix-blend-screen bg-surface-container-high" style="left: 40%;">
+<img class="w-full h-full object-cover grayscale opacity-70" data-alt="A distorted, brutalist digital avatar image representing an anonymous user profile. The image uses dark grays, high contrast black lines, and subtle toxic lime green digital artifacts. It has a mysterious, encrypted aesthetic suitable for an edgy underground social app." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkRMFSBsXkVSkXX5aPXVNbwapsqvJVARuMQfnIsmK7waTEbb9DpahrATqN96Dg9MGa2myjkg4N2TJjr4XvZd_v6Bjr_FNBK8fk0fEaAORCOPf9aIHNTlnJkLAsH7aErXr2aFBmbaYJsWaq1uwVLhI-k6HVakAjCMSMes04JJFY-_kIpfpnPy_ePIFHgxF2_e8rLHczaqAwJ5wCOUWHMwmVd7N7_BCzDYVvOngxhJtuFww5AfaTJWljEw">
+</div>
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 border-2 border-[#A855F7] rounded-none -rotate-6 flex items-center justify-center opacity-80 mix-blend-screen bg-surface-container-high" style="left: 60%; z-index: 5;">
+<img class="w-full h-full object-cover grayscale opacity-70" data-alt="A second distorted, brutalist digital avatar image representing another anonymous user. It features deep blacks, stark white contrasts, and electric purple glitched elements. The style is raw, edgy, and fits an underground communication platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJlqGX3ehALMbWnPGspaguYxKmTH_q05729Yqg3fx2_-iRObfzhxHg4uR9fKNEY3WuONi4KG0eblFDP4YNl489cyroq_E91_karGcqxNVfnvHBWo6oO4DcV8AUda34Awik6g8b_4AYa-akie9hzNzmkMkCWmv17QHNB3GoGoDZyuHevxCy3iowuGEkVhuk6XJ_48gWS7XMqOUhwr0ebukd14XjMgZHHOtnkk98gpVFdLltn6Z9qvxwJA">
+</div>
+<!-- Intersecting element representing the connection -->
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 bg-surface px-3 py-2 border-2 border-primary font-label-mono text-label-mono font-bold text-primary tracking-widest">
+                    SYNC_ESTABLISHED
+                </div>
+</div>
+<!-- Headers -->
+<div class="text-center mb-stack-lg mt-stack-md">
+<h1 class="font-display-lg text-display-lg text-primary uppercase mb-unit tracking-tighter glitch-text" data-text="IT'S A MATCH!">
+                    IT'S A MATCH!
+                </h1>
+<h2 class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-widest mt-stack-sm border-t-2 border-surface-variant pt-stack-sm inline-block px-4">
+                    SAME CHAOS. SAME TOPICS.
+                </h2>
+</div>
+<!-- Overlaps Section -->
+<div class="flex-1 mt-stack-sm">
+<div class="border-2 border-surface-variant p-4 bg-surface-container-low relative">
+<!-- Progress line style header -->
+<div class="flex items-center justify-between mb-4 border-b-2 border-surface-variant pb-2">
+<span class="font-label-mono text-label-mono text-primary uppercase tracking-wider">MATCH_RATE: 88%</span>
+<span class="font-label-mono text-label-mono text-primary-container">4 TOPIC OVERLAPS</span>
+</div>
+<!-- Topics Grid - Asymmetric Layout -->
+<div class="flex flex-wrap gap-2 justify-center pt-2">
+<span class="gossip-tag px-3 py-2 font-bold tracking-wider">Ghosting</span>
+<span class="gossip-tag px-3 py-2 font-bold tracking-wider bg-primary-container text-black border-2 border-primary-container" style="background-color: transparent; color: #c3f400; border-color: #c3f400;">Dating</span>
+<span class="gossip-tag px-3 py-2 font-bold tracking-wider">Office Politics</span>
+<span class="gossip-tag px-3 py-2 font-bold tracking-wider bg-primary text-black" style="background-color: #ffffff; color: #000000;">Startup Drama</span>
+</div>
+</div>
+</div>
+<!-- CTAs -->
+<div class="flex flex-col gap-stack-sm mt-stack-lg mb-stack-md w-full">
+<button class="brutalist-button-primary w-full py-4 text-center cursor-pointer">
+                    SAY SOMETHING
+                </button>
+<button class="w-full py-3 text-center font-label-mono text-label-mono text-on-surface-variant uppercase tracking-widest hover:text-primary transition-colors cursor-pointer underline underline-offset-4 decoration-surface-variant hover:decoration-primary">
+                    Maybe later
+                </button>
+</div>
+</div>
+</main>
+
+
+</body></html>

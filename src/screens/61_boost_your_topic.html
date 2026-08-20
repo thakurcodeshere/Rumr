@@ -1,0 +1,200 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=390, height=844, initial-scale=1.0" name="viewport">
+<title>34: Boost Your Topic</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#e2e2e2",
+                        "inverse-on-surface": "#313030",
+                        "error-container": "#93000a",
+                        "tertiary": "#ffffff",
+                        "on-surface-variant": "#c4c9ac",
+                        "surface-dim": "#131313",
+                        "on-surface": "#e5e2e1",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container": "#20201f",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary": "#2f3131",
+                        "surface-tint": "#abd600",
+                        "on-secondary-container": "#d6a9ff",
+                        "primary-container": "#c3f400",
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary": "#ddb7ff",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-bright": "#393939",
+                        "surface-container-high": "#2a2a2a",
+                        "primary-fixed-dim": "#abd600",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "inverse-primary": "#506600",
+                        "secondary-fixed": "#f0dbff",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "primary-fixed": "#c3f400",
+                        "background": "#131313",
+                        "tertiary-container": "#e2e2e2",
+                        "on-primary": "#283500",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-container-highest": "#353535",
+                        "on-tertiary-container": "#636565",
+                        "on-primary-container": "#556d00",
+                        "outline-variant": "#444933",
+                        "outline": "#8e9379",
+                        "primary": "#ffffff",
+                        "surface-variant": "#353535",
+                        "on-secondary-fixed": "#2c0051",
+                        "surface": "#131313",
+                        "surface-container-low": "#1c1b1b",
+                        "secondary-container": "#6f00be",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-primary-fixed": "#161e00",
+                        "on-secondary": "#490080",
+                        "on-background": "#e5e2e1",
+                        "error": "#ffb4ab",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px",
+                        "unit": "4px",
+                        "stack-md": "24px",
+                        "gutter": "16px",
+                        "stack-sm": "8px",
+                        "stack-lg": "48px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "body-md": ["Inter"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-lg": ["Playfair Display"],
+                        "label-bold": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-mono": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-bold": ["14px", {"lineHeight": "1.2", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom styles for the Clean Chaos aesthetic */
+        .brutalist-border {
+            border: 2px solid theme('colors.primary');
+        }
+        .brutalist-border-lime {
+            border: 2px solid theme('colors.primary-fixed');
+        }
+        .hard-shadow-primary {
+            box-shadow: 4px 4px 0 0 theme('colors.primary-fixed');
+        }
+        .hard-shadow-secondary {
+            box-shadow: 4px 4px 0 0 theme('colors.secondary');
+        }
+        .duration-selector.active {
+            border-color: theme('colors.primary-fixed');
+            background-color: theme('colors.primary-fixed');
+            color: theme('colors.on-primary-fixed');
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased flex flex-col min-h-[844px] max-w-[390px] mx-auto relative overflow-hidden">
+<!-- TopAppBar (Suppressed per logic, keeping a simple back header for transactional flow) -->
+<header class="flex items-center px-margin-mobile py-4 w-full z-50 fixed top-0 bg-background">
+<button class="text-primary hover:text-primary-fixed transition-colors active:opacity-80 flex items-center justify-center p-2">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 flex flex-col px-margin-mobile pt-[80px] pb-[100px] gap-stack-md z-10 relative">
+<!-- Header Section -->
+<div class="flex flex-col gap-stack-sm">
+<h1 class="font-display-lg text-display-lg text-primary uppercase">Boost<br>Topic</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Amplify #StartupDrama to targeted demographics.</p>
+</div>
+<!-- Topic Card Preview -->
+<div class="bg-surface brutalist-border p-4 flex flex-col gap-stack-sm relative overflow-hidden">
+<!-- Decorative blur element to fit aesthetic -->
+<div class="absolute -top-10 -right-10 w-24 h-24 bg-secondary opacity-20 rounded-full blur-[20px]"></div>
+<div class="flex justify-between items-start">
+<span class="font-label-mono text-label-mono uppercase text-primary-fixed tracking-widest">Targeting</span>
+<span class="material-symbols-outlined text-primary-fixed">target</span>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mt-2">#StartupDrama</h2>
+<div class="flex flex-col gap-2 mt-4 pt-4 border-t-2 border-surface-container-high">
+<div class="flex justify-between items-center">
+<span class="font-label-mono text-label-mono text-on-surface-variant">Est. Reach</span>
+<span class="font-label-mono text-label-mono text-primary">+1,200 matches</span>
+</div>
+<!-- Progress indicator styled as data loading bar -->
+<div class="w-full h-2 brutalist-border p-[1px]">
+<div class="bg-primary-fixed h-full w-[80%]"></div>
+</div>
+</div>
+</div>
+<!-- Duration Selectors -->
+<div class="flex flex-col gap-stack-sm mt-stack-sm">
+<h3 class="font-label-mono text-label-mono uppercase text-primary tracking-widest">Select Duration</h3>
+<div class="grid grid-cols-3 gap-unit">
+<button class="duration-selector bg-void border-2 border-surface-container-highest p-4 flex flex-col items-center justify-center gap-2 hover:border-primary-fixed transition-colors">
+<span class="font-headline-lg-mobile text-headline-lg-mobile">30</span>
+<span class="font-label-mono text-label-mono">MIN</span>
+</button>
+<button class="duration-selector active p-4 flex flex-col items-center justify-center gap-2">
+<span class="font-headline-lg-mobile text-headline-lg-mobile">1</span>
+<span class="font-label-mono text-label-mono">HR</span>
+</button>
+<button class="duration-selector bg-void border-2 border-surface-container-highest p-4 flex flex-col items-center justify-center gap-2 hover:border-primary-fixed transition-colors">
+<span class="font-headline-lg-mobile text-headline-lg-mobile">3</span>
+<span class="font-label-mono text-label-mono">HR</span>
+</button>
+</div>
+</div>
+<!-- Spacer to push action to bottom -->
+<div class="flex-1"></div>
+<!-- Action Button -->
+<div class="w-full fixed bottom-0 left-0 p-margin-mobile bg-gradient-to-t from-background to-transparent z-50">
+<button class="w-full bg-primary-fixed text-on-primary-fixed font-label-mono text-label-mono font-bold uppercase py-4 hard-shadow-secondary hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0_0_theme('colors.secondary')] active:translate-y-[4px] active:translate-x-[4px] active:shadow-none transition-all flex justify-center items-center gap-2">
+<span class="material-symbols-outlined">rocket_launch</span>
+                Boost Topic
+            </button>
+</div>
+</main>
+<!-- BottomNavBar (Suppressed per logic for transactional flow) -->
+<script>
+        // Simple micro-interaction for duration selectors
+        document.querySelectorAll('.duration-selector').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.duration-selector').forEach(b => {
+                    b.classList.remove('active');
+                    b.classList.add('bg-void', 'border-2', 'border-surface-container-highest');
+                });
+                button.classList.add('active');
+                button.classList.remove('bg-void', 'border-surface-container-highest');
+            });
+        });
+    </script>
+
+
+</body></html>

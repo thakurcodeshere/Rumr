@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RUMR_ADMIN_v1.0 | AI Topic Validation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container-highest": "#353535",
+                        "surface": "#131313",
+                        "surface-dim": "#131313",
+                        "surface-tint": "#abd600",
+                        "on-primary-container": "#556d00",
+                        "tertiary-container": "#e2e2e2",
+                        "surface-bright": "#393939",
+                        "background": "#131313",
+                        "on-secondary-container": "#d6a9ff",
+                        "surface-container-high": "#2a2a2a",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-tertiary": "#2f3131",
+                        "surface-variant": "#353535",
+                        "surface-container-low": "#1c1b1b",
+                        "inverse-on-surface": "#313030",
+                        "error-container": "#93000a",
+                        "primary-fixed-dim": "#abd600",
+                        "surface-container": "#20201f",
+                        "on-background": "#e5e2e1",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "secondary-container": "#6f00be",
+                        "on-surface-variant": "#c4c9ac",
+                        "inverse-surface": "#e5e2e1",
+                        "on-secondary-fixed": "#2c0051",
+                        "primary": "#ffffff",
+                        "on-secondary": "#490080",
+                        "primary-container": "#c3f400",
+                        "inverse-primary": "#506600",
+                        "on-primary": "#283500",
+                        "secondary-fixed": "#f0dbff",
+                        "error": "#ffb4ab",
+                        "secondary": "#ddb7ff",
+                        "outline": "#8e9379",
+                        "tertiary-fixed": "#e2e2e2",
+                        "tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "on-error": "#690005",
+                        "primary-fixed": "#c3f400",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-fixed": "#161e00",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-surface": "#e5e2e1",
+                        "outline-variant": "#444933",
+                        "on-tertiary-container": "#636565"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "margin-desktop": "40px",
+                        "stack-lg": "48px",
+                        "unit": "4px",
+                        "stack-sm": "8px",
+                        "margin-mobile": "20px",
+                        "stack-md": "24px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-lg": ["Playfair Display"],
+                        "label-bold": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .stepped-progress {
+            background-image: repeating-linear-gradient(
+                to right,
+                #c3f400,
+                #c3f400 10%,
+                transparent 10%,
+                transparent 10.5%
+            );
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col md:flex-row overflow-x-hidden">
+<!-- Navigation Drawer (Shared Component) -->
+<nav class="bg-surface-container-low w-full md:w-64 md:fixed left-0 md:h-screen border-b-2 md:border-b-0 md:border-r-2 border-outline-variant shadow-[0px_4px_0px_0px_rgba(171,214,0,1)] md:shadow-[4px_0px_0px_0px_rgba(171,214,0,1)] flex flex-col py-stack-md z-50">
+<div class="px-4 mb-stack-md md:mb-stack-lg">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">MODERATION_QUEUE</h2>
+</div>
+<div class="flex flex-row md:flex-col overflow-x-auto md:overflow-visible gap-unit px-2 md:px-0 scrollbar-hide">
+<a class="text-tertiary-container hover:text-primary px-4 py-3 flex items-center gap-stack-sm hover:bg-surface-container-high transition-all shrink-0 scale-95 duration-75" href="#">
+<span class="material-symbols-outlined font-label-mono text-label-mono">flag</span>
+<span class="font-label-mono text-label-mono uppercase">FLAGGED_CONTENT</span>
+</a>
+<a class="text-tertiary-container hover:text-primary px-4 py-3 flex items-center gap-stack-sm hover:bg-surface-container-high transition-all shrink-0 scale-95 duration-75" href="#">
+<span class="material-symbols-outlined font-label-mono text-label-mono">report</span>
+<span class="font-label-mono text-label-mono uppercase">USER_REPORTS</span>
+</a>
+<!-- ACTIVE NAVIGATION ITEM -->
+<a class="bg-primary-fixed text-on-primary-fixed font-bold flex items-center gap-stack-sm px-4 py-3 shrink-0 scale-95 duration-75" href="#">
+<span class="material-symbols-outlined font-label-mono text-label-mono">psychology</span>
+<span class="font-label-mono text-label-mono uppercase">AI_VALIDATION</span>
+</a>
+<a class="text-tertiary-container hover:text-primary px-4 py-3 flex items-center gap-stack-sm hover:bg-surface-container-high transition-all shrink-0 scale-95 duration-75" href="#">
+<span class="material-symbols-outlined font-label-mono text-label-mono">history</span>
+<span class="font-label-mono text-label-mono uppercase">LOGS</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 md:ml-64 flex flex-col min-h-screen w-full">
+<!-- TopAppBar (Shared Component) -->
+<header class="bg-surface w-full top-0 sticky border-b-2 border-outline-variant flat no shadows z-40">
+<div class="flex flex-wrap justify-between items-center px-margin-mobile md:px-margin-desktop py-stack-sm w-full max-w-[1200px] mx-auto gap-4">
+<div class="flex items-center gap-stack-sm text-primary opacity-100 duration-100">
+<span class="material-symbols-outlined font-headline-lg text-headline-lg">security</span>
+<h1 class="font-label-mono text-label-mono uppercase tracking-widest text-primary-container">RUMR_ADMIN_v1.0</h1>
+</div>
+<div class="flex items-center gap-stack-sm hover:bg-secondary-container hover:text-on-secondary-container transition-colors p-2 rounded-sm cursor-pointer text-tertiary-container">
+<span class="font-label-mono text-label-mono hidden sm:inline">Admin Profile</span>
+<span class="material-symbols-outlined">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 px-margin-mobile md:px-margin-desktop py-stack-md md:py-stack-lg max-w-[1200px] w-full mx-auto">
+<header class="mb-stack-md md:mb-stack-lg border-b-2 border-outline-variant pb-stack-md">
+<h2 class="font-display-lg text-headline-lg md:text-display-lg text-primary mb-stack-sm uppercase">AI Topic Validation</h2>
+<p class="font-label-mono text-label-mono text-tertiary-container">PRIORITY QUEUE // CHAOS NORMALIZATION &amp; CLUSTERING MODULE</p>
+</header>
+<!-- System Health Stats (Bento Grid) -->
+<section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-gutter mb-stack-md md:mb-stack-lg">
+<!-- Stat Card 1 -->
+<div class="bg-surface border-2 border-outline-variant p-stack-md relative overflow-hidden group">
+<div class="absolute top-0 right-0 bg-secondary-container p-1 border-l-2 border-b-2 border-outline-variant">
+<span class="material-symbols-outlined text-black font-label-mono text-[10px]">monitoring</span>
+</div>
+<p class="font-label-mono text-label-mono text-tertiary-container mb-unit uppercase">Global Chaos Index</p>
+<p class="font-display-lg text-headline-lg md:text-display-lg text-primary-container">84.2%</p>
+<p class="font-label-mono text-[10px] md:text-label-mono text-error mt-stack-sm">+12% vs prior hour</p>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface border-2 border-outline-variant p-stack-md">
+<p class="font-label-mono text-label-mono text-tertiary-container mb-unit uppercase">Pending Validations</p>
+<p class="font-display-lg text-headline-lg md:text-display-lg text-primary">1,402</p>
+<div class="w-full h-2 border-2 border-outline-variant mt-stack-sm bg-void">
+<div class="h-full bg-primary-container w-[65%] stepped-progress"></div>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-surface border-2 border-outline-variant p-stack-md">
+<p class="font-label-mono text-label-mono text-tertiary-container mb-unit uppercase">Auto-Merged Nodes</p>
+<p class="font-display-lg text-headline-lg md:text-display-lg text-secondary">389</p>
+<p class="font-label-mono text-[10px] md:text-label-mono text-tertiary-container mt-stack-sm">Confidence threshold &gt; 95%</p>
+</div>
+</section>
+<!-- Review Queue -->
+<section class="space-y-gutter">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between mb-stack-md gap-2">
+<h3 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">Priority Queue</h3>
+<div class="flex gap-unit self-start sm:self-auto">
+<span class="bg-secondary-container text-black font-label-mono text-[10px] md:text-label-mono px-2 py-1 uppercase border-2 border-transparent">Filter: High Impact</span>
+</div>
+</div>
+<!-- Topic Card 1 -->
+<article class="bg-surface border-2 border-primary-container p-stack-md flex flex-col md:flex-row gap-gutter relative mt-4">
+<div class="absolute -top-3 left-4 bg-primary-container text-black font-label-mono text-[10px] md:text-label-mono px-2 font-bold border-2 border-primary-container uppercase">Trending Anomaly</div>
+<div class="flex-1">
+<h4 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-stack-sm line-clamp-2 mt-2">"Mayor's Office Subpoena Leak - Downtown Real Estate Deal"</h4>
+<div class="flex flex-wrap gap-stack-sm mb-stack-md">
+<span class="bg-secondary-container text-black font-label-mono text-[10px] md:text-label-mono px-2 py-1">POLITICS</span>
+<span class="bg-secondary-container text-black font-label-mono text-[10px] md:text-label-mono px-2 py-1">FINANCE</span>
+<span class="border-2 border-outline-variant text-tertiary-container font-label-mono text-[10px] md:text-label-mono px-2 py-1">NODES: 4,021</span>
+</div>
+<div class="mb-stack-md">
+<div class="flex justify-between font-label-mono text-label-mono mb-unit">
+<span class="text-tertiary-container">Chaos Normalization Score</span>
+<span class="text-primary-container">92%</span>
+</div>
+<div class="w-full h-4 border-2 border-outline-variant bg-void p-[2px]">
+<div class="h-full bg-primary-container w-[90%] stepped-progress"></div>
+</div>
+</div>
+</div>
+<div class="md:w-64 border-t-2 md:border-t-0 md:border-l-2 border-outline-variant pt-stack-sm md:pt-0 md:pl-stack-sm flex flex-col justify-between">
+<div>
+<p class="font-label-mono text-[10px] md:text-label-mono text-tertiary-container mb-unit uppercase">AI Suggestion:</p>
+<p class="font-label-mono text-label-mono text-primary font-bold mb-stack-sm"><span class="material-symbols-outlined text-[14px] align-middle mr-1 text-primary-container">check_circle</span>APPROVE &amp; PROMOTE</p>
+</div>
+<div class="flex flex-col gap-unit">
+<button class="bg-primary-container text-black font-label-mono font-bold uppercase py-2 border-2 border-transparent hover:shadow-[4px_4px_0px_0px_#6f00be] transition-shadow w-full">
+                                Execute Suggestion
+                            </button>
+<div class="flex gap-unit w-full">
+<button class="flex-1 bg-transparent border-2 border-primary text-primary font-label-mono text-[10px] md:text-label-mono py-2 uppercase hover:bg-surface-container-high transition-colors">
+                                    Merge
+                                </button>
+<button class="flex-1 bg-transparent border-2 border-error text-error font-label-mono text-[10px] md:text-label-mono py-2 uppercase hover:bg-error-container transition-colors">
+                                    Quarantine
+                                </button>
+</div>
+</div>
+</div>
+</article>
+<!-- Topic Card 2 (Locked/Blur aesthetic example) -->
+<article class="bg-surface border-2 border-outline-variant p-stack-md flex flex-col md:flex-row gap-gutter relative overflow-hidden">
+<div class="flex-1 opacity-90">
+<h4 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-stack-sm">"Encrypted Payload Hash Mismatch - Sector 7"</h4>
+<div class="flex flex-wrap gap-stack-sm mb-stack-md">
+<span class="bg-surface-container-highest text-tertiary-container font-label-mono text-[10px] md:text-label-mono px-2 py-1">SYSTEM_ERR</span>
+</div>
+<div class="mb-stack-md">
+<div class="flex justify-between font-label-mono text-label-mono mb-unit">
+<span class="text-tertiary-container">Chaos Normalization Score</span>
+<span class="text-secondary">45%</span>
+</div>
+<div class="w-full h-4 border-2 border-outline-variant bg-void p-[2px]">
+<div class="h-full bg-secondary w-[45%] stepped-progress" style="background-image: repeating-linear-gradient(to right, #ddb7ff, #ddb7ff 10%, transparent 10%, transparent 10.5%);"></div>
+</div>
+</div>
+</div>
+<!-- Overlay for Locked State -->
+<div class="absolute inset-0 bg-surface-container-lowest/80 flex items-center justify-center border-2 border-secondary-container z-10">
+<div class="text-center bg-void border-2 border-secondary-container p-stack-sm shadow-[4px_4px_0px_0px_#6f00be]">
+<span class="material-symbols-outlined text-secondary text-[32px] mb-unit">lock</span>
+<p class="font-label-mono text-label-mono text-secondary uppercase font-bold tracking-widest px-2">Awaiting Decryption</p>
+</div>
+</div>
+<div class="md:w-64 border-t-2 md:border-t-0 md:border-l-2 border-outline-variant pt-stack-sm md:pt-0 md:pl-stack-sm flex flex-col justify-between opacity-90 relative z-0">
+<div>
+<p class="font-label-mono text-[10px] md:text-label-mono text-tertiary-container mb-unit uppercase">AI Suggestion:</p>
+<p class="font-label-mono text-label-mono text-tertiary-container font-bold mb-stack-sm">HOLD</p>
+</div>
+</div>
+</article>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-surface-container-lowest w-full bottom-0 border-t-2 border-outline-variant flat no shadows mt-auto">
+<div class="flex flex-col sm:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop py-stack-md sm:py-stack-sm w-full max-w-[1200px] mx-auto gap-4">
+<span class="font-label-bold text-label-bold text-error text-center sm:text-left">RUMR_ENCRYPTED_SYSTEM_2024</span>
+<div class="flex flex-wrap justify-center sm:justify-end gap-stack-sm md:gap-stack-md">
+<a class="font-label-mono text-label-mono text-tertiary-container hover:text-primary-container transition-colors duration-200" href="#">PRIVACY_PROTOCOL</a>
+<a class="font-label-mono text-label-mono text-tertiary-container hover:text-primary-container transition-colors duration-200" href="#">ADMIN_BYLAWS</a>
+<a class="font-label-mono text-label-mono text-tertiary-container hover:text-primary-container transition-colors duration-200" href="#">LOG_OUT</a>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

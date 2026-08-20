@@ -1,0 +1,346 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Profile Reveal - LONDON_UK</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-highest": "#353535",
+                      "on-secondary-container": "#d6a9ff",
+                      "error-container": "#93000a",
+                      "inverse-surface": "#e5e2e1",
+                      "on-primary-container": "#556d00",
+                      "on-tertiary-fixed": "#1a1c1c",
+                      "on-surface": "#e5e2e1",
+                      "background": "#131313",
+                      "on-primary-fixed": "#161e00",
+                      "surface": "#131313",
+                      "tertiary-fixed": "#e2e2e2",
+                      "secondary-fixed": "#f0dbff",
+                      "surface-variant": "#353535",
+                      "primary-fixed-dim": "#abd600",
+                      "tertiary": "#ffffff",
+                      "on-primary-fixed-variant": "#3c4d00",
+                      "error": "#ffb4ab",
+                      "surface-tint": "#abd600",
+                      "primary-fixed": "#c3f400",
+                      "on-tertiary-container": "#636565",
+                      "on-error-container": "#ffdad6",
+                      "surface-container": "#20201f",
+                      "surface-bright": "#393939",
+                      "on-background": "#e5e2e1",
+                      "primary-container": "#c3f400",
+                      "tertiary-container": "#e2e2e2",
+                      "on-secondary-fixed-variant": "#6900b3",
+                      "primary": "#ffffff",
+                      "secondary": "#ddb7ff",
+                      "surface-container-low": "#1c1b1b",
+                      "outline": "#8e9379",
+                      "tertiary-fixed-dim": "#c6c6c7",
+                      "on-tertiary": "#2f3131",
+                      "on-error": "#690005",
+                      "on-surface-variant": "#c4c9ac",
+                      "on-primary": "#283500",
+                      "surface-dim": "#131313",
+                      "inverse-on-surface": "#313030",
+                      "secondary-container": "#6f00be",
+                      "inverse-primary": "#506600",
+                      "on-secondary": "#490080",
+                      "on-secondary-fixed": "#2c0051",
+                      "outline-variant": "#444933",
+                      "surface-container-lowest": "#0e0e0e",
+                      "secondary-fixed-dim": "#ddb7ff",
+                      "on-tertiary-fixed-variant": "#454747",
+                      "surface-container-high": "#2a2a2a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-lg": "48px",
+                      "margin-desktop": "40px",
+                      "stack-sm": "8px",
+                      "stack-md": "24px",
+                      "gutter": "16px",
+                      "unit": "4px",
+                      "margin-mobile": "20px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ],
+                      "label-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ],
+                      "label-bold": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Playfair Display"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-mono": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-bold": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "900"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        /* Brutalist-lite specific styles */
+        .hard-shadow-primary {
+            box-shadow: 4px 4px 0px 0px theme('colors.primary-container');
+        }
+        .hard-shadow-secondary {
+            box-shadow: 4px 4px 0px 0px theme('colors.secondary');
+        }
+        .reveal-animation {
+            animation: reveal 2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+        }
+        @keyframes reveal {
+            0% { filter: blur(20px) grayscale(100%); opacity: 0; transform: scale(0.95); }
+            100% { filter: blur(0px) grayscale(0%); opacity: 1; transform: scale(1); }
+        }
+        .glitch-text {
+            position: relative;
+        }
+        .glitch-text::before, .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: theme('colors.background');
+        }
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -1px 0 theme('colors.primary-container');
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim 2s infinite linear alternate-reverse;
+        }
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -1px 0 theme('colors.secondary');
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2s infinite linear alternate-reverse;
+            animation-delay: -1s;
+        }
+        @keyframes glitch-anim {
+            0% { clip: rect(10px, 9999px, 83px, 0); }
+            10% { clip: rect(61px, 9999px, 88px, 0); }
+            20% { clip: rect(38px, 9999px, 49px, 0); }
+            30% { clip: rect(59px, 9999px, 15px, 0); }
+            40% { clip: rect(2px, 9999px, 32px, 0); }
+            50% { clip: rect(84px, 9999px, 47px, 0); }
+            60% { clip: rect(4px, 9999px, 73px, 0); }
+            70% { clip: rect(98px, 9999px, 30px, 0); }
+            80% { clip: rect(32px, 9999px, 12px, 0); }
+            90% { clip: rect(54px, 9999px, 88px, 0); }
+            100% { clip: rect(13px, 9999px, 59px, 0); }
+        }
+        .scanning-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: theme('colors.primary-container');
+            opacity: 0.5;
+            animation: scan 3s linear infinite;
+        }
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-x-hidden" style="width: 390px; height: 844px; margin: 0px auto; overflow: hidden; position: relative; background-color: rgb(19, 19, 19);">
+<!-- TopAppBar -->
+<header class="bg-background dark:bg-background border-b-2 border-surface-variant dark:border-surface-variant flex justify-between items-center w-full px-margin-mobile h-16 docked full-width top-0 z-50">
+<button class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined" data-icon="close" data-weight="fill">close</span>
+</button>
+<h1 class="font-label-mono text-label-mono font-bold tracking-widest text-primary-container dark:text-primary-container uppercase">Profile Reveal Moment</h1>
+<button class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined" data-icon="encryption" data-weight="fill">chevron_left</span>
+</button>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow w-full max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop py-stack-md md:py-stack-lg flex flex-col md:grid md:grid-cols-12 gap-gutter md:gap-stack-md relative z-10 overflow-y-auto h-full">
+<!-- Center Column (Main Reveal) -->
+<div class="col-span-12 md:col-span-8 md:col-start-3 flex flex-col gap-stack-md">
+<!-- Header Section -->
+<div class="text-center flex flex-col gap-stack-sm items-center">
+<div class="inline-flex items-center justify-center px-4 py-2 bg-surface-container-high border-2 border-primary-container uppercase font-label-mono text-label-mono text-primary-container mb-2">
+<span class="material-symbols-outlined mr-2 text-[14px]">lock_open</span>
+                    IDENTITY UNLOCKED
+                </div>
+<h2 class="font-display-lg text-display-lg text-tertiary uppercase glitch-text" data-text="MATCH SECURED">MATCH SECURED</h2>
+<p class="font-label-mono text-label-mono text-on-surface-variant max-w-md mx-auto">
+                    Anonymity protocol suspended. Connection strength optimal.
+                </p>
+</div>
+<!-- Profile Image Container (The Reveal) -->
+<div class="relative w-full aspect-square md:aspect-video border-2 border-surface-variant bg-surface-container-highest overflow-hidden hard-shadow-primary reveal-animation mt-stack-md">
+<div class="scanning-line z-20"></div>
+<!-- Main Revealed Image -->
+<img class="w-full h-full object-cover z-10 relative" data-alt="A striking portrait of a mysterious individual in an underground digital magazine aesthetic. High-contrast lighting with deep black shadows and a toxic lime accent light illuminating their face. The mood is edgy and exclusive, fitting a brutalist-lite UI design. They are looking directly at the camera with intense focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHPu2PSoYb7HpDOlkOwx_Z68_P9NbBi_hNvkb2F2lecQvIqgo720KHMsBa0PV37lXSML3Ozw6sRMnNgFGvziEeQbB1Vj4oWnXtLQLwBqwQZzf-JX_8u8gG6vFyIA_V2VCUGbTULhywfElt3SLeLpFP8PaGd6qK8WksSjjaOBWhddjGs1ln7O7HkS5wom-zPhC8l3cMHO1Uf9zJDvxzjw6IGyZwVcigu6DeWBLW3E14UZtsxzFjXsgyqg">
+<!-- Metadata Overlay -->
+<div class="absolute bottom-0 left-0 w-full p-4 bg-background/80 backdrop-blur-md border-t-2 border-surface-variant flex justify-between items-end z-30">
+<div>
+<h3 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-tertiary">ALEX_293</h3>
+<p class="font-label-mono text-label-mono text-primary-container mt-1">LOCATION: LONDON // ZN-4</p>
+</div>
+<div class="text-right">
+<div class="font-label-mono text-label-mono text-secondary mb-1">MATCH_RATE</div>
+<div class="font-label-bold text-label-bold text-primary-container text-xl">94%</div>
+</div>
+</div>
+</div>
+<!-- Shared Topics (Bento Grid Style) -->
+<div class="mt-stack-sm flex flex-col gap-stack-sm">
+<div class="font-label-mono text-label-mono text-on-surface-variant uppercase border-b-2 border-surface-variant pb-2">
+                    // Shared Intellectual Friction
+                </div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-unit md:gap-gutter">
+<!-- Topic Card 1 -->
+<div class="bg-surface border-2 border-primary-container p-4 flex flex-col justify-between aspect-square md:aspect-auto md:h-32 hover:bg-surface-container-highest transition-colors cursor-pointer group">
+<h4 class="font-headline-lg-mobile text-[20px] leading-tight text-tertiary group-hover:text-primary-container transition-colors">Post-Cyberpunk Literature</h4>
+<div class="font-label-mono text-[10px] text-on-surface-variant mt-2 uppercase">Core Resonance</div>
+</div>
+<!-- Topic Card 2 -->
+<div class="bg-surface border-2 border-surface-variant p-4 flex flex-col justify-between aspect-square md:aspect-auto md:h-32 hover:border-tertiary transition-colors cursor-pointer">
+<h4 class="font-headline-lg-mobile text-[20px] leading-tight text-tertiary">Cryptocurrency Architecture</h4>
+<div class="font-label-mono text-[10px] text-on-surface-variant mt-2 uppercase">Active Thread</div>
+</div>
+<!-- Topic Card 3 -->
+<div class="bg-secondary-container/20 border-2 border-secondary p-4 flex flex-col justify-between aspect-square md:aspect-auto md:h-32 col-span-2 md:col-span-1 relative overflow-hidden group">
+<div class="absolute inset-0 bg-secondary/10 backdrop-blur-[20px] z-10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="font-label-mono text-label-mono text-secondary">VIEW ARCHIVE</span>
+</div>
+<h4 class="font-headline-lg-mobile text-[20px] leading-tight text-tertiary z-0">Late-Night Synthwave</h4>
+<div class="font-label-mono text-[10px] text-secondary mt-2 uppercase z-0">12 msgs exchanged</div>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="mt-stack-md flex flex-col md:flex-row gap-gutter">
+<button class="flex-1 bg-primary-container text-on-primary-fixed font-label-mono text-label-mono font-bold uppercase py-4 border-2 border-primary-container hover:bg-transparent hover:text-primary-container transition-colors flex items-center justify-center gap-2 group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">chat_bubble</span>
+                    Continue Chat
+                </button>
+<button class="flex-1 bg-transparent border-2 border-tertiary text-tertiary font-label-mono text-label-mono font-bold uppercase py-4 hover:hard-shadow-secondary hover:-translate-y-1 hover:-translate-x-1 transition-all flex items-center justify-center gap-2 group">
+<span class="material-symbols-outlined group-hover:text-secondary transition-colors">favorite</span>
+                    Add to Favs
+                </button>
+</div>
+<!-- Report / Block (Muted) -->
+<div class="text-center mt-stack-sm">
+<a class="font-label-mono text-[10px] text-on-surface-variant hover:text-error transition-colors uppercase underline decoration-1 underline-offset-4" href="#">
+                    Terminate Connection / Report
+                </a>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Hidden on Desktop) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-4 bg-surface-container-lowest dark:bg-surface-container-lowest border-t-2 border-surface-variant dark:border-surface-variant" style="position: absolute; bottom: 0px; width: 100%;">
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary">
+<span class="material-symbols-outlined font-display-lg text-display-lg text-primary dark:text-primary" data-icon="explore">explore</span>
+<span class="font-label-mono text-label-mono mt-1 hidden">Explore</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary-container dark:text-primary-container scale-110 transform translate-y-[-2px] transition-all duration-150">
+<span class="material-symbols-outlined font-display-lg text-display-lg text-primary dark:text-primary" data-icon="forum" data-weight="fill">forum</span>
+<span class="font-label-mono text-label-mono mt-1 hidden">Chat</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary">
+<span class="material-symbols-outlined font-display-lg text-display-lg text-primary dark:text-primary" data-icon="favorite">favorite</span>
+<span class="font-label-mono text-label-mono mt-1 hidden">Favs</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary">
+<span class="material-symbols-outlined font-display-lg text-display-lg text-primary dark:text-primary" data-icon="person">person</span>
+<span class="font-label-mono text-label-mono mt-1 hidden">Profile</span>
+</button>
+</nav>
+<script>
+        // Optional: Add some subtle glitch effects on hover for interactive elements
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                if(this.classList.contains('group')) {
+                    const icon = this.querySelector('.material-symbols-outlined');
+                    if(icon) {
+                        icon.style.transform = `translate(${Math.random() * 2 - 1}px, ${Math.random() * 2 - 1}px)`;
+                        setTimeout(() => icon.style.transform = 'none', 150);
+                    }
+                }
+            });
+        });
+    </script>
+
+
+
+
+
+
+
+
+</body></html>

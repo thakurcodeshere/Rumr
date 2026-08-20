@@ -1,0 +1,276 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>42: AI Moderation Nudge</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration (Provided) -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-highest": "#353535",
+                    "on-secondary-container": "#d6a9ff",
+                    "error-container": "#93000a",
+                    "inverse-surface": "#e5e2e1",
+                    "on-primary-container": "#556d00",
+                    "on-tertiary-fixed": "#1a1c1c",
+                    "on-surface": "#e5e2e1",
+                    "background": "#131313",
+                    "on-primary-fixed": "#161e00",
+                    "surface": "#131313",
+                    "tertiary-fixed": "#e2e2e2",
+                    "secondary-fixed": "#f0dbff",
+                    "surface-variant": "#353535",
+                    "primary-fixed-dim": "#abd600",
+                    "tertiary": "#ffffff",
+                    "on-primary-fixed-variant": "#3c4d00",
+                    "error": "#ffb4ab",
+                    "surface-tint": "#abd600",
+                    "primary-fixed": "#c3f400",
+                    "on-tertiary-container": "#636565",
+                    "on-error-container": "#ffdad6",
+                    "surface-container": "#20201f",
+                    "surface-bright": "#393939",
+                    "on-background": "#e5e2e1",
+                    "primary-container": "#c3f400",
+                    "tertiary-container": "#e2e2e2",
+                    "on-secondary-fixed-variant": "#6900b3",
+                    "primary": "#ffffff",
+                    "secondary": "#ddb7ff",
+                    "surface-container-low": "#1c1b1b",
+                    "outline": "#8e9379",
+                    "tertiary-fixed-dim": "#c6c6c7",
+                    "on-tertiary": "#2f3131",
+                    "on-error": "#690005",
+                    "on-surface-variant": "#c4c9ac",
+                    "on-primary": "#283500",
+                    "surface-dim": "#131313",
+                    "inverse-on-surface": "#313030",
+                    "secondary-container": "#6f00be",
+                    "inverse-primary": "#506600",
+                    "on-secondary": "#490080",
+                    "on-secondary-fixed": "#2c0051",
+                    "outline-variant": "#444933",
+                    "surface-container-lowest": "#0e0e0e",
+                    "secondary-fixed-dim": "#ddb7ff",
+                    "on-tertiary-fixed-variant": "#454747",
+                    "surface-container-high": "#2a2a2a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-lg": "48px",
+                    "margin-desktop": "40px",
+                    "stack-sm": "8px",
+                    "stack-md": "24px",
+                    "gutter": "16px",
+                    "unit": "4px",
+                    "margin-mobile": "20px"
+            },
+            "fontFamily": {
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "headline-lg-mobile": [
+                            "Playfair Display"
+                    ],
+                    "label-mono": [
+                            "JetBrains Mono"
+                    ],
+                    "headline-lg": [
+                            "Playfair Display"
+                    ],
+                    "label-bold": [
+                            "Inter"
+                    ],
+                    "display-lg": [
+                            "Playfair Display"
+                    ]
+            },
+            "fontSize": {
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "28px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-mono": [
+                            "12px",
+                            {
+                                    "lineHeight": "1.0",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-bold": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "900"
+                            }
+                    ]
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col antialiased selection:bg-primary-container selection:text-on-primary-container" style="width: 390px; height: 844px; margin: 0px auto; overflow: hidden; position: relative;">
+<!-- Minimal Header for Task-Focused Flow -->
+<header class="w-full px-margin-mobile md:px-margin-desktop py-stack-md flex justify-between items-center border-b-2 border-surface-variant bg-background z-10 sticky top-0">
+<button aria-label="Cancel and go back" class="text-on-surface hover:text-primary transition-colors flex items-center gap-2 group">
+<span class="material-symbols-outlined text-xl group-hover:-translate-x-1 transition-transform">close</span>
+<span class="font-label-mono text-label-mono uppercase">Abort</span>
+</button>
+<div class="bg-error px-3 py-1.5 flex items-center gap-2 border-2 border-error">
+<span class="material-symbols-outlined text-on-error text-sm" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="font-label-mono text-label-mono font-bold text-on-error uppercase tracking-widest">Intervention</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col items-center px-margin-mobile md:px-margin-desktop py-stack-lg w-full overflow-y-auto h-full">
+<div class="w-full max-w-2xl flex flex-col gap-stack-lg">
+<!-- Headline & Principle -->
+<section class="flex flex-col gap-stack-sm text-center md:text-left">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary">
+                    Topic Normalization Required
+                </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+                    Our <strong class="text-primary font-bold">Topic &gt; Person</strong> safety principle strictly prohibits hyper-specific targeting of individuals. Your input has been flagged to protect anonymity and elevate the discourse.
+                </p>
+</section>
+<!-- Blocked Input Box (The "Rumor" Blur) -->
+<section class="relative w-full border-2 border-error bg-surface-container-low min-h-[160px] flex items-center justify-center p-6 overflow-hidden group">
+<!-- Original Text -->
+<p class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface opacity-30 select-none text-center">
+                    "Rahul is cheating"
+                </p>
+<!-- Blur Overlay -->
+<div class="absolute inset-0 backdrop-blur-[20px] bg-error-container/20 flex flex-col items-center justify-center gap-stack-sm border-2 border-transparent group-hover:border-error transition-colors duration-300">
+<span class="material-symbols-outlined text-error text-3xl" style="font-variation-settings: 'FILL' 1;">lock</span>
+<span class="font-label-mono text-label-mono font-bold text-error uppercase tracking-widest bg-background px-4 py-2 border-2 border-error shadow-[4px_4px_0px_var(--tw-colors-error)]">
+                        TOPIC LOCKED
+                    </span>
+<span class="font-label-mono text-label-mono text-on-error-container bg-error-container px-2 py-1 uppercase text-[10px]">
+                        ERROR_CODE: PERSON_FIRST_VIOLATION
+                    </span>
+</div>
+</section>
+<!-- Alternatives Bento Grid -->
+<section class="flex flex-col gap-stack-md w-full">
+<div class="flex items-center gap-4">
+<div class="h-[2px] flex-1 bg-surface-variant"></div>
+<h2 class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-widest shrink-0">Safe Chaos Alternatives</h2>
+<div class="h-[2px] flex-1 bg-surface-variant"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter w-full">
+<!-- Alternative Card 1 -->
+<button class="text-left w-full border-2 border-surface-variant bg-surface-container hover:border-primary-container hover:shadow-[4px_4px_0px_var(--tw-colors-primary-container)] transition-all duration-200 group flex flex-col justify-between min-h-[140px] p-4 relative overflow-hidden focus:outline-none focus:border-primary-container">
+<div class="flex justify-between items-start w-full mb-4">
+<span class="font-label-mono text-label-mono text-on-surface-variant group-hover:text-primary-container transition-colors">OPT_01</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary-container transition-colors">arrow_outward</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary leading-tight">
+                            Why People Cheat
+                        </h3>
+<div class="mt-4 flex gap-2">
+<span class="bg-secondary px-2 py-1 font-label-mono text-label-mono text-[#000000] uppercase text-[10px] whitespace-nowrap">
+                                HIGH ENGAGEMENT
+                            </span>
+</div>
+</button>
+<!-- Alternative Card 2 -->
+<button class="text-left w-full border-2 border-surface-variant bg-surface-container hover:border-primary-container hover:shadow-[4px_4px_0px_var(--tw-colors-primary-container)] transition-all duration-200 group flex flex-col justify-between min-h-[140px] p-4 relative overflow-hidden focus:outline-none focus:border-primary-container">
+<div class="flex justify-between items-start w-full mb-4">
+<span class="font-label-mono text-label-mono text-on-surface-variant group-hover:text-primary-container transition-colors">OPT_02</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary-container transition-colors">arrow_outward</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary leading-tight">
+                            Relationship Drama
+                        </h3>
+<div class="mt-4 flex gap-2">
+<span class="bg-surface-variant border-2 border-surface-variant px-2 py-1 font-label-mono text-label-mono text-on-surface uppercase text-[10px] whitespace-nowrap group-hover:border-primary-container transition-colors">
+                                BROAD TOPIC
+                            </span>
+</div>
+</button>
+<!-- Alternative Card 3 (Full Width) -->
+<button class="text-left w-full border-2 border-surface-variant bg-surface-container hover:border-primary-container hover:shadow-[4px_4px_0px_var(--tw-colors-primary-container)] transition-all duration-200 group flex flex-col justify-between min-h-[140px] p-4 relative overflow-hidden md:col-span-2 focus:outline-none focus:border-primary-container">
+<div class="flex justify-between items-start w-full mb-4">
+<span class="font-label-mono text-label-mono text-on-surface-variant group-hover:text-primary-container transition-colors">OPT_03</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary-container transition-colors">arrow_outward</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary leading-tight">
+                            The Psychology of Betrayal
+                        </h3>
+<div class="mt-4 flex gap-2">
+<span class="bg-primary-container px-2 py-1 font-label-mono text-label-mono text-[#000000] uppercase text-[10px] font-bold whitespace-nowrap">
+                                EDITOR'S PICK
+                            </span>
+</div>
+</button>
+</div>
+</section>
+<!-- Action Area -->
+<section class="flex flex-col sm:flex-row w-full gap-gutter mt-stack-md pt-stack-md border-t-2 border-surface-variant">
+<button class="w-full bg-primary-container text-[#000000] border-2 border-primary-container font-label-mono text-label-mono font-bold uppercase py-4 px-6 hover:shadow-[4px_4px_0px_var(--tw-colors-secondary)] hover:-translate-y-1 transition-all duration-200 flex justify-center items-center gap-2 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-background">
+<span class="">Write Custom Alternative</span>
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="w-full bg-transparent text-primary border-2 border-primary font-label-mono text-label-mono uppercase py-4 px-6 hover:bg-surface-container-highest transition-colors duration-200 flex justify-center items-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background">
+                    Delete Draft
+                </button>
+</section>
+</div>
+</main>
+<!-- Optional Background Noise/Texture -->
+<div class="fixed inset-0 pointer-events-none opacity-[0.03] z-[-1]" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');"></div>
+
+
+
+
+
+
+</body></html>

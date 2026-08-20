@@ -1,0 +1,244 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=390, initial-scale=1.0" name="viewport">
+<title>33: AI Matchmaker</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#e5e2e1",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "inverse-surface": "#e5e2e1",
+                        "error": "#ffb4ab",
+                        "secondary": "#ddb7ff",
+                        "on-secondary": "#490080",
+                        "surface": "#131313",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#313030",
+                        "surface-variant": "#353535",
+                        "on-secondary-container": "#d6a9ff",
+                        "surface-container": "#20201f",
+                        "on-primary": "#283500",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-dim": "#131313",
+                        "on-tertiary-container": "#636565",
+                        "tertiary": "#ffffff",
+                        "on-primary-fixed": "#161e00",
+                        "tertiary-container": "#e2e2e2",
+                        "surface-tint": "#abd600",
+                        "primary-fixed": "#c3f400",
+                        "primary": "#ffffff",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "secondary-fixed": "#f0dbff",
+                        "on-surface-variant": "#c4c9ac",
+                        "outline-variant": "#444933",
+                        "on-primary-container": "#556d00",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-bright": "#393939",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "background": "#131313",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#2f3131",
+                        "inverse-primary": "#506600",
+                        "primary-container": "#c3f400",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "surface-container-low": "#1c1b1b",
+                        "primary-fixed-dim": "#abd600",
+                        "secondary-container": "#6f00be",
+                        "outline": "#8e9379",
+                        "on-background": "#e5e2e1",
+                        "surface-container-high": "#2a2a2a",
+                        "on-secondary-fixed": "#2c0051",
+                        "surface-container-highest": "#353535",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "gutter": "16px",
+                        "stack-lg": "48px",
+                        "unit": "4px",
+                        "stack-md": "24px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "label-mono": ["JetBrains Mono"],
+                        "label-bold": ["Inter"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom utilities based on design system rules */
+        .shadow-hard-primary { box-shadow: 4px 4px 0px 0px #c3f400; }
+        .shadow-hard-secondary { box-shadow: 4px 4px 0px 0px #A855F7; }
+        .rumor-blur { backdrop-filter: blur(20px); }
+        .bg-void { background-color: #000000; }
+        .text-toxic-lime { color: #c3f400; }
+        .bg-toxic-lime { background-color: #c3f400; }
+        .border-toxic-lime { border-color: #c3f400; }
+        .bg-electric-purple { background-color: #A855F7; }
+        .text-electric-purple { color: #A855F7; }
+        
+        /* Ensure specific component styles are available */
+        .topic-card {
+            background-color: theme('colors.surface');
+            border: 2px solid theme('colors.tertiary');
+        }
+        .gossip-tag {
+            background-color: #A855F7;
+            border-radius: 0;
+            color: #000;
+        }
+    </style>
+</head>
+<body class="bg-background dark:bg-background text-on-background antialiased font-body-md min-h-screen flex flex-col items-center justify-center relative overflow-hidden" style="width: 390px; height: 844px; margin: 0 auto;">
+<!-- Background Pattern / Texture -->
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(theme('colors.surface-variant') 1px, transparent 1px); background-size: 20px 20px;"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-40 bg-background dark:bg-background border-b-2 border-outline-variant flex justify-between items-center px-margin-mobile py-4 w-full h-16">
+<div class="flex items-center gap-2 cursor-pointer active:opacity-80 hover:text-primary-fixed-dim transition-colors">
+<span class="material-symbols-outlined text-primary dark:text-primary" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-primary tracking-tighter uppercase absolute left-1/2 -translate-x-1/2">RUMR</h1>
+<div class="w-6"></div> <!-- Spacer to balance header -->
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full px-margin-mobile pt-24 pb-32 z-10 overflow-y-auto flex flex-col gap-stack-md relative h-full">
+<!-- Input Section: AI Query -->
+<section class="flex flex-col gap-stack-sm mb-4">
+<label class="font-label-mono text-label-mono text-tertiary-fixed-dim uppercase tracking-wider">AI Matchmaker</label>
+<div class="bg-void border-2 border-surface-variant p-4 focus-within:border-toxic-lime transition-colors relative">
+<textarea class="w-full bg-transparent border-none text-tertiary font-label-mono focus:ring-0 resize-none p-0 h-24" placeholder="Find me people who are funny, curious, and love startup drama..."></textarea>
+<div class="absolute bottom-4 right-4 flex gap-2 items-center">
+<span class="font-label-mono text-label-mono text-toxic-lime animate-pulse">ANALYZING...</span>
+<button class="w-8 h-8 flex items-center justify-center bg-toxic-lime rounded-none hover:shadow-hard-secondary transition-all">
+<span class="material-symbols-outlined text-on-primary-fixed" style="font-size: 16px;">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Progress Indicator -->
+<div class="h-2 w-full border-2 border-surface-variant mt-2 bg-void relative overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-toxic-lime w-[85%] transition-all duration-1000 ease-in-out steps-4"></div>
+</div>
+</section>
+<!-- Results Section -->
+<section class="flex flex-col gap-stack-md">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-tertiary border-b-2 border-surface-variant pb-2">YOUR TOP MATCHES</h2>
+<!-- Match Card 1 (92%) -->
+<article class="topic-card border-toxic-lime relative overflow-hidden group cursor-pointer hover:shadow-hard-primary transition-all p-4 flex flex-col gap-4">
+<!-- Blurred Avatar Area -->
+<div class="absolute top-0 right-0 w-24 h-24 bg-secondary opacity-20 rumor-blur rounded-bl-full pointer-events-none"></div>
+<div class="flex justify-between items-start z-10">
+<div class="flex flex-col">
+<span class="font-display-lg text-display-lg text-tertiary leading-none">SUBJECT_A</span>
+<span class="font-label-mono text-label-mono text-tertiary-fixed-dim mt-2">ENCRYPTED ID: 0x8A4...</span>
+</div>
+<div class="bg-toxic-lime px-2 py-1 flex flex-col items-center justify-center border-2 border-void">
+<span class="font-display-lg text-headline-lg-mobile text-on-primary-fixed leading-none">92%</span>
+<span class="font-label-mono text-[10px] text-on-primary-fixed uppercase font-bold">Match</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 z-10">
+<span class="gossip-tag px-2 py-1 font-label-mono text-[10px] text-black">STARTUP DRAMA</span>
+<span class="gossip-tag px-2 py-1 font-label-mono text-[10px] text-black">DARK HUMOR</span>
+<span class="border-2 border-surface-variant px-2 py-1 font-label-mono text-[10px] text-tertiary">TECH</span>
+</div>
+<div class="mt-2 flex items-center justify-between border-t-2 border-surface-variant pt-2 z-10">
+<span class="font-label-mono text-label-mono text-tertiary-fixed-dim">SEMANTIC OVERLAP: HIGH</span>
+<button class="bg-transparent border-2 border-tertiary text-tertiary font-label-mono px-3 py-1 text-[10px] uppercase hover:bg-tertiary hover:text-surface transition-colors">DECRYPT</button>
+</div>
+</article>
+<!-- Match Card 2 (88%) -->
+<article class="topic-card relative overflow-hidden group cursor-pointer hover:shadow-hard-secondary transition-all p-4 flex flex-col gap-4">
+<div class="absolute top-0 right-0 w-20 h-20 bg-surface-variant opacity-30 rumor-blur rounded-bl-full pointer-events-none"></div>
+<div class="flex justify-between items-start z-10">
+<div class="flex flex-col">
+<span class="font-display-lg text-[32px] text-tertiary leading-none">SUBJECT_B</span>
+<span class="font-label-mono text-label-mono text-tertiary-fixed-dim mt-1">ENCRYPTED ID: 0xF2B...</span>
+</div>
+<div class="bg-transparent px-2 py-1 flex flex-col items-center justify-center border-2 border-tertiary">
+<span class="font-display-lg text-headline-lg-mobile text-tertiary leading-none">88%</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 z-10">
+<span class="gossip-tag px-2 py-1 font-label-mono text-[10px] text-black">CURIOSITY</span>
+<span class="border-2 border-surface-variant px-2 py-1 font-label-mono text-[10px] text-tertiary">VC GOSSIP</span>
+</div>
+<div class="mt-2 flex items-center justify-between border-t-2 border-surface-variant pt-2 z-10">
+<span class="font-label-mono text-label-mono text-tertiary-fixed-dim">SEMANTIC OVERLAP: MED</span>
+<button class="bg-transparent border-2 border-tertiary text-tertiary font-label-mono px-3 py-1 text-[10px] uppercase hover:bg-tertiary hover:text-surface transition-colors">DECRYPT</button>
+</div>
+</article>
+<!-- Locked Match Card (85%) -->
+<article class="topic-card relative overflow-hidden p-4 flex flex-col gap-4 border-surface-variant opacity-80">
+<div class="absolute inset-0 rumor-blur z-20 flex flex-col items-center justify-center bg-surface/50">
+<span class="material-symbols-outlined text-tertiary mb-2" style="font-size: 32px;">lock</span>
+<span class="font-label-mono text-label-mono text-tertiary tracking-widest bg-void px-3 py-1 border-2 border-surface-variant">TOPIC LOCKED</span>
+</div>
+<div class="flex justify-between items-start blur-sm">
+<div class="flex flex-col">
+<span class="font-display-lg text-[32px] text-tertiary leading-none">SUBJECT_C</span>
+</div>
+<div class="bg-transparent px-2 py-1 flex flex-col items-center justify-center border-2 border-surface-variant">
+<span class="font-display-lg text-headline-lg-mobile text-surface-variant leading-none">85%</span>
+</div>
+</div>
+</article>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-background dark:bg-background border-t-2 border-outline-variant flex justify-around items-center px-margin-mobile pb-6 pt-2 h-20">
+<!-- ENCRYPT (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined text-[24px]">lock_open</span>
+<span class="font-label-mono text-[10px] mt-1 uppercase">ENCRYPT</span>
+</a>
+<!-- TOPICS (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined text-[24px]">fitbit_jumping_jacks</span>
+<span class="font-label-mono text-[10px] mt-1 uppercase">TOPICS</span>
+</a>
+<!-- MATCHES (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary p-2 scale-105 active:translate-y-[-2px] transition-transform" href="#">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">diversity_3</span>
+<span class="font-label-mono text-[10px] mt-1 uppercase font-bold text-on-primary">MATCHES</span>
+</a>
+<!-- VAULT (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined text-[24px]">key</span>
+<span class="font-label-mono text-[10px] mt-1 uppercase">VAULT</span>
+</a>
+</nav>
+
+
+</body></html>
