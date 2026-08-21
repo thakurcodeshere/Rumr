@@ -266,85 +266,9 @@ export const LandingWebsiteView: React.FC<LandingWebsiteViewProps> = ({ onLaunch
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             
-            <div className="bg-[#141414] border-2 border-[#262626] p-6 space-y-4 shadow-[4px_4px_0px_#a855f7]">
-              <div className="w-12 h-12 bg-[#1b1526] border-2 border-[#a855f7] flex items-center justify-center font-mono text-xl text-[#ccff00] font-black">
-                01
-              </div>
-              <h3 className="font-serif text-2xl font-black text-white">Topic-First Discovery</h3>
-              <p className="font-sans text-xs text-gray-300 leading-relaxed">
-                Explore high-friction debate nodes in your city. You only connect with people who share deep intellectual resonance.
-              </p>
-              <div className="font-mono text-[10px] text-[#a855f7] uppercase font-bold pt-2 border-t border-[#222]">
-                Algorithm: 4-Vector Resonance Matrix
-              </div>
-            </div>
-
-            <div className="bg-[#141414] border-2 border-[#262626] p-6 space-y-4 shadow-[4px_4px_0px_#ccff00]">
-              <div className="w-12 h-12 bg-[#141d0e] border-2 border-[#ccff00] flex items-center justify-center font-mono text-xl text-black bg-[#ccff00] font-black">
-                02
-              </div>
-              <h3 className="font-serif text-2xl font-black text-white">3-Layer Mutual Unmasking</h3>
-              <p className="font-sans text-xs text-gray-300 leading-relaxed">
-                Identity unlocks progressively: Layer 1 (City/Role signals), Layer 2 (Tagline/Chaos score), Layer 3 (Verified photo & real name).
-              </p>
-              <div className="font-mono text-[10px] text-[#ccff00] uppercase font-bold pt-2 border-t border-[#222]">
-                Security: Bilateral Cryptographic Consent
-              </div>
-            </div>
-
-            <div className="bg-[#141414] border-2 border-[#262626] p-6 space-y-4 shadow-[4px_4px_0px_#fff]">
-              <div className="w-12 h-12 bg-[#1e1e1e] border-2 border-white flex items-center justify-center font-mono text-xl text-white font-black">
-                03
-              </div>
-              <h3 className="font-serif text-2xl font-black text-white">≤ 3 Words Constraint</h3>
-              <p className="font-sans text-xs text-gray-300 leading-relaxed">
-                Hard token count prevents personal harassment and targeted slander, turning toxic rants into sociological debates.
-              </p>
-              <div className="font-mono text-[10px] text-gray-400 uppercase font-bold pt-2 border-t border-[#222]">
-                Guard: Llama-3 Vector Classifier
-              </div>
-            </div>
-
-            <div className="bg-[#141414] border-2 border-[#262626] p-6 space-y-4 shadow-[4px_4px_0px_#ccff00]">
-              <div className="w-12 h-12 bg-[#141d0e] border-2 border-[#ccff00] flex items-center justify-center font-mono text-xl text-[#ccff00] font-black">
-                04
-              </div>
-              <h3 className="font-serif text-2xl font-black text-white">Live Topic Audio Rooms</h3>
-              <p className="font-sans text-xs text-gray-300 leading-relaxed">
-                Drop into real-time city-level voice stages. Speak anonymously with encrypted voice modulation or broadcast to hundred-person debate crowds.
-              </p>
-              <div className="font-mono text-[10px] text-[#ccff00] uppercase font-bold pt-2 border-t border-[#222]">
-                Infra: Low-Latency WebRTC Mesh
-              </div>
-            </div>
-
-            <div className="bg-[#141414] border-2 border-[#262626] p-6 space-y-4 shadow-[4px_4px_0px_#a855f7]">
-              <div className="w-12 h-12 bg-[#1b1526] border-2 border-[#a855f7] flex items-center justify-center font-mono text-xl text-[#a855f7] font-black">
-                05
-              </div>
-              <h3 className="font-serif text-2xl font-black text-white">DPDP & IT Act Privacy</h3>
-              <p className="font-sans text-xs text-gray-300 leading-relaxed">
-                Compliant with India DPDP Act 2023. Ephemeral message expiry (~5 min decay), ghost mode broadcasting, and zero unhashed telemetry.
-              </p>
-              <div className="font-mono text-[10px] text-[#a855f7] uppercase font-bold pt-2 border-t border-[#222]">
-                Compliance: Zero-Knowledge Telemetry
-              </div>
-            </div>
-
-            <div className="bg-[#141414] border-2 border-[#262626] p-6 space-y-4 shadow-[4px_4px_0px_#fff]">
-              <div className="w-12 h-12 bg-[#222] border-2 border-[#444] flex items-center justify-center font-mono text-xl text-[#ccff00] font-black">
-                06
-              </div>
-              <h3 className="font-serif text-2xl font-black text-white">Rumr Pro & Boosts</h3>
-              <p className="font-sans text-xs text-gray-300 leading-relaxed">
-                Boost your topics with 3x algorithmic resonance multipliers, access 5 additional locked topic slots, and join elite gated guilds.
-              </p>
-              <div className="font-mono text-[10px] text-gray-300 uppercase font-bold pt-2 border-t border-[#222]">
-                Tier: Tier II Verified Guild Access
-              </div>
-            </div>
+            
 
           </div>
 
