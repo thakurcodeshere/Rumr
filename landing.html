@@ -762,25 +762,7 @@
     </div>
   </section>
 
-  <!-- ========================================================================= -->
-  <!-- 11. LEGAL, TERMS & LICENSES MODAL DRAWER -->
-  <!-- ========================================================================= -->
-  <section class="py-12 bg-[#0c0c0c] border-b-2 border-[#262626]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 font-mono text-xs">
-      <div>
-        <span class="text-[#ccff00] font-bold">LEGAL & REGULATORY FRAMEWORK:</span>
-        <span class="text-gray-400 ml-2">Digital Personal Data Protection (DPDP) & IT Act Compliant</span>
-      </div>
-
-      <div class="flex items-center gap-4 text-gray-300">
-        <button onclick="document.getElementById('termsModal').classList.remove('hidden')" class="hover:text-[#ccff00] underline">Terms & Conditions</button>
-        <span>•</span>
-        <button onclick="document.getElementById('privacyModal').classList.remove('hidden')" class="hover:text-[#ccff00] underline">Privacy Policy (DPDP)</button>
-        <span>•</span>
-        <button onclick="document.getElementById('licenseModal').classList.remove('hidden')" class="hover:text-[#ccff00] underline">Software Licenses</button>
-      </div>
-    </div>
-  </section>
+  
 
   <!-- Modal: Terms & Conditions -->
   <div id="termsModal" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
@@ -907,8 +889,24 @@
 
       </div>
 
-      <!-- Bottom Copyright Bar -->
-      <div class="pt-8 border-t border-[#1a1a1a] flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-gray-500">
+      <!-- Bottom Copyright & Legal Framework Bar -->
+      <div class="pt-8 border-t-2 border-[#262626] flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-xs text-gray-400">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-[#ccff00] font-bold uppercase">LEGAL & REGULATORY FRAMEWORK:</span>
+          <span class="text-gray-300">Digital Personal Data Protection (DPDP) & IT Act Compliant</span>
+        </div>
+
+        <div class="flex items-center gap-3 text-gray-300">
+          <button onclick="document.getElementById('termsModal').classList.remove('hidden')" class="hover:text-[#ccff00] underline">Terms & Conditions</button>
+          <span>•</span>
+          <button onclick="document.getElementById('privacyModal').classList.remove('hidden')" class="hover:text-[#ccff00] underline">Privacy Policy (DPDP)</button>
+          <span>•</span>
+          <button onclick="document.getElementById('licenseModal').classList.remove('hidden')" class="hover:text-[#ccff00] underline">Software Licenses</button>
+        </div>
+      </div>
+
+      <!-- Copyright Sub-bar -->
+      <div class="pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-[11px] text-gray-500 border-t border-[#1a1a1a]">
         <div>
           © 2026 Rumr Cryptographic Systems, Inc. All rights reserved.
         </div>

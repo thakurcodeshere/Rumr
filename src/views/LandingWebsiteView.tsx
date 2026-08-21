@@ -511,11 +511,12 @@ export const LandingWebsiteView: React.FC<LandingWebsiteViewProps> = ({ onLaunch
             </div>
 
             <div className="space-y-3 font-mono text-xs">
-              <h4 className="text-white font-bold uppercase tracking-wider">LEGAL & PRIVACY</h4>
+              <h4 className="text-white font-bold uppercase tracking-wider">PLATFORM</h4>
               <ul className="space-y-2">
-                <li><button onClick={() => setActiveModal('terms')} className="hover:text-[#ccff00] underline">Terms & Conditions</button></li>
-                <li><button onClick={() => setActiveModal('privacy')} className="hover:text-[#ccff00] underline">Privacy Policy (DPDP)</button></li>
-                <li><button onClick={() => setActiveModal('license')} className="hover:text-[#ccff00] underline">Software Licenses</button></li>
+                <li><a href="#philosophy" className="hover:text-[#ccff00]">Core Philosophy</a></li>
+                <li><a href="#features" className="hover:text-[#ccff00]">Features & AI Guard</a></li>
+                <li><a href="#how-it-works" className="hover:text-[#ccff00]">How It Works</a></li>
+                <li><a href="#metrics" className="hover:text-[#ccff00]">Live Telemetry</a></li>
               </ul>
             </div>
 
@@ -532,7 +533,23 @@ export const LandingWebsiteView: React.FC<LandingWebsiteViewProps> = ({ onLaunch
             </div>
           </div>
 
-          <div className="pt-8 border-t border-[#1a1a1a] flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-gray-500">
+          {/* Legal & Regulatory Framework Bar (At Bottom of Landing Page) */}
+          <div className="pt-8 border-t-2 border-[#262626] flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-xs text-gray-400">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-[#ccff00] font-bold uppercase">LEGAL & REGULATORY FRAMEWORK:</span>
+              <span className="text-gray-300">Digital Personal Data Protection (DPDP) & IT Act Compliant</span>
+            </div>
+
+            <div className="flex items-center gap-3 text-gray-300">
+              <button onClick={() => setActiveModal('terms')} className="hover:text-[#ccff00] underline">Terms & Conditions</button>
+              <span>•</span>
+              <button onClick={() => setActiveModal('privacy')} className="hover:text-[#ccff00] underline">Privacy Policy (DPDP)</button>
+              <span>•</span>
+              <button onClick={() => setActiveModal('license')} className="hover:text-[#ccff00] underline">Software Licenses</button>
+            </div>
+          </div>
+
+          <div className="pt-4 border-t border-[#1a1a1a] flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[11px] text-gray-500">
             <div>© 2026 Rumr Cryptographic Systems, Inc. All rights reserved.</div>
             <div className="flex items-center gap-4">
               {onLaunchApp && (
