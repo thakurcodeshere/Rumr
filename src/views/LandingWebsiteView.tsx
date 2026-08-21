@@ -69,7 +69,6 @@ export const LandingWebsiteView: React.FC<LandingWebsiteViewProps> = ({ onLaunch
             <a href="#metrics" className="hover:text-[#ccff00] transition-colors">TELEMETRY</a>
             <a href="#reviews" className="hover:text-[#ccff00] transition-colors">REVIEWS</a>
             <a href="#dispatch" className="hover:text-[#ccff00] transition-colors">DISPATCH</a>
-            <a href="#changelog" className="hover:text-[#ccff00] transition-colors">CHANGELOG</a>
             <a href="#contact" className="hover:text-[#ccff00] transition-colors">CONTACT</a>
           </nav>
 
