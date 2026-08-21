@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Sparkles, Smartphone, Monitor, Layers, Radio, GitBranch } from 'lucide-react';
+import { Shield, Sparkles, Smartphone, Monitor, Layers, Radio, GitBranch, Globe } from 'lucide-react';
 import { useApp } from '../../lib/store';
 import { BrutalistBadge } from '../ui/BrutalistBadge';
 
@@ -46,6 +46,18 @@ export const AppHeader: React.FC = () => {
 
         {/* Controls & Badges */}
         <div className="flex items-center gap-2">
+          {/* Landing Page Website Link */}
+          <a
+            href="/landing.html"
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-1 text-[10px] font-mono font-bold bg-[#181818] text-[#ccff00] border-2 border-[#333] hover:border-[#ccff00] px-2 py-1.5 transition-colors"
+            title="Open Rumr Marketing & Discovery Website"
+          >
+            <Globe className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">LANDING SITE ↗</span>
+          </a>
+
           {/* Toggle Mobile Frame / Desktop View */}
           <button
             onClick={toggleMobileFrame}
