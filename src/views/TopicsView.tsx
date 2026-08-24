@@ -3,6 +3,7 @@ import { useApp } from '../lib/store';
 import { BrutalistCard } from '../components/ui/BrutalistCard';
 import { BrutalistBadge } from '../components/ui/BrutalistBadge';
 import { BrutalistButton } from '../components/ui/BrutalistButton';
+import { RumorBlurOverlay } from '../components/ui/RumorBlurOverlay';
 import { 
   Compass, 
   Plus, 
@@ -18,13 +19,27 @@ import {
   ArrowRight,
   SlidersHorizontal,
   X,
-  Target
+  Target,
+  ThumbsUp
 } from 'lucide-react';
-import { Topic } from '../types';
+import { Topic, RumorPost } from '../types';
 import { TopicChatRoomModal } from '../components/ui/TopicChatRoomModal';
 
 export const TopicsView: React.FC = () => {
-  const { topics, toggleSubscribeTopic, createCustomTopic, navigate, setActiveTopic } = useApp();
+  const { 
+    topics, 
+    rumors,
+    toggleSubscribeTopic, 
+    createCustomTopic, 
+    toggleRumorAgree,
+    toggleRumorDebate,
+    decryptRumor,
+    navigate, 
+    setActiveTopic 
+  } = useApp();
+
+  // Primary Segment Switcher inside Topics: 'matrix' vs 'discussions'
+  const [topicSegment, setTopicSegment] = useState<'matrix' | 'discussions'>('matrix');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -47,6 +62,13 @@ export const TopicsView: React.FC = () => {
     const matchesCat = selectedCategory === 'All' || t.category === selectedCategory;
     const matchesSearch = t.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           t.description.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCat && matchesSearch;
+  });
+
+  const filteredRumors = rumors.filter(r => {
+    const matchesCat = selectedCategory === 'All' || r.category === selectedCategory;
+    const matchesSearch = r.topicTitle.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          r.content.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCat && matchesSearch;
   });
 
@@ -88,8 +110,8 @@ export const TopicsView: React.FC = () => {
       {/* Header & Create Button */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-serif text-2xl font-black text-white">Topic Matrix</h2>
-          <p className="font-mono text-xs text-gray-400">Select debate vectors to calibrate match engine</p>
+          <h2 className="font-serif text-2xl font-black text-white">Topic Matrix & Discussions</h2>
+          <p className="font-mono text-xs text-gray-400">Calibrate debate vectors, join chat rooms, and decrypt verified whispers</p>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
@@ -97,6 +119,33 @@ export const TopicsView: React.FC = () => {
         >
           <Plus className="w-4 h-4 text-black" />
           <span>+ NEW TOPIC</span>
+        </button>
+      </div>
+
+      {/* Segment Switcher inside Topics Tab */}
+      <div className="flex gap-2 border-b border-[#262626] pb-2">
+        <button
+          onClick={() => setTopicSegment('matrix')}
+          className={`font-mono text-xs font-black uppercase px-3.5 py-2 border-2 transition-all flex items-center gap-1.5 ${
+            topicSegment === 'matrix'
+              ? 'bg-[#ccff00] text-black border-black shadow-[2px_2px_0px_#a855f7]'
+              : 'bg-[#161616] text-gray-400 border-[#333] hover:text-white'
+          }`}
+        >
+          <Compass className="w-3.5 h-3.5" />
+          <span>TOPIC MATRIX & ROOMS ({filteredTopics.length})</span>
+        </button>
+
+        <button
+          onClick={() => setTopicSegment('discussions')}
+          className={`font-mono text-xs font-black uppercase px-3.5 py-2 border-2 transition-all flex items-center gap-1.5 ${
+            topicSegment === 'discussions'
+              ? 'bg-[#ccff00] text-black border-black shadow-[2px_2px_0px_#a855f7]'
+              : 'bg-[#161616] text-gray-400 border-[#333] hover:text-white'
+          }`}
+        >
+          <MessageSquare className="w-3.5 h-3.5" />
+          <span>DISCUSSIONS & WHISPERS ({filteredRumors.length})</span>
         </button>
       </div>
 
@@ -129,80 +178,164 @@ export const TopicsView: React.FC = () => {
         ))}
       </div>
 
-      {/* Topics Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {filteredTopics.map(topic => (
-          <BrutalistCard key={topic.id} isHot={topic.isHot} className="flex flex-col justify-between space-y-3.5 p-4 sm:p-5">
-            <div>
-              {/* Category & Heat */}
-              <div className="flex justify-between items-center mb-2">
-                <BrutalistBadge variant="purple">{topic.category}</BrutalistBadge>
-                <div className="flex items-center gap-1 text-[#ccff00] font-mono text-xs font-bold">
-                  <Flame className="w-3.5 h-3.5" />
-                  <span>{topic.heatScore}° HEAT</span>
+      {/* ========================================================================= */}
+      {/* VIEW 1: TOPIC MATRIX GRID */}
+      {/* ========================================================================= */}
+      {topicSegment === 'matrix' && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-in fade-in">
+          {filteredTopics.map(topic => (
+            <BrutalistCard key={topic.id} isHot={topic.isHot} className="flex flex-col justify-between space-y-3.5 p-4 sm:p-5">
+              <div>
+                {/* Category & Heat */}
+                <div className="flex justify-between items-center mb-2">
+                  <BrutalistBadge variant="purple">{topic.category}</BrutalistBadge>
+                  <div className="flex items-center gap-1 text-[#ccff00] font-mono text-xs font-bold">
+                    <Flame className="w-3.5 h-3.5" />
+                    <span>{topic.heatScore}° HEAT</span>
+                  </div>
+                </div>
+
+                {/* Title & Description */}
+                <h3 className="font-serif text-lg font-bold text-white mb-1.5">
+                  {topic.title}
+                </h3>
+                <p className="text-xs font-sans text-gray-300 leading-relaxed">
+                  {topic.description}
+                </p>
+
+                {/* Chat Room Audience Details Ribbon */}
+                <div className="mt-3 bg-[#0d0d0d] border border-[#222] p-2 space-y-1 font-mono text-[10px]">
+                  <div className="flex items-center gap-1.5 text-gray-300">
+                    <Target className="w-3 h-3 text-[#ccff00] shrink-0" />
+                    <span className="truncate">Audience: <strong className="text-white">{getAudienceLabel(topic.category)}</strong></span>
+                  </div>
+                  <div className="flex items-center justify-between text-gray-400">
+                    <span className="flex items-center gap-1 text-[#a855f7]">
+                      <Users className="w-3 h-3" />
+                      <span>{topic.debaterCount} Debaters</span>
+                    </span>
+                    <span className="text-[#ccff00] font-bold">🟢 38 Live in Room (Cap: 50)</span>
+                  </div>
                 </div>
               </div>
 
-              {/* Title & Description */}
-              <h3 className="font-serif text-lg font-bold text-white mb-1.5">
-                {topic.title}
-              </h3>
-              <p className="text-xs font-sans text-gray-300 leading-relaxed">
-                {topic.description}
-              </p>
+              {/* Bottom Actions Row: SUBSCRIBE + ENTER CHAT ROOM */}
+              <div className="pt-3 border-t border-[#222] flex items-center justify-between gap-2">
+                
+                {/* Subscribe Button */}
+                <BrutalistButton
+                  variant={topic.isSubscribed ? 'ghost' : 'primary'}
+                  size="sm"
+                  onClick={() => toggleSubscribeTopic(topic.id)}
+                  className="flex-1 justify-center text-[11px]"
+                >
+                  {topic.isSubscribed ? (
+                    <>
+                      <Check className="w-3 h-3 text-[#ccff00]" /> Subscribed
+                    </>
+                  ) : (
+                    '+ Subscribe'
+                  )}
+                </BrutalistButton>
 
-              {/* Chat Room Audience Details Ribbon */}
-              <div className="mt-3 bg-[#0d0d0d] border border-[#222] p-2 space-y-1 font-mono text-[10px]">
-                <div className="flex items-center gap-1.5 text-gray-300">
-                  <Target className="w-3 h-3 text-[#ccff00] shrink-0" />
-                  <span className="truncate">Audience: <strong className="text-white">{getAudienceLabel(topic.category)}</strong></span>
-                </div>
-                <div className="flex items-center justify-between text-gray-400">
-                  <span className="flex items-center gap-1 text-[#a855f7]">
-                    <Users className="w-3 h-3" />
-                    <span>{topic.debaterCount} Debaters</span>
-                  </span>
-                  <span className="text-[#ccff00] font-bold">🟢 38 Live in Room (Cap: 50)</span>
-                </div>
+                {/* ENTER CHAT ROOM BUTTON (Beside Subscribe) */}
+                <button
+                  onClick={() => setActiveRoomTopic(topic)}
+                  className="flex-1 bg-[#161324] hover:bg-[#a855f7] text-[#ccff00] hover:text-black border-2 border-[#a855f7] hover:border-[#ccff00] py-2 px-2.5 font-mono text-[11px] font-black uppercase transition-all shadow-[2px_2px_0px_#ccff00] flex items-center justify-center gap-1.5 group"
+                  title="Enter Live Topic Chat & Audio Debate Room"
+                >
+                  <Radio className="w-3.5 h-3.5 text-[#ccff00] group-hover:text-black animate-pulse" />
+                  <span>ENTER CHAT ROOM</span>
+                </button>
+
               </div>
-            </div>
-
-            {/* Bottom Actions Row: SUBSCRIBE + ENTER CHAT ROOM */}
-            <div className="pt-3 border-t border-[#222] flex items-center justify-between gap-2">
-              
-              {/* Subscribe Button */}
-              <BrutalistButton
-                variant={topic.isSubscribed ? 'ghost' : 'primary'}
-                size="sm"
-                onClick={() => toggleSubscribeTopic(topic.id)}
-                className="flex-1 justify-center text-[11px]"
-              >
-                {topic.isSubscribed ? (
-                  <>
-                    <Check className="w-3 h-3 text-[#ccff00]" /> Subscribed
-                  </>
-                ) : (
-                  '+ Subscribe'
-                )}
-              </BrutalistButton>
-
-              {/* ENTER CHAT ROOM BUTTON (Beside Subscribe) */}
-              <button
-                onClick={() => setActiveRoomTopic(topic)}
-                className="flex-1 bg-[#161324] hover:bg-[#a855f7] text-[#ccff00] hover:text-black border-2 border-[#a855f7] hover:border-[#ccff00] py-2 px-2.5 font-mono text-[11px] font-black uppercase transition-all shadow-[2px_2px_0px_#ccff00] flex items-center justify-center gap-1.5 group"
-                title="Enter Live Topic Chat & Audio Debate Room"
-              >
-                <Radio className="w-3.5 h-3.5 text-[#ccff00] group-hover:text-black animate-pulse" />
-                <span>ENTER CHAT ROOM</span>
-              </button>
-
-            </div>
-          </BrutalistCard>
-        ))}
-      </div>
+            </BrutalistCard>
+          ))}
+        </div>
+      )}
 
       {/* ========================================================================= */}
-      {/* 2. CREATE CUSTOM TOPIC NODE MODAL (Matching Image 1 + Filling Details) */}
+      {/* VIEW 2: TOPIC DISCUSSIONS & VERIFIED WHISPERS (Integrated from Discover) */}
+      {/* ========================================================================= */}
+      {topicSegment === 'discussions' && (
+        <div className="space-y-4 animate-in fade-in">
+          {filteredRumors.map(rumor => (
+            <BrutalistCard key={rumor.id} isHot={rumor.matchRate > 90} className="space-y-3.5 p-4 sm:p-5">
+              <div className="flex items-start justify-between">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <BrutalistBadge variant="lime">{rumor.category}</BrutalistBadge>
+                    <span className="font-mono text-[10px] text-gray-500">{rumor.timestamp}</span>
+                  </div>
+                  <h4 
+                    onClick={() => {
+                      const matchedTopic = topics.find(t => t.id === rumor.topicId);
+                      if (matchedTopic) setActiveRoomTopic(matchedTopic);
+                    }}
+                    className="font-serif text-lg font-bold text-white hover:text-[#ccff00] cursor-pointer transition-colors"
+                  >
+                    #{rumor.topicTitle}
+                  </h4>
+                </div>
+                <div className="text-right">
+                  <div className="font-mono text-xs font-bold text-[#ccff00]">{rumor.matchRate}%</div>
+                  <div className="font-mono text-[9px] text-gray-500 uppercase">RESONANCE</div>
+                </div>
+              </div>
+
+              {/* Cryptographic Blur to Text Reveal Overlay */}
+              <RumorBlurOverlay
+                isEncrypted={rumor.isEncrypted}
+                content={rumor.content}
+                encryptedContent={rumor.encryptedContent}
+                onDecrypt={() => decryptRumor(rumor.id)}
+              />
+
+              {/* Interactions Bar */}
+              <div className="flex items-center justify-between pt-3 border-t border-[#222]">
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => toggleRumorAgree(rumor.id)}
+                    className="flex items-center gap-1 font-mono text-xs text-gray-400 hover:text-[#ccff00] transition-colors"
+                  >
+                    <ThumbsUp className="w-3.5 h-3.5" />
+                    <span>{rumor.agrees} Agrees</span>
+                  </button>
+                  <button
+                    onClick={() => toggleRumorDebate(rumor.id)}
+                    className="flex items-center gap-1 font-mono text-xs text-gray-400 hover:text-[#a855f7] transition-colors"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    <span>{rumor.debates} Debates</span>
+                  </button>
+                </div>
+
+                <button
+                  onClick={() => {
+                    const matchedTopic = topics.find(t => t.id === rumor.topicId) || {
+                      id: rumor.topicId,
+                      title: rumor.topicTitle,
+                      category: rumor.category as any,
+                      debaterCount: rumor.debates * 12,
+                      heatScore: rumor.matchRate,
+                      matchRate: rumor.matchRate,
+                      description: rumor.content
+                    };
+                    setActiveRoomTopic(matchedTopic);
+                  }}
+                  className="bg-[#181818] border-2 border-[#333] hover:border-[#ccff00] text-gray-300 hover:text-[#ccff00] px-3 py-1.5 font-mono text-xs font-bold uppercase transition-all flex items-center gap-1.5 shadow-[2px_2px_0px_#a855f7]"
+                >
+                  <Radio className="w-3 h-3 text-[#ccff00]" />
+                  <span>JOIN TOPIC ROOM</span>
+                </button>
+              </div>
+            </BrutalistCard>
+          ))}
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* 2. CREATE CUSTOM TOPIC NODE MODAL */}
       {/* ========================================================================= */}
       {showCreateModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/90 backdrop-blur-md animate-in fade-in select-none">
