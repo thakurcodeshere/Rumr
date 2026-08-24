@@ -34,8 +34,8 @@
 
 | Platform | URL | Description |
 | :--- | :--- | :--- |
-| **Live Web Application** | **[rumr-sigma.vercel.app](https://rumr-sigma.vercel.app/)** | Interactive Web App (Discovery, Topics, Matches, Chats, Me). |
-| **Dedicated Landing Website** | **[rumr-sigma.vercel.app/landing.html](https://rumr-sigma.vercel.app/landing.html)** | Standalone product marketing site with downloads, features, and essays. |
+| **Live Web Application** | **[rumr-sigma.vercel.app](https://rumr-sigma.vercel.app/)** | Instant Browser Web App (Mobile, Tablet & Desktop). |
+| **Dedicated Landing Website** | **[rumr-sigma.vercel.app/landing.html](https://rumr-sigma.vercel.app/landing.html)** | Standalone product discovery website with browser launch links & telemetry. |
 | **GitHub Repository** | **[github.com/thakurcodeshere/Rumr](https://github.com/thakurcodeshere/Rumr)** | Master codebase, issues, and security advisories. |
 
 ---

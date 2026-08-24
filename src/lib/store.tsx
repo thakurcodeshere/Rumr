@@ -66,6 +66,15 @@ interface AppContextType {
   copyFigmaTokens: () => void;
   copyCurrentScreenCode: () => void;
   clearToast: () => void;
+  userLocation: {
+    city: string;
+    coords?: { lat: number; lng: number };
+    isGranted: boolean;
+  };
+  isLocationModalOpen: boolean;
+  setIsLocationModalOpen: (isOpen: boolean) => void;
+  updateUserLocation: (city: string, coords?: { lat: number; lng: number }) => void;
+  openLocationPrompt: () => void;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -113,6 +122,34 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [topics, setTopics] = useState<Topic[]>(INITIAL_TOPICS);
   const [rumors, setRumors] = useState<RumorPost[]>(INITIAL_RUMORS);
   const [rooms, setRooms] = useState<TopicRoom[]>(MOCK_ROOMS);
+
+  const [userLocation, setUserLocation] = useState<{
+    city: string;
+    coords?: { lat: number; lng: number };
+    isGranted: boolean;
+  }>(() => {
+    const savedCity = typeof window !== 'undefined' ? localStorage.getItem('rumr_user_city') : null;
+    const perm = typeof window !== 'undefined' ? localStorage.getItem('rumr_location_permission') : null;
+    return {
+      city: savedCity || 'Gurgaon, NCR',
+      isGranted: perm === 'granted'
+    };
+  });
+
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState<boolean>(false);
+
+  const updateUserLocation = (city: string, coords?: { lat: number; lng: number }) => {
+    setUserLocation({
+      city,
+      coords,
+      isGranted: true
+    });
+    localStorage.setItem('rumr_user_city', city);
+  };
+
+  const openLocationPrompt = () => {
+    setIsLocationModalOpen(true);
+  };
   
   const [user, setUser] = useState({
     handle: 'anonymous_ghost_42',
@@ -425,7 +462,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       completeOnboarding,
       copyFigmaTokens,
       copyCurrentScreenCode,
-      clearToast
+      clearToast,
+      userLocation,
+      isLocationModalOpen,
+      setIsLocationModalOpen,
+      updateUserLocation,
+      openLocationPrompt
     }}>
       {children}
     </AppContext.Provider>

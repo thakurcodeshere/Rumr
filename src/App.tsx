@@ -14,6 +14,42 @@ import { SafetyView } from './views/SafetyView';
 import { CatalogView } from './views/CatalogView';
 import { WorkflowView } from './views/WorkflowView';
 import { ArrowLeft, Layers, GitBranch } from 'lucide-react';
+import { BrowserLocationModal } from './components/ui/BrowserLocationModal';
+
+const LocationPromptManager: React.FC = () => {
+  const { 
+    userLocation, 
+    updateUserLocation, 
+    isLocationModalOpen, 
+    setIsLocationModalOpen 
+  } = useApp();
+
+  React.useEffect(() => {
+    // Automatically prompt mobile and tablet browser users on initial load
+    if (typeof window !== 'undefined') {
+      const alreadyPrompted = localStorage.getItem('rumr_location_prompted');
+      const isMobileUA = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|tablet/i.test(navigator.userAgent || '');
+      const isSmallScreen = window.innerWidth <= 1024;
+      const isTouch = navigator.maxTouchPoints > 0 || 'ontouchstart' in window;
+
+      if (!alreadyPrompted && (isMobileUA || (isTouch && isSmallScreen))) {
+        localStorage.setItem('rumr_location_prompted', 'true');
+        setIsLocationModalOpen(true);
+      }
+    }
+  }, []);
+
+  return (
+    <BrowserLocationModal
+      isOpen={isLocationModalOpen}
+      onClose={() => setIsLocationModalOpen(false)}
+      currentCity={userLocation.city}
+      onLocationApproved={(city, coords) => {
+        updateUserLocation(city, coords);
+      }}
+    />
+  );
+};
 
 const ViewRouter: React.FC = () => {
   const { currentView, selectedCatalogScreen, clearSelectedCatalogScreen, navigate } = useApp();
@@ -70,6 +106,9 @@ const ViewRouter: React.FC = () => {
       {currentView === 'safety' && <SafetyView />}
       {currentView === 'catalog' && <CatalogView />}
       {currentView === 'workflow' && <WorkflowView />}
+
+      {/* Browser Location Modal Manager */}
+      <LocationPromptManager />
     </div>
   );
 };
