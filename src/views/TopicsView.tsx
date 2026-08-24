@@ -110,8 +110,8 @@ export const TopicsView: React.FC = () => {
       {/* Header & Create Button */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-serif text-2xl font-black text-white">Topic Matrix & Discussions</h2>
-          <p className="font-mono text-xs text-gray-400">Calibrate debate vectors, join chat rooms, and decrypt verified whispers</p>
+          <h2 className="font-serif text-2xl font-black text-white">Topics & Rumrs</h2>
+          <p className="font-mono text-xs text-gray-400">Explore topics and rooms, and decrypt verified rumrs and whispr</p>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
@@ -133,7 +133,7 @@ export const TopicsView: React.FC = () => {
           }`}
         >
           <Compass className="w-3.5 h-3.5" />
-          <span>TOPIC MATRIX & ROOMS ({filteredTopics.length})</span>
+          <span>TOPICS AND ROOMS ({filteredTopics.length})</span>
         </button>
 
         <button
@@ -145,7 +145,7 @@ export const TopicsView: React.FC = () => {
           }`}
         >
           <MessageSquare className="w-3.5 h-3.5" />
-          <span>DISCUSSIONS & WHISPERS ({filteredRumors.length})</span>
+          <span>RUMRS AND WHISPR ({filteredRumors.length})</span>
         </button>
       </div>
 
