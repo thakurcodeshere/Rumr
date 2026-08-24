@@ -51,6 +51,7 @@ export const TopicsView: React.FC = () => {
   const [newCapacity, setNewCapacity] = useState<number>(50);
   const [newAudience, setNewAudience] = useState<string>('similar_profile');
   const [newDebateMode, setNewDebateMode] = useState<string>('audio_chat');
+  const [targetDestination, setTargetDestination] = useState<'matrix' | 'discussions'>('matrix');
   const [titleError, setTitleError] = useState<string | null>(null);
 
   // Active Chat Room State
@@ -84,6 +85,7 @@ export const TopicsView: React.FC = () => {
     setTitleError(null);
 
     createCustomTopic(newTitle.trim(), newCategory, newDesc || 'Community debate node initiated with gated audience resonance.');
+    setTopicSegment(targetDestination);
     setNewTitle('');
     setNewDesc('');
     setShowCreateModal(false);
@@ -455,6 +457,21 @@ export const TopicsView: React.FC = () => {
                 />
               </div>
 
+              {/* DESTINATION / TARGET SEGMENT */}
+              <div>
+                <label className="font-mono text-xs text-[#ccff00] font-bold block mb-1">
+                  WHERE WILL THIS GO (TARGET SEGMENT)
+                </label>
+                <select
+                  value={targetDestination}
+                  onChange={e => setTargetDestination(e.target.value as 'matrix' | 'discussions')}
+                  className="w-full bg-[#181818] border-2 border-[#333] focus:border-[#ccff00] p-2.5 font-mono text-xs text-white outline-none"
+                >
+                  <option value="matrix">Topics and Rooms (Interactive Topic Matrix & Room)</option>
+                  <option value="discussions">Rumrs and Whispr (Verified Cryptographic Whisper)</option>
+                </select>
+              </div>
+
               {/* Action Buttons */}
               <div className="flex justify-end gap-2 pt-2 border-t border-[#222]">
                 <button
@@ -466,9 +483,9 @@ export const TopicsView: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-[#ccff00] text-black font-mono text-xs font-black px-5 py-2 border-2 border-black shadow-[3px_3px_0px_#a855f7] hover:bg-white transition-all uppercase"
+                  className="bg-[#ccff00] text-black font-mono text-xs font-black px-6 py-2 border-2 border-black shadow-[3px_3px_0px_#a855f7] hover:bg-white transition-all uppercase tracking-wider"
                 >
-                  PUBLISH TOPIC NODE
+                  PUBLIC
                 </button>
               </div>
 
