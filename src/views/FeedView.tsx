@@ -357,7 +357,7 @@ export const FeedView: React.FC = () => {
         onClose={() => setShowMatchModal(false)}
         onStartChat={() => {
           setShowMatchModal(false);
-          navigate('chat');
+          navigate('matches');
         }}
         matchRate={88}
         overlappingTopics={['Ghosting After Dates', 'Startup Drama', 'Office Politics', 'Dating Friction']}

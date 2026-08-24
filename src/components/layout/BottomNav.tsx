@@ -10,7 +10,6 @@ export const BottomNav: React.FC = () => {
     { id: 'feed', label: 'Discover', icon: Flame },
     { id: 'topics', label: 'Topics', icon: Compass },
     { id: 'matches', label: 'Matches', icon: Heart },
-    { id: 'chat', label: 'Chats', icon: MessageSquare },
     { id: 'profile', label: 'Me', icon: User },
   ];
 
@@ -18,7 +17,7 @@ export const BottomNav: React.FC = () => {
 
   return (
     <nav className="bg-[#0e0e0e] border-t-2 border-[#262626] px-2 py-2 sticky bottom-0 z-30">
-      <div className="grid grid-cols-5 gap-1">
+      <div className="grid grid-cols-4 gap-1">
         {tabs.map(tab => {
           const Icon = tab.icon;
           const isActive = currentView === tab.id;
