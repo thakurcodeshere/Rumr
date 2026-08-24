@@ -69,15 +69,6 @@ export const AppHeader: React.FC = () => {
             <Globe className="w-3.5 h-3.5" />
             <span>LANDING SITE ↗</span>
           </a>
-
-          {/* Toggle Mobile Frame / Desktop View */}
-          <button
-            onClick={toggleMobileFrame}
-            className="p-1.5 bg-[#181818] text-gray-300 border-2 border-[#333] hover:text-white hover:border-white transition-colors"
-            title={isMobileFrame ? "Switch to Fullscreen Responsive" : "Switch to Mobile Device Frame"}
-          >
-            {isMobileFrame ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-          </button>
         </div>
       </div>
     </header>

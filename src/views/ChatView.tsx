@@ -293,7 +293,7 @@ export const ChatView: React.FC = () => {
           </div>
 
           {/* 2. CHATS BELOW: Message Stream */}
-          <div className="flex-1 overflow-y-auto space-y-3 py-2 pr-1 max-h-[360px]">
+          <div className="flex-1 overflow-y-auto space-y-3 py-2 pr-1 min-h-[280px]">
             {chatMessages.map(msg => {
               if (msg.sender === 'system') {
                 return (
