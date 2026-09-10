@@ -8,6 +8,8 @@ import { seedDatabase } from './seed.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+import { SCHEMA_SQL } from './schema-sql.js';
+
 // Ensure the database directory exists
 const dbDir = path.dirname(CONFIG.DB_PATH);
 if (!fs.existsSync(dbDir)) {
@@ -23,9 +25,7 @@ export function initDatabase(dbPath = CONFIG.DB_PATH): Database.Database {
   db.pragma('synchronous = NORMAL');
 
   // Run schema DDL
-  const schemaPath = path.resolve(__dirname, 'schema.sql');
-  const schema = fs.readFileSync(schemaPath, 'utf8');
-  db.exec(schema);
+  db.exec(SCHEMA_SQL);
 
   // Seed baseline topics and candidates
   seedDatabase(db);

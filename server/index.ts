@@ -53,14 +53,17 @@ app.use('/api/rooms', roomsRouter);
 app.use('/api/boosts', boostsRouter);
 app.use('/api/safety', safetyRouter);
 
-// Background Ephemeral Decay Job (purges expired messages every 60s)
-const decayInterval = setInterval(() => {
-  try {
-    purgeExpiredMessages();
-  } catch (err) {
-    console.error('Ephemeral message decay error:', err);
-  }
-}, 60000);
+// Background Ephemeral Decay Job (purges expired messages every 60s in persistent environments)
+if (!process.env.VERCEL) {
+  const decayInterval = setInterval(() => {
+    try {
+      purgeExpiredMessages();
+    } catch (err) {
+      console.error('Ephemeral message decay error:', err);
+    }
+  }, 60000);
+  if (decayInterval.unref) decayInterval.unref();
+}
 
 // In production, serve static built files from dist
 const distPath = path.resolve(__dirname, '../dist');
