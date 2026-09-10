@@ -327,7 +327,7 @@ export const ProfileView: React.FC = () => {
             <div className="bg-[#0e0e0e] p-3 border border-[#2a2a2a] text-gray-400 space-y-1 text-[11px]">
               <div>[LOG 04:12] Seed Vector: Normal Distribution (μ=88.4, σ=3.2)</div>
               <div>[LOG 04:09] AI Distance Matrix computed against 142 peer nodes</div>
-              <div>[LOG 03:55] SHA-256 phone hash rotated successfully</div>
+              <div>[LOG 03:55] SHA-256 email & location mesh hash rotated successfully</div>
               <div className="text-[#ccff00]">[STATUS] Zero unhashed telemetry detected.</div>
             </div>
           </BrutalistCard>
@@ -386,7 +386,7 @@ export const ProfileView: React.FC = () => {
                   <User className="w-4 h-4 text-gray-400" />
                   <div>
                     <div className="font-serif font-bold text-sm text-white">Personal Information</div>
-                    <div className="font-mono text-[10px] text-gray-500">Phone (+91), Age (26), City</div>
+                    <div className="font-mono text-[10px] text-gray-500">Email ({user.email || 'alex.cipher@gmail.com'}), Age (26), City</div>
                   </div>
                 </div>
                 <ChevronRight className="w-4 h-4 text-gray-500" />
@@ -535,10 +535,10 @@ export const ProfileView: React.FC = () => {
               </button>
             </div>
             <div className="space-y-2 font-mono text-xs text-gray-300">
-              <div>Phone: <strong className="text-white">+91 98765 43210 (Verified)</strong></div>
+              <div>Email: <strong className="text-white">{user.email || 'alex.cipher@gmail.com'} (Verified)</strong></div>
               <div>Age: <strong className="text-white">26 Years</strong></div>
-              <div>City: <strong className="text-white">Gurgaon (Delhi NCR)</strong></div>
-              <div>DPDP Compliance: <strong className="text-[#ccff00]">Encrypted & Anonymized</strong></div>
+              <div>Location: <strong className="text-white">Gurgaon (Delhi NCR) • Live Mesh Locked</strong></div>
+              <div>DPDP Compliance: <strong className="text-[#ccff00]">Encrypted & Anonymized (No Phone)</strong></div>
             </div>
             <BrutalistButton variant="primary" size="sm" onClick={() => setShowPersonalModal(false)} className="w-full justify-center">
               CLOSE

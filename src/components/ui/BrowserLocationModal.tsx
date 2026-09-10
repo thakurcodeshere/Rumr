@@ -1,20 +1,11 @@
 import React, { useState } from 'react';
 import { 
-  MapPin, 
-  ShieldCheck, 
   Compass, 
   X, 
-  Check, 
   AlertCircle, 
-  Sparkles, 
-  Smartphone, 
-  Tablet, 
-  Globe,
-  Lock,
-  ArrowRight
+  Globe
 } from 'lucide-react';
 import { BrutalistButton } from './BrutalistButton';
-import { BrutalistBadge } from './BrutalistBadge';
 
 interface BrowserLocationModalProps {
   isOpen: boolean;
@@ -115,7 +106,7 @@ export const BrowserLocationModal: React.FC<BrowserLocationModalProps> = ({
               R
             </div>
             <span className="font-mono text-xs text-[#ccff00] font-black uppercase tracking-wider">
-              BROWSER RADAR // LOCATION ACCESS
+              Rumr
             </span>
           </div>
 
@@ -128,37 +119,8 @@ export const BrowserLocationModal: React.FC<BrowserLocationModalProps> = ({
         </div>
 
         {/* Body Content */}
-        <div className="p-4 sm:p-5 space-y-4 max-h-[80vh] overflow-y-auto">
+        <div className="p-4 sm:p-5 space-y-3 max-h-[80vh] overflow-y-auto">
           
-          {/* Headline & Device Badge */}
-          <div className="space-y-1.5">
-            <div className="inline-flex items-center gap-1.5 bg-[#1b1526] border border-[#a855f7] px-2.5 py-0.5 font-mono text-[10px] text-[#ddb7ff] font-bold uppercase">
-              <Smartphone className="w-3 h-3 text-[#ccff00]" />
-              <span>MOBILE & TABLET BROWSER ACCESS</span>
-            </div>
-
-            <h2 className="font-serif text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">
-              Enable Local Topic Radar
-            </h2>
-
-            <p className="font-sans text-xs text-gray-300 leading-relaxed">
-              Rumr is a browser-first social mesh. We request browser location access to connect you with active topics, debates, and audio stages happening in your immediate city.
-            </p>
-          </div>
-
-          {/* Privacy Guarantee Box */}
-          <div className="bg-[#141414] border-2 border-[#262626] p-3.5 space-y-2 font-mono text-xs">
-            <div className="flex items-center gap-2 text-[#ccff00] font-bold uppercase text-[11px]">
-              <ShieldCheck className="w-4 h-4 text-[#ccff00]" />
-              <span>DPDP 2023 ZERO-KNOWLEDGE PROMISE</span>
-            </div>
-            <ul className="text-gray-400 space-y-1 text-[11px] list-disc list-inside">
-              <li>Coordinates are SHA-256 hashed into city mesh cells.</li>
-              <li>Zero raw GPS trace retention on central servers.</li>
-              <li>No app store download required—instant browser execution.</li>
-            </ul>
-          </div>
-
           {/* Error / Fallback Notice if Denied */}
           {errorMsg && (
             <div className="bg-[#1f1212] border border-red-500 p-3 font-mono text-xs text-red-300 flex items-start gap-2">
@@ -169,7 +131,7 @@ export const BrowserLocationModal: React.FC<BrowserLocationModalProps> = ({
 
           {/* Main Action Buttons */}
           {!showManualCities ? (
-            <div className="space-y-2 pt-1">
+            <div className="space-y-2.5">
               <BrutalistButton
                 variant="primary"
                 size="lg"

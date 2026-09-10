@@ -76,12 +76,12 @@ export const WorkflowView: React.FC = () => {
     {
       num: '05',
       screenId: 'SCR-006',
-      title: 'Phone Number & OTP Authentication',
-      purpose: 'Internal KYC verification (+91 India OTP). The user is verified internally while appearing anonymous publicly.',
-      userMindset: 'Authenticity check: Confident the platform has real, phone-verified people and no bots.',
-      actions: ['ACT_INPUT_PHONE (+91)', 'ACT_SUBMIT_OTP_CODE', 'ACT_AUTO_VERIFY_JWT'],
+      title: 'Email & Live Location Authentication',
+      purpose: 'Privacy-preserving verification via Gmail/Email 6-digit code and browser live geolocation mesh lock.',
+      userMindset: 'Authenticity & Privacy: Real, location-anchored people with zero phone number exposure.',
+      actions: ['ACT_INPUT_EMAIL', 'ACT_SUBMIT_EMAIL_CODE', 'ACT_GRANT_LIVE_LOCATION'],
       targetView: 'onboarding' as ViewType,
-      screens: ['SCR-006: Phone Verification', 'SCR-007: 6-Digit OTP Entry']
+      screens: ['SCR-006: Email Auth', 'SCR-007: 6-Digit Email Code', 'SCR-008: Live Location Lock']
     },
     {
       num: '06',

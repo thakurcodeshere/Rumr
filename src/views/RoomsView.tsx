@@ -149,7 +149,7 @@ export const RoomsView: React.FC = () => {
                 size="sm"
                 onClick={() => {
                   if (isGuest) {
-                    triggerGuestLock('Live Audio Room', 'Guest users cannot enter live audio debates or speak. Register with your phone number to join the stage.');
+                    triggerGuestLock('Live Audio Room', 'Guest users cannot enter live audio debates or speak. Create an account with your email to join the stage.');
                     return;
                   }
                   joinRoom(room);

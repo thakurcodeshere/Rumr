@@ -168,7 +168,7 @@ export const LandingWebsiteView: React.FC<LandingWebsiteViewProps> = ({ onLaunch
                 <span className="w-2 h-2 rounded-full bg-[#ccff00]" />
                 <span>HARD CONSTRAINT: <strong className="text-white">Topics must be ≤ 3 words</strong></span>
                 <span>•</span>
-                <span className="text-[#ddb7ff]">100% Phone Verified</span>
+                <span className="text-[#ddb7ff]">Email & Location Verified</span>
               </div>
 
             </div>

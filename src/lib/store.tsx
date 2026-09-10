@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ViewType, Topic, RumorPost, ChatMessage, UserPersona, TopicRoom, CatalogScreenItem, ScreenFrameId } from '../types';
 import { INITIAL_TOPICS, INITIAL_RUMORS, MOCK_MATCH_PARTNER, MOCK_ROOMS, ALL_66_SCREENS } from './mock-data';
 import { SCREEN_FRAME_SPECS } from './frame-specs';
@@ -17,6 +17,7 @@ interface AppContextType {
     boostTier: string | null;
     subscribedTopicIds: string[];
     avatarSeed: string;
+    email?: string;
   };
   chatMessages: ChatMessage[];
   partner: UserPersona;
@@ -62,7 +63,7 @@ interface AppContextType {
   continueAsGuest: () => void;
   setRegistered: (registered: boolean) => void;
   resetToBeforeRegister: () => void;
-  completeOnboarding: (handle: string) => void;
+  completeOnboarding: (handle?: string, email?: string, location?: { city: string; coords?: { lat: number; lng: number } }) => void;
   copyFigmaTokens: () => void;
   copyCurrentScreenCode: () => void;
   clearToast: () => void;
@@ -94,7 +95,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setGuestLock({
       isOpen: true,
       featureName,
-      description: description || 'Register your phone number to unlock this feature.'
+      description: description || 'Create an account with your email to unlock this feature.'
     });
   };
 
@@ -157,7 +158,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     isVerified: true,
     boostTier: null as string | null,
     subscribedTopicIds: ['topic-1', 'topic-2', 'topic-5'],
-    avatarSeed: 'ghost_42'
+    avatarSeed: 'ghost_42',
+    email: 'alex.cipher@gmail.com'
   });
 
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
@@ -376,9 +378,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsMobileFrame(prev => !prev);
   };
 
-  const completeOnboarding = (handle: string) => {
+  const completeOnboarding = (
+    handle?: string, 
+    email?: string, 
+    location?: { city: string; coords?: { lat: number; lng: number } }
+  ) => {
     setIsRegistered(true);
-    setUser(prev => ({ ...prev, handle: handle || prev.handle }));
+    setIsGuest(false);
+    setUser(prev => ({
+      ...prev,
+      handle: handle || prev.handle,
+      email: email || prev.email || 'alex.cipher@gmail.com',
+      isVerified: true
+    }));
+    if (location) {
+      updateUserLocation(location.city, location.coords);
+    }
     navigate('feed');
   };
 

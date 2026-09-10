@@ -108,17 +108,17 @@ export const ChatView: React.FC = () => {
           <BrutalistBadge variant="purple">GUEST RESTRICTION</BrutalistBadge>
           <h3 className="font-serif text-2xl font-black text-white mt-1">Encrypted Chat Locked</h3>
           <p className="font-sans text-xs text-gray-400 leading-relaxed">
-            1-on-1 encrypted topic tunnels and progressive unmasking are reserved for phone-verified users.
+            1-on-1 encrypted topic tunnels and progressive unmasking are reserved for verified accounts.
           </p>
         </div>
         <BrutalistButton
           variant="primary"
           size="md"
           onClick={() => resetToBeforeRegister()}
-          className="flex items-center gap-1.5"
+          className="flex items-center gap-1.5 font-bold"
         >
           <Sparkles className="w-4 h-4 text-black" />
-          REGISTER WITH PHONE TO UNLOCK
+          CREATE ACCOUNT TO UNLOCK
         </BrutalistButton>
       </div>
     );

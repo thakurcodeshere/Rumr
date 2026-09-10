@@ -34,7 +34,7 @@ export const GuestRestrictionModal: React.FC = () => {
         </div>
 
         <p className="font-sans text-xs text-gray-300 bg-[#181818] p-3 border-l-2 border-[#ccff00] leading-relaxed">
-          {guestLock.description || 'You are browsing in Guest Mode. Register with your phone number to unlock live chat tunnels, topic matching, and community debates.'}
+          {guestLock.description || 'You are browsing in Guest Mode. Create an account with your email to unlock live chat tunnels, topic matching, and community debates.'}
         </p>
 
         <div className="space-y-2 pt-2">
@@ -45,10 +45,10 @@ export const GuestRestrictionModal: React.FC = () => {
               dismissGuestLock();
               resetToBeforeRegister();
             }}
-            className="w-full justify-center flex items-center gap-1.5"
+            className="w-full justify-center flex items-center gap-1.5 font-bold"
           >
             <UserCheck className="w-4 h-4 text-black" />
-            REGISTER WITH PHONE (+91)
+            CREATE ACCOUNT WITH EMAIL
           </BrutalistButton>
 
           <button
