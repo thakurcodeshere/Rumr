@@ -37,7 +37,7 @@ export interface AuthenticatedRequest extends Request {
 }
 
 export function generateToken(payload: UserTokenPayload, expiresIn = '30d'): string {
-  return jwt.sign(payload, CONFIG.JWT_SECRET, { expiresIn });
+  return jwt.sign(payload, CONFIG.JWT_SECRET, { expiresIn: expiresIn as any });
 }
 
 export function verifyToken(token: string): UserTokenPayload | null {

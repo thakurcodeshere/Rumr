@@ -1,6 +1,16 @@
 // Rumr Production Client API Client
 
-const BASE_URL = (import.meta as any).env?.VITE_API_URL || '/api';
+const getBaseUrl = (): string => {
+  if ((import.meta as any).env?.VITE_API_URL) {
+    return (import.meta as any).env.VITE_API_URL;
+  }
+  if (typeof window !== 'undefined' && window.location.hostname.includes('pages.dev')) {
+    return 'https://rumr-sigma.vercel.app/api';
+  }
+  return '/api';
+};
+
+const BASE_URL = getBaseUrl();
 
 export interface ApiResponse<T = any> {
   data?: T;

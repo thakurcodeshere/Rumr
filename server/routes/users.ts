@@ -197,7 +197,7 @@ usersRouter.get('/me/dpdp-export', requireAuth, (req: AuthenticatedRequest, res)
       gender: user.gender,
       city: user.city,
       chaosIndex: user.chaos_index,
-      accountCreatedAt: user.created_at
+      accountCreatedAt: (user as any).created_at || new Date().toISOString()
     },
     quarantinedIdentityLayers: {
       role: user.role,
