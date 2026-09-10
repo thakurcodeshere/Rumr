@@ -28,6 +28,8 @@ import {
   Brain
 } from 'lucide-react';
 
+import { api } from '../lib/api';
+
 export const ProfileView: React.FC = () => {
   const { user, topics, navigate, resetToBeforeRegister } = useApp();
 
@@ -35,21 +37,23 @@ export const ProfileView: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'chaos_profile' | 'profile_settings'>('chaos_profile');
 
   // Chaos Profile States
-  const [activeRumors, setActiveRumors] = useState<string[]>([
-    'CYBERNETICS', 'NEO_TOKYO_NIGHTS', 'ENCRYPTED_COMMS', 'OFFICE_POLITICS'
-  ]);
+  const [activeRumors, setActiveRumors] = useState<string[]>(
+    user.activeRumors && user.activeRumors.length > 0
+      ? user.activeRumors
+      : ['CYBERNETICS', 'NEO_TOKYO_NIGHTS', 'ENCRYPTED_COMMS', 'OFFICE_POLITICS']
+  );
   const [injectInput, setInjectInput] = useState('');
   const [geoBroadcasting, setGeoBroadcasting] = useState<'approximate' | 'precise'>('approximate');
   const [injectError, setInjectError] = useState<string | null>(null);
 
   // Profile Settings States
-  const [ghostMode, setGhostMode] = useState<boolean>(true);
-  const [globalRadius, setGlobalRadius] = useState<number>(50);
+  const [ghostMode, setGhostMode] = useState<boolean>(Boolean((user as any).ghost_mode || false));
+  const [globalRadius, setGlobalRadius] = useState<number>((user as any).global_radius || 50);
   const [showPersonalModal, setShowPersonalModal] = useState<boolean>(false);
   const [showTransactionModal, setShowTransactionModal] = useState<boolean>(false);
   const [showSuccessToast, setShowSuccessToast] = useState<string | null>(null);
 
-  const handleInjectTopic = (e: React.FormEvent) => {
+  const handleInjectTopic = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!injectInput.trim()) return;
     const words = injectInput.trim().split(/\s+/);
@@ -58,17 +62,29 @@ export const ProfileView: React.FC = () => {
       return;
     }
     const formatted = injectInput.trim().toUpperCase().replace(/\s+/g, '_');
-    if (!activeRumors.includes(formatted)) {
-      setActiveRumors([...activeRumors, formatted]);
+    try {
+      const res = await api.users.injectRumor(formatted);
+      if (res && res.activeRumors) {
+        setActiveRumors(res.activeRumors);
+      } else if (!activeRumors.includes(formatted)) {
+        setActiveRumors([...activeRumors, formatted]);
+      }
+      setInjectInput('');
+      setInjectError(null);
+      setShowSuccessToast(`Injected #${formatted} into your resonance graph`);
+      setTimeout(() => setShowSuccessToast(null), 3000);
+    } catch (err: any) {
+      setInjectError(err.message || 'Failed to inject topic');
     }
-    setInjectInput('');
-    setInjectError(null);
-    setShowSuccessToast(`Injected #${formatted} into your resonance graph`);
-    setTimeout(() => setShowSuccessToast(null), 3000);
   };
 
-  const removeRumor = (rumor: string) => {
+  const removeRumor = async (rumor: string) => {
     setActiveRumors(activeRumors.filter(r => r !== rumor));
+    try {
+      await api.users.removeRumor(rumor);
+    } catch (err) {
+      console.error('Failed to remove rumor tag:', err);
+    }
   };
 
   return (
@@ -405,6 +421,20 @@ export const ProfileView: React.FC = () => {
                 </div>
                 <ChevronRight className="w-4 h-4 text-gray-500" />
               </button>
+
+              <button
+                onClick={() => api.users.downloadDpdpExport()}
+                className="w-full p-3.5 flex items-center justify-between text-left hover:bg-[#181818] transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  <Shield className="w-4 h-4 text-[#ccff00]" />
+                  <div>
+                    <div className="font-serif font-bold text-sm text-white">DPDP 2023 Data Export</div>
+                    <div className="font-mono text-[10px] text-gray-500">Download machine-readable JSON archive</div>
+                  </div>
+                </div>
+                <ChevronRight className="w-4 h-4 text-gray-500" />
+              </button>
             </div>
           </div>
 
@@ -427,7 +457,11 @@ export const ProfileView: React.FC = () => {
                   min={5}
                   max={150}
                   value={globalRadius}
-                  onChange={e => setGlobalRadius(parseInt(e.target.value))}
+                  onChange={e => {
+                    const val = parseInt(e.target.value, 10);
+                    setGlobalRadius(val);
+                    api.users.updateMe({ globalRadius: val }).catch(() => {});
+                  }}
                   className="w-full accent-[#ccff00] cursor-pointer"
                 />
               </div>
@@ -462,7 +496,15 @@ export const ProfileView: React.FC = () => {
                 </div>
 
                 <button
-                  onClick={() => setGhostMode(!ghostMode)}
+                  onClick={async () => {
+                    const nextVal = !ghostMode;
+                    setGhostMode(nextVal);
+                    try {
+                      await api.users.updateMe({ ghostMode: nextVal });
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  }}
                   className={`w-12 h-6 border p-0.5 transition-colors flex items-center ${
                     ghostMode ? 'bg-[#ccff00] border-[#ccff00] justify-end' : 'bg-[#222] border-[#444] justify-start'
                   }`}

@@ -18,6 +18,8 @@ import {
   AlertTriangle 
 } from 'lucide-react';
 
+import { api } from '../lib/api';
+
 export const OnboardingView: React.FC = () => {
   const { completeOnboarding, continueAsGuest, userLocation, updateUserLocation } = useApp();
   
@@ -108,7 +110,7 @@ export const OnboardingView: React.FC = () => {
     { name: 'San Francisco, CA', country: 'US', label: 'AI & Venture Capital' }
   ];
 
-  const handleEmailSubmit = (e?: React.FormEvent) => {
+  const handleEmailSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     const cleanEmail = email.trim();
     if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
@@ -116,20 +118,41 @@ export const OnboardingView: React.FC = () => {
       return;
     }
     setEmailError(null);
-    setResendTimer(38);
-    setStep('email_verify');
+    try {
+      const res = await api.auth.sendOtp(cleanEmail);
+      if (res.dev_code) {
+        setOtp(res.dev_code.split(''));
+      }
+      setResendTimer(38);
+      setStep('email_verify');
+    } catch (err: any) {
+      setEmailError(err.message || 'Failed to dispatch code');
+    }
   };
 
-  const handleQuickGmailLogin = () => {
-    setEmail('alex.cipher@gmail.com');
+  const handleQuickGmailLogin = async () => {
+    const clean = 'alex.cipher@gmail.com';
+    setEmail(clean);
     setEmailError(null);
-    setStep('email_verify');
+    try {
+      const res = await api.auth.sendOtp(clean);
+      if (res.dev_code) {
+        setOtp(res.dev_code.split(''));
+      }
+      setStep('email_verify');
+    } catch {
+      setStep('email_verify');
+    }
   };
 
-  const handleVerifyOtp = () => {
-    // Step 4 verification code submitted:
-    // "after having verification code from email, we are done with account creation."
-    setStep('account_done');
+  const handleVerifyOtp = async () => {
+    const code = otp.join('');
+    try {
+      await api.auth.verifyOtp(email, code);
+      setStep('account_done');
+    } catch (err: any) {
+      setEmailError(err.message || 'Invalid or expired verification code.');
+    }
   };
 
   const toggleTopic = (t: string) => {
@@ -209,10 +232,13 @@ export const OnboardingView: React.FC = () => {
   const handleFinishOnboarding = () => {
     const coordsToSave = detectedCoords || { lat: 28.4595, lng: 77.0266 };
     updateUserLocation(activeCity, coordsToSave);
-    completeOnboarding('anonymous_ghost_42', email, {
-      city: activeCity,
-      coords: coordsToSave
-    });
+    completeOnboarding(
+      'anonymous_ghost_42',
+      email,
+      { city: activeCity, coords: coordsToSave },
+      selectedTopics,
+      customTopicInput
+    );
   };
 
   return (

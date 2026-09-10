@@ -43,7 +43,9 @@ export const MatchesView: React.FC = () => {
     chatMessages, 
     sendChatMessage, 
     revealStage, 
-    advanceReveal 
+    advanceReveal,
+    matches,
+    setActiveMatchId 
   } = useApp();
 
   const [selectedMatch, setSelectedMatch] = useState<MatchItem | null>(null);
@@ -51,7 +53,7 @@ export const MatchesView: React.FC = () => {
   const [showUnmaskModal, setShowUnmaskModal] = useState(false);
   const [showDecryptedModal, setShowDecryptedModal] = useState(false);
 
-  const matchesList: MatchItem[] = [
+  const fallbackMatches: MatchItem[] = [
     {
       id: 'match-1',
       handle: 'cipher_vanguard',
@@ -109,6 +111,8 @@ export const MatchesView: React.FC = () => {
       firstMyMessage: 'Distribution always beats pure algorithm novelty in the enterprise game.'
     }
   ];
+
+  const matchesList = matches && matches.length > 0 ? matches : fallbackMatches;
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
@@ -174,7 +178,7 @@ export const MatchesView: React.FC = () => {
                 <div className="space-y-1.5">
                   <div className="font-mono text-[10px] text-gray-400 uppercase font-bold">SHARED AFFINITIES:</div>
                   <div className="flex flex-wrap gap-1.5">
-                    {match.topics.map((t, idx) => (
+                    {match.topics.map((t: string, idx: number) => (
                       <span 
                         key={idx} 
                         className="font-mono text-xs font-bold px-2 py-1 bg-[#1b1724] border border-[#a855f7] text-[#ddb7ff]"
@@ -203,7 +207,10 @@ export const MatchesView: React.FC = () => {
 
                   {/* START CHAT BUTTON (Opens Chat Segment directly inside Matches) */}
                   <button
-                    onClick={() => setSelectedMatch(match)}
+                    onClick={() => {
+                      setSelectedMatch(match);
+                      setActiveMatchId(match.id);
+                    }}
                     className="bg-[#ccff00] text-black font-mono text-xs font-black px-4 py-2 border-2 border-black shadow-[3px_3px_0px_#a855f7] hover:bg-white hover:translate-x-0.5 hover:translate-y-0.5 transition-all uppercase flex items-center gap-1.5"
                   >
                     <MessageSquare className="w-3.5 h-3.5 text-black" />

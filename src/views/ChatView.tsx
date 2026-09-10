@@ -40,7 +40,10 @@ export const ChatView: React.FC = () => {
     revealStage, 
     advanceReveal, 
     isGuest,
-    resetToBeforeRegister
+    resetToBeforeRegister,
+    matches,
+    activeMatchId,
+    setActiveMatchId
   } = useApp();
 
   const [input, setInput] = useState('');
@@ -49,9 +52,9 @@ export const ChatView: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   // Selected match for chat frame (null = Match List Inbox)
-  const [selectedMatchId, setSelectedMatchId] = useState<string | null>('cipher_vanguard');
+  const [selectedMatchId, setSelectedMatchId] = useState<string | null>(activeMatchId || (matches?.[0]?.id) || 'cipher_vanguard');
 
-  const matchChannels: MatchChannel[] = [
+  const fallbackChannels: MatchChannel[] = [
     {
       id: 'cipher_vanguard',
       handle: 'cipher_vanguard',
@@ -97,6 +100,20 @@ export const ChatView: React.FC = () => {
       avatarSeed: 'stealth'
     }
   ];
+
+  const matchChannels: MatchChannel[] = matches && matches.length > 0
+    ? matches.map(m => ({
+        id: m.id,
+        handle: m.handle,
+        topic: m.topics?.[0] || 'AI Layoffs vs Reality',
+        compatibility: m.compatibility || 94,
+        unmaskStage: m.unmaskStage || revealStage,
+        lastMessage: m.lastMessage || 'Active topic tunnel established.',
+        lastActive: m.lastActive || 'Active now',
+        isOnline: true,
+        avatarSeed: m.avatarSeed || 'cipher'
+      }))
+    : fallbackChannels;
 
   if (isGuest) {
     return (
@@ -179,7 +196,10 @@ export const ChatView: React.FC = () => {
             {filteredChannels.map(channel => (
               <div
                 key={channel.id}
-                onClick={() => setSelectedMatchId(channel.id)}
+                onClick={() => {
+                  setSelectedMatchId(channel.id);
+                  setActiveMatchId(channel.id);
+                }}
                 className="bg-[#141414] border-2 border-[#262626] hover:border-[#ccff00] p-3.5 space-y-2 cursor-pointer transition-all shadow-[2px_2px_0px_#111] hover:shadow-[4px_4px_0px_#a855f7] group"
               >
                 {/* Channel Header */}

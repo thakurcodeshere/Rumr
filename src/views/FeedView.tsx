@@ -14,6 +14,7 @@ import {
 import confetti from 'canvas-confetti';
 import { DiscoveryFiltersModal } from '../components/ui/DiscoveryFiltersModal';
 import { EncryptedMatchModal } from '../components/ui/EncryptedMatchModal';
+import { api } from '../lib/api';
 
 export const FeedView: React.FC = () => {
   const { 
@@ -31,14 +32,35 @@ export const FeedView: React.FC = () => {
     radius: 25,
     similarityMode: 'balanced'
   });
+  const [cards, setCards] = useState<any[]>([]);
   const [currentCardIndex, setCurrentCardIndex] = useState<number>(0);
   const [swipeFeedback, setSwipeFeedback] = useState<'like' | 'pass' | null>(null);
   const [showMatchModal, setShowMatchModal] = useState<boolean>(false);
+  const [latestMatch, setLatestMatch] = useState<{ matchRate: number; partnerHandle: string; overlappingTopics: string[] }>({
+    matchRate: 94,
+    partnerHandle: 'cipher_vanguard',
+    overlappingTopics: ['Office Politics', 'Ghosting', 'Startup Drama']
+  });
 
-  // Discovery Cards deck
-  const discoveryCards = [
+  React.useEffect(() => {
+    const loadCards = async () => {
+      try {
+        const res = await api.discovery.getFeed(activeFilters);
+        if (res.cards && res.cards.length > 0) {
+          setCards(res.cards);
+        }
+      } catch (err) {
+        console.error('Error fetching discovery cards:', err);
+      }
+    };
+    loadCards();
+  }, [activeFilters]);
+
+  // Fallback cards if empty
+  const activeDeck = cards.length > 0 ? cards : [
     {
       id: 'card-1',
+      targetUserId: 'user-partner-1',
       primaryTopic: 'OFFICE POLITICS',
       category: 'Workplace',
       age: 26,
@@ -49,6 +71,7 @@ export const FeedView: React.FC = () => {
     },
     {
       id: 'card-2',
+      targetUserId: 'user-partner-2',
       primaryTopic: 'AI WRAPPER BUBBLE',
       category: 'Tech',
       age: 28,
@@ -56,32 +79,12 @@ export const FeedView: React.FC = () => {
       compatibilityScore: 97,
       location: 'Gurgaon • 2 km away',
       subTopics: ['VC Burn Rates', 'Remote Work Friction', 'Seed Funding']
-    },
-    {
-      id: 'card-3',
-      primaryTopic: 'ORGANIC DATING IS DEAD',
-      category: 'Social',
-      age: 24,
-      sharedOverlapCount: 3,
-      compatibilityScore: 89,
-      location: 'Delhi NCR • 8 km away',
-      subTopics: ['First Date Red Flags', 'Dating After 25', 'Ghosting Culture']
-    },
-    {
-      id: 'card-4',
-      primaryTopic: 'GHOST PROMOTIONS',
-      category: 'Workplace',
-      age: 29,
-      sharedOverlapCount: 4,
-      compatibilityScore: 92,
-      location: 'Cyber City • 1 km away',
-      subTopics: ['Quiet Quitting', 'Salary Transparency', 'Toxic Managers']
     }
   ];
 
-  const currentCard = discoveryCards[currentCardIndex % discoveryCards.length];
+  const currentCard = activeDeck[currentCardIndex % activeDeck.length];
 
-  const handleSwipe = (direction: 'like' | 'pass') => {
+  const handleSwipe = async (direction: 'like' | 'pass') => {
     if (isGuest && direction === 'like') {
       triggerGuestLock('Topic Swiping & Matching', 'Register to match with people based on shared debate friction.');
       return;
@@ -97,11 +100,28 @@ export const FeedView: React.FC = () => {
         colors: ['#ccff00', '#a855f7', '#ffffff']
       });
 
-      // Show encrypted match modal every other like
-      if (currentCardIndex % 2 === 0) {
-        setTimeout(() => {
-          setShowMatchModal(true);
-        }, 300);
+      try {
+        const targetId = currentCard.targetUserId || 'user-partner-1';
+        const res = await api.discovery.swipe(targetId, 'like');
+        if (res.isMatch) {
+          setLatestMatch({
+            matchRate: res.matchRate || 94,
+            partnerHandle: res.partnerHandle || 'cipher_vanguard',
+            overlappingTopics: res.overlappingTopics || ['Office Politics', 'Ghosting']
+          });
+          setTimeout(() => {
+            setShowMatchModal(true);
+          }, 300);
+        }
+      } catch (err) {
+        console.error('Swipe error:', err);
+      }
+    } else {
+      try {
+        const targetId = currentCard.targetUserId || 'user-partner-1';
+        await api.discovery.swipe(targetId, 'pass');
+      } catch (err) {
+        console.error('Pass error:', err);
       }
     }
 
@@ -200,7 +220,7 @@ export const FeedView: React.FC = () => {
                 Also wants to discuss:
               </span>
               <div className="flex flex-wrap gap-1.5">
-                {currentCard.subTopics.map((sub, idx) => (
+                {currentCard.subTopics.map((sub: string, idx: number) => (
                   <span 
                     key={idx} 
                     className="font-mono text-xs font-semibold px-2.5 py-1 bg-[#1e1a2b] border border-[#a855f7] text-[#ddb7ff]"
@@ -259,8 +279,9 @@ export const FeedView: React.FC = () => {
           setShowMatchModal(false);
           navigate('matches');
         }}
-        matchRate={88}
-        overlappingTopics={['Ghosting After Dates', 'Startup Drama', 'Office Politics', 'Dating Friction']}
+        matchRate={latestMatch.matchRate}
+        partnerHandle={latestMatch.partnerHandle}
+        overlappingTopics={latestMatch.overlappingTopics}
       />
 
       {/* Merged Discovery Filters & Preferences Screen-Frame Modal */}
