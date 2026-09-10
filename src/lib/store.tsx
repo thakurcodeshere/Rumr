@@ -81,7 +81,7 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | null>(null);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isRegistered, setIsRegistered] = useState<boolean>(true);
+  const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [isGuest, setIsGuest] = useState<boolean>(false);
   const [guestLock, setGuestLock] = useState<{ isOpen: boolean; featureName: string; description: string } | null>(null);
 
@@ -102,7 +102,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const dismissGuestLock = () => {
     setGuestLock(null);
   };
-  const [currentView, setCurrentView] = useState<ViewType>('feed');
+  const [currentView, setCurrentView] = useState<ViewType>('onboarding');
 
   const resetToBeforeRegister = () => {
     setIsRegistered(false);

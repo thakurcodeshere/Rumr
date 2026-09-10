@@ -18,6 +18,8 @@ import { BrowserLocationModal } from './components/ui/BrowserLocationModal';
 
 const LocationPromptManager: React.FC = () => {
   const { 
+    currentView,
+    isRegistered,
     userLocation, 
     updateUserLocation, 
     isLocationModalOpen, 
@@ -25,7 +27,9 @@ const LocationPromptManager: React.FC = () => {
   } = useApp();
 
   React.useEffect(() => {
-    // Automatically prompt mobile and tablet browser users on initial load
+    // Only prompt mobile browser users when inside the app (not during onboarding flow)
+    if (currentView === 'onboarding' || !isRegistered) return;
+
     if (typeof window !== 'undefined') {
       const alreadyPrompted = localStorage.getItem('rumr_location_prompted');
       const isMobileUA = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|tablet/i.test(navigator.userAgent || '');
@@ -37,7 +41,7 @@ const LocationPromptManager: React.FC = () => {
         setIsLocationModalOpen(true);
       }
     }
-  }, []);
+  }, [currentView, isRegistered]);
 
   return (
     <BrowserLocationModal

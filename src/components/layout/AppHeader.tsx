@@ -6,6 +6,7 @@ import { BrutalistBadge } from '../ui/BrutalistBadge';
 export const AppHeader: React.FC = () => {
   const { 
     currentView, 
+    isRegistered,
     navigate, 
     user, 
     isMobileFrame, 
@@ -14,6 +15,8 @@ export const AppHeader: React.FC = () => {
     userLocation,
     openLocationPrompt
   } = useApp();
+
+  if (!isRegistered || currentView === 'onboarding') return null;
 
   return (
     <header className="bg-[#111111] border-b-2 border-[#262626] px-4 py-3 sticky top-0 z-30">
