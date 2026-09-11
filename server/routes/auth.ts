@@ -5,6 +5,7 @@ import { generateToken, requireAuth, AuthenticatedRequest } from '../middleware/
 import { otpRateLimiter } from '../middleware/rate-limiter.js';
 import { validateTopicTitle } from '../middleware/sentinel.js';
 import { CONFIG } from '../config.js';
+import { emailService } from '../services/email.js';
 
 export const authRouter = Router();
 
@@ -14,7 +15,7 @@ function hashOtp(code: string): string {
 }
 
 // 1. Send OTP verification code
-authRouter.post('/send-otp', otpRateLimiter, (req, res) => {
+authRouter.post('/send-otp', otpRateLimiter, async (req, res) => {
   const { email } = req.body;
   if (!email || typeof email !== 'string' || !email.includes('@') || !email.includes('.')) {
     res.status(400).json({ error: 'INVALID_EMAIL', message: 'Valid email address required.' });
@@ -34,11 +35,11 @@ authRouter.post('/send-otp', otpRateLimiter, (req, res) => {
     VALUES (?, ?, ?, ?, 0, 0)
   `).run(otpId, cleanEmail, codeHash, expiresAt);
 
-  // In production, dispatch via transactional email provider.
-  // In dev / testing, log and return dev_code for instant deterministic testing
+  // Dispatch via Resend transactional email
+  await emailService.sendOtpEmail(cleanEmail, code);
   console.log(`[RUMR_AUTH_SENTINEL] Verification code for ${cleanEmail}: ${code}`);
 
-  const isSmtpConfigured = !!process.env.SMTP_HOST || !!process.env.RESEND_API_KEY;
+  const isSmtpConfigured = emailService.isConfigured() || !!process.env.SMTP_HOST;
   const isDevOrDemo = !isSmtpConfigured || CONFIG.NODE_ENV !== 'production' || cleanEmail.includes('alex.cipher') || cleanEmail.includes('demo');
 
   res.json({

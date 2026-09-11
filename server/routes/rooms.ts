@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { db } from '../db/database.js';
 import { optionalAuth, requireAuth, requireRegistered, AuthenticatedRequest } from '../middleware/auth.js';
+import { createLiveKitToken } from '../services/livekit.js';
 
 export const roomsRouter = Router();
 
@@ -127,5 +128,46 @@ roomsRouter.post('/:roomId/messages', requireAuth, (req: AuthenticatedRequest, r
       stance,
       timestamp: 'Just now'
     }
+  });
+});
+
+// 7. Issue LiveKit WebRTC Audio Token
+roomsRouter.get('/:roomId/token', optionalAuth, async (req: AuthenticatedRequest, res) => {
+  const { roomId } = req.params;
+  const room = db.prepare('SELECT * FROM rooms WHERE id = ?').get(roomId) as any;
+
+  if (!room) {
+    res.status(404).json({ error: 'ROOM_NOT_FOUND', message: 'Audio room not found.' });
+    return;
+  }
+
+  const userId = req.user ? req.user.id : `guest-${Date.now().toString(36)}`;
+  const userHandle = req.user ? req.user.handle : `anonymous_${userId.slice(-4)}`;
+
+  // Determine if participant can speak
+  const participant = req.user ? db.prepare('SELECT role, is_muted FROM room_participants WHERE room_id = ? AND user_id = ?').get(roomId, userId) as any : null;
+  const canPublish = participant ? participant.role === 'speaker' || participant.role === 'host' : false;
+
+  const tokenResult = await createLiveKitToken({
+    identity: userId,
+    roomName: roomId,
+    participantName: userHandle,
+    canPublish,
+    canSubscribe: true,
+    metadata: {
+      handle: userHandle,
+      role: participant?.role || 'listener',
+      isVerified: req.user?.is_verified ? true : false
+    }
+  });
+
+  res.json({
+    success: true,
+    roomId,
+    token: tokenResult.token,
+    wsUrl: tokenResult.wsUrl,
+    canPublish,
+    identity: userId,
+    isMock: tokenResult.isMock
   });
 });

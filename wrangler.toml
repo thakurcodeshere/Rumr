@@ -1,0 +1,30 @@
+name = "rumr"
+compatibility_date = "2026-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+[site]
+bucket = "./dist"
+
+[env.production]
+routes = [
+  { pattern = "rumr.io/*", zone_name = "rumr.io" }
+]
+
+# Cloudflare Edge Security and Caching Headers
+[[headers]]
+for = "/*"
+[headers.values]
+X-Content-Type-Options = "nosniff"
+X-Frame-Options = "SAMEORIGIN"
+Referrer-Policy = "strict-origin-when-cross-origin"
+Permissions-Policy = "microphone=(self), camera=(), geolocation=(self)"
+
+[[headers]]
+for = "/assets/*"
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+for = "/api/*"
+[headers.values]
+Cache-Control = "no-store, no-cache, must-revalidate"
