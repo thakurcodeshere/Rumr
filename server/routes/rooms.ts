@@ -133,7 +133,7 @@ roomsRouter.post('/:roomId/messages', requireAuth, (req: AuthenticatedRequest, r
 
 // 7. Issue LiveKit WebRTC Audio Token
 roomsRouter.get('/:roomId/token', optionalAuth, async (req: AuthenticatedRequest, res) => {
-  const { roomId } = req.params;
+  const roomId = Array.isArray(req.params.roomId) ? req.params.roomId[0] : req.params.roomId;
   const room = db.prepare('SELECT * FROM rooms WHERE id = ?').get(roomId) as any;
 
   if (!room) {
