@@ -90,7 +90,7 @@ authRouter.post('/verify-otp', (req, res) => {
   if (!user) {
     isNewUser = true;
     const userId = `user-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
-    const randomSuffix = Math.floor(100 + Math.random() * 900);
+    const randomSuffix = `${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 6)}`;
     const handle = `anonymous_ghost_${randomSuffix}`;
     const avatarSeed = `ghost_${randomSuffix}`;
 
@@ -135,7 +135,7 @@ authRouter.post('/verify-otp', (req, res) => {
 // 3. Continue as Guest Session
 authRouter.post('/guest', (req, res) => {
   const guestId = `guest-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
-  const randomSuffix = Math.floor(10 + Math.random() * 90);
+  const randomSuffix = `${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 6)}`;
   const handle = `guest_wanderer_${randomSuffix}`;
   const avatarSeed = `guest_${randomSuffix}`;
 
