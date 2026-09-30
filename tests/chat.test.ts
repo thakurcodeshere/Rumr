@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import request from 'supertest';
 import { app } from '../server/index.js';
+import { createTestUserToken } from './test-auth-helper.js';
 
 describe('Chat Tunnels, Ephemeral Decay & AI Sentinel API', () => {
   let authToken: string;
@@ -8,10 +9,8 @@ describe('Chat Tunnels, Ephemeral Decay & AI Sentinel API', () => {
 
   beforeAll(async () => {
     const testEmail = `chat.tester.${Date.now()}@rumr.io`;
-    const authRes = await request(app)
-      .post('/api/auth/verify-otp')
-      .send({ email: testEmail, code: '482910' });
-    authToken = authRes.body.token;
+    const auth = await createTestUserToken({ email: testEmail });
+    authToken = auth.token;
 
     const swipeRes = await request(app)
       .post('/api/discovery/swipe')
@@ -70,13 +69,11 @@ describe('Chat Tunnels, Ephemeral Decay & AI Sentinel API', () => {
   });
 
   it('rejects message attempt by non-participant (403 Forbidden)', async () => {
-    const rogueRes = await request(app)
-      .post('/api/auth/verify-otp')
-      .send({ email: 'intruder@rumr.io', code: '482910' });
+    const rogueAuth = await createTestUserToken({ email: 'intruder@rumr.io' });
 
     const res = await request(app)
       .post(`/api/matches/${matchId}/messages`)
-      .set('Authorization', `Bearer ${rogueRes.body.token}`)
+      .set('Authorization', `Bearer ${rogueAuth.token}`)
       .send({ text: 'I should not be able to write here.' });
 
     expect(res.status).toBe(403);

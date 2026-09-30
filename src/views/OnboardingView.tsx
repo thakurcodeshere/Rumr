@@ -70,10 +70,10 @@ export const OnboardingView: React.FC = () => {
 
   // Auth & Email states
   const [authMode, setAuthMode] = useState<'signup' | 'signin'>('signup');
-  const [email, setEmail] = useState('alex.cipher@gmail.com');
+  const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState<string | null>(null);
-  const [otp, setOtp] = useState(['4', '8', '2', '9', '1', '0']);
-  const [resendTimer, setResendTimer] = useState(38);
+  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [resendTimer, setResendTimer] = useState(60);
 
   // Profile basics states
   const [age, setAge] = useState<number>(26);
@@ -119,29 +119,12 @@ export const OnboardingView: React.FC = () => {
     }
     setEmailError(null);
     try {
-      const res = await api.auth.sendOtp(cleanEmail);
-      if (res.dev_code) {
-        setOtp(res.dev_code.split(''));
-      }
-      setResendTimer(38);
+      await api.auth.sendOtp(cleanEmail);
+      setOtp(['', '', '', '', '', '']);
+      setResendTimer(60);
       setStep('email_verify');
     } catch (err: any) {
       setEmailError(err.message || 'Failed to dispatch code');
-    }
-  };
-
-  const handleQuickGmailLogin = async () => {
-    const clean = 'alex.cipher@gmail.com';
-    setEmail(clean);
-    setEmailError(null);
-    try {
-      const res = await api.auth.sendOtp(clean);
-      if (res.dev_code) {
-        setOtp(res.dev_code.split(''));
-      }
-      setStep('email_verify');
-    } catch {
-      setStep('email_verify');
     }
   };
 
@@ -396,21 +379,6 @@ export const OnboardingView: React.FC = () => {
               CONTINUE WITH EMAIL <ArrowRight className="w-4 h-4 ml-1" />
             </BrutalistButton>
 
-            {/* Google / Gmail 1-Tap Option */}
-            <div className="relative flex py-1 items-center">
-              <div className="flex-grow border-t border-[#333]" />
-              <span className="flex-shrink mx-2 font-mono text-[10px] text-gray-500 uppercase">OR INSTANT GMAIL</span>
-              <div className="flex-grow border-t border-[#333]" />
-            </div>
-
-            <button
-              type="button"
-              onClick={handleQuickGmailLogin}
-              className="w-full py-2.5 bg-[#1b1726] hover:bg-[#231e33] border-2 border-[#a855f7] text-[#ddb7ff] font-mono text-xs font-bold uppercase transition-all flex items-center justify-center gap-2 shadow-[2px_2px_0px_#a855f7]"
-            >
-              <Zap className="w-3.5 h-3.5 text-[#ccff00]" />
-              Continue with Google / Gmail
-            </button>
 
             <p className="font-mono text-[10px] text-gray-500 text-center leading-relaxed">
               We send a 6-digit verification code to your email. Your address is salted with SHA-256 and never shared.

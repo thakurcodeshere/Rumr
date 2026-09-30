@@ -88,7 +88,7 @@ Built under the **Clean Chaos** design philosophy, Rumr provides a browser-first
 
 ### 1. Browser-First Onboarding Pipeline
 - **Zero App Store Barrier**: Instant onboarding directly in the browser with native mobile & tablet responsiveness.
-- **Gmail OTP Authentication**: Streamlined verification code dispatch (with zero-config fallback bypass `482910` for offline dev/test).
+- **Gmail OTP Authentication**: Streamlined verification code dispatch via Resend transactional email with single-use replay prevention and timing-safe hash comparison.
 - **Native Geolocation Permission Radar**: In-browser geolocation prompt with fallback city selector for location-sensitive debate matching without invasive tracking.
 - **Collision-Proof Handle Generator**: Generates unique, non-colliding pseudonyms (`@anonymous_ghost_*`) preventing database unique constraint collisions.
 

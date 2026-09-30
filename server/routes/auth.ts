@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import crypto from 'crypto';
 import { db } from '../db/database.js';
-import { generateToken, requireAuth, AuthenticatedRequest } from '../middleware/auth.js';
-import { otpRateLimiter } from '../middleware/rate-limiter.js';
+import { generateToken, requireAuth, AuthenticatedRequest, revokeToken, extractToken, optionalAuth } from '../middleware/auth.js';
+import { otpRateLimiter, otpVerifyRateLimiter, checkEmailOtpRateLimit } from '../middleware/rate-limiter.js';
 import { validateTopicTitle } from '../middleware/sentinel.js';
 import { CONFIG } from '../config.js';
 import { emailService } from '../services/email.js';
@@ -25,12 +25,27 @@ authRouter.post('/send-otp', otpRateLimiter, async (req, res, next) => {
 
     const cleanEmail = email.trim().toLowerCase();
 
-    // Generate 6-digit code
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    // Enforce email rate limiter (max 3 requests per 15 minutes)
+    const emailRateCheck = await checkEmailOtpRateLimit(cleanEmail);
+    if (!emailRateCheck.allowed) {
+      res.status(429).json({
+        error: 'RATE_LIMIT_EXCEEDED',
+        message: 'Too many verification code requests for this email address. Please try again later.',
+        retryAfterSeconds: emailRateCheck.retryAfterSeconds
+      });
+      return;
+    }
+
+    // Generate cryptographically secure 6-digit code
+    const code = crypto.randomInt(100000, 1000000).toString();
     const codeHash = hashOtp(code);
     const expiresAt = new Date(Date.now() + CONFIG.OTP_EXPIRY_SECONDS * 1000).toISOString();
-    const otpId = `otp-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+    const otpId = `otp-${Date.now()}-${crypto.randomBytes(4).toString('hex')}`;
 
+    // 1. Invalidate any previously active OTPs for this email before storing new one (supersession)
+    await db.authOtps.invalidateActiveOtps(cleanEmail);
+
+    // 2. Persist new OTP record in DB first
     await db.authOtps.create({
       id: otpId,
       email: cleanEmail,
@@ -40,63 +55,120 @@ authRouter.post('/send-otp', otpRateLimiter, async (req, res, next) => {
       attempts: 0
     });
 
-    // Dispatch via Resend transactional email
-    await emailService.sendOtpEmail(cleanEmail, code);
-    console.log(`[RUMR_AUTH_SENTINEL] Verification code for ${cleanEmail}: ${code}`);
-
-    const isSmtpConfigured = emailService.isConfigured() || !!process.env.SMTP_HOST;
-    const isDevOrDemo = !isSmtpConfigured || CONFIG.NODE_ENV !== 'production' || cleanEmail.includes('alex.cipher') || cleanEmail.includes('demo');
+    // 3. Dispatch via Resend transactional email
+    const emailResult = await emailService.sendOtpEmail(cleanEmail, code);
+    if (!emailResult.success) {
+      // Invalidate newly created OTP immediately to prevent orphaned unreceived code
+      await db.authOtps.markConsumed(otpId);
+      res.status(502).json({
+        error: 'EMAIL_DELIVERY_FAILED',
+        message: emailResult.error || 'Unable to deliver verification code email. Please check your address or try again.'
+      });
+      return;
+    }
 
     res.json({
       success: true,
-      message: `6-digit verification code dispatched to ${cleanEmail}.`,
-      dev_code: isDevOrDemo ? code : undefined
+      message: `6-digit verification code dispatched to ${cleanEmail}.`
     });
   } catch (err) {
     next(err);
   }
 });
 
-// 2. Verify OTP & Issue Token
-authRouter.post('/verify-otp', async (req, res, next) => {
+// 2. Verify OTP & Issue Token (with atomic CAS replay prevention & seamless guest upgrade)
+authRouter.post('/verify-otp', otpVerifyRateLimiter, optionalAuth, async (req: AuthenticatedRequest, res, next) => {
   try {
     const { email, code } = req.body;
-    if (!email || !code) {
+    if (!email || code === undefined || code === null) {
       res.status(400).json({ error: 'MISSING_FIELDS', message: 'Email and 6-digit code required.' });
       return;
     }
 
     const cleanEmail = email.trim().toLowerCase();
     const cleanCode = code.toString().trim();
-    const codeHash = hashOtp(cleanCode);
+
+    if (!/^\d{6}$/.test(cleanCode)) {
+      res.status(400).json({ error: 'INVALID_FORMAT', message: 'Verification code must be exactly 6 digits.' });
+      return;
+    }
 
     const otpRecord = await db.authOtps.findLatestActive(cleanEmail);
-
-    // Accept code matching hash or fallback code '482910' when SMTP is unconfigured or in demo
-    const isSmtpConfigured = !!process.env.SMTP_HOST || !!process.env.RESEND_API_KEY;
-    const isDevBypass = (!isSmtpConfigured || CONFIG.NODE_ENV !== 'production' || cleanEmail.includes('alex.cipher') || cleanEmail.includes('demo')) && cleanCode === '482910';
-    const isValid = (otpRecord && otpRecord.otp_code_hash === codeHash) || isDevBypass;
-
-    if (!isValid) {
-      if (otpRecord) {
-        await db.authOtps.incrementAttempts(otpRecord.id);
-      }
+    if (!otpRecord) {
       res.status(401).json({ error: 'INVALID_CODE', message: 'Invalid or expired verification code.' });
       return;
     }
 
-    if (otpRecord) {
-      await db.authOtps.markConsumed(otpRecord.id);
+    // Timing-safe comparison of SHA-256 hashes
+    const inputHashBuffer = Buffer.from(hashOtp(cleanCode), 'hex');
+    const recordHashBuffer = Buffer.from(otpRecord.otp_code_hash, 'hex');
+    const isMatch = inputHashBuffer.length === recordHashBuffer.length &&
+      crypto.timingSafeEqual(inputHashBuffer, recordHashBuffer);
+
+    if (!isMatch) {
+      await db.authOtps.incrementAttempts(otpRecord.id);
+      const updatedAttempts = (otpRecord.attempts || 0) + 1;
+      if (updatedAttempts >= 5) {
+        await db.authOtps.markConsumed(otpRecord.id);
+        res.status(429).json({
+          error: 'MAX_ATTEMPTS_EXCEEDED',
+          message: 'Maximum verification attempts exceeded. Please request a new code.'
+        });
+        return;
+      }
+      res.status(401).json({
+        error: 'INVALID_CODE',
+        message: 'Invalid verification code.',
+        attemptsRemaining: Math.max(0, 5 - updatedAttempts)
+      });
+      return;
     }
 
-    // Check if user already exists
-    let user = await db.users.findByEmail(cleanEmail);
+    // Mark consumed immediately upon successful verification (atomic CAS replay prevention)
+    const wasConsumed = await db.authOtps.markConsumed(otpRecord.id);
+    if (!wasConsumed) {
+      res.status(401).json({
+        error: 'INVALID_CODE',
+        message: 'Verification code has already been used or expired.'
+      });
+      return;
+    }
+
+    // Resolve user identity & guest transition
+    let existingUser = await db.users.findByEmail(cleanEmail);
+    const callerGuest = (req.user && req.user.is_guest === 1) ? req.user : null;
+    let user: any;
     let isNewUser = false;
 
-    if (!user) {
+    if (existingUser) {
+      user = existingUser;
+      isNewUser = false;
+      // If caller was an active guest, retire the superseded temporary guest record
+      if (callerGuest && callerGuest.id !== existingUser.id) {
+        try {
+          await db.users.delete(callerGuest.id);
+        } catch (err) {
+          console.warn('[AUTH] Error retiring superseded guest session:', err);
+        }
+      }
+    } else if (callerGuest) {
+      // Seamless in-place upgrade of guest session to registered account
+      // Preserves user ID, existing topic subscriptions, and resonance tags
+      user = await db.users.update(callerGuest.id, {
+        email: cleanEmail,
+        is_guest: 0,
+        is_verified: 1,
+        role: callerGuest.role === 'Anonymous Observer' ? 'Tech Contributor' : callerGuest.role,
+        tagline: callerGuest.tagline === 'Guest spectator in the debate mesh'
+          ? 'Contrarian thinker • intellectual friction advocate'
+          : callerGuest.tagline
+      });
       isNewUser = true;
-      const userId = `user-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
-      const randomSuffix = `${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 6)}`;
+    } else {
+      // Brand new registered user (unauthenticated signup)
+      isNewUser = true;
+      const userId = `user-${Date.now()}-${crypto.randomBytes(4).toString('hex')}`;
+      const randomSuffix = `${Date.now().toString(36)}_${crypto.randomBytes(3).toString('hex')}`;
       const handle = `anonymous_ghost_${randomSuffix}`;
       const avatarSeed = `ghost_${randomSuffix}`;
 
@@ -125,7 +197,7 @@ authRouter.post('/verify-otp', async (req, res, next) => {
     const token = generateToken({
       userId: user.id,
       handle: user.handle,
-      isGuest: user.is_guest === 1
+      isGuest: false
     });
 
     // Get user subscriptions
@@ -303,6 +375,10 @@ authRouter.post('/complete-onboarding', requireAuth, async (req: AuthenticatedRe
 });
 
 // 6. Terminate Session / Logout
-authRouter.post('/logout', (req, res) => {
+authRouter.post('/logout', async (req, res) => {
+  const token = extractToken(req);
+  if (token) {
+    await revokeToken(token);
+  }
   res.json({ success: true, message: 'Session terminated. Cryptographic keys purged from device.' });
 });

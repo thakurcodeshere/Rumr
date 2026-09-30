@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import request from 'supertest';
 import { app } from '../server/index.js';
+import { createTestUserToken } from './test-auth-helper.js';
 
 describe('Discovery Feed & Mutual Matching API', () => {
   let authToken: string;
@@ -8,12 +9,9 @@ describe('Discovery Feed & Mutual Matching API', () => {
 
   beforeAll(async () => {
     const testEmail = `swiper.user.${Date.now()}@rumr.io`;
-    const res = await request(app)
-      .post('/api/auth/verify-otp')
-      .send({ email: testEmail, code: '482910' });
-
-    authToken = res.body.token;
-    userId = res.body.user.id;
+    const auth = await createTestUserToken({ email: testEmail });
+    authToken = auth.token;
+    userId = auth.userId;
   });
 
   it('generates discovery cards deck with real topic overlap and distance', async () => {

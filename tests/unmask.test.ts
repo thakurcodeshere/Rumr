@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import request from 'supertest';
 import { app } from '../server/index.js';
+import { createTestUserToken } from './test-auth-helper.js';
 
 describe('Bilateral Progressive Cryptographic Unmasking API', () => {
   let authToken: string;
@@ -9,10 +10,8 @@ describe('Bilateral Progressive Cryptographic Unmasking API', () => {
   beforeAll(async () => {
     // 1. Authenticate test user with unique email
     const testEmail = `unmask.tester.${Date.now()}@rumr.io`;
-    const authRes = await request(app)
-      .post('/api/auth/verify-otp')
-      .send({ email: testEmail, code: '482910' });
-    authToken = authRes.body.token;
+    const auth = await createTestUserToken({ email: testEmail });
+    authToken = auth.token;
 
     // 2. Establish match with user-partner-1
     const swipeRes = await request(app)
@@ -79,10 +78,8 @@ describe('Bilateral Progressive Cryptographic Unmasking API', () => {
 
   it('rejects unmasking consent from unauthorized third-party user', async () => {
     // Generate different user token
-    const otherRes = await request(app)
-      .post('/api/auth/verify-otp')
-      .send({ email: 'eavesdropper@rumr.io', code: '482910' });
-    const rogueToken = otherRes.body.token;
+    const otherAuth = await createTestUserToken({ email: 'eavesdropper@rumr.io' });
+    const rogueToken = otherAuth.token;
 
     const res = await request(app)
       .post(`/api/matches/${matchId}/unmask/consent`)

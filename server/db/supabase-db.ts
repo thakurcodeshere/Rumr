@@ -164,6 +164,7 @@ export class SupabaseDatabase implements DatabaseAdapter {
         .select('*')
         .eq('email', cleanEmail)
         .eq('consumed', 0)
+        .lt('attempts', 5)
         .gt('expires_at', nowIso)
         .order('created_at', { ascending: false })
         .limit(1)
@@ -180,9 +181,25 @@ export class SupabaseDatabase implements DatabaseAdapter {
       if (error) throw new Error(`[SupabaseDB.authOtps.incrementAttempts] ${error.message}`);
     },
 
-    markConsumed: async (id: string): Promise<void> => {
-      const { error } = await this.client.from('auth_otps').update({ consumed: 1 }).eq('id', id);
+    markConsumed: async (id: string): Promise<boolean> => {
+      const { data, error } = await this.client
+        .from('auth_otps')
+        .update({ consumed: 1 })
+        .eq('id', id)
+        .eq('consumed', 0)
+        .select('id');
       if (error) throw new Error(`[SupabaseDB.authOtps.markConsumed] ${error.message}`);
+      return Boolean(data && data.length > 0);
+    },
+
+    invalidateActiveOtps: async (email: string): Promise<void> => {
+      const cleanEmail = email.trim().toLowerCase();
+      const { error } = await this.client
+        .from('auth_otps')
+        .update({ consumed: 1 })
+        .eq('email', cleanEmail)
+        .eq('consumed', 0);
+      if (error) throw new Error(`[SupabaseDB.authOtps.invalidateActiveOtps] ${error.message}`);
     }
   };
 

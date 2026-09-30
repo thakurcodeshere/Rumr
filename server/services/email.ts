@@ -15,6 +15,24 @@ if (isConfigured) {
   }
 }
 
+export interface MockDispatchedEmail {
+  to: string;
+  code: string;
+  timestamp: number;
+}
+
+export const mockEmailDispatchJournal: MockDispatchedEmail[] = [];
+
+export function getLatestMockEmailCode(email: string): string | undefined {
+  const clean = email.trim().toLowerCase();
+  const entries = mockEmailDispatchJournal.filter(m => m.to === clean);
+  return entries.length > 0 ? entries[entries.length - 1].code : undefined;
+}
+
+export function clearMockEmailJournal(): void {
+  mockEmailDispatchJournal.length = 0;
+}
+
 export const EMAIL_CONFIG = {
   FROM: process.env.EMAIL_FROM || 'RUMR Sentinel <onboarding@resend.dev>',
   IS_CONFIGURED: isConfigured,
@@ -25,7 +43,10 @@ export const emailService = {
     return Boolean(resendClient);
   },
 
-  async sendOtpEmail(toEmail: string, otpCode: string): Promise<{ success: boolean; id?: string; simulated?: boolean }> {
+  async sendOtpEmail(toEmail: string, otpCode: string): Promise<{ success: boolean; id?: string; simulated?: boolean; error?: string }> {
+    const isProduction = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
+    const cleanEmail = toEmail.trim().toLowerCase();
+
     const htmlTemplate = `
       <!DOCTYPE html>
       <html>
@@ -62,23 +83,36 @@ export const emailService = {
       try {
         const { data, error } = await resendClient.emails.send({
           from: EMAIL_CONFIG.FROM,
-          to: toEmail,
+          to: cleanEmail,
           subject: `[RUMR] Verification Code: ${otpCode}`,
           html: htmlTemplate,
         });
 
         if (error) {
-          console.warn('[RESEND_SEND_ERROR] Falling back to log:', error);
+          if (isProduction) {
+            return { success: false, error: error.message };
+          }
         } else if (data) {
           return { success: true, id: data.id };
         }
-      } catch (err) {
-        console.warn('[RESEND_DISPATCH_EXCEPTION]', err);
+      } catch (err: any) {
+        if (isProduction) {
+          return { success: false, error: err.message || 'Resend transmission failed.' };
+        }
       }
     }
 
-    // Dev/fallback logger
-    console.log(`[RESEND_SENTINEL_DISPATCH] To: ${toEmail} | Code: ${otpCode}`);
+    if (isProduction) {
+      return { success: false, error: 'Resend transactional email client is not configured for production delivery.' };
+    }
+
+    // Dev/test in-memory journal (safe; never logged to console)
+    mockEmailDispatchJournal.push({
+      to: cleanEmail,
+      code: otpCode,
+      timestamp: Date.now()
+    });
+
     return { success: true, id: `mock-email-${Date.now()}`, simulated: true };
   },
 

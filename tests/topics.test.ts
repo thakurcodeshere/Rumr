@@ -1,15 +1,14 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import request from 'supertest';
 import { app } from '../server/index.js';
+import { createTestUserToken } from './test-auth-helper.js';
 
 describe('Topics Taxonomy & Hard Constraint Sentinel API', () => {
   let authToken: string;
 
   beforeAll(async () => {
-    const authRes = await request(app)
-      .post('/api/auth/verify-otp')
-      .send({ email: 'topic.creator@rumr.io', code: '482910' });
-    authToken = authRes.body.token;
+    const auth = await createTestUserToken({ email: 'topic.creator@rumr.io' });
+    authToken = auth.token;
   });
 
   it('lists existing topics with category and heat scores', async () => {

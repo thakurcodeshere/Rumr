@@ -1,15 +1,14 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import request from 'supertest';
 import { app } from '../server/index.js';
+import { createTestUserToken } from './test-auth-helper.js';
 
 describe('DPDP 2023 Compliance & User Data Rights API', () => {
   let authToken: string;
 
   beforeAll(async () => {
-    const authRes = await request(app)
-      .post('/api/auth/verify-otp')
-      .send({ email: 'dpdp.principal@rumr.io', code: '482910' });
-    authToken = authRes.body.token;
+    const auth = await createTestUserToken({ email: 'dpdp.principal@rumr.io' });
+    authToken = auth.token;
   });
 
   it('injects 3-word uppercase resonance tag into profile', async () => {

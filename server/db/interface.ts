@@ -44,7 +44,8 @@ export interface DatabaseAdapter {
     create(otp: { id: string; email: string; otp_code_hash: string; expires_at: string; consumed?: number; attempts?: number }): Promise<void>;
     findLatestActive(email: string): Promise<AuthOtp | null>;
     incrementAttempts(id: string): Promise<void>;
-    markConsumed(id: string): Promise<void>;
+    markConsumed(id: string): Promise<boolean>;
+    invalidateActiveOtps(email: string): Promise<void>;
   };
 
   topics: {

@@ -402,7 +402,7 @@ export const ProfileView: React.FC = () => {
                   <User className="w-4 h-4 text-gray-400" />
                   <div>
                     <div className="font-serif font-bold text-sm text-white">Personal Information</div>
-                    <div className="font-mono text-[10px] text-gray-500">Email ({user.email || 'alex.cipher@gmail.com'}), Age (26), City</div>
+                    <div className="font-mono text-[10px] text-gray-500">Email ({user.email || 'Unregistered'}), Age (26), City</div>
                   </div>
                 </div>
                 <ChevronRight className="w-4 h-4 text-gray-500" />
@@ -577,7 +577,7 @@ export const ProfileView: React.FC = () => {
               </button>
             </div>
             <div className="space-y-2 font-mono text-xs text-gray-300">
-              <div>Email: <strong className="text-white">{user.email || 'alex.cipher@gmail.com'} (Verified)</strong></div>
+              <div>Email: <strong className="text-white">{user.email ? `${user.email} (Verified)` : 'Unregistered Guest'}</strong></div>
               <div>Age: <strong className="text-white">26 Years</strong></div>
               <div>Location: <strong className="text-white">Gurgaon (Delhi NCR) • Live Mesh Locked</strong></div>
               <div>DPDP Compliance: <strong className="text-[#ccff00]">Encrypted & Anonymized (No Phone)</strong></div>

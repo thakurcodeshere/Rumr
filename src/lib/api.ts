@@ -100,7 +100,7 @@ class ApiClient {
   // 1. Auth APIs
   auth = {
     sendOtp: async (email: string) => {
-      return this.request<{ success: boolean; message: string; dev_code?: string }>('/auth/send-otp', {
+      return this.request<{ success: boolean; message: string }>('/auth/send-otp', {
         method: 'POST',
         body: JSON.stringify({ email })
       });

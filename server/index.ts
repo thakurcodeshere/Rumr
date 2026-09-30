@@ -29,6 +29,9 @@ const __dirname = path.dirname(__filename);
 
 export const app = express();
 
+// Trust reverse proxy (Vercel, Cloudflare) for secure IP resolution and spoofing protection
+app.set('trust proxy', 1);
+
 // Core Middleware
 app.use(cors({
   origin: true,
@@ -166,8 +169,8 @@ if (!process.env.VERCEL) {
 const distPath = path.resolve(__dirname, '../dist');
 app.use(express.static(distPath));
 
-// Only listen if executed directly (not required by test suite)
-if (process.env.NODE_ENV !== 'test') {
+// Only listen if executed directly (not required by test suite or serverless environments like Vercel)
+if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
   app.listen(CONFIG.PORT, () => {
     console.log(`\n======================================================`);
     console.log(`⚡ RUMR Engine Active on http://localhost:${CONFIG.PORT}`);

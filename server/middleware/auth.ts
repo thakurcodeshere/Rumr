@@ -36,6 +36,36 @@ export interface AuthenticatedRequest extends Request {
   };
 }
 
+import crypto from 'crypto';
+import { redisService } from '../services/redis.js';
+
+const revokedTokensMemory = new Set<string>();
+
+export async function isTokenRevoked(token: string): Promise<boolean> {
+  const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+  if (redisService.isConfigured()) {
+    try {
+      const revoked = await redisService.get<boolean>(`revoked:${tokenHash}`);
+      if (revoked) return true;
+    } catch {
+      // Fallback to memory
+    }
+  }
+  return revokedTokensMemory.has(tokenHash);
+}
+
+export async function revokeToken(token: string, expiresInSeconds = 86400 * 30): Promise<void> {
+  const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+  if (redisService.isConfigured()) {
+    try {
+      await redisService.set(`revoked:${tokenHash}`, true, expiresInSeconds);
+    } catch {
+      // Fallback to memory
+    }
+  }
+  revokedTokensMemory.add(tokenHash);
+}
+
 export function generateToken(payload: UserTokenPayload, expiresIn = '30d'): string {
   return jwt.sign(payload, CONFIG.JWT_SECRET, { expiresIn: expiresIn as any });
 }
@@ -63,6 +93,11 @@ export async function requireAuth(req: AuthenticatedRequest, res: Response, next
   const token = extractToken(req);
   if (!token) {
     res.status(401).json({ error: 'UNAUTHORIZED', message: 'Authentication token required' });
+    return;
+  }
+
+  if (await isTokenRevoked(token)) {
+    res.status(401).json({ error: 'TOKEN_REVOKED', message: 'Session has been revoked/logged out' });
     return;
   }
 

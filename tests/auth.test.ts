@@ -1,8 +1,13 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import request from 'supertest';
 import { app } from '../server/index.js';
+import { getLatestMockEmailCode, clearMockEmailJournal } from '../server/services/email.js';
 
 describe('Auth & Session Security API', () => {
+  beforeEach(() => {
+    clearMockEmailJournal();
+  });
+
   it('rejects invalid email formats', async () => {
     const res = await request(app)
       .post('/api/auth/send-otp')
@@ -12,17 +17,27 @@ describe('Auth & Session Security API', () => {
     expect(res.body.error).toBe('INVALID_EMAIL');
   });
 
-  it('dispatches OTP code for valid email', async () => {
+  it('dispatches OTP code for valid email without exposing code in response', async () => {
     const res = await request(app)
       .post('/api/auth/send-otp')
       .send({ email: 'test.user@rumr.io' });
 
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
-    expect(res.body.dev_code).toBeDefined();
+    expect(res.body.dev_code).toBeUndefined();
+    expect(res.body.code).toBeUndefined();
+
+    // Code is safely captured by email mock journal without stdout leak
+    const dispatchedCode = getLatestMockEmailCode('test.user@rumr.io');
+    expect(dispatchedCode).toBeDefined();
+    expect(dispatchedCode).toMatch(/^\d{6}$/);
   });
 
   it('rejects verification with wrong OTP code', async () => {
+    await request(app)
+      .post('/api/auth/send-otp')
+      .send({ email: 'test.user@rumr.io' });
+
     const res = await request(app)
       .post('/api/auth/verify-otp')
       .send({ email: 'test.user@rumr.io', code: '000000' });
@@ -37,7 +52,11 @@ describe('Auth & Session Security API', () => {
       .post('/api/auth/send-otp')
       .send({ email: 'alice.tester@rumr.io' });
 
-    const code = sendRes.body.dev_code;
+    expect(sendRes.status).toBe(200);
+    expect(sendRes.body.dev_code).toBeUndefined();
+
+    const code = getLatestMockEmailCode('alice.tester@rumr.io');
+    expect(code).toBeDefined();
 
     // 2. Verify OTP
     const verifyRes = await request(app)

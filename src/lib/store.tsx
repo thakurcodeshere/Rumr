@@ -397,8 +397,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
     } catch (err: any) {
       console.error('Error completing onboarding:', err);
-      setIsRegistered(true);
-      navigate('feed');
+      throw err;
     }
   };
 

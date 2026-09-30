@@ -85,6 +85,8 @@ export class SqliteDatabase implements DatabaseAdapter {
     },
 
     delete: async (id: string): Promise<void> => {
+      this.db.prepare('DELETE FROM user_topics WHERE user_id = ?').run(id);
+      this.db.prepare('DELETE FROM user_resonance_tags WHERE user_id = ?').run(id);
       this.db.prepare('DELETE FROM users WHERE id = ?').run(id);
     },
 
@@ -130,7 +132,7 @@ export class SqliteDatabase implements DatabaseAdapter {
     findLatestActive: async (email: string): Promise<AuthOtp | null> => {
       const row = this.db.prepare(`
         SELECT * FROM auth_otps
-        WHERE email = ? AND consumed = 0 AND expires_at > datetime('now')
+        WHERE email = ? AND consumed = 0 AND attempts < 5 AND expires_at > datetime('now')
         ORDER BY created_at DESC LIMIT 1
       `).get(email.trim().toLowerCase()) as AuthOtp | undefined;
       return row || null;
@@ -140,8 +142,13 @@ export class SqliteDatabase implements DatabaseAdapter {
       this.db.prepare('UPDATE auth_otps SET attempts = attempts + 1 WHERE id = ?').run(id);
     },
 
-    markConsumed: async (id: string): Promise<void> => {
-      this.db.prepare('UPDATE auth_otps SET consumed = 1 WHERE id = ?').run(id);
+    markConsumed: async (id: string): Promise<boolean> => {
+      const res = this.db.prepare('UPDATE auth_otps SET consumed = 1 WHERE id = ? AND consumed = 0').run(id);
+      return res.changes > 0;
+    },
+
+    invalidateActiveOtps: async (email: string): Promise<void> => {
+      this.db.prepare('UPDATE auth_otps SET consumed = 1 WHERE email = ? AND consumed = 0').run(email.trim().toLowerCase());
     }
   };
 
