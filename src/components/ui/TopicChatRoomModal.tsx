@@ -48,29 +48,7 @@ export const TopicChatRoomModal: React.FC<TopicChatRoomModalProps> = ({
   const [chatInput, setChatInput] = useState('');
   const [activeReaction, setActiveReaction] = useState<string | null>(null);
 
-  const [messages, setMessages] = useState<RoomMessage[]>([
-    {
-      id: 'm-1',
-      sender: 'cipher_vanguard',
-      isHost: true,
-      text: 'Welcome everyone. This room is gated to users with verified interest in this domain.',
-      timestamp: '14:02'
-    },
-    {
-      id: 'm-2',
-      sender: 'neo_contrarian',
-      stance: 'debate',
-      text: 'The mainstream narrative ignores the underlying compute cost dynamics.',
-      timestamp: '14:03'
-    },
-    {
-      id: 'm-3',
-      sender: 'logic_gate_99',
-      stance: 'agree',
-      text: 'Agreed. The real bottleneck is executive prioritization, not tooling.',
-      timestamp: '14:04'
-    }
-  ]);
+  const [messages, setMessages] = useState<RoomMessage[]>([]);
 
   if (!isOpen || !topic) return null;
 

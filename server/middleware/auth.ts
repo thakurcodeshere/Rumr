@@ -59,7 +59,7 @@ export function extractToken(req: Request): string | null {
   return null;
 }
 
-export function requireAuth(req: AuthenticatedRequest, res: Response, next: NextFunction): void {
+export async function requireAuth(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
   const token = extractToken(req);
   if (!token) {
     res.status(401).json({ error: 'UNAUTHORIZED', message: 'Authentication token required' });
@@ -72,29 +72,33 @@ export function requireAuth(req: AuthenticatedRequest, res: Response, next: Next
     return;
   }
 
-  const user = db.prepare(`
-    SELECT * FROM users WHERE id = ?
-  `).get(payload.userId) as AuthenticatedRequest['user'];
+  try {
+    const user = await db.users.findById(payload.userId);
 
-  if (!user) {
-    res.status(401).json({ error: 'USER_NOT_FOUND', message: 'User record no longer exists' });
-    return;
+    if (!user) {
+      res.status(401).json({ error: 'USER_NOT_FOUND', message: 'User record no longer exists' });
+      return;
+    }
+
+    req.user = user as AuthenticatedRequest['user'];
+    next();
+  } catch (err) {
+    next(err);
   }
-
-  req.user = user;
-  next();
 }
 
-export function optionalAuth(req: AuthenticatedRequest, res: Response, next: NextFunction): void {
+export async function optionalAuth(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
   const token = extractToken(req);
   if (token) {
     const payload = verifyToken(token);
     if (payload && payload.userId) {
-      const user = db.prepare(`
-        SELECT * FROM users WHERE id = ?
-      `).get(payload.userId) as AuthenticatedRequest['user'];
-      if (user) {
-        req.user = user;
+      try {
+        const user = await db.users.findById(payload.userId);
+        if (user) {
+          req.user = user as AuthenticatedRequest['user'];
+        }
+      } catch {
+        // Soft fail for optional auth
       }
     }
   }

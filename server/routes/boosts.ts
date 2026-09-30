@@ -35,29 +35,34 @@ boostsRouter.get('/plans', (req, res) => {
 });
 
 // 2. Purchase / Unlock Boost Tier
-boostsRouter.post('/purchase', requireAuth, requireRegistered, (req: AuthenticatedRequest, res) => {
-  const currentUserId = req.user!.id;
-  const { tierName } = req.body;
+boostsRouter.post('/purchase', requireAuth, requireRegistered, async (req: AuthenticatedRequest, res, next) => {
+  try {
+    const currentUserId = req.user!.id;
+    const { tierName } = req.body;
 
-  const plan = PLANS.find(p => p.name === tierName || p.id === tierName) || PLANS[0];
-  const txId = `tx-${Date.now()}`;
-  const expiresAt = new Date(Date.now() + 24 * 3600 * 1000).toISOString();
+    const plan = PLANS.find(p => p.name === tierName || p.id === tierName) || PLANS[0];
+    const txId = `tx-${Date.now()}`;
+    const expiresAt = new Date(Date.now() + 24 * 3600 * 1000).toISOString();
 
-  // Record transaction
-  db.prepare(`
-    INSERT INTO transactions (id, user_id, tier_name, amount, status)
-    VALUES (?, ?, ?, ?, 'completed')
-  `).run(txId, currentUserId, plan.name, plan.price);
+    // Record transaction
+    await db.transactions.create({
+      id: txId,
+      user_id: currentUserId,
+      tier_name: plan.name,
+      amount: plan.price,
+      status: 'completed'
+    });
 
-  // Update user boost status
-  db.prepare(`
-    UPDATE users SET boost_tier = ?, boost_expires_at = ? WHERE id = ?
-  `).run(plan.name, expiresAt, currentUserId);
+    // Update user boost status
+    await db.users.updateBoost(currentUserId, plan.name, expiresAt);
 
-  res.json({
-    success: true,
-    boostTier: plan.name,
-    expiresAt,
-    message: `Successfully unlocked ${plan.name}. Your debates are prioritized across all regional feeds.`
-  });
+    res.json({
+      success: true,
+      boostTier: plan.name,
+      expiresAt,
+      message: `Successfully unlocked ${plan.name}. Your debates are prioritized across all regional feeds.`
+    });
+  } catch (err) {
+    next(err);
+  }
 });

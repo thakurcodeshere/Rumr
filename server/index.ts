@@ -39,16 +39,27 @@ app.use(express.urlencoded({ extended: true }));
 
 // 1. Comprehensive Production Stack Healthcheck
 app.get('/api/health', async (req, res) => {
-  const redisHealth = await redisService.ping();
+  const [dbHealth, redisHealth] = await Promise.all([
+    db.ping(),
+    redisService.ping()
+  ]);
 
   res.json({
     status: 'SYS_ACTIVE',
     platform: 'RUMR Cryptographic Mesh Engine',
     version: '2.4.0-prod',
     timestamp: new Date().toISOString(),
+    database: {
+      provider: db.providerName,
+      status: dbHealth.healthy ? 'connected' : 'disconnected',
+      latencyMs: dbHealth.latencyMs
+    },
     stack: {
       database: {
-        primary: isSupabaseConfigured() ? 'Supabase PostgreSQL (Active)' : 'SQLite WAL (Active)',
+        provider: db.providerName,
+        status: dbHealth.healthy ? 'connected' : 'disconnected',
+        latencyMs: dbHealth.latencyMs,
+        primary: db.providerName === 'supabase' ? 'Supabase PostgreSQL (Active)' : 'SQLite WAL (Active)',
         supabaseProject: 'hjqkfxwkfctrivfftmwv',
         supabaseConfigured: isSupabaseConfigured()
       },
@@ -75,7 +86,35 @@ app.get('/api/health', async (req, res) => {
   });
 });
 
-// 2. Specific Stack Component Healthchecks
+// 2. Production Readiness Endpoint (Fail Closed)
+app.get('/api/ready', async (req, res) => {
+  const dbHealth = await db.ping();
+
+  if (!dbHealth.healthy) {
+    res.status(503).json({
+      status: 'not_ready',
+      timestamp: new Date().toISOString(),
+      database: {
+        provider: db.providerName,
+        status: 'disconnected',
+        error: dbHealth.error
+      }
+    });
+    return;
+  }
+
+  res.status(200).json({
+    status: 'ready',
+    timestamp: new Date().toISOString(),
+    database: {
+      provider: db.providerName,
+      status: 'connected',
+      latencyMs: dbHealth.latencyMs
+    }
+  });
+});
+
+// 3. Specific Stack Component Healthchecks
 app.get('/api/health/redis', async (req, res) => {
   const health = await redisService.ping();
   res.json(health);
@@ -113,9 +152,9 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 
 // Background Ephemeral Decay Job (purges expired messages every 60s in persistent environments)
 if (!process.env.VERCEL) {
-  const decayInterval = setInterval(() => {
+  const decayInterval = setInterval(async () => {
     try {
-      purgeExpiredMessages();
+      await purgeExpiredMessages();
     } catch (err) {
       console.error('Ephemeral message decay error:', err);
     }
@@ -133,7 +172,7 @@ if (process.env.NODE_ENV !== 'test') {
     console.log(`\n======================================================`);
     console.log(`⚡ RUMR Engine Active on http://localhost:${CONFIG.PORT}`);
     console.log(`🛡️  Zero-Knowledge Telemetry & DPDP 2023 Enforced`);
-    console.log(`🌐 Supabase PostgreSQL & Upstash Redis Synced`);
+    console.log(`🌐 Primary DB Provider: ${db.providerName.toUpperCase()}`);
     console.log(`🎙️  LiveKit Cloud WebRTC Audio Active`);
     console.log(`⌛ Ephemeral Message Decay: ${CONFIG.MESSAGE_DECAY_SECONDS}s TTL`);
     console.log(`======================================================\n`);

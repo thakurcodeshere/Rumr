@@ -22,12 +22,12 @@ export const IdentityDecryptedModal: React.FC<IdentityDecryptedModalProps> = ({
   onClose,
   onContinueChat,
   partner = {
-    handle: 'cipher_vanguard',
-    realName: 'Elena Rostova',
-    realPhoto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80',
-    city: 'San Francisco, CA',
-    role: 'Staff ML Infrastructure Engineer',
-    chaosIndex: 91
+    handle: 'anonymous_debater',
+    realName: 'Anonymous Peer',
+    realPhoto: '',
+    city: 'Undisclosed',
+    role: 'Platform Contributor',
+    chaosIndex: 50
   }
 }) => {
   if (!isOpen) return null;

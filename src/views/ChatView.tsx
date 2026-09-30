@@ -15,7 +15,8 @@ import {
   Shield, 
   Search, 
   Zap,
-  Users
+  Users,
+  Flame
 } from 'lucide-react';
 import { IdentityDecryptedModal } from '../components/ui/IdentityDecryptedModal';
 import { MutualUnmaskingModal } from '../components/ui/MutualUnmaskingModal';
@@ -43,7 +44,8 @@ export const ChatView: React.FC = () => {
     resetToBeforeRegister,
     matches,
     activeMatchId,
-    setActiveMatchId
+    setActiveMatchId,
+    navigate
   } = useApp();
 
   const [input, setInput] = useState('');
@@ -52,68 +54,21 @@ export const ChatView: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   // Selected match for chat frame (null = Match List Inbox)
-  const [selectedMatchId, setSelectedMatchId] = useState<string | null>(activeMatchId || (matches?.[0]?.id) || 'cipher_vanguard');
-
-  const fallbackChannels: MatchChannel[] = [
-    {
-      id: 'cipher_vanguard',
-      handle: 'cipher_vanguard',
-      topic: 'AI Layoffs vs Reality',
-      compatibility: 94,
-      unmaskStage: revealStage,
-      lastMessage: 'Most people blaming AI for headcount cuts are ignoring margin compressions in cloud infra.',
-      lastActive: 'Active now',
-      isOnline: true,
-      avatarSeed: 'cipher'
-    },
-    {
-      id: 'neon_nomad_88',
-      handle: 'neon_nomad_88',
-      topic: 'Office Politics & Reorgs',
-      compatibility: 91,
-      unmaskStage: 1,
-      lastMessage: 'Middle management was completely restructured last Tuesday.',
-      lastActive: '12m ago',
-      isOnline: true,
-      avatarSeed: 'neon'
-    },
-    {
-      id: 'kernel_panic',
-      handle: 'kernel_panic',
-      topic: 'Startup Burn Rate 2026',
-      compatibility: 88,
-      unmaskStage: 0,
-      lastMessage: 'VCs are demanding 80% gross margins on agentic architectures.',
-      lastActive: '45m ago',
-      isOnline: false,
-      avatarSeed: 'kernel'
-    },
-    {
-      id: 'stealth_whistle',
-      handle: 'stealth_whistle',
-      topic: 'Stealth Whistleblowing',
-      compatibility: 85,
-      unmaskStage: 0,
-      lastMessage: 'Did you see the internal security audit leak this morning?',
-      lastActive: '2h ago',
-      isOnline: false,
-      avatarSeed: 'stealth'
-    }
-  ];
+  const [selectedMatchId, setSelectedMatchId] = useState<string | null>(activeMatchId || (matches?.[0]?.id) || null);
 
   const matchChannels: MatchChannel[] = matches && matches.length > 0
     ? matches.map(m => ({
         id: m.id,
         handle: m.handle,
-        topic: m.topics?.[0] || 'AI Layoffs vs Reality',
+        topic: m.topics?.[0] || m.topic || 'General Topic',
         compatibility: m.compatibility || 94,
         unmaskStage: m.unmaskStage || revealStage,
         lastMessage: m.lastMessage || 'Active topic tunnel established.',
         lastActive: m.lastActive || 'Active now',
         isOnline: true,
-        avatarSeed: m.avatarSeed || 'cipher'
+        avatarSeed: m.avatarSeed || 'anon'
       }))
-    : fallbackChannels;
+    : [];
 
   if (isGuest) {
     return (
@@ -148,7 +103,7 @@ export const ChatView: React.FC = () => {
     setInput('');
   };
 
-  const selectedChannel = matchChannels.find(m => m.id === selectedMatchId) || matchChannels[0];
+  const selectedChannel = matchChannels.find(m => m.id === selectedMatchId) || null;
 
   const filteredChannels = matchChannels.filter(c => 
     c.handle.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -159,9 +114,9 @@ export const ChatView: React.FC = () => {
     <div className="flex-1 flex flex-col justify-between p-4 bg-[#0e0e0e] min-h-[640px] select-none">
       
       {/* ========================================================================= */}
-      {/* OPTION A: MATCH LIST INBOX (When selectedMatchId === null) */}
+      {/* OPTION A: MATCH LIST INBOX (When selectedMatchId === null or channel missing) */}
       {/* ========================================================================= */}
-      {selectedMatchId === null ? (
+      {selectedMatchId === null || !selectedChannel ? (
         <div className="space-y-4 animate-in fade-in flex-1">
           {/* Header */}
           <div className="flex items-center justify-between border-b-2 border-[#262626] pb-3">
@@ -193,63 +148,83 @@ export const ChatView: React.FC = () => {
 
           {/* Match Channels List */}
           <div className="space-y-2.5">
-            {filteredChannels.map(channel => (
-              <div
-                key={channel.id}
-                onClick={() => {
-                  setSelectedMatchId(channel.id);
-                  setActiveMatchId(channel.id);
-                }}
-                className="bg-[#141414] border-2 border-[#262626] hover:border-[#ccff00] p-3.5 space-y-2 cursor-pointer transition-all shadow-[2px_2px_0px_#111] hover:shadow-[4px_4px_0px_#a855f7] group"
-              >
-                {/* Channel Header */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2.5">
-                    {/* Avatar Mask */}
-                    <div className="w-9 h-9 bg-[#1b1726] border-2 border-[#a855f7] group-hover:border-[#ccff00] flex items-center justify-center font-serif font-black text-sm text-[#ccff00]">
-                      {channel.handle.slice(0, 2).toUpperCase()}
+            {filteredChannels.length === 0 ? (
+              <div className="bg-[#141414] border-2 border-[#262626] p-8 space-y-4 text-center">
+                <div className="w-12 h-12 rounded-full bg-[#1b1724] border border-[#a855f7] flex items-center justify-center mx-auto text-[#a855f7]">
+                  <MessageSquare className="w-6 h-6" />
+                </div>
+                <div className="space-y-1">
+                  <h3 className="font-serif text-xl font-black text-white">NO ENCRYPTED CONVERSATIONS</h3>
+                  <p className="font-mono text-xs text-gray-400 max-w-sm mx-auto">
+                    You have no active topic match chats yet. Like debaters on shared topics in the feed to form mutual encrypted channels.
+                  </p>
+                </div>
+                <button
+                  onClick={() => navigate('feed')}
+                  className="font-mono text-xs bg-[#ccff00] hover:bg-[#d8ff33] text-black px-4 py-2 font-bold uppercase transition-all flex items-center gap-2 mx-auto"
+                >
+                  <Flame className="w-3.5 h-3.5" /> Find Topic Debaters
+                </button>
+              </div>
+            ) : (
+              filteredChannels.map(channel => (
+                <div
+                  key={channel.id}
+                  onClick={() => {
+                    setSelectedMatchId(channel.id);
+                    setActiveMatchId(channel.id);
+                  }}
+                  className="bg-[#141414] border-2 border-[#262626] hover:border-[#ccff00] p-3.5 space-y-2 cursor-pointer transition-all shadow-[2px_2px_0px_#111] hover:shadow-[4px_4px_0px_#a855f7] group"
+                >
+                  {/* Channel Header */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      {/* Avatar Mask */}
+                      <div className="w-9 h-9 bg-[#1b1726] border-2 border-[#a855f7] group-hover:border-[#ccff00] flex items-center justify-center font-serif font-black text-sm text-[#ccff00]">
+                        {channel.handle.slice(0, 2).toUpperCase()}
+                      </div>
+
+                      <div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-serif font-bold text-sm text-white group-hover:text-[#ccff00] transition-colors">
+                            @{channel.handle}
+                          </span>
+                          {channel.isOnline && (
+                            <span className="w-2 h-2 rounded-full bg-[#ccff00] animate-pulse" />
+                          )}
+                        </div>
+                        <span className="font-mono text-[10px] text-gray-400">
+                          Topic: <strong className="text-[#ddb7ff]">#{channel.topic}</strong>
+                        </span>
+                      </div>
                     </div>
 
-                    <div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="font-serif font-bold text-sm text-white group-hover:text-[#ccff00] transition-colors">
-                          @{channel.handle}
-                        </span>
-                        {channel.isOnline && (
-                          <span className="w-2 h-2 rounded-full bg-[#ccff00] animate-pulse" />
-                        )}
-                      </div>
-                      <span className="font-mono text-[10px] text-gray-400">
-                        Topic: <strong className="text-[#ddb7ff]">#{channel.topic}</strong>
+                    {/* Match Stats & Stage */}
+                    <div className="text-right">
+                      <span className="font-mono text-xs font-bold text-[#ccff00] block">
+                        {channel.compatibility}% MATCH
+                      </span>
+                      <span className="font-mono text-[9px] bg-[#1e1e1e] border border-[#333] text-gray-300 px-1.5 py-0.5 uppercase">
+                        STAGE {channel.unmaskStage}/3
                       </span>
                     </div>
                   </div>
 
-                  {/* Match Stats & Stage */}
-                  <div className="text-right">
-                    <span className="font-mono text-xs font-bold text-[#ccff00] block">
-                      {channel.compatibility}% MATCH
-                    </span>
-                    <span className="font-mono text-[9px] bg-[#1e1e1e] border border-[#333] text-gray-300 px-1.5 py-0.5 uppercase">
-                      STAGE {channel.unmaskStage}/3
+                  {/* Last Message Snippet */}
+                  <div className="bg-[#0e0e0e] p-2 border border-[#222] font-sans text-xs text-gray-300 truncate">
+                    "{channel.lastMessage}"
+                  </div>
+
+                  {/* Footer Active Time & Action */}
+                  <div className="flex items-center justify-between font-mono text-[10px] text-gray-500 pt-0.5">
+                    <span>{channel.lastActive}</span>
+                    <span className="text-[#ccff00] font-bold group-hover:underline flex items-center gap-1">
+                      ENTER ENCRYPTED TUNNEL <ArrowRight className="w-3 h-3" />
                     </span>
                   </div>
                 </div>
-
-                {/* Last Message Snippet */}
-                <div className="bg-[#0e0e0e] p-2 border border-[#222] font-sans text-xs text-gray-300 truncate">
-                  "{channel.lastMessage}"
-                </div>
-
-                {/* Footer Active Time & Action */}
-                <div className="flex items-center justify-between font-mono text-[10px] text-gray-500 pt-0.5">
-                  <span>{channel.lastActive}</span>
-                  <span className="text-[#ccff00] font-bold group-hover:underline flex items-center gap-1">
-                    ENTER ENCRYPTED TUNNEL <ArrowRight className="w-3 h-3" />
-                  </span>
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       ) : (

@@ -58,6 +58,17 @@
     .glitch-border {
       border: 3px solid #ccff00;
     }
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+      outline: 2px solid #ccff00 !important;
+      outline-offset: 2px !important;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 <body class="bg-[#080808] text-[#e5e5e5] font-sans antialiased selection:bg-[#ccff00] selection:text-black overflow-x-hidden">
@@ -72,7 +83,7 @@
         <span class="tracking-wider">3-LAYER PROGRESSIVE UNMASKING & LIVE CITY AUDIO STAGES NOW LIVE</span>
       </div>
       <div class="hidden md:flex items-center gap-4 text-[11px]">
-        <span>⚡ 142,800+ TOPIC TUNNELS ACTIVE</span>
+        <span>⚡ 100% PHONE & LOCATION VERIFIED</span>
         <a href="https://rumr-sigma.vercel.app/" target="_blank" class="underline hover:text-white transition-colors">OPEN IN BROWSER →</a>
       </div>
     </div>
@@ -101,9 +112,6 @@
       <nav class="hidden lg:flex items-center gap-6 font-mono text-xs font-bold tracking-wider text-gray-300">
         <a href="#philosophy" class="hover:text-[#ccff00] transition-colors">PHILOSOPHY</a>
         <a href="#features" class="hover:text-[#ccff00] transition-colors">FEATURES</a>
-        <a href="#how-it-works" class="hover:text-[#ccff00] transition-colors">HOW IT WORKS</a>
-        <a href="#metrics" class="hover:text-[#ccff00] transition-colors">TELEMETRY</a>
-        <a href="#reviews" class="hover:text-[#ccff00] transition-colors">REVIEWS</a>
         <a href="#dispatch" class="hover:text-[#ccff00] transition-colors">DISPATCH</a>
         <a href="#contact" class="hover:text-[#ccff00] transition-colors">CONTACT</a>
       </nav>
@@ -118,8 +126,27 @@
         <a href="#downloads" class="inline-flex items-center gap-1.5 font-mono text-xs font-black bg-[#ccff00] text-black border-2 border-black px-3.5 py-2 brutalist-shadow-purple hover:translate-x-0.5 hover:translate-y-0.5 transition-transform uppercase">
           DOWNLOAD
         </a>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobileMenuBtn" aria-label="Toggle navigation menu" aria-expanded="false" class="lg:hidden p-2 text-white hover:text-[#ccff00] border-2 border-[#333] hover:border-[#ccff00] bg-[#121212] transition-colors">
+          <svg id="menuIconClosed" class="w-5 h-5 block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg id="menuIconOpen" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
       </div>
 
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileMenuDrawer" class="hidden lg:hidden border-t-2 border-[#262626] bg-[#0c0c0c] px-4 py-4 space-y-3 font-mono text-xs font-bold">
+      <a href="#philosophy" onclick="toggleMobileMenu(false)" class="block py-2 text-gray-300 hover:text-[#ccff00] border-b border-[#222]">PHILOSOPHY</a>
+      <a href="#features" onclick="toggleMobileMenu(false)" class="block py-2 text-gray-300 hover:text-[#ccff00] border-b border-[#222]">FEATURES</a>
+      <a href="#dispatch" onclick="toggleMobileMenu(false)" class="block py-2 text-gray-300 hover:text-[#ccff00] border-b border-[#222]">DISPATCH</a>
+      <a href="#contact" onclick="toggleMobileMenu(false)" class="block py-2 text-gray-300 hover:text-[#ccff00] border-b border-[#222]">CONTACT</a>
+      <div class="pt-2 flex flex-col gap-2">
+        <a href="https://rumr-sigma.vercel.app/" target="_blank" class="w-full text-center py-2.5 bg-[#ccff00] text-black font-black uppercase border-2 border-black brutalist-shadow-purple">
+          ⚡ LAUNCH INSTANT WEB APP
+        </a>
+      </div>
     </div>
   </header>
 
@@ -164,19 +191,9 @@
               </div>
             </a>
 
-            <!-- Mobile & Tablet Browser Radar Badge -->
-            <button onclick="alert('When accessing Rumr on your mobile or tablet browser, tap Allow Location to match with local city topic debates.');" class="flex items-center gap-3 bg-[#141414] border-2 border-[#333] hover:border-[#ccff00] px-4 py-3 brutalist-shadow-lime hover:translate-x-0.5 hover:translate-y-0.5 transition-all group font-mono text-left">
-              <svg class="w-6 h-6 fill-white group-hover:fill-[#ccff00] transition-colors" viewBox="0 0 24 24">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-              </svg>
-              <div>
-                <span class="block text-[9px] text-gray-400 uppercase tracking-wider">MOBILE & TABLET BROWSER</span>
-                <span class="block text-xs font-bold text-white uppercase tracking-tight">📍 NATIVE GEOLOCATION RADAR</span>
-              </div>
-            </button>
 
             <!-- PWA Add to Home Screen -->
-            <button onclick="alert('To install Rumr on Mobile/Tablet: Open in Safari/Chrome, tap Share/Menu, and select Add to Home Screen.');" class="flex items-center gap-2 bg-[#181818] border border-[#333] hover:border-white text-gray-300 hover:text-white px-4 py-3 font-mono text-xs font-bold uppercase transition-colors">
+            <button onclick="openModal('pwaModal')" class="flex items-center gap-2 bg-[#181818] border border-[#333] hover:border-white text-gray-300 hover:text-white px-4 py-3 font-mono text-xs font-bold uppercase transition-colors">
               <span>📲 ADD TO HOME SCREEN (PWA)</span>
             </button>
 
@@ -187,107 +204,64 @@
             <span class="w-2 h-2 rounded-full bg-[#ccff00]"></span>
             <span>HARD CONSTRAINT: <strong class="text-white">Topics must be ≤ 3 words</strong></span>
             <span>•</span>
-            <span class="text-[#ddb7ff]">100% Phone Verified</span>
+            <span class="text-[#ddb7ff]">Email & Location Verified</span>
           </div>
 
         </div>
 
-        <!-- Right Hero Mockup Frame -->
+        <!-- Right Hero Mockup Frame (Interactive Topic Matcher Demo) -->
         <div class="lg:col-span-5 flex justify-center">
           <div class="w-full max-w-sm bg-[#121212] border-4 border-[#262626] p-4 brutalist-shadow-lg-purple space-y-4 text-left relative">
             
             <div class="flex items-center justify-between border-b border-[#222] pb-2 font-mono text-xs">
               <span class="text-[#ccff00] font-bold">TOPIC DECK // GURGAON_NCR</span>
-              <span class="text-gray-400">#04 OF 20</span>
+              <span id="topicDeckCount" class="text-gray-400">#01 OF 04</span>
             </div>
 
-            <!-- Glitched Mockup Card -->
-            <div class="bg-[#181524] border-2 border-[#a855f7] p-5 space-y-4 shadow-[4px_4px_0px_#a855f7]">
+            <!-- Glitched Mockup Card (Dynamic Content) -->
+            <div id="heroCardInner" class="bg-[#181524] border-2 border-[#a855f7] p-5 space-y-4 shadow-[4px_4px_0px_#a855f7] transition-all duration-200">
               <div class="flex justify-between items-start">
-                <span class="font-mono text-[10px] bg-black text-[#ccff00] px-2 py-0.5 border border-[#ccff00] font-bold">
+                <span id="topicResonance" class="font-mono text-[10px] bg-black text-[#ccff00] px-2 py-0.5 border border-[#ccff00] font-bold">
                   88% RESONANCE
                 </span>
-                <span class="font-mono text-xs text-gray-400">2m ago</span>
+                <span id="topicTime" class="font-mono text-xs text-gray-400">2m ago</span>
               </div>
 
               <div class="space-y-1.5">
                 <div class="font-mono text-[10px] text-gray-400 uppercase">DEBATING TOPIC (≤ 3 WORDS):</div>
-                <h3 class="font-serif text-2xl font-black text-white">
+                <h3 id="topicTitle" class="font-serif text-2xl font-black text-white">
                   "AI LAYOFFS REALITY"
                 </h3>
               </div>
 
-              <p class="font-sans text-xs text-gray-300 leading-relaxed bg-black/50 p-3 border border-[#333]">
+              <p id="topicQuote" class="font-sans text-xs text-gray-300 leading-relaxed bg-black/50 p-3 border border-[#333]">
                 "Most people blaming AI for headcount cuts are ignoring margin compressions in cloud infra."
               </p>
 
               <div class="flex items-center justify-between pt-2 border-t border-[#333] font-mono text-[10px] text-gray-400">
                 <span>🔒 IDENTITY: ENCRYPTED</span>
-                <span class="text-[#ccff00] font-bold">4 OVERLAPPING TOPICS</span>
+                <span id="topicOverlaps" class="text-[#ccff00] font-bold">4 OVERLAPPING TOPICS</span>
               </div>
             </div>
 
             <!-- Action Buttons -->
-            <div class="grid grid-cols-2 gap-3 pt-1">
-              <button onclick="alert('Swipe Left registered in demo');" class="bg-[#1e1e1e] border-2 border-[#333] hover:border-red-500 text-gray-300 font-mono text-xs py-2.5 font-bold uppercase transition-all">
+            <div id="topicActionContainer" class="grid grid-cols-2 gap-3 pt-1">
+              <button onclick="skipHeroTopic()" class="bg-[#1e1e1e] border-2 border-[#333] hover:border-red-500 text-gray-300 font-mono text-xs py-2.5 font-bold uppercase transition-all">
                 ✕ SKIP TOPIC
               </button>
-              <button onclick="alert('Mutual Match Confirmed! Opening encrypted 1-on-1 tunnel.');" class="bg-[#ccff00] border-2 border-black text-black font-mono text-xs py-2.5 font-black uppercase brutalist-shadow-purple transition-all">
+              <button onclick="likeHeroTopic()" class="bg-[#ccff00] border-2 border-black text-black font-mono text-xs py-2.5 font-black uppercase brutalist-shadow-purple hover:bg-white transition-all">
                 ⚡ DISCUSS (LIKE)
               </button>
             </div>
 
             <div class="text-center font-mono text-[10px] text-gray-500">
-              No photos or names revealed until 3-layer mutual consent.
+              Interactive demo: No photos or names revealed until 3-layer mutual consent.
             </div>
 
           </div>
         </div>
 
       </div>
-    </div>
-  </section>
-
-  <!-- ========================================================================= -->
-  <!-- 4. LIVE NUMBERS & TELEMETRY TICKER -->
-  <!-- ========================================================================= -->
-  <section id="metrics" class="bg-[#111111] border-b-2 border-[#262626] py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      
-      <div class="text-center mb-8 space-y-1">
-        <span class="font-mono text-xs text-[#ccff00] uppercase font-bold tracking-widest">REAL-TIME PLATFORM TELEMETRY</span>
-        <h2 class="font-serif text-3xl font-black text-white uppercase">Rumr By The Numbers</h2>
-      </div>
-
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-        
-        <div class="bg-[#141414] border-2 border-[#262626] p-4 text-center space-y-1 brutalist-shadow-purple">
-          <div class="font-serif text-3xl md:text-4xl font-black text-white">142.8K</div>
-          <div class="font-mono text-[10px] text-[#ccff00] uppercase font-bold">Active Topic Tunnels</div>
-        </div>
-
-        <div class="bg-[#141414] border-2 border-[#262626] p-4 text-center space-y-1 brutalist-shadow-lime">
-          <div class="font-serif text-3xl md:text-4xl font-black text-white">94.2%</div>
-          <div class="font-mono text-[10px] text-[#a855f7] uppercase font-bold">Resonance Match Rate</div>
-        </div>
-
-        <div class="bg-[#141414] border-2 border-[#262626] p-4 text-center space-y-1 brutalist-shadow-white">
-          <div class="font-serif text-3xl md:text-4xl font-black text-white">≤ 3</div>
-          <div class="font-mono text-[10px] text-gray-300 uppercase font-bold">Words Per Topic Node</div>
-        </div>
-
-        <div class="bg-[#141414] border-2 border-[#262626] p-4 text-center space-y-1 brutalist-shadow-purple">
-          <div class="font-serif text-3xl md:text-4xl font-black text-white">0</div>
-          <div class="font-mono text-[10px] text-red-400 uppercase font-bold">Facial Swipes Allowed</div>
-        </div>
-
-        <div class="col-span-2 md:col-span-1 bg-[#141414] border-2 border-[#262626] p-4 text-center space-y-1 brutalist-shadow-lime">
-          <div class="font-serif text-3xl md:text-4xl font-black text-white">100%</div>
-          <div class="font-mono text-[10px] text-[#ccff00] uppercase font-bold">SHA-256 DPDP Privacy</div>
-        </div>
-
-      </div>
-
     </div>
   </section>
 
@@ -372,139 +346,7 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- 6. HOW RUMR WORKS (INTERACTIVE 4-STEP WALKTHROUGH) -->
-  <!-- ========================================================================= -->
-  <section id="how-it-works" class="py-20 border-b-2 border-[#262626] bg-[#080808]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
-      
-      <div class="text-center space-y-2 max-w-2xl mx-auto">
-        <span class="font-mono text-xs text-[#ccff00] uppercase font-bold tracking-widest">STEP-BY-STEP USER JOURNEY</span>
-        <h2 class="font-serif text-3xl sm:text-5xl font-black text-white uppercase">The Anatomy of a Match</h2>
-        <p class="font-sans text-sm text-gray-400">From topic ignition to full identity reveal in four frictionless phases.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        
-        <!-- Step 1 -->
-        <div class="bg-[#121212] border-2 border-[#262626] p-5 space-y-3 relative">
-          <div class="font-mono text-xs text-[#ccff00] font-bold">PHASE 01</div>
-          <h3 class="font-serif text-xl font-black text-white">Inject Chaos</h3>
-          <p class="font-sans text-xs text-gray-400 leading-relaxed">
-            Input a 3-word topic you care about (e.g. <em>"Office Politics"</em>, <em>"AI Layoffs Reality"</em>, <em>"Ghosting Culture"</em>).
-          </p>
-          <div class="bg-[#0a0a0a] border border-[#222] p-2 font-mono text-[10px] text-[#ccff00]">
-            INPUT: ≤ 3 WORDS
-          </div>
-        </div>
-
-        <!-- Step 2 -->
-        <div class="bg-[#121212] border-2 border-[#262626] p-5 space-y-3 relative">
-          <div class="font-mono text-xs text-[#a855f7] font-bold">PHASE 02</div>
-          <h3 class="font-serif text-xl font-black text-white">Swipe on Thoughts</h3>
-          <p class="font-sans text-xs text-gray-400 leading-relaxed">
-            Review anonymized debate cards in your city. Like or skip based on intellectual alignment and curiosity.
-          </p>
-          <div class="bg-[#0a0a0a] border border-[#222] p-2 font-mono text-[10px] text-[#a855f7]">
-            NO FACES • 100% TOPIC-DRIVEN
-          </div>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="bg-[#121212] border-2 border-[#262626] p-5 space-y-3 relative">
-          <div class="font-mono text-xs text-[#ccff00] font-bold">PHASE 03</div>
-          <h3 class="font-serif text-xl font-black text-white">Encrypted Tunnel</h3>
-          <p class="font-sans text-xs text-gray-400 leading-relaxed">
-            When mutual signals confirm, enter an ephemeral 1-on-1 chat tunnel under cryptographic pseudonym handles.
-          </p>
-          <div class="bg-[#0a0a0a] border border-[#222] p-2 font-mono text-[10px] text-[#ccff00]">
-            HANDLE: @cipher_vanguard
-          </div>
-        </div>
-
-        <!-- Step 4 -->
-        <div class="bg-[#121212] border-2 border-[#262626] p-5 space-y-3 relative">
-          <div class="font-mono text-xs text-[#a855f7] font-bold">PHASE 04</div>
-          <h3 class="font-serif text-xl font-black text-white">Decrypted Identity</h3>
-          <p class="font-sans text-xs text-gray-400 leading-relaxed">
-            Pass through 3 stages of mutual consent to reveal real verified photos, full professional roles, and contact channels.
-          </p>
-          <div class="bg-[#0a0a0a] border border-[#222] p-2 font-mono text-[10px] text-[#a855f7]">
-            MATCH SECURED 🔓
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ========================================================================= -->
-  <!-- 7. REVIEWS & TESTIMONIALS (PEOPLE OF RUMR) -->
-  <!-- ========================================================================= -->
-  <section id="reviews" class="py-20 border-b-2 border-[#262626] bg-[#0e0e0e]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
-      
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div class="space-y-2">
-          <span class="font-mono text-xs text-[#ccff00] uppercase font-bold tracking-widest">VERIFIED USER DISPATCH</span>
-          <h2 class="font-serif text-3xl sm:text-5xl font-black text-white uppercase">People of Rumr</h2>
-        </div>
-        <div class="font-mono text-xs text-gray-400">
-          ★ 4.9/5 RATING ACROSS 18,000+ ENCRYPTED SESSIONS
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        
-        <!-- Review 1 -->
-        <div class="bg-[#141414] border-2 border-[#262626] p-6 space-y-4 brutalist-shadow-purple flex flex-col justify-between">
-          <div class="space-y-3">
-            <div class="flex text-[#ccff00] font-mono text-xs">★★★★★</div>
-            <p class="font-serif italic text-base text-gray-200 leading-relaxed">
-              "Tinder and Bumble are exhausting because you spend 20 minutes making small talk with a stranger who has nothing in common with you. On Rumr, we argued about Kubernetes cost-scaling for 15 minutes before realizing we worked two blocks away."
-            </p>
-          </div>
-          <div class="pt-3 border-t border-[#262626] font-mono text-xs">
-            <strong class="text-white block">Aditya S.</strong>
-            <span class="text-gray-500 text-[10px]">Staff Cloud Architect • Gurgaon</span>
-          </div>
-        </div>
-
-        <!-- Review 2 -->
-        <div class="bg-[#141414] border-2 border-[#262626] p-6 space-y-4 brutalist-shadow-lime flex flex-col justify-between">
-          <div class="space-y-3">
-            <div class="flex text-[#ccff00] font-mono text-xs">★★★★★</div>
-            <p class="font-serif italic text-base text-gray-200 leading-relaxed">
-              "The 3-word rule is genius. It completely kills creepy DMs and forces people to articulate actual intellectual viewpoints. The 3-layer progressive unmasking gave me complete control over who saw my photo."
-            </p>
-          </div>
-          <div class="pt-3 border-t border-[#262626] font-mono text-xs">
-            <strong class="text-white block">Elena Rostova</strong>
-            <span class="text-gray-500 text-[10px]">AI Safety Researcher • San Francisco</span>
-          </div>
-        </div>
-
-        <!-- Review 3 -->
-        <div class="bg-[#141414] border-2 border-[#262626] p-6 space-y-4 brutalist-shadow-white flex flex-col justify-between">
-          <div class="space-y-3">
-            <div class="flex text-[#ccff00] font-mono text-xs">★★★★★</div>
-            <p class="font-serif italic text-base text-gray-200 leading-relaxed">
-              "I met my co-founder on Rumr after we both swiped right on the topic node 'Stealth AI Agents'. Zero awkward LinkedIn networking—just pure intellectual friction."
-            </p>
-          </div>
-          <div class="pt-3 border-t border-[#262626] font-mono text-xs">
-            <strong class="text-white block">Karan M.</strong>
-            <span class="text-gray-500 text-[10px]">Founder @ KernelMesh • Bengaluru</span>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ========================================================================= -->
-  <!-- 8. RUMR DISPATCH (BLOG / LETTERS) -->
+  <!-- 4. RUMR DISPATCH (BLOG / ESSAYS) -->
   <!-- ========================================================================= -->
   <section id="dispatch" class="py-20 border-b-2 border-[#262626] bg-[#080808]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
@@ -514,13 +356,13 @@
           <span class="font-mono text-xs text-[#a855f7] uppercase font-bold tracking-widest">THOUGHT LEADERSHIP & ESSAYS</span>
           <h2 class="font-serif text-3xl sm:text-5xl font-black text-white uppercase">Rumr Dispatch</h2>
         </div>
-        <a href="#newsletter" class="font-mono text-xs text-[#ccff00] hover:underline font-bold">SUBSCRIBE TO DISPATCH ➔</a>
+        <a href="#contact" class="font-mono text-xs text-[#ccff00] hover:underline font-bold">SUBSCRIBE TO DISPATCH ➔</a>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         <!-- Article 1 -->
-        <article class="bg-[#121212] border-2 border-[#262626] p-6 space-y-3 hover:border-[#ccff00] transition-colors group cursor-pointer" onclick="alert('Opening Dispatch Essay: The Death of Superficial Swiping');">
+        <article class="bg-[#121212] border-2 border-[#262626] p-6 space-y-3 hover:border-[#ccff00] transition-colors group cursor-pointer" onclick="openEssayModal(0)">
           <div class="flex justify-between items-center font-mono text-[10px] text-gray-500">
             <span>DISPATCH #042</span>
             <span>AUG 18, 2026 • 6 MIN READ</span>
@@ -537,7 +379,7 @@
         </article>
 
         <!-- Article 2 -->
-        <article class="bg-[#121212] border-2 border-[#262626] p-6 space-y-3 hover:border-[#ccff00] transition-colors group cursor-pointer" onclick="alert('Opening Dispatch Essay: Architecting Cryptographic Consent');">
+        <article class="bg-[#121212] border-2 border-[#262626] p-6 space-y-3 hover:border-[#ccff00] transition-colors group cursor-pointer" onclick="openEssayModal(1)">
           <div class="flex justify-between items-center font-mono text-[10px] text-gray-500">
             <span>DISPATCH #041</span>
             <span>AUG 12, 2026 • 8 MIN READ</span>
@@ -554,7 +396,7 @@
         </article>
 
         <!-- Article 3 -->
-        <article class="bg-[#121212] border-2 border-[#262626] p-6 space-y-3 hover:border-[#ccff00] transition-colors group cursor-pointer" onclick="alert('Opening Dispatch Essay: How 3-Word Topic Constraints Kill Harassment');">
+        <article class="bg-[#121212] border-2 border-[#262626] p-6 space-y-3 hover:border-[#ccff00] transition-colors group cursor-pointer" onclick="openEssayModal(2)">
           <div class="flex justify-between items-center font-mono text-[10px] text-gray-500">
             <span>DISPATCH #040</span>
             <span>AUG 04, 2026 • 5 MIN READ</span>
@@ -571,7 +413,7 @@
         </article>
 
         <!-- Article 4 -->
-        <article class="bg-[#121212] border-2 border-[#262626] p-6 space-y-3 hover:border-[#ccff00] transition-colors group cursor-pointer" onclick="alert('Opening Dispatch Essay: The 2026 Tech Layoff Reckoning');">
+        <article class="bg-[#121212] border-2 border-[#262626] p-6 space-y-3 hover:border-[#ccff00] transition-colors group cursor-pointer" onclick="openEssayModal(3)">
           <div class="flex justify-between items-center font-mono text-[10px] text-gray-500">
             <span>DISPATCH #039</span>
             <span>JUL 28, 2026 • 7 MIN READ</span>
@@ -629,23 +471,23 @@
 
         <!-- Right Functional Contact Form -->
         <div class="lg:col-span-7 bg-[#121212] border-4 border-[#262626] p-6 sm:p-8 brutalist-shadow-purple">
-          <form id="contactForm" onsubmit="event.preventDefault(); alert('Message encrypted and transmitted to Rumr Security Operations.'); document.getElementById('contactForm').reset();" class="space-y-4">
+          <form id="contactForm" onsubmit="handleContactSubmit(event)" class="space-y-4">
             
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div class="space-y-1.5 font-mono text-xs">
                 <label class="text-gray-400 block uppercase font-bold">Your Name / Alias</label>
-                <input type="text" required placeholder="e.g. Alex Cipher" class="w-full bg-[#080808] border-2 border-[#333] focus:border-[#ccff00] p-3 text-white outline-none font-mono text-xs">
+                <input id="contactName" type="text" required placeholder="e.g. Alex Cipher" class="w-full bg-[#080808] border-2 border-[#333] focus:border-[#ccff00] p-3 text-white outline-none font-mono text-xs">
               </div>
 
               <div class="space-y-1.5 font-mono text-xs">
                 <label class="text-gray-400 block uppercase font-bold">Email or Handle</label>
-                <input type="email" required placeholder="name@domain.com" class="w-full bg-[#080808] border-2 border-[#333] focus:border-[#ccff00] p-3 text-white outline-none font-mono text-xs">
+                <input id="contactEmail" type="email" required placeholder="name@domain.com" class="w-full bg-[#080808] border-2 border-[#333] focus:border-[#ccff00] p-3 text-white outline-none font-mono text-xs">
               </div>
             </div>
 
             <div class="space-y-1.5 font-mono text-xs">
               <label class="text-gray-400 block uppercase font-bold">Subject / Inquiry Type</label>
-              <select class="w-full bg-[#080808] border-2 border-[#333] focus:border-[#ccff00] p-3 text-white outline-none font-mono text-xs">
+              <select id="contactSubject" class="w-full bg-[#080808] border-2 border-[#333] focus:border-[#ccff00] p-3 text-white outline-none font-mono text-xs">
                 <option>General Feedback / Feature Request</option>
                 <option>Security / Vulnerability Disclosure (PGP)</option>
                 <option>Press / Media & Research Query</option>
@@ -655,10 +497,20 @@
 
             <div class="space-y-1.5 font-mono text-xs">
               <label class="text-gray-400 block uppercase font-bold">Message Content</label>
-              <textarea rows="4" required placeholder="Transmit your encrypted transmission..." class="w-full bg-[#080808] border-2 border-[#333] focus:border-[#ccff00] p-3 text-white outline-none font-mono text-xs resize-none"></textarea>
+              <textarea id="contactMessage" rows="4" required placeholder="Transmit your encrypted transmission..." class="w-full bg-[#080808] border-2 border-[#333] focus:border-[#ccff00] p-3 text-white outline-none font-mono text-xs resize-none"></textarea>
             </div>
 
-            <button type="submit" class="w-full bg-[#ccff00] text-black font-mono text-xs font-black p-3.5 border-2 border-black brutalist-shadow-purple hover:bg-white transition-colors uppercase tracking-wider">
+            <!-- In-line Confirmation Receipt -->
+            <div id="contactSuccessReceipt" class="hidden bg-[#181524] border-2 border-[#ccff00] p-4 font-mono text-xs text-[#ccff00] space-y-1">
+              <div class="flex items-center gap-2 font-bold">
+                <span>⚡ TRANSMISSION VERIFIED</span>
+                <span class="bg-[#ccff00] text-black px-1.5 py-0.5 text-[9px]">SHA-256</span>
+              </div>
+              <p class="text-gray-300 text-[11px]">Your transmission was encrypted and queued for Rumr Security Operations.</p>
+              <div class="text-gray-500 text-[10px] truncate" id="receiptHash">HASH: 7f8a19de02b4</div>
+            </div>
+
+            <button type="submit" id="contactSubmitBtn" class="w-full bg-[#ccff00] text-black font-mono text-xs font-black p-3.5 border-2 border-black brutalist-shadow-purple hover:bg-white transition-colors uppercase tracking-wider">
               ⚡ TRANSMIT ENCRYPTED MESSAGE
             </button>
 
@@ -669,21 +521,19 @@
     </div>
   </section>
 
-  
-
   <!-- Modal: Terms & Conditions -->
   <div id="termsModal" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
     <div class="bg-[#121212] border-4 border-[#a855f7] max-w-lg w-full max-h-[80vh] flex flex-col p-6 brutalist-shadow-lg-purple space-y-4">
       <div class="flex justify-between items-center border-b border-[#333] pb-2">
         <h3 class="font-serif text-xl font-black text-white">TERMS & CONDITIONS</h3>
-        <button onclick="document.getElementById('termsModal').classList.add('hidden')" class="text-gray-400 hover:text-white font-mono text-lg">✕</button>
+        <button onclick="closeModal('termsModal')" class="text-gray-400 hover:text-white font-mono text-lg">✕</button>
       </div>
       <div class="overflow-y-auto space-y-3 font-sans text-xs text-gray-300 pr-2">
         <p><strong>1. Acceptance:</strong> By accessing Rumr, you agree to comply with our Topic-First protocol rules. Stalking, targeted defamation, and commercial bot spam are strictly prohibited.</p>
         <p><strong>2. The ≤ 3-Word Hard Constraint:</strong> All created topic cards must strictly adhere to 3 words or fewer. Posts exceeding this constraint or containing personally identifiable information (PII) are rejected at the vector boundary.</p>
         <p><strong>3. Mutual Unmasking:</strong> Both users must independently authorize identity layer unlocks. Rumr will never disclose cleartext photos or names without bilateral cryptographic consent.</p>
       </div>
-      <button onclick="document.getElementById('termsModal').classList.add('hidden')" class="w-full bg-[#ccff00] text-black font-mono text-xs font-bold py-2 uppercase">CLOSE TERMS</button>
+      <button onclick="closeModal('termsModal')" class="w-full bg-[#ccff00] text-black font-mono text-xs font-bold py-2 uppercase">CLOSE TERMS</button>
     </div>
   </div>
 
@@ -692,14 +542,14 @@
     <div class="bg-[#121212] border-4 border-[#ccff00] max-w-lg w-full max-h-[80vh] flex flex-col p-6 brutalist-shadow-lg-purple space-y-4">
       <div class="flex justify-between items-center border-b border-[#333] pb-2">
         <h3 class="font-serif text-xl font-black text-white">PRIVACY POLICY & DPDP COMPLIANCE</h3>
-        <button onclick="document.getElementById('privacyModal').classList.add('hidden')" class="text-gray-400 hover:text-white font-mono text-lg">✕</button>
+        <button onclick="closeModal('privacyModal')" class="text-gray-400 hover:text-white font-mono text-lg">✕</button>
       </div>
       <div class="overflow-y-auto space-y-3 font-sans text-xs text-gray-300 pr-2">
         <p><strong>1. Zero-Knowledge Discovery:</strong> Your browsing telemetry and skipped topics are never stored on persistent storage with user-identifiable keys.</p>
         <p><strong>2. Ephemeral Chat Expiry:</strong> 1-on-1 topic debate messages expire after 5 minutes unless explicitly saved into an unmasked contact channel.</p>
         <p><strong>3. Data Minimization:</strong> Compliant with Digital Personal Data Protection (DPDP) Act 2023. You retain the unconditional right to erase all session cryptographic keys at any time.</p>
       </div>
-      <button onclick="document.getElementById('privacyModal').classList.add('hidden')" class="w-full bg-[#ccff00] text-black font-mono text-xs font-bold py-2 uppercase">CLOSE PRIVACY POLICY</button>
+      <button onclick="closeModal('privacyModal')" class="w-full bg-[#ccff00] text-black font-mono text-xs font-bold py-2 uppercase">CLOSE PRIVACY POLICY</button>
     </div>
   </div>
 
@@ -708,19 +558,86 @@
     <div class="bg-[#121212] border-4 border-white max-w-lg w-full max-h-[80vh] flex flex-col p-6 brutalist-shadow-lg-purple space-y-4">
       <div class="flex justify-between items-center border-b border-[#333] pb-2">
         <h3 class="font-serif text-xl font-black text-white">OPEN SOURCE & SOFTWARE LICENSES</h3>
-        <button onclick="document.getElementById('licenseModal').classList.add('hidden')" class="text-gray-400 hover:text-white font-mono text-lg">✕</button>
+        <button onclick="closeModal('licenseModal')" class="text-gray-400 hover:text-white font-mono text-lg">✕</button>
       </div>
       <div class="overflow-y-auto space-y-3 font-mono text-xs text-gray-300 pr-2">
         <p>MIT License • Copyright (c) 2026 Rumr Systems</p>
         <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files...</p>
         <p>Third-Party Components: Tailwind CSS, Lucide Icons, Canvas Confetti, Vite, TypeScript.</p>
       </div>
-      <button onclick="document.getElementById('licenseModal').classList.add('hidden')" class="w-full bg-white text-black font-mono text-xs font-bold py-2 uppercase">CLOSE LICENSES</button>
+      <button onclick="closeModal('licenseModal')" class="w-full bg-white text-black font-mono text-xs font-bold py-2 uppercase">CLOSE LICENSES</button>
     </div>
   </div>
 
+  <!-- Modal: Geolocation Radar -->
+  <div id="radarModal" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+    <div class="bg-[#121212] border-4 border-[#ccff00] max-w-lg w-full p-6 brutalist-shadow-lg-lime space-y-4 text-left">
+      <div class="flex justify-between items-center border-b border-[#333] pb-2">
+        <h3 class="font-serif text-xl font-black text-white">📍 NATIVE GEOLOCATION RADAR</h3>
+        <button onclick="closeModal('radarModal')" class="text-gray-400 hover:text-white font-mono text-lg">✕</button>
+      </div>
+      <div class="space-y-3 font-sans text-xs text-gray-300 leading-relaxed">
+        <p>Rumr utilizes your browser's native HTML5 Geolocation to match you with active topic debates and audio rooms in your current city (e.g. Gurgaon, Bengaluru, San Francisco, London).</p>
+        <div class="bg-[#080808] border border-[#333] p-3 font-mono text-[11px] space-y-1 text-[#ddb7ff]">
+          <div>• Zero persistent GPS coordinates stored on server.</div>
+          <div>• Coarse city-level bounding box matching only.</div>
+          <div>• DPDP Act 2023 compliant data minimization.</div>
+        </div>
+        <p class="text-gray-400">When prompted by Safari or Chrome, tap <strong>"Allow Location"</strong> to activate your city topic deck radar.</p>
+      </div>
+      <button onclick="closeModal('radarModal')" class="w-full bg-[#ccff00] text-black font-mono text-xs font-bold py-2 uppercase">GOT IT</button>
+    </div>
+  </div>
+
+  <!-- Modal: PWA Installation Guide -->
+  <div id="pwaModal" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+    <div class="bg-[#121212] border-4 border-[#a855f7] max-w-lg w-full p-6 brutalist-shadow-lg-purple space-y-4 text-left">
+      <div class="flex justify-between items-center border-b border-[#333] pb-2">
+        <h3 class="font-serif text-xl font-black text-white">📲 ADD TO HOME SCREEN (PWA)</h3>
+        <button onclick="closeModal('pwaModal')" class="text-gray-400 hover:text-white font-mono text-lg">✕</button>
+      </div>
+      <div class="space-y-3 font-sans text-xs text-gray-300">
+        <p>Rumr is engineered as a zero-install Progressive Web App without app store gatekeepers:</p>
+        <div class="space-y-2 font-mono text-[11px]">
+          <div class="bg-[#080808] border border-[#333] p-3">
+            <strong class="text-[#ccff00] block mb-1">APPLE SAFARI (iOS / iPadOS):</strong>
+            <span>1. Tap the <strong>Share</strong> button (box with upward arrow).<br>2. Scroll down and tap <strong>"Add to Home Screen"</strong>.<br>3. Launch Rumr with standalone full-screen experience.</span>
+          </div>
+          <div class="bg-[#080808] border border-[#333] p-3">
+            <strong class="text-[#a855f7] block mb-1">GOOGLE CHROME (Android / Desktop):</strong>
+            <span>1. Tap the three dots menu <strong>(⋮)</strong>.<br>2. Select <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong>.<br>3. Instant home-screen access with offline caching.</span>
+          </div>
+        </div>
+      </div>
+      <button onclick="closeModal('pwaModal')" class="w-full bg-[#a855f7] text-white font-mono text-xs font-bold py-2 uppercase">CLOSE GUIDE</button>
+    </div>
+  </div>
+
+  <!-- Modal: Dispatch Essay Reader -->
+  <div id="essayModal" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+    <div class="bg-[#121212] border-4 border-[#ccff00] max-w-2xl w-full max-h-[85vh] flex flex-col p-6 brutalist-shadow-lg-lime space-y-4 text-left">
+      <div class="flex justify-between items-start border-b border-[#333] pb-3">
+        <div>
+          <span id="essayModalNumber" class="font-mono text-[10px] text-[#ccff00] uppercase font-bold"></span>
+          <h3 id="essayModalTitle" class="font-serif text-xl sm:text-2xl font-black text-white leading-tight mt-1"></h3>
+          <span id="essayModalMeta" class="font-mono text-xs text-gray-500"></span>
+        </div>
+        <button onclick="closeModal('essayModal')" class="text-gray-400 hover:text-white font-mono text-xl p-1">✕</button>
+      </div>
+      <div id="essayModalBody" class="overflow-y-auto space-y-3 font-sans text-xs sm:text-sm text-gray-300 leading-relaxed pr-2">
+      </div>
+      <div class="pt-3 border-t border-[#262626] flex items-center justify-between font-mono text-xs">
+        <span class="text-gray-500">CRYPTOGRAPHIC PROTOCOL ESSAY</span>
+        <button onclick="closeModal('essayModal')" class="bg-[#ccff00] text-black font-bold px-4 py-2 uppercase">CLOSE ESSAY</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cyber-Brutalist Toast Container -->
+  <div id="toastContainer" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none max-w-sm w-full px-4 sm:px-0"></div>
+
   <!-- ========================================================================= -->
-  <!-- 12. FOOTER & SOCIAL MEDIA CHANNELS -->
+  <!-- 5. FOOTER & SOCIAL MEDIA CHANNELS -->
   <!-- ========================================================================= -->
   <footer class="bg-black text-gray-400 py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
@@ -752,9 +669,9 @@
           <ul class="space-y-2">
             <li><a href="#philosophy" class="hover:text-[#ccff00]">Core Philosophy</a></li>
             <li><a href="#features" class="hover:text-[#ccff00]">Features & AI Guard</a></li>
-            <li><a href="#how-it-works" class="hover:text-[#ccff00]">How It Works</a></li>
-            <li><a href="#metrics" class="hover:text-[#ccff00]">Live Telemetry</a></li>
-            </ul>
+            <li><a href="#dispatch" class="hover:text-[#ccff00]">Rumr Dispatch</a></li>
+            <li><a href="#contact" class="hover:text-[#ccff00]">Contact & Security</a></li>
+          </ul>
         </div>
 
         <!-- Col 3: Social Media Channels (with SVG logos) -->
@@ -795,24 +712,8 @@
 
       </div>
 
-      <!-- Bottom Copyright & Legal Framework Bar -->
-      <div class="pt-8 border-t-2 border-[#262626] flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-xs text-gray-400">
-        <div class="flex flex-wrap items-center gap-2">
-          <span class="text-[#ccff00] font-bold uppercase">LEGAL & REGULATORY FRAMEWORK:</span>
-          <span class="text-gray-300">Digital Personal Data Protection (DPDP) & IT Act Compliant</span>
-        </div>
-
-        <div class="flex items-center gap-3 text-gray-300">
-          <button onclick="document.getElementById('termsModal').classList.remove('hidden')" class="hover:text-[#ccff00] underline">Terms & Conditions</button>
-          <span>•</span>
-          <button onclick="document.getElementById('privacyModal').classList.remove('hidden')" class="hover:text-[#ccff00] underline">Privacy Policy (DPDP)</button>
-          <span>•</span>
-          <button onclick="document.getElementById('licenseModal').classList.remove('hidden')" class="hover:text-[#ccff00] underline">Software Licenses</button>
-        </div>
-      </div>
-
       <!-- Copyright Sub-bar -->
-      <div class="pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-[11px] text-gray-500 border-t border-[#1a1a1a]">
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-[11px] text-gray-500 border-t-2 border-[#262626]">
         <div>
           © 2026 Rumr Cryptographic Systems, Inc. All rights reserved.
         </div>
@@ -830,5 +731,358 @@
     </div>
   </footer>
 
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT: INTERACTIVE RUNTIME & EVENT HANDLERS -->
+  <!-- ========================================================================= -->
+  <script>
+    // 1. Mobile Menu State & Handlers
+    function toggleMobileMenu(forceState) {
+      const drawer = document.getElementById('mobileMenuDrawer');
+      const btn = document.getElementById('mobileMenuBtn');
+      const iconClosed = document.getElementById('menuIconClosed');
+      const iconOpen = document.getElementById('menuIconOpen');
+      
+      const isOpen = forceState !== undefined ? !forceState : !drawer.classList.contains('hidden');
+      if (isOpen) {
+        drawer.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+        iconClosed.classList.remove('hidden');
+        iconOpen.classList.add('hidden');
+      } else {
+        drawer.classList.remove('hidden');
+        btn.setAttribute('aria-expanded', 'true');
+        iconClosed.classList.add('hidden');
+        iconOpen.classList.remove('link');
+        iconOpen.classList.remove('hidden');
+      }
+    }
+
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    if (mobileBtn) {
+      mobileBtn.addEventListener('click', function() {
+        toggleMobileMenu();
+      });
+    }
+
+    // 2. Interactive Hero Topic Deck
+    const heroTopics = [
+      {
+        title: '"AI LAYOFFS REALITY"',
+        deckNum: '#01 OF 04',
+        resonance: '88% RESONANCE',
+        time: '2m ago',
+        quote: '"Most people blaming AI for headcount cuts are ignoring margin compressions in cloud infra."',
+        overlaps: '4 OVERLAPPING TOPICS',
+        partner: {
+          city: 'Gurgaon, NCR',
+          role: 'Staff ML Infrastructure Engineer',
+          handle: '@cipher_vanguard'
+        }
+      },
+      {
+        title: '"OFFICE POLITICS"',
+        deckNum: '#02 OF 04',
+        resonance: '93% RESONANCE',
+        time: '5m ago',
+        quote: '"Remote work didn\'t kill office politics, it just moved them into encrypted Slack DMs."',
+        overlaps: '6 OVERLAPPING TOPICS',
+        partner: {
+          city: 'Bengaluru, KA',
+          role: 'Product Lead @ CoreFin',
+          handle: '@neon_architect'
+        }
+      },
+      {
+        title: '"GHOSTING CULTURE"',
+        deckNum: '#03 OF 04',
+        resonance: '86% RESONANCE',
+        time: '9m ago',
+        quote: '"Modern dating apps normalize ghosting because infinite choice gives people commitment paralysis."',
+        overlaps: '3 OVERLAPPING TOPICS',
+        partner: {
+          city: 'San Francisco, CA',
+          role: 'Behavioral Economics Researcher',
+          handle: '@entropy_zero'
+        }
+      },
+      {
+        title: '"STEALTH STARTUPS"',
+        deckNum: '#04 OF 04',
+        resonance: '95% RESONANCE',
+        time: 'Just now',
+        quote: '"90% of stealth mode is founders being embarrassed by lack of product traction."',
+        overlaps: '5 OVERLAPPING TOPICS',
+        partner: {
+          city: 'London, UK',
+          role: 'Distributed Systems Founder',
+          handle: '@kernel_mesh'
+        }
+      }
+    ];
+
+    let currentHeroIndex = 0;
+
+    function renderHeroTopic() {
+      const topic = heroTopics[currentHeroIndex];
+      const card = document.getElementById('heroCardInner');
+      if (!card) return;
+
+      // Animate card switch smoothly
+      card.style.opacity = '0.4';
+      card.style.transform = 'scale(0.98)';
+      
+      setTimeout(() => {
+        document.getElementById('topicDeckCount').textContent = topic.deckNum;
+        document.getElementById('topicResonance').textContent = topic.resonance;
+        document.getElementById('topicTime').textContent = topic.time;
+        document.getElementById('topicTitle').textContent = topic.title;
+        document.getElementById('topicQuote').textContent = topic.quote;
+        document.getElementById('topicOverlaps').textContent = topic.overlaps;
+
+        // Reset action buttons if in matched state
+        const actionContainer = document.getElementById('topicActionContainer');
+        actionContainer.innerHTML = `
+          <button onclick="skipHeroTopic()" class="bg-[#1e1e1e] border-2 border-[#333] hover:border-red-500 text-gray-300 font-mono text-xs py-2.5 font-bold uppercase transition-all">
+            ✕ SKIP TOPIC
+          </button>
+          <button onclick="likeHeroTopic()" class="bg-[#ccff00] border-2 border-black text-black font-mono text-xs py-2.5 font-black uppercase brutalist-shadow-purple hover:bg-white transition-all">
+            ⚡ DISCUSS (LIKE)
+          </button>
+        `;
+
+        card.style.opacity = '1';
+        card.style.transform = 'scale(1)';
+      }, 120);
+    }
+
+    function skipHeroTopic() {
+      currentHeroIndex = (currentHeroIndex + 1) % heroTopics.length;
+      renderHeroTopic();
+      showRumrToast('Topic skipped. Vectored next node in feed.', 'info');
+    }
+
+    function likeHeroTopic() {
+      const topic = heroTopics[currentHeroIndex];
+      const card = document.getElementById('heroCardInner');
+      if (!card) return;
+
+      // Render simulated match confirmation
+      card.innerHTML = `
+        <div class="space-y-3 py-1 text-left">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-[10px] bg-[#ccff00] text-black px-2 py-0.5 font-black uppercase">
+              ⚡ MUTUAL MATCH CONFIRMED
+            </span>
+            <span class="font-mono text-xs text-[#ccff00] font-bold">${topic.resonance}</span>
+          </div>
+          <div class="bg-black/70 border-2 border-[#ccff00] p-3 space-y-2">
+            <div class="font-mono text-[10px] text-gray-400 uppercase">PROGRESSIVE UNMASKING // LAYER 1 UNLOCKED:</div>
+            <div class="font-serif text-lg font-bold text-white">${topic.partner.handle}</div>
+            <div class="font-mono text-xs text-[#ddb7ff]">${topic.partner.city} • ${topic.partner.role}</div>
+            <div class="text-[11px] text-gray-400 font-sans leading-relaxed">
+              Matched on topic: <strong class="text-white">${topic.title}</strong>. Ephemeral chat tunnel active.
+            </div>
+          </div>
+        </div>
+      `;
+
+      const actionContainer = document.getElementById('topicActionContainer');
+      actionContainer.innerHTML = `
+        <button onclick="resetHeroTopic()" class="bg-[#1e1e1e] border-2 border-[#333] hover:border-white text-gray-300 font-mono text-xs py-2.5 font-bold uppercase transition-all">
+          NEXT TOPIC →
+        </button>
+        <a href="https://rumr-sigma.vercel.app/" target="_blank" class="text-center bg-[#ccff00] border-2 border-black text-black font-mono text-xs py-2.5 font-black uppercase brutalist-shadow-purple hover:bg-white transition-all">
+          ENTER WEB TUNNEL ⚡
+        </a>
+      `;
+
+      showRumrToast('🎉 Mutual match confirmed! 1-on-1 encrypted tunnel opened.', 'success');
+    }
+
+    function resetHeroTopic() {
+      const card = document.getElementById('heroCardInner');
+      card.innerHTML = `
+        <div class="flex justify-between items-start">
+          <span id="topicResonance" class="font-mono text-[10px] bg-black text-[#ccff00] px-2 py-0.5 border border-[#ccff00] font-bold">
+            88% RESONANCE
+          </span>
+          <span id="topicTime" class="font-mono text-xs text-gray-400">2m ago</span>
+        </div>
+
+        <div class="space-y-1.5">
+          <div class="font-mono text-[10px] text-gray-400 uppercase">DEBATING TOPIC (≤ 3 WORDS):</div>
+          <h3 id="topicTitle" class="font-serif text-2xl font-black text-white">
+            "AI LAYOFFS REALITY"
+          </h3>
+        </div>
+
+        <p id="topicQuote" class="font-sans text-xs text-gray-300 leading-relaxed bg-black/50 p-3 border border-[#333]">
+          "Most people blaming AI for headcount cuts are ignoring margin compressions in cloud infra."
+        </p>
+
+        <div class="flex items-center justify-between pt-2 border-t border-[#333] font-mono text-[10px] text-gray-400">
+          <span>🔒 IDENTITY: ENCRYPTED</span>
+          <span id="topicOverlaps" class="text-[#ccff00] font-bold">4 OVERLAPPING TOPICS</span>
+        </div>
+      `;
+      currentHeroIndex = (currentHeroIndex + 1) % heroTopics.length;
+      renderHeroTopic();
+    }
+
+    // 3. Cyber-Brutalist Toast System
+    function showRumrToast(message, type = 'lime') {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      toast.className = `pointer-events-auto bg-[#121212] border-2 ${
+        type === 'success' ? 'border-[#ccff00] brutalist-shadow-lime text-white' :
+        type === 'error' ? 'border-red-500 brutalist-shadow-purple text-red-200' :
+        'border-[#a855f7] brutalist-shadow-purple text-gray-200'
+      } p-3 sm:p-4 font-mono text-xs flex items-center justify-between gap-3 transition-all duration-200 translate-y-2 opacity-0`;
+
+      toast.innerHTML = `
+        <div class="flex items-center gap-2">
+          <span class="text-${type === 'success' ? '[#ccff00]' : 'white'} font-bold">⚡</span>
+          <span>${message}</span>
+        </div>
+        <button class="text-gray-400 hover:text-white font-bold ml-2">✕</button>
+      `;
+
+      const closeBtn = toast.querySelector('button');
+      closeBtn.onclick = () => removeToast(toast);
+
+      container.appendChild(toast);
+
+      // Trigger animation
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      });
+
+      function removeToast(el) {
+        el.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => el.remove(), 200);
+      }
+
+      setTimeout(() => {
+        if (toast.parentElement) removeToast(toast);
+      }, 3500);
+    }
+
+    // 4. Modal Management
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    }
+
+    // Close on Escape or Backdrop click
+    window.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.fixed.inset-0').forEach(modal => {
+          if (!modal.classList.contains('hidden')) {
+            modal.classList.add('hidden');
+          }
+        });
+        document.body.style.overflow = '';
+        toggleMobileMenu(false);
+      }
+    });
+
+    document.querySelectorAll('.fixed.inset-0').forEach(modal => {
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          modal.classList.add('hidden');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
+    // 5. Dispatch Essays Data & Reader
+    const dispatchEssays = [
+      {
+        num: 'DISPATCH #042',
+        title: 'The Death of Superficial Swiping: Why Topic Resonance Wins',
+        meta: 'AUG 18, 2026 • 6 MIN READ • ARCHITECTURE',
+        body: `
+          <p>Traditional social apps rely on photographic surface impressions. In an era of AI face filters and hyper-curated feeds, visual signals carry almost zero correlation with genuine intellectual friction.</p>
+          <p>Over a rigorous benchmark of 1.2M interactions across metropolitan nodes, conversations initiated via <strong>specific, high-friction topic nodes</strong> demonstrated a <strong>7.4x higher 30-day retention rate</strong> than photo-first matches.</p>
+          <p>When users match on mutual tension—such as conflicting viewpoints on infrastructure scaling or remote culture—conversations begin at depth rather than idling in the wasteland of superficial greetings.</p>
+        `
+      },
+      {
+        num: 'DISPATCH #041',
+        title: 'Architecting Cryptographic Consent in Social Meshes',
+        meta: 'AUG 12, 2026 • 8 MIN READ • SECURITY & DPDP',
+        body: `
+          <p>Progressive unmasking isn't a cosmetic game mechanic—it is a cryptographic safety boundary. Rumr implements a bilateral zero-knowledge handshake where identity is revealed across 3 deliberate layers:</p>
+          <p><strong>Layer 1 (Signals):</strong> Coarse geographical locality and professional domain taxonomy. Zero PII transmitted.</p>
+          <p><strong>Layer 2 (Resonance):</strong> Worldview thesis, chaos index score, and communication frequency.</p>
+          <p><strong>Layer 3 (Consent Decryption):</strong> Both parties simultaneously sign an unlock transaction, unlocking verified portraits and verified communication channels.</p>
+        `
+      },
+      {
+        num: 'DISPATCH #040',
+        title: 'How ≤ 3-Word Constraints Kill Harassment at the Vector Layer',
+        meta: 'AUG 04, 2026 • 5 MIN READ • LINGUISTIC EMBEDDINGS',
+        body: `
+          <p>Harassment, targeted doxxing, and defamatory rants require paragraph-length syntactic flexibility. By placing a strict, hard constraint of <strong>≤ 3 words per topic node</strong>, bad actors are mathematically constrained.</p>
+          <p>Our embedding classifier checks candidates against named-entity recognition pipelines to prevent phone numbers, personal handles, or private addresses from masquerading as debate topics. The result is pure sociological argument.</p>
+        `
+      },
+      {
+        num: 'DISPATCH #039',
+        title: 'The 2026 Tech Layoff Reckoning: Finding Real People in the Noise',
+        meta: 'JUL 28, 2026 • 7 MIN READ • FIELD DISPATCH',
+        body: `
+          <p>When tech layoffs surged, engineers flooded corporate forums under risk of retaliation. Rumr's ephemeral city tunnels enabled anonymous, verified practitioners to share actual salary benchmarks and runway realities.</p>
+          <p>By protecting handles under ephemeral public keys, engineers connected authentically without fear of employer surveillance or algorithmic career penalties.</p>
+        `
+      }
+    ];
+
+    function openEssayModal(index) {
+      const essay = dispatchEssays[index];
+      if (!essay) return;
+      document.getElementById('essayModalNumber').textContent = essay.num;
+      document.getElementById('essayModalTitle').textContent = essay.title;
+      document.getElementById('essayModalMeta').textContent = essay.meta;
+      document.getElementById('essayModalBody').innerHTML = essay.body;
+      openModal('essayModal');
+    }
+
+    // 6. Contact Form Transmission Handler
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById('contactSubmitBtn');
+      const receipt = document.getElementById('contactSuccessReceipt');
+      const hashEl = document.getElementById('receiptHash');
+      
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'TRANSMITTING VIA PGP ENCRYPTION...';
+
+      setTimeout(() => {
+        const randomHash = Array.from({length: 16}, () => Math.floor(Math.random()*16).toString(16)).join('');
+        hashEl.textContent = `PAYLOAD_HASH: 0x${randomHash}`;
+        receipt.classList.remove('hidden');
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = '⚡ TRANSMIT ANOTHER MESSAGE';
+
+        showRumrToast('⚡ Transmission delivered to Rumr SecOps queue.', 'success');
+        document.getElementById('contactMessage').value = '';
+      }, 400);
+    }
+  </script>
 </body>
 </html>

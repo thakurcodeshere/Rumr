@@ -53,66 +53,7 @@ export const MatchesView: React.FC = () => {
   const [showUnmaskModal, setShowUnmaskModal] = useState(false);
   const [showDecryptedModal, setShowDecryptedModal] = useState(false);
 
-  const fallbackMatches: MatchItem[] = [
-    {
-      id: 'match-1',
-      handle: 'cipher_vanguard',
-      age: 26,
-      distance: 'Gurgaon • 4 km away',
-      compatibility: 94,
-      sharedCount: 4,
-      topics: ['Office Politics', 'Ghosting', 'Startup Drama', 'Situationships'],
-      lastActive: 'Active 12m ago',
-      isHot: true,
-      opener: 'What\'s worse: being ghosted or slowly faded out?',
-      firstPeerMessage: 'Most people blaming AI for headcount cuts are ignoring margin compressions in cloud infra.',
-      firstMyMessage: 'True, but middle management is using LLMs as cover to offload contractor blame without severance.'
-    },
-    {
-      id: 'match-2',
-      handle: 'logic_gate_99',
-      age: 28,
-      distance: 'Delhi NCR • 9 km away',
-      compatibility: 88,
-      sharedCount: 3,
-      topics: ['Startup Life', 'Salary Comparison', 'Toxic Bosses'],
-      lastActive: 'Active 1h ago',
-      isHot: false,
-      opener: 'Should coworkers ever be real friends outside work?',
-      firstPeerMessage: 'The boundary between work colleague and real friend depends entirely on shared crisis bonding.',
-      firstMyMessage: 'Agreed, once you survive a toxic sprint together, you skip 6 months of small talk.'
-    },
-    {
-      id: 'match-3',
-      handle: 'neo_contrarian',
-      age: 25,
-      distance: 'Mumbai • Nearby',
-      compatibility: 86,
-      sharedCount: 3,
-      topics: ['Bollywood Controversies', 'Dating After 25', 'First Date Disasters'],
-      lastActive: 'Active 3h ago',
-      isHot: false,
-      opener: 'What is your biggest dating red flag in 2026?',
-      firstPeerMessage: 'Dating apps optimizing for session retention killed spontaneous romance.',
-      firstMyMessage: 'Exactly why matching on raw intellectual friction is the only antidote.'
-    },
-    {
-      id: 'match-4',
-      handle: 'quantum_phantom',
-      age: 29,
-      distance: 'Bengaluru • Active now',
-      compatibility: 96,
-      sharedCount: 4,
-      topics: ['AI Wrapper Bubble', 'Burn Rates', 'Stealth Building', 'Tech Compensation'],
-      lastActive: 'Active 2m ago',
-      isHot: true,
-      opener: 'Is 2026 the year AI wrapper businesses get completely commoditized?',
-      firstPeerMessage: 'Unless you own proprietary vector distribution, wrappers have zero defensive moat.',
-      firstMyMessage: 'Distribution always beats pure algorithm novelty in the enterprise game.'
-    }
-  ];
-
-  const matchesList = matches && matches.length > 0 ? matches : fallbackMatches;
+  const matchesList: MatchItem[] = (matches && matches.length > 0 ? matches : []) as MatchItem[];
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
@@ -151,74 +92,94 @@ export const MatchesView: React.FC = () => {
 
           {/* Matches List Grid */}
           <div className="space-y-4">
-            {matchesList.map(match => (
-              <BrutalistCard key={match.id} isHot={match.isHot} className="space-y-3.5 p-4 sm:p-5">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-serif text-2xl font-black text-white">{match.age}</span>
-                      <BrutalistBadge variant={match.isHot ? 'lime' : 'purple'}>
-                        {match.sharedCount} SHARED TOPICS
-                      </BrutalistBadge>
-                    </div>
-                    <div className="font-mono text-xs text-gray-400">
-                      {match.distance} • <span className="text-[#a855f7]">{match.lastActive}</span>
-                    </div>
-                  </div>
-
-                  <div className="text-right">
-                    <div className="font-mono text-base font-black text-[#ccff00]">
-                      {match.compatibility}%
-                    </div>
-                    <div className="font-mono text-[9px] text-gray-500 uppercase">COMPATIBILITY</div>
-                  </div>
+            {matchesList.length === 0 ? (
+              <div className="bg-[#161616] border-4 border-[#262626] p-8 space-y-4 text-center shadow-[4px_4px_0px_#333]">
+                <div className="w-12 h-12 rounded-full bg-[#1b1724] border border-[#a855f7] flex items-center justify-center mx-auto text-[#a855f7]">
+                  <Heart className="w-6 h-6" />
                 </div>
-
-                {/* Shared Topics Chips */}
-                <div className="space-y-1.5">
-                  <div className="font-mono text-[10px] text-gray-400 uppercase font-bold">SHARED AFFINITIES:</div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {match.topics.map((t: string, idx: number) => (
-                      <span 
-                        key={idx} 
-                        className="font-mono text-xs font-bold px-2 py-1 bg-[#1b1724] border border-[#a855f7] text-[#ddb7ff]"
-                      >
-                        #{t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Suggested Conversation Opener Prompt */}
-                <div className="bg-[#111] border-l-2 border-[#ccff00] p-2.5 space-y-1">
-                  <div className="font-mono text-[10px] text-[#ccff00] font-bold uppercase flex items-center gap-1">
-                    <Sparkles className="w-3 h-3 text-[#ccff00]" /> SUGGESTED CONVERSATION OPENER
-                  </div>
-                  <p className="font-serif text-xs italic text-gray-300 leading-relaxed">
-                    "{match.opener}"
+                <div className="space-y-1">
+                  <h3 className="font-serif text-xl font-black text-white">NO ACTIVE MATCHES YET</h3>
+                  <p className="font-mono text-xs text-gray-400 max-w-sm mx-auto">
+                    You haven't formed mutual friction matches on subscribed topics. Head over to the feed to swipe on active topic debates.
                   </p>
                 </div>
+                <button
+                  onClick={() => navigate('feed')}
+                  className="font-mono text-xs bg-[#ccff00] hover:bg-[#d8ff33] text-black px-4 py-2 font-bold uppercase transition-all flex items-center gap-2 mx-auto"
+                >
+                  <Flame className="w-3.5 h-3.5" /> Explore Topic Feed
+                </button>
+              </div>
+            ) : (
+              matchesList.map(match => (
+                <BrutalistCard key={match.id} isHot={match.isHot} className="space-y-3.5 p-4 sm:p-5">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-serif text-2xl font-black text-white">{match.age}</span>
+                        <BrutalistBadge variant={match.isHot ? 'lime' : 'purple'}>
+                          {match.sharedCount} SHARED TOPICS
+                        </BrutalistBadge>
+                      </div>
+                      <div className="font-mono text-xs text-gray-400">
+                        {match.distance} • <span className="text-[#a855f7]">{match.lastActive}</span>
+                      </div>
+                    </div>
 
-                {/* Bottom Action Bar */}
-                <div className="flex items-center justify-between pt-2 border-t border-[#222]">
-                  <span className="font-mono text-[10px] text-gray-500">
-                    Level 0 Anonymity Active
-                  </span>
+                    <div className="text-right">
+                      <div className="font-mono text-base font-black text-[#ccff00]">
+                        {match.compatibility}%
+                      </div>
+                      <div className="font-mono text-[9px] text-gray-500 uppercase">COMPATIBILITY</div>
+                    </div>
+                  </div>
 
-                  {/* START CHAT BUTTON (Opens Chat Segment directly inside Matches) */}
-                  <button
-                    onClick={() => {
-                      setSelectedMatch(match);
-                      setActiveMatchId(match.id);
-                    }}
-                    className="bg-[#ccff00] text-black font-mono text-xs font-black px-4 py-2 border-2 border-black shadow-[3px_3px_0px_#a855f7] hover:bg-white hover:translate-x-0.5 hover:translate-y-0.5 transition-all uppercase flex items-center gap-1.5"
-                  >
-                    <MessageSquare className="w-3.5 h-3.5 text-black" />
-                    <span>START CHAT</span>
-                  </button>
-                </div>
-              </BrutalistCard>
-            ))}
+                  {/* Shared Topics Chips */}
+                  <div className="space-y-1.5">
+                    <div className="font-mono text-[10px] text-gray-400 uppercase font-bold">SHARED AFFINITIES:</div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {match.topics.map((t: string, idx: number) => (
+                        <span 
+                          key={idx} 
+                          className="font-mono text-xs font-bold px-2 py-1 bg-[#1b1724] border border-[#a855f7] text-[#ddb7ff]"
+                        >
+                          #{t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Suggested Conversation Opener Prompt */}
+                  <div className="bg-[#111] border-l-2 border-[#ccff00] p-2.5 space-y-1">
+                    <div className="font-mono text-[10px] text-[#ccff00] font-bold uppercase flex items-center gap-1">
+                      <Sparkles className="w-3 h-3 text-[#ccff00]" /> SUGGESTED CONVERSATION OPENER
+                    </div>
+                    <p className="font-serif text-xs italic text-gray-300 leading-relaxed">
+                      "{match.opener}"
+                    </p>
+                  </div>
+
+                  {/* Bottom Action Bar */}
+                  <div className="flex items-center justify-between pt-2 border-t border-[#222]">
+                    <span className="font-mono text-[10px] text-gray-500">
+                      Level 0 Anonymity Active
+                    </span>
+
+                    {/* START CHAT BUTTON (Opens Chat Segment directly inside Matches) */}
+                    <button
+                      onClick={() => {
+                        setSelectedMatch(match);
+                        setActiveMatchId(match.id);
+                      }}
+                      className="bg-[#ccff00] text-black font-mono text-xs font-black px-4 py-2 border-2 border-black shadow-[3px_3px_0px_#a855f7] hover:bg-white hover:translate-x-0.5 hover:translate-y-0.5 transition-all uppercase flex items-center gap-1.5"
+                    >
+                      <MessageSquare className="w-3.5 h-3.5 text-black" />
+                      <span>START CHAT</span>
+                    </button>
+                  </div>
+                </BrutalistCard>
+              ))
+            )}
           </div>
 
         </div>

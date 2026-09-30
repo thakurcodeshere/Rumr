@@ -9,7 +9,9 @@ import {
   Filter, 
   X, 
   Heart, 
-  MapPin
+  MapPin,
+  Users,
+  RefreshCw
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { DiscoveryFiltersModal } from '../components/ui/DiscoveryFiltersModal';
@@ -37,9 +39,9 @@ export const FeedView: React.FC = () => {
   const [swipeFeedback, setSwipeFeedback] = useState<'like' | 'pass' | null>(null);
   const [showMatchModal, setShowMatchModal] = useState<boolean>(false);
   const [latestMatch, setLatestMatch] = useState<{ matchRate: number; partnerHandle: string; overlappingTopics: string[] }>({
-    matchRate: 94,
-    partnerHandle: 'cipher_vanguard',
-    overlappingTopics: ['Office Politics', 'Ghosting', 'Startup Drama']
+    matchRate: 0,
+    partnerHandle: '',
+    overlappingTopics: []
   });
 
   React.useEffect(() => {
@@ -56,35 +58,11 @@ export const FeedView: React.FC = () => {
     loadCards();
   }, [activeFilters]);
 
-  // Fallback cards if empty
-  const activeDeck = cards.length > 0 ? cards : [
-    {
-      id: 'card-1',
-      targetUserId: 'user-partner-1',
-      primaryTopic: 'OFFICE POLITICS',
-      category: 'Workplace',
-      age: 26,
-      sharedOverlapCount: 4,
-      compatibilityScore: 94,
-      location: 'Gurgaon • 4 km away',
-      subTopics: ['Situationships', 'Why People Ghost', 'Startup Drama']
-    },
-    {
-      id: 'card-2',
-      targetUserId: 'user-partner-2',
-      primaryTopic: 'AI WRAPPER BUBBLE',
-      category: 'Tech',
-      age: 28,
-      sharedOverlapCount: 5,
-      compatibilityScore: 97,
-      location: 'Gurgaon • 2 km away',
-      subTopics: ['VC Burn Rates', 'Remote Work Friction', 'Seed Funding']
-    }
-  ];
-
-  const currentCard = activeDeck[currentCardIndex % activeDeck.length];
+  const currentCard = cards.length > 0 && currentCardIndex < cards.length ? cards[currentCardIndex] : null;
 
   const handleSwipe = async (direction: 'like' | 'pass') => {
+    if (!currentCard || !currentCard.targetUserId) return;
+
     if (isGuest && direction === 'like') {
       triggerGuestLock('Topic Swiping & Matching', 'Register to match with people based on shared debate friction.');
       return;
@@ -101,13 +79,13 @@ export const FeedView: React.FC = () => {
       });
 
       try {
-        const targetId = currentCard.targetUserId || 'user-partner-1';
+        const targetId = currentCard.targetUserId;
         const res = await api.discovery.swipe(targetId, 'like');
         if (res.isMatch) {
           setLatestMatch({
             matchRate: res.matchRate || 94,
-            partnerHandle: res.partnerHandle || 'cipher_vanguard',
-            overlappingTopics: res.overlappingTopics || ['Office Politics', 'Ghosting']
+            partnerHandle: res.partnerHandle || 'anonymous_debater',
+            overlappingTopics: res.overlappingTopics || ['Shared Topics']
           });
           setTimeout(() => {
             setShowMatchModal(true);
@@ -118,7 +96,7 @@ export const FeedView: React.FC = () => {
       }
     } else {
       try {
-        const targetId = currentCard.targetUserId || 'user-partner-1';
+        const targetId = currentCard.targetUserId;
         await api.discovery.swipe(targetId, 'pass');
       } catch (err) {
         console.error('Pass error:', err);
@@ -172,104 +150,139 @@ export const FeedView: React.FC = () => {
       )}
 
       {/* Topic Discovery Card Deck */}
-      <div className="space-y-4">
-        {/* Card Deck Wrapper */}
-        <div className="relative">
-          {/* Discovery Card Frame */}
-          <div className={`bg-[#161616] border-4 border-[#262626] p-5 sm:p-6 space-y-5 transition-all duration-300 relative overflow-hidden shadow-[4px_4px_0px_#a855f7] ${
-            swipeFeedback === 'like' ? 'border-[#ccff00] translate-x-4 rotate-2' : ''
-          } ${
-            swipeFeedback === 'pass' ? 'border-[#ff4444] -translate-x-4 -rotate-2' : ''
-          }`}>
-            
-            {/* Category & Badge */}
-            <div className="flex items-center justify-between">
-              <BrutalistBadge variant="lime">{currentCard.category}</BrutalistBadge>
-              <div className="font-mono text-xs font-bold text-[#ccff00] flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5" /> {currentCard.compatibilityScore}% MATCH
-              </div>
-            </div>
-
-            {/* Main Primary Topic Typography */}
-            <div className="space-y-2 py-4 border-y-2 border-[#262626]">
-              <span className="font-mono text-[10px] text-gray-500 uppercase tracking-widest block">
-                PRIMARY CONVERSATION SIGNAL
-              </span>
-              <h2 className="font-serif text-3xl sm:text-4xl font-black text-white leading-tight tracking-tight hover:text-[#ccff00] transition-colors">
-                "{currentCard.primaryTopic}"
-              </h2>
-            </div>
-
-            {/* Age & Overlaps */}
-            <div className="grid grid-cols-2 gap-3 bg-[#111] p-3 border border-[#222]">
-              <div>
-                <span className="font-mono text-[10px] text-gray-500 uppercase">Age</span>
-                <div className="font-serif text-2xl font-black text-white">{currentCard.age}</div>
-              </div>
-              <div>
-                <span className="font-mono text-[10px] text-gray-500 uppercase">Affinities</span>
-                <div className="font-mono text-xs font-bold text-[#a855f7] mt-1">
-                  {currentCard.sharedOverlapCount} Shared Interests
+      {!currentCard ? (
+        <div className="bg-[#161616] border-4 border-[#262626] p-8 space-y-4 text-center shadow-[4px_4px_0px_#333]">
+          <div className="w-12 h-12 rounded-full bg-[#1b1724] border border-[#a855f7] flex items-center justify-center mx-auto text-[#a855f7]">
+            <Users className="w-6 h-6" />
+          </div>
+          <div className="space-y-1">
+            <h3 className="font-serif text-xl font-black text-white">
+              {cards.length === 0 ? 'NO DEBATERS IN THIS ZONE' : 'ALL CARDS REVIEWED'}
+            </h3>
+            <p className="font-mono text-xs text-gray-400 max-w-sm mx-auto">
+              {cards.length === 0
+                ? 'No active debaters match your current topic criteria or location filters. Check back soon or broaden your search criteria.'
+                : 'You have swiped through all available candidates in this cycle.'}
+            </p>
+          </div>
+          <div className="pt-2 flex items-center justify-center gap-3">
+            {cards.length === 0 ? (
+              <button
+                onClick={() => setIsFilterModalOpen(true)}
+                className="font-mono text-xs bg-[#1f1f1f] hover:bg-[#2a2a2a] text-[#ccff00] border border-[#ccff00] px-4 py-2 font-bold uppercase transition-all flex items-center gap-2"
+              >
+                <Filter className="w-3.5 h-3.5" /> Adjust Filter Parameters
+              </button>
+            ) : (
+              <button
+                onClick={() => setCurrentCardIndex(0)}
+                className="font-mono text-xs bg-[#ccff00] hover:bg-[#d8ff33] text-black px-4 py-2 font-bold uppercase transition-all flex items-center gap-2"
+              >
+                <RefreshCw className="w-3.5 h-3.5" /> Review Deck Again
+              </button>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {/* Card Deck Wrapper */}
+          <div className="relative">
+            {/* Discovery Card Frame */}
+            <div className={`bg-[#161616] border-4 border-[#262626] p-5 sm:p-6 space-y-5 transition-all duration-300 relative overflow-hidden shadow-[4px_4px_0px_#a855f7] ${
+              swipeFeedback === 'like' ? 'border-[#ccff00] translate-x-4 rotate-2' : ''
+            } ${
+              swipeFeedback === 'pass' ? 'border-[#ff4444] -translate-x-4 -rotate-2' : ''
+            }`}>
+              
+              {/* Category & Badge */}
+              <div className="flex items-center justify-between">
+                <BrutalistBadge variant="lime">{currentCard.category}</BrutalistBadge>
+                <div className="font-mono text-xs font-bold text-[#ccff00] flex items-center gap-1">
+                  <Sparkles className="w-3.5 h-3.5" /> {currentCard.compatibilityScore}% MATCH
                 </div>
               </div>
-            </div>
 
-            {/* Sub-Topics Chips */}
-            <div className="space-y-1.5">
-              <span className="font-mono text-[10px] text-gray-400 uppercase font-bold block">
-                Also wants to discuss:
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {currentCard.subTopics.map((sub: string, idx: number) => (
-                  <span 
-                    key={idx} 
-                    className="font-mono text-xs font-semibold px-2.5 py-1 bg-[#1e1a2b] border border-[#a855f7] text-[#ddb7ff]"
-                  >
-                    #{sub}
-                  </span>
-                ))}
+              {/* Main Primary Topic Typography */}
+              <div className="space-y-2 py-4 border-y-2 border-[#262626]">
+                <span className="font-mono text-[10px] text-gray-500 uppercase tracking-widest block">
+                  PRIMARY CONVERSATION SIGNAL
+                </span>
+                <h2 className="font-serif text-3xl sm:text-4xl font-black text-white leading-tight tracking-tight hover:text-[#ccff00] transition-colors">
+                  "{currentCard.primaryTopic}"
+                </h2>
+              </div>
+
+              {/* Age & Overlaps */}
+              <div className="grid grid-cols-2 gap-3 bg-[#111] p-3 border border-[#222]">
+                <div>
+                  <span className="font-mono text-[10px] text-gray-500 uppercase">Age</span>
+                  <div className="font-serif text-2xl font-black text-white">{currentCard.age}</div>
+                </div>
+                <div>
+                  <span className="font-mono text-[10px] text-gray-500 uppercase">Affinities</span>
+                  <div className="font-mono text-xs font-bold text-[#a855f7] mt-1">
+                    {currentCard.sharedOverlapCount} Shared Interests
+                  </div>
+                </div>
+              </div>
+
+              {/* Sub-Topics Chips */}
+              <div className="space-y-1.5">
+                <span className="font-mono text-[10px] text-gray-400 uppercase font-bold block">
+                  Also wants to discuss:
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {currentCard.subTopics.map((sub: string, idx: number) => (
+                    <span 
+                      key={idx} 
+                      className="font-mono text-xs font-semibold px-2.5 py-1 bg-[#1e1a2b] border border-[#a855f7] text-[#ddb7ff]"
+                    >
+                      #{sub}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Location Badge & Anonymity Note */}
+              <div className="flex items-center justify-between text-xs font-mono text-gray-400 pt-2">
+                <div className="flex items-center gap-1">
+                  <MapPin className="w-3.5 h-3.5 text-[#ccff00]" />
+                  <span>{currentCard.location}</span>
+                </div>
+                <span className="text-[10px] text-gray-500">Level 0 Anonymity</span>
               </div>
             </div>
 
-            {/* Location Badge & Anonymity Note */}
-            <div className="flex items-center justify-between text-xs font-mono text-gray-400 pt-2">
-              <div className="flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5 text-[#ccff00]" />
-                <span>{currentCard.location}</span>
+            {/* Swipe Feedback Overlay */}
+            {swipeFeedback && (
+              <div className="absolute inset-0 bg-black/60 flex items-center justify-center pointer-events-none z-20">
+                <div className={`font-serif font-black text-3xl uppercase px-6 py-3 border-4 ${
+                  swipeFeedback === 'like' ? 'text-[#ccff00] border-[#ccff00] rotate-12' : 'text-[#ff4444] border-[#ff4444] -rotate-12'
+                }`}>
+                  {swipeFeedback === 'like' ? 'LIKE ♥' : 'PASS ✕'}
+                </div>
               </div>
-              <span className="text-[10px] text-gray-500">Level 0 Anonymity</span>
-            </div>
+            )}
           </div>
 
-          {/* Swipe Feedback Overlay */}
-          {swipeFeedback && (
-            <div className="absolute inset-0 bg-black/60 flex items-center justify-center pointer-events-none z-20">
-              <div className={`font-serif font-black text-3xl uppercase px-6 py-3 border-4 ${
-                swipeFeedback === 'like' ? 'text-[#ccff00] border-[#ccff00] rotate-12' : 'text-[#ff4444] border-[#ff4444] -rotate-12'
-              }`}>
-                {swipeFeedback === 'like' ? 'LIKE ♥' : 'PASS ✕'}
-              </div>
-            </div>
-          )}
-        </div>
+          {/* Action Buttons: Pass & Like */}
+          <div className="flex items-center justify-between gap-4 pt-2">
+            <button
+              onClick={() => handleSwipe('pass')}
+              className="flex-1 py-3.5 bg-[#1a1a1a] hover:bg-[#252525] border-2 border-[#444] hover:border-[#ff4444] text-[#ff4444] font-mono text-sm font-bold uppercase transition-all flex items-center justify-center gap-2 shadow-[2px_2px_0px_#333]"
+            >
+              <X className="w-5 h-5" /> PASS
+            </button>
 
-        {/* Action Buttons: Pass & Like */}
-        <div className="flex items-center justify-between gap-4 pt-2">
-          <button
-            onClick={() => handleSwipe('pass')}
-            className="flex-1 py-3.5 bg-[#1a1a1a] hover:bg-[#252525] border-2 border-[#444] hover:border-[#ff4444] text-[#ff4444] font-mono text-sm font-bold uppercase transition-all flex items-center justify-center gap-2 shadow-[2px_2px_0px_#333]"
-          >
-            <X className="w-5 h-5" /> PASS
-          </button>
-
-          <button
-            onClick={() => handleSwipe('like')}
-            className="flex-1 py-3.5 bg-[#ccff00] hover:bg-[#d8ff33] text-black font-mono text-sm font-bold uppercase transition-all flex items-center justify-center gap-2 shadow-[4px_4px_0px_#a855f7] active:translate-x-1 active:translate-y-1"
-          >
-            <Heart className="w-5 h-5 fill-black" /> LIKE
-          </button>
+            <button
+              onClick={() => handleSwipe('like')}
+              className="flex-1 py-3.5 bg-[#ccff00] hover:bg-[#d8ff33] text-black font-mono text-sm font-bold uppercase transition-all flex items-center justify-center gap-2 shadow-[4px_4px_0px_#a855f7] active:translate-x-1 active:translate-y-1"
+            >
+              <Heart className="w-5 h-5 fill-black" /> LIKE
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Redesigned After-Match Screen (Screen fb0fcae2 + Encrypted Identity) */}
       <EncryptedMatchModal

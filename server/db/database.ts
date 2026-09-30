@@ -1,36 +1,52 @@
-import Database from 'better-sqlite3';
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import Database from 'better-sqlite3';
 import { CONFIG } from '../config.js';
-import { seedDatabase } from './seed.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
+import { DatabaseAdapter } from './interface.js';
+import { SupabaseDatabase } from './supabase-db.js';
+import { SqliteDatabase } from './sqlite-db.js';
+import { getSupabaseClient, isSupabaseConfigured, validateProductionSupabaseConfig } from './supabase.js';
 import { SCHEMA_SQL } from './schema-sql.js';
 
-// Ensure the database directory exists
-const dbDir = path.dirname(CONFIG.DB_PATH);
-if (!fs.existsSync(dbDir)) {
-  fs.mkdirSync(dbDir, { recursive: true });
+export function createDatabaseAdapter(): DatabaseAdapter {
+  const isProduction = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
+
+  if (isProduction) {
+    // Fail closed: production MUST have valid Supabase credentials and MUST NOT fall back to SQLite
+    validateProductionSupabaseConfig();
+    console.log('🔒 [RUMR_DB] Initializing authoritative Supabase PostgreSQL production adapter...');
+    const client = getSupabaseClient();
+    return new SupabaseDatabase(client);
+  }
+
+  // Development / Test Environments
+  // Prefer Supabase if explicitly configured and not overridden by DB_PROVIDER=sqlite
+  if (isSupabaseConfigured() && process.env.DB_PROVIDER !== 'sqlite') {
+    console.log('🌐 [RUMR_DB] Initializing Supabase PostgreSQL adapter for development/test...');
+    return new SupabaseDatabase(getSupabaseClient());
+  }
+
+  // Fallback to SQLite strictly for local dev/testing
+  console.log('📦 [RUMR_DB] Initializing local SQLite adapter (DEV/TEST ONLY)...');
+  const dbDir = path.dirname(CONFIG.DB_PATH);
+  if (!fs.existsSync(dbDir)) {
+    fs.mkdirSync(dbDir, { recursive: true });
+  }
+
+  const sqlite = new Database(CONFIG.DB_PATH);
+  sqlite.pragma('journal_mode = WAL');
+  sqlite.pragma('foreign_keys = ON');
+  sqlite.pragma('synchronous = NORMAL');
+  sqlite.exec(SCHEMA_SQL);
+
+  return new SqliteDatabase(sqlite);
 }
 
-export function initDatabase(dbPath = CONFIG.DB_PATH): Database.Database {
-  const db = new Database(dbPath);
+export const db: DatabaseAdapter = createDatabaseAdapter();
 
-  // Performance and integrity pragmas
-  db.pragma('journal_mode = WAL');
-  db.pragma('foreign_keys = ON');
-  db.pragma('synchronous = NORMAL');
-
-  // Run schema DDL
-  db.exec(SCHEMA_SQL);
-
-  // Seed baseline topics and candidates
-  seedDatabase(db);
-
-  return db;
+export async function pingDatabase() {
+  return db.ping();
 }
 
-export const db = initDatabase();
+export * from './interface.js';
+export * from './types.js';

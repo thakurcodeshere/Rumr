@@ -1,25 +1,19 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { ViewType, Topic, RumorPost, ChatMessage, UserPersona, TopicRoom, CatalogScreenItem, ScreenFrameId } from '../types';
+import { ViewType, Topic, RumorPost, ChatMessage, UserPersona, TopicRoom, CatalogScreenItem } from '../types';
 import { ALL_66_SCREENS } from './mock-data';
-import { SCREEN_FRAME_SPECS } from './frame-specs';
 import { api, ApiError } from './api';
 
-const DEFAULT_PARTNER: UserPersona = {
-  id: 'user-partner-1',
-  handle: 'cipher_vanguard',
-  tagline: 'Contrarian systems architect • AI safety cynic',
-  city: 'Gurgaon, NCR',
-  role: 'Staff ML Infrastructure Engineer',
-  realName: 'Elena Rostova',
-  chaosIndex: 94,
-  avatarSeed: 'cipher',
-  realPhoto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80',
-  affinities: [
-    { topic: 'AI Layoffs vs Reality', score: 96 },
-    { topic: 'Office Politics', score: 89 },
-    { topic: 'Stealth Whistleblowing', score: 92 },
-    { topic: 'Modern Dating Friction', score: 84 }
-  ]
+const EMPTY_PARTNER: UserPersona = {
+  id: '',
+  handle: 'anonymous_partner',
+  tagline: 'Intellectual friction match',
+  city: 'Undisclosed',
+  role: 'Debater',
+  realName: '',
+  chaosIndex: 50,
+  avatarSeed: 'void',
+  realPhoto: '',
+  affinities: []
 };
 
 interface AppContextType {
@@ -45,12 +39,9 @@ interface AppContextType {
   revealStage: number;
   revealConsent: { me: boolean; them: boolean };
   isMobileFrame: boolean;
-  selectedFrame: ScreenFrameId;
-  compareFrame: ScreenFrameId | null;
   activeAudioRoom: TopicRoom | null;
   isMicActive: boolean;
   aiNudge: { isOpen: boolean; message: string; severity: 'warning' | 'info' } | null;
-  copyToast: string | null;
   activeMatchId: string | null;
   matches: any[];
   
@@ -77,8 +68,6 @@ interface AppContextType {
   dismissNudge: () => void;
   triggerNudge: (message: string) => void;
   toggleMobileFrame: () => void;
-  setSelectedFrame: (frame: ScreenFrameId) => void;
-  setCompareFrame: (frame: ScreenFrameId | null) => void;
   isRegistered: boolean;
   isGuest: boolean;
   guestLock: { isOpen: boolean; featureName: string; description: string } | null;
@@ -94,9 +83,6 @@ interface AppContextType {
     selectedTopics?: string[],
     customTopic?: string
   ) => Promise<void>;
-  copyFigmaTokens: () => void;
-  copyCurrentScreenCode: () => void;
-  clearToast: () => void;
   userLocation: {
     city: string;
     coords?: { lat: number; lng: number };
@@ -169,25 +155,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
 
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
-  const [partner, setPartner] = useState<UserPersona>(DEFAULT_PARTNER);
+  const [partner, setPartner] = useState<UserPersona>(EMPTY_PARTNER);
   const [revealStage, setRevealStage] = useState<number>(0);
   const [revealConsent, setRevealConsent] = useState<{ me: boolean; them: boolean }>({ me: false, them: false });
   const [isMobileFrame, setIsMobileFrame] = useState<boolean>(true);
-  const [selectedFrame, setSelectedFrame] = useState<ScreenFrameId>('iphone-16-pro');
-  const [compareFrame, setCompareFrame] = useState<ScreenFrameId | null>(null);
   const [activeAudioRoom, setActiveAudioRoom] = useState<TopicRoom | null>(null);
   const [isMicActive, setIsMicActive] = useState<boolean>(false);
   const [aiNudge, setAiNudge] = useState<{ isOpen: boolean; message: string; severity: 'warning' | 'info' } | null>(null);
-  const [copyToast, setCopyToast] = useState<string | null>(null);
-
-  const showToast = (msg: string) => {
-    setCopyToast(msg);
-    setTimeout(() => {
-      setCopyToast(null);
-    }, 3000);
-  };
-
-  const clearToast = () => setCopyToast(null);
 
   const navigate = (view: ViewType) => {
     setSelectedCatalogScreen(null);
@@ -613,32 +587,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   };
 
-  const copyFigmaTokens = async () => {
-    try {
-      const res = await fetch('/tokens/figma-tokens.json');
-      if (res.ok) {
-        const text = await res.text();
-        await navigator.clipboard.writeText(text);
-        showToast('✓ Figma Tokens copied! Paste directly into Tokens Studio.');
-      } else {
-        showToast('Tokens file ready in tokens/figma-tokens.json');
-      }
-    } catch {
-      showToast('Tokens ready in tokens/figma-tokens.json');
-    }
-  };
-
-  const copyCurrentScreenCode = async () => {
-    const spec = SCREEN_FRAME_SPECS[selectedFrame];
-    const frameInfo = `Frame: ${spec.name} (${spec.width}x${spec.height}px, ${spec.ratio})`;
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      showToast(`✓ Link copied for html.to.design! [${frameInfo}]`);
-    } catch {
-      showToast(`Frame info: ${frameInfo}`);
-    }
-  };
-
   return (
     <AppContext.Provider value={{
       currentView,
@@ -653,8 +601,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       revealStage,
       revealConsent,
       isMobileFrame,
-      selectedFrame,
-      compareFrame,
       isRegistered,
       isGuest,
       guestLock,
@@ -666,7 +612,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       activeAudioRoom,
       isMicActive,
       aiNudge,
-      copyToast,
       activeMatchId,
       matches,
       navigate,
@@ -691,12 +636,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       dismissNudge,
       triggerNudge,
       toggleMobileFrame,
-      setSelectedFrame,
-      setCompareFrame,
       completeOnboarding,
-      copyFigmaTokens,
-      copyCurrentScreenCode,
-      clearToast,
       userLocation,
       isLocationModalOpen,
       setIsLocationModalOpen,

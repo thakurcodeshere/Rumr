@@ -9,7 +9,6 @@ import {
   Zap, 
   ArrowRight, 
   Check, 
-  MapPin, 
   Award, 
   X, 
   Mail, 
@@ -40,7 +39,7 @@ export const LandingWebsiteView: React.FC<LandingWebsiteViewProps> = ({ onLaunch
             <span className="tracking-wider">3-LAYER PROGRESSIVE UNMASKING & LIVE AUDIO DEBATES NOW LIVE</span>
           </div>
           <div className="hidden md:flex items-center gap-4 text-[11px]">
-            <span>⚡ 142,800+ TOPIC TUNNELS ACTIVE</span>
+            <span>⚡ 100% PHONE & LOCATION VERIFIED</span>
             <a href="#downloads" className="underline hover:text-white transition-colors">GET MOBILE APP →</a>
           </div>
         </div>
@@ -65,9 +64,6 @@ export const LandingWebsiteView: React.FC<LandingWebsiteViewProps> = ({ onLaunch
           <nav className="hidden lg:flex items-center gap-6 font-mono text-xs font-bold tracking-wider text-gray-300">
             <a href="#philosophy" className="hover:text-[#ccff00] transition-colors">PHILOSOPHY</a>
             <a href="#features" className="hover:text-[#ccff00] transition-colors">FEATURES</a>
-            <a href="#how-it-works" className="hover:text-[#ccff00] transition-colors">HOW IT WORKS</a>
-            <a href="#metrics" className="hover:text-[#ccff00] transition-colors">TELEMETRY</a>
-            <a href="#reviews" className="hover:text-[#ccff00] transition-colors">REVIEWS</a>
             <a href="#dispatch" className="hover:text-[#ccff00] transition-colors">DISPATCH</a>
             <a href="#contact" className="hover:text-[#ccff00] transition-colors">CONTACT</a>
           </nav>
@@ -142,17 +138,6 @@ export const LandingWebsiteView: React.FC<LandingWebsiteViewProps> = ({ onLaunch
                   </a>
                 )}
 
-                {/* Mobile & Tablet Geolocation Badge */}
-                <button 
-                  onClick={() => alert('When accessing Rumr on mobile/tablet browsers (Safari/Chrome), tap Allow Location to activate city-level topic radar.')}
-                  className="flex items-center gap-3 bg-[#141414] border-2 border-[#333] hover:border-[#ccff00] px-4 py-3 shadow-[4px_4px_0px_#ccff00] hover:translate-x-0.5 hover:translate-y-0.5 transition-all font-mono text-left"
-                >
-                  <MapPin className="w-5 h-5 text-[#ccff00]" />
-                  <div>
-                    <span className="block text-[9px] text-gray-400 uppercase tracking-wider">MOBILE & TABLET BROWSER</span>
-                    <span className="block text-xs font-bold text-white uppercase tracking-tight">📍 NATIVE GEOLOCATION RADAR</span>
-                  </div>
-                </button>
 
                 {/* PWA Add to Home Screen */}
                 <button 
@@ -221,44 +206,7 @@ export const LandingWebsiteView: React.FC<LandingWebsiteViewProps> = ({ onLaunch
         </div>
       </section>
 
-      {/* 4. LIVE NUMBERS & TELEMETRY */}
-      <section id="metrics" className="bg-[#111111] border-b-2 border-[#262626] py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-8 space-y-1">
-            <span className="font-mono text-xs text-[#ccff00] uppercase font-bold tracking-widest">REAL-TIME PLATFORM TELEMETRY</span>
-            <h2 className="font-serif text-3xl font-black text-white uppercase">Rumr By The Numbers</h2>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <div className="bg-[#141414] border-2 border-[#262626] p-4 text-center space-y-1 shadow-[4px_4px_0px_#a855f7]">
-              <div className="font-serif text-3xl md:text-4xl font-black text-white">142.8K</div>
-              <div className="font-mono text-[10px] text-[#ccff00] uppercase font-bold">Active Topic Tunnels</div>
-            </div>
-
-            <div className="bg-[#141414] border-2 border-[#262626] p-4 text-center space-y-1 shadow-[4px_4px_0px_#ccff00]">
-              <div className="font-serif text-3xl md:text-4xl font-black text-white">94.2%</div>
-              <div className="font-mono text-[10px] text-[#a855f7] uppercase font-bold">Resonance Match Rate</div>
-            </div>
-
-            <div className="bg-[#141414] border-2 border-[#262626] p-4 text-center space-y-1 shadow-[4px_4px_0px_#fff]">
-              <div className="font-serif text-3xl md:text-4xl font-black text-white">≤ 3</div>
-              <div className="font-mono text-[10px] text-gray-300 uppercase font-bold">Words Per Topic Node</div>
-            </div>
-
-            <div className="bg-[#141414] border-2 border-[#262626] p-4 text-center space-y-1 shadow-[4px_4px_0px_#a855f7]">
-              <div className="font-serif text-3xl md:text-4xl font-black text-white">0</div>
-              <div className="font-mono text-[10px] text-red-400 uppercase font-bold">Facial Swipes Allowed</div>
-            </div>
-
-            <div className="col-span-2 md:col-span-1 bg-[#141414] border-2 border-[#262626] p-4 text-center space-y-1 shadow-[4px_4px_0px_#ccff00]">
-              <div className="font-serif text-3xl md:text-4xl font-black text-white">100%</div>
-              <div className="font-mono text-[10px] text-[#ccff00] uppercase font-bold">SHA-256 DPDP Privacy</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. INTRODUCED CORE FEATURES */}
+      {/* 4. INTRODUCED CORE FEATURES */}
       <section id="features" className="py-20 border-b-2 border-[#262626] bg-[#0c0c0c]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
           
@@ -275,69 +223,106 @@ export const LandingWebsiteView: React.FC<LandingWebsiteViewProps> = ({ onLaunch
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            
-            
+            <div className="bg-[#141414] border-2 border-[#262626] p-6 space-y-4 shadow-[4px_4px_0px_#a855f7]">
+              <div className="w-12 h-12 bg-[#1b1526] border-2 border-[#a855f7] flex items-center justify-center font-mono text-xl text-[#ccff00] font-black">
+                01
+              </div>
+              <h3 className="font-serif text-2xl font-black text-white">Topic-First Discovery</h3>
+              <p className="font-sans text-xs text-gray-300 leading-relaxed">
+                Instead of evaluating bios and selfies, explore and react to specific, high-friction debate nodes. You only connect with people who share deep intellectual resonance.
+              </p>
+              <div className="font-mono text-[10px] text-[#a855f7] uppercase font-bold pt-2 border-t border-[#222]">
+                Algorithm: 4-Vector Resonance Matrix
+              </div>
+            </div>
 
+            <div className="bg-[#141414] border-2 border-[#262626] p-6 space-y-4 shadow-[4px_4px_0px_#ccff00]">
+              <div className="w-12 h-12 bg-[#141d0e] border-2 border-[#ccff00] flex items-center justify-center font-mono text-xl text-black bg-[#ccff00] font-black">
+                02
+              </div>
+              <h3 className="font-serif text-2xl font-black text-white">3-Layer Mutual Unmasking</h3>
+              <p className="font-sans text-xs text-gray-300 leading-relaxed">
+                Identity unlocks progressively. Layer 1 reveals demographic signals; Layer 2 reveals tagline & chaos score; Layer 3 unlocks verified photo, real name, and Tier II communication.
+              </p>
+              <div className="font-mono text-[10px] text-[#ccff00] uppercase font-bold pt-2 border-t border-[#222]">
+                Security: Bilateral Cryptographic Consent
+              </div>
+            </div>
+
+            <div className="bg-[#141414] border-2 border-[#262626] p-6 space-y-4 shadow-[4px_4px_0px_#fff]">
+              <div className="w-12 h-12 bg-[#1e1e1e] border-2 border-white flex items-center justify-center font-mono text-xl text-white font-black">
+                03
+              </div>
+              <h3 className="font-serif text-2xl font-black text-white">≤ 3 Words Constraint</h3>
+              <p className="font-sans text-xs text-gray-300 leading-relaxed">
+                Hard linguistic vector constraint prevents personal harassment, doxxing, or defamatory rants. Real-time AI guard forces users to distill ideas into structured arguments.
+              </p>
+              <div className="font-mono text-[10px] text-gray-400 uppercase font-bold pt-2 border-t border-[#222]">
+                Guard: Llama-3 Embedding Classifier
+              </div>
+            </div>
+
+            <div className="bg-[#141414] border-2 border-[#262626] p-6 space-y-4 shadow-[4px_4px_0px_#ccff00]">
+              <div className="w-12 h-12 bg-[#141d0e] border-2 border-[#ccff00] flex items-center justify-center font-mono text-xl text-[#ccff00] font-black">
+                04
+              </div>
+              <h3 className="font-serif text-2xl font-black text-white">Live Topic Audio Rooms</h3>
+              <p className="font-sans text-xs text-gray-300 leading-relaxed">
+                Drop into real-time city-level voice stages. Speak anonymously with encrypted voice modulation or broadcast to debate crowds centered around burning topics.
+              </p>
+              <div className="font-mono text-[10px] text-[#ccff00] uppercase font-bold pt-2 border-t border-[#222]">
+                Infra: Low-Latency WebRTC Mesh
+              </div>
+            </div>
           </div>
 
         </div>
       </section>
 
-      {/* 6. REVIEWS (PEOPLE OF RUMR) */}
-      <section id="reviews" className="py-20 border-b-2 border-[#262626] bg-[#0e0e0e]">
+      {/* 5. RUMR DISPATCH (BLOG / ESSAYS) */}
+      <section id="dispatch" className="py-20 border-b-2 border-[#262626] bg-[#080808]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
           
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="space-y-2">
-              <span className="font-mono text-xs text-[#ccff00] uppercase font-bold tracking-widest">VERIFIED USER DISPATCH</span>
-              <h2 className="font-serif text-3xl sm:text-5xl font-black text-white uppercase">People of Rumr</h2>
+              <span className="font-mono text-xs text-[#a855f7] uppercase font-bold tracking-widest">THOUGHT LEADERSHIP & ESSAYS</span>
+              <h2 className="font-serif text-3xl sm:text-5xl font-black text-white uppercase">Rumr Dispatch</h2>
             </div>
-            <div className="font-mono text-xs text-gray-400">
-              ★ 4.9/5 RATING ACROSS 18,000+ ENCRYPTED SESSIONS
-            </div>
+            <a href="#contact" className="font-mono text-xs text-[#ccff00] hover:underline font-bold">CONTACT AUTHORS ➔</a>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            <div className="bg-[#141414] border-2 border-[#262626] p-6 space-y-4 shadow-[4px_4px_0px_#a855f7] flex flex-col justify-between">
-              <div className="space-y-3">
-                <div className="flex text-[#ccff00] font-mono text-xs">★★★★★</div>
-                <p className="font-serif italic text-base text-gray-200 leading-relaxed">
-                  "On Rumr, we argued about Kubernetes cost-scaling for 15 minutes before realizing we worked two blocks away. Real connection without staged photos."
-                </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <article className="bg-[#121212] border-2 border-[#262626] p-6 space-y-3 hover:border-[#ccff00] transition-colors group cursor-pointer">
+              <div className="flex justify-between items-center font-mono text-[10px] text-gray-500">
+                <span>DISPATCH #042</span>
+                <span>AUG 18, 2026 • 6 MIN READ</span>
               </div>
-              <div className="pt-3 border-t border-[#262626] font-mono text-xs">
-                <strong className="text-white block">Aditya S.</strong>
-                <span className="text-gray-500 text-[10px]">Staff Cloud Architect • Gurgaon</span>
+              <h3 className="font-serif text-2xl font-black text-white group-hover:text-[#ccff00] transition-colors">
+                The Death of Superficial Swiping: Why Topic Resonance Wins
+              </h3>
+              <p className="font-sans text-xs text-gray-400 leading-relaxed">
+                An analysis of 1.2M social interactions showing that conversations initiated via shared intellectual friction have a 7.4x higher retention rate than photo-first matches.
+              </p>
+              <div className="font-mono text-xs text-[#ccff00] font-bold flex items-center gap-1 pt-2">
+                READ ESSAY →
               </div>
-            </div>
+            </article>
 
-            <div className="bg-[#141414] border-2 border-[#262626] p-6 space-y-4 shadow-[4px_4px_0px_#ccff00] flex flex-col justify-between">
-              <div className="space-y-3">
-                <div className="flex text-[#ccff00] font-mono text-xs">★★★★★</div>
-                <p className="font-serif italic text-base text-gray-200 leading-relaxed">
-                  "The 3-word rule is genius. It completely kills creepy DMs and forces people to articulate actual intellectual viewpoints."
-                </p>
+            <article className="bg-[#121212] border-2 border-[#262626] p-6 space-y-3 hover:border-[#ccff00] transition-colors group cursor-pointer">
+              <div className="flex justify-between items-center font-mono text-[10px] text-gray-500">
+                <span>DISPATCH #041</span>
+                <span>AUG 12, 2026 • 8 MIN READ</span>
               </div>
-              <div className="pt-3 border-t border-[#262626] font-mono text-xs">
-                <strong className="text-white block">Elena Rostova</strong>
-                <span className="text-gray-500 text-[10px]">AI Safety Researcher • San Francisco</span>
+              <h3 className="font-serif text-2xl font-black text-white group-hover:text-[#ccff00] transition-colors">
+                Architecting Cryptographic Consent in Social Meshes
+              </h3>
+              <p className="font-sans text-xs text-gray-400 leading-relaxed">
+                How we built Rumr's 3-layer progressive unmasking protocol to ensure complete user sovereignty and prevent accidental identity leakage.
+              </p>
+              <div className="font-mono text-xs text-[#ccff00] font-bold flex items-center gap-1 pt-2">
+                READ ESSAY →
               </div>
-            </div>
-
-            <div className="bg-[#141414] border-2 border-[#262626] p-6 space-y-4 shadow-[4px_4px_0px_#fff] flex flex-col justify-between">
-              <div className="space-y-3">
-                <div className="flex text-[#ccff00] font-mono text-xs">★★★★★</div>
-                <p className="font-serif italic text-base text-gray-200 leading-relaxed">
-                  "I met my co-founder on Rumr after we both swiped right on the topic node 'Stealth AI Agents'. Zero awkward networking—pure intellectual friction."
-                </p>
-              </div>
-              <div className="pt-3 border-t border-[#262626] font-mono text-xs">
-                <strong className="text-white block">Karan M.</strong>
-                <span className="text-gray-500 text-[10px]">Founder @ KernelMesh • Bengaluru</span>
-              </div>
-            </div>
-
+            </article>
           </div>
 
         </div>
@@ -446,8 +431,8 @@ export const LandingWebsiteView: React.FC<LandingWebsiteViewProps> = ({ onLaunch
               <ul className="space-y-2">
                 <li><a href="#philosophy" className="hover:text-[#ccff00]">Core Philosophy</a></li>
                 <li><a href="#features" className="hover:text-[#ccff00]">Features & AI Guard</a></li>
-                <li><a href="#how-it-works" className="hover:text-[#ccff00]">How It Works</a></li>
-                <li><a href="#metrics" className="hover:text-[#ccff00]">Live Telemetry</a></li>
+                <li><a href="#dispatch" className="hover:text-[#ccff00]">Rumr Dispatch</a></li>
+                <li><a href="#contact" className="hover:text-[#ccff00]">Contact & Security</a></li>
               </ul>
             </div>
 
@@ -464,23 +449,7 @@ export const LandingWebsiteView: React.FC<LandingWebsiteViewProps> = ({ onLaunch
             </div>
           </div>
 
-          {/* Legal & Regulatory Framework Bar (At Bottom of Landing Page) */}
-          <div className="pt-8 border-t-2 border-[#262626] flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-xs text-gray-400">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[#ccff00] font-bold uppercase">LEGAL & REGULATORY FRAMEWORK:</span>
-              <span className="text-gray-300">Digital Personal Data Protection (DPDP) & IT Act Compliant</span>
-            </div>
-
-            <div className="flex items-center gap-3 text-gray-300">
-              <button onClick={() => setActiveModal('terms')} className="hover:text-[#ccff00] underline">Terms & Conditions</button>
-              <span>•</span>
-              <button onClick={() => setActiveModal('privacy')} className="hover:text-[#ccff00] underline">Privacy Policy (DPDP)</button>
-              <span>•</span>
-              <button onClick={() => setActiveModal('license')} className="hover:text-[#ccff00] underline">Software Licenses</button>
-            </div>
-          </div>
-
-          <div className="pt-4 border-t border-[#1a1a1a] flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[11px] text-gray-500">
+          <div className="pt-8 border-t-2 border-[#262626] flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[11px] text-gray-500">
             <div>© 2026 Rumr Cryptographic Systems, Inc. All rights reserved.</div>
             <div className="flex items-center gap-4">
               {onLaunchApp && (

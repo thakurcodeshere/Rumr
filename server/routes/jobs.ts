@@ -20,14 +20,11 @@ jobsRouter.post('/decay', async (req, res) => {
 
   try {
     // 1. Purge expired chat messages
-    const beforeCount = (db.prepare(`SELECT count(*) as c FROM chat_messages WHERE expires_at <= datetime('now')`).get() as any)?.c || 0;
-    purgeExpiredMessages();
+    const beforeCount = await db.chatMessages.countExpired();
+    await purgeExpiredMessages();
 
     // 2. Prune inactive audio room participants (>2 hours joined)
-    db.prepare(`
-      DELETE FROM room_participants 
-      WHERE joined_at < datetime('now', '-2 hours')
-    `).run();
+    await db.roomParticipants.pruneInactive(2);
 
     res.json({
       success: true,

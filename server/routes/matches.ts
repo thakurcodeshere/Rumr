@@ -37,125 +37,116 @@ export function sanitizePartnerProfile(rawUser: any, unmaskStage: number) {
 }
 
 // 1. List All Active Mutual Matches
-matchesRouter.get('/', requireAuth, (req: AuthenticatedRequest, res) => {
-  const currentUserId = req.user!.id;
+matchesRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res, next) => {
+  try {
+    const currentUserId = req.user!.id;
+    const matches = await db.matches.findActiveByUserId(currentUserId);
 
-  const matches = db.prepare(`
-    SELECT m.*,
-      CASE WHEN m.user1_id = ? THEN m.user2_id ELSE m.user1_id END as partner_id
-    FROM matches m
-    WHERE (m.user1_id = ? OR m.user2_id = ?) AND m.status = 'active'
-    ORDER BY m.updated_at DESC
-  `).all(currentUserId, currentUserId, currentUserId) as any[];
+    const matchesList = await Promise.all(matches.map(async m => {
+      const rawPartner = await db.users.findById(m.partner_id);
+      const partner = sanitizePartnerProfile(rawPartner || {}, m.unmask_stage);
 
-  const matchesList = matches.map(m => {
-    const rawPartner = db.prepare('SELECT * FROM users WHERE id = ?').get(m.partner_id) as any;
-    const partner = sanitizePartnerProfile(rawPartner || {}, m.unmask_stage);
+      // Get shared topics
+      const shared = await db.userTopics.findSharedTopics(currentUserId, m.partner_id);
 
-    // Get shared topics
-    const shared = db.prepare(`
-      SELECT t.title FROM topics t
-      JOIN user_topics ut1 ON ut1.topic_id = t.id AND ut1.user_id = ?
-      JOIN user_topics ut2 ON ut2.topic_id = t.id AND ut2.user_id = ?
-    `).all(currentUserId, m.partner_id) as { title: string }[];
+      const topics = shared.length > 0
+        ? shared.map(s => s.title)
+        : ['AI Layoffs vs Reality', 'Office Politics', 'Ghosting'];
 
-    const topics = shared.length > 0
-      ? shared.map(s => s.title)
-      : ['AI Layoffs vs Reality', 'Office Politics', 'Ghosting'];
+      // Get latest message
+      const latestMsg = await db.chatMessages.getLatestByMatchId(m.id);
 
-    // Get latest message
-    const latestMsg = db.prepare(`
-      SELECT text, created_at FROM chat_messages
-      WHERE match_id = ? AND expires_at > datetime('now')
-      ORDER BY created_at DESC LIMIT 1
-    `).get(m.id) as { text: string; created_at: string } | undefined;
+      return {
+        id: m.id,
+        matchId: m.id,
+        partnerId: m.partner_id,
+        handle: partner.handle,
+        age: partner.age,
+        distance: partner.distance,
+        compatibility: m.compatibility || 94,
+        sharedCount: topics.length,
+        topics,
+        lastActive: 'Active now',
+        isHot: true,
+        opener: `What's worse: being ghosted or slowly faded out?`,
+        lastMessage: latestMsg ? latestMsg.text : 'Encrypted topic tunnel active.',
+        unmaskStage: m.unmask_stage,
+        partner
+      };
+    }));
 
-    return {
-      id: m.id,
-      matchId: m.id,
-      partnerId: m.partner_id,
-      handle: partner.handle,
-      age: partner.age,
-      distance: partner.distance,
-      compatibility: m.compatibility || 94,
-      sharedCount: topics.length,
-      topics,
-      lastActive: 'Active now',
-      isHot: true,
-      opener: `What's worse: being ghosted or slowly faded out?`,
-      lastMessage: latestMsg ? latestMsg.text : 'Encrypted topic tunnel active.',
-      unmaskStage: m.unmask_stage,
-      partner
-    };
-  });
-
-  res.json({ matches: matchesList });
+    res.json({ matches: matchesList });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // 2. Get Specific Match Detail
-matchesRouter.get('/:matchId', requireAuth, (req: AuthenticatedRequest, res) => {
-  const currentUserId = req.user!.id;
-  const { matchId } = req.params;
+matchesRouter.get('/:matchId', requireAuth, async (req: AuthenticatedRequest, res, next) => {
+  try {
+    const currentUserId = req.user!.id;
+    const { matchId } = req.params;
 
-  const match = db.prepare(`
-    SELECT * FROM matches WHERE id = ?
-  `).get(matchId) as any;
+    const match = await db.matches.findById(matchId);
 
-  if (!match) {
-    res.status(404).json({ error: 'MATCH_NOT_FOUND', message: 'Match node does not exist.' });
-    return;
-  }
-
-  // Authorization check: must be participant
-  if (match.user1_id !== currentUserId && match.user2_id !== currentUserId) {
-    res.status(403).json({ error: 'FORBIDDEN', message: 'Not authorized to access this encrypted match tunnel.' });
-    return;
-  }
-
-  const partnerId = match.user1_id === currentUserId ? match.user2_id : match.user1_id;
-  const rawPartner = db.prepare('SELECT * FROM users WHERE id = ?').get(partnerId) as any;
-  const partner = sanitizePartnerProfile(rawPartner, match.unmask_stage);
-
-  // Get topic affinities
-  const sharedTopics = db.prepare(`
-    SELECT t.title FROM topics t
-    JOIN user_topics ut1 ON ut1.topic_id = t.id AND ut1.user_id = ?
-    JOIN user_topics ut2 ON ut2.topic_id = t.id AND ut2.user_id = ?
-  `).all(currentUserId, partnerId) as { title: string }[];
-
-  const affinities = (sharedTopics.length > 0 ? sharedTopics : [
-    { title: 'AI Layoffs vs Reality' },
-    { title: 'Office Politics' },
-    { title: 'Stealth Whistleblowing' }
-  ]).map((t, i) => ({
-    topic: t.title,
-    score: 95 - i * 6
-  }));
-
-  partner.affinities = affinities;
-
-  res.json({
-    match: {
-      id: match.id,
-      partnerId,
-      compatibility: match.compatibility,
-      unmaskStage: match.unmask_stage,
-      partner
+    if (!match) {
+      res.status(404).json({ error: 'MATCH_NOT_FOUND', message: 'Match node does not exist.' });
+      return;
     }
-  });
+
+    // Authorization check: must be participant
+    if (match.user1_id !== currentUserId && match.user2_id !== currentUserId) {
+      res.status(403).json({ error: 'FORBIDDEN', message: 'Not authorized to access this encrypted match tunnel.' });
+      return;
+    }
+
+    const partnerId = match.user1_id === currentUserId ? match.user2_id : match.user1_id;
+    const rawPartner = await db.users.findById(partnerId);
+    const partner = sanitizePartnerProfile(rawPartner || {}, match.unmask_stage);
+
+    // Get topic affinities
+    const sharedTopics = await db.userTopics.findSharedTopics(currentUserId, partnerId);
+
+    const affinities = (sharedTopics.length > 0 ? sharedTopics : [
+      { title: 'AI Layoffs vs Reality' },
+      { title: 'Office Politics' },
+      { title: 'Stealth Whistleblowing' }
+    ]).map((t, i) => ({
+      topic: t.title,
+      score: 95 - i * 6
+    }));
+
+    partner.affinities = affinities;
+
+    res.json({
+      match: {
+        id: match.id,
+        partnerId,
+        compatibility: match.compatibility,
+        unmaskStage: match.unmask_stage,
+        partner
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // 3. Unmatch / Delete Connection
-matchesRouter.delete('/:matchId', requireAuth, (req: AuthenticatedRequest, res) => {
-  const currentUserId = req.user!.id;
-  const { matchId } = req.params;
+matchesRouter.delete('/:matchId', requireAuth, async (req: AuthenticatedRequest, res, next) => {
+  try {
+    const currentUserId = req.user!.id;
+    const { matchId } = req.params;
 
-  const match = db.prepare('SELECT * FROM matches WHERE id = ?').get(matchId) as any;
-  if (!match || (match.user1_id !== currentUserId && match.user2_id !== currentUserId)) {
-    res.status(404).json({ error: 'NOT_FOUND', message: 'Match not found.' });
-    return;
+    const match = await db.matches.findById(matchId);
+    if (!match || (match.user1_id !== currentUserId && match.user2_id !== currentUserId)) {
+      res.status(404).json({ error: 'NOT_FOUND', message: 'Match not found.' });
+      return;
+    }
+
+    await db.matches.updateStatus(matchId, 'unmatched');
+    res.json({ success: true, message: 'Connection severed. Tunnel erased.' });
+  } catch (err) {
+    next(err);
   }
-
-  db.prepare('UPDATE matches SET status = "unmatched" WHERE id = ?').run(matchId);
-  res.json({ success: true, message: 'Connection severed. Tunnel erased.' });
 });

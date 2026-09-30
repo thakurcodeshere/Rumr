@@ -1,16 +1,12 @@
 import React from 'react';
-import { Shield, Sparkles, Smartphone, Monitor, Layers, Radio, GitBranch, Globe, MapPin } from 'lucide-react';
+import { Radio, Globe, MapPin } from 'lucide-react';
 import { useApp } from '../../lib/store';
-import { BrutalistBadge } from '../ui/BrutalistBadge';
 
 export const AppHeader: React.FC = () => {
   const { 
     currentView, 
     isRegistered,
     navigate, 
-    user, 
-    isMobileFrame, 
-    toggleMobileFrame, 
     activeAudioRoom,
     userLocation,
     openLocationPrompt

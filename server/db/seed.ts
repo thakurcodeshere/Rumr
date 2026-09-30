@@ -1,6 +1,10 @@
 import Database from 'better-sqlite3';
 
 export function seedDatabase(db: Database.Database) {
+  if (process.env.NODE_ENV === 'production' || process.env.VERCEL) {
+    throw new Error('[FATAL_SECURITY_VIOLATION] Production seeding is strictly forbidden.');
+  }
+
   const existingTopics = db.prepare('SELECT count(*) as count FROM topics').get() as { count: number };
   if (existingTopics.count > 0) {
     return; // Already seeded

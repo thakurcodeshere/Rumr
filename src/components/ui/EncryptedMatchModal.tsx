@@ -15,9 +15,9 @@ export const EncryptedMatchModal: React.FC<EncryptedMatchModalProps> = ({
   isOpen,
   onClose,
   onStartChat,
-  matchRate = 88,
-  partnerHandle = 'cipher_vanguard',
-  overlappingTopics = ['Ghosting After Dates', 'Startup Drama', 'Office Politics', 'Dating Friction']
+  matchRate = 0,
+  partnerHandle = 'anonymous_debater',
+  overlappingTopics = []
 }) => {
   if (!isOpen) return null;
 

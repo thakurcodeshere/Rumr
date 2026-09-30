@@ -6,168 +6,189 @@ import { createLiveKitToken } from '../services/livekit.js';
 export const roomsRouter = Router();
 
 // 1. Get Live Audio Debate Rooms
-roomsRouter.get('/', optionalAuth, (req: AuthenticatedRequest, res) => {
-  const rooms = db.prepare(`
-    SELECT r.*, u.handle as host_handle
-    FROM rooms r
-    LEFT JOIN users u ON u.id = r.host_id
-    WHERE r.is_live = 1
-    ORDER BY r.listeners DESC
-  `).all() as any[];
+roomsRouter.get('/', optionalAuth, async (req: AuthenticatedRequest, res, next) => {
+  try {
+    const rooms = await db.rooms.findLive();
 
-  res.json({
-    rooms: rooms.map(r => ({
-      id: r.id,
-      title: r.title,
-      category: r.category,
-      activeSpeakers: r.active_speakers,
-      listeners: r.listeners,
-      isLive: Boolean(r.is_live),
-      isPrivate: Boolean(r.is_private),
-      hostHandle: r.host_handle || 'void_host',
-      recentDebate: r.recent_debate || 'Broadcasting live topic debate.'
-    }))
-  });
+    res.json({
+      rooms: rooms.map(r => ({
+        id: r.id,
+        title: r.title,
+        category: r.category,
+        activeSpeakers: r.active_speakers,
+        listeners: r.listeners,
+        isLive: Boolean(r.is_live),
+        isPrivate: Boolean(r.is_private),
+        hostHandle: r.host_handle || 'void_host',
+        recentDebate: r.recent_debate || 'Broadcasting live topic debate.'
+      }))
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // 2. Join a Room
-roomsRouter.post('/:roomId/join', requireAuth, (req: AuthenticatedRequest, res) => {
-  const currentUserId = req.user!.id;
-  const { roomId } = req.params;
+roomsRouter.post('/:roomId/join', requireAuth, async (req: AuthenticatedRequest, res, next) => {
+  try {
+    const currentUserId = req.user!.id;
+    const { roomId } = req.params;
 
-  const room = db.prepare('SELECT * FROM rooms WHERE id = ?').get(roomId) as any;
-  if (!room) {
-    res.status(404).json({ error: 'ROOM_NOT_FOUND', message: 'Audio room not found.' });
-    return;
+    const room = await db.rooms.findById(roomId);
+    if (!room) {
+      res.status(404).json({ error: 'ROOM_NOT_FOUND', message: 'Audio room not found.' });
+      return;
+    }
+
+    // Add participant
+    await db.roomParticipants.addOrUpdate({
+      roomId,
+      userId: currentUserId,
+      role: 'listener',
+      isMuted: true,
+      isHandRaised: false
+    });
+
+    await db.rooms.incrementListeners(roomId, 1);
+
+    res.json({ success: true, role: 'listener', isMuted: true });
+  } catch (err) {
+    next(err);
   }
-
-  // Add participant
-  db.prepare(`
-    INSERT OR REPLACE INTO room_participants (room_id, user_id, role, is_muted, is_hand_raised)
-    VALUES (?, ?, 'listener', 1, 0)
-  `).run(roomId, currentUserId);
-
-  db.prepare('UPDATE rooms SET listeners = listeners + 1 WHERE id = ?').run(roomId);
-
-  res.json({ success: true, role: 'listener', isMuted: true });
 });
 
 // 3. Leave Room
-roomsRouter.post('/:roomId/leave', requireAuth, (req: AuthenticatedRequest, res) => {
-  const currentUserId = req.user!.id;
-  const { roomId } = req.params;
+roomsRouter.post('/:roomId/leave', requireAuth, async (req: AuthenticatedRequest, res, next) => {
+  try {
+    const currentUserId = req.user!.id;
+    const { roomId } = req.params;
 
-  db.prepare('DELETE FROM room_participants WHERE room_id = ? AND user_id = ?').run(roomId, currentUserId);
-  db.prepare('UPDATE rooms SET listeners = MAX(0, listeners - 1) WHERE id = ?').run(roomId);
+    await db.roomParticipants.remove(roomId, currentUserId);
+    await db.rooms.incrementListeners(roomId, -1);
 
-  res.json({ success: true });
+    res.json({ success: true });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // 4. Toggle Mic
-roomsRouter.post('/:roomId/mic', requireAuth, requireRegistered, (req: AuthenticatedRequest, res) => {
-  const currentUserId = req.user!.id;
-  const { roomId } = req.params;
+roomsRouter.post('/:roomId/mic', requireAuth, requireRegistered, async (req: AuthenticatedRequest, res, next) => {
+  try {
+    const currentUserId = req.user!.id;
+    const { roomId } = req.params;
 
-  const participant = db.prepare('SELECT is_muted FROM room_participants WHERE room_id = ? AND user_id = ?').get(roomId, currentUserId) as { is_muted: number } | undefined;
+    const participant = await db.roomParticipants.findByRoomAndUser(roomId, currentUserId);
+    const newMuted = participant ? (participant.is_muted ? false : true) : false;
 
-  const newMuted = participant ? (participant.is_muted ? 0 : 1) : 0;
-  db.prepare('UPDATE room_participants SET is_muted = ? WHERE room_id = ? AND user_id = ?').run(newMuted, roomId, currentUserId);
+    await db.roomParticipants.updateMic(roomId, currentUserId, newMuted);
 
-  res.json({ success: true, isMuted: Boolean(newMuted), isMicActive: !Boolean(newMuted) });
+    res.json({ success: true, isMuted: Boolean(newMuted), isMicActive: !Boolean(newMuted) });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // 5. Get Room Messages
-roomsRouter.get('/:roomId/messages', optionalAuth, (req: AuthenticatedRequest, res) => {
-  const { roomId } = req.params;
-  const rawMsgs = db.prepare(`
-    SELECT m.*, u.handle as sender_handle
-    FROM room_messages m
-    LEFT JOIN users u ON u.id = m.sender_id
-    WHERE m.room_id = ?
-    ORDER BY m.created_at ASC
-  `).all(roomId) as any[];
+roomsRouter.get('/:roomId/messages', optionalAuth, async (req: AuthenticatedRequest, res, next) => {
+  try {
+    const { roomId } = req.params;
+    const rawMsgs = await db.roomMessages.findByRoomId(roomId);
+    const currentUserId = req.user ? req.user.id : null;
 
-  const currentUserId = req.user ? req.user.id : null;
-
-  res.json({
-    messages: rawMsgs.map(m => ({
-      id: m.id,
-      sender: m.sender_handle || 'anonymous_debater',
-      isMe: currentUserId === m.sender_id,
-      text: m.text,
-      stance: m.stance,
-      timestamp: new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    }))
-  });
+    res.json({
+      messages: rawMsgs.map(m => ({
+        id: m.id,
+        sender: m.sender_handle || 'anonymous_debater',
+        isMe: currentUserId === m.sender_id,
+        text: m.text,
+        stance: m.stance,
+        timestamp: new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      }))
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // 6. Send Room Message / Reaction
-roomsRouter.post('/:roomId/messages', requireAuth, (req: AuthenticatedRequest, res) => {
-  const currentUserId = req.user!.id;
-  const { roomId } = req.params;
-  const { text, stance } = req.body;
+roomsRouter.post('/:roomId/messages', requireAuth, async (req: AuthenticatedRequest, res, next) => {
+  try {
+    const currentUserId = req.user!.id;
+    const { roomId } = req.params;
+    const { text, stance } = req.body;
 
-  if (!text || !text.trim()) {
-    res.status(400).json({ error: 'EMPTY_TEXT', message: 'Message cannot be blank.' });
-    return;
-  }
-
-  const msgId = `m-${Date.now()}`;
-  db.prepare(`
-    INSERT INTO room_messages (id, room_id, sender_id, text, stance)
-    VALUES (?, ?, ?, ?, ?)
-  `).run(msgId, roomId, currentUserId, text.trim(), stance || null);
-
-  res.json({
-    success: true,
-    message: {
-      id: msgId,
-      sender: req.user!.handle,
-      isMe: true,
-      text: text.trim(),
-      stance,
-      timestamp: 'Just now'
+    if (!text || !text.trim()) {
+      res.status(400).json({ error: 'EMPTY_TEXT', message: 'Message cannot be blank.' });
+      return;
     }
-  });
+
+    const msgId = `m-${Date.now()}`;
+    await db.roomMessages.create({
+      id: msgId,
+      room_id: roomId,
+      sender_id: currentUserId,
+      text: text.trim(),
+      stance: stance || null
+    });
+
+    res.json({
+      success: true,
+      message: {
+        id: msgId,
+        sender: req.user!.handle,
+        isMe: true,
+        text: text.trim(),
+        stance,
+        timestamp: 'Just now'
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // 7. Issue LiveKit WebRTC Audio Token
-roomsRouter.get('/:roomId/token', optionalAuth, async (req: AuthenticatedRequest, res) => {
-  const roomId = Array.isArray(req.params.roomId) ? req.params.roomId[0] : req.params.roomId;
-  const room = db.prepare('SELECT * FROM rooms WHERE id = ?').get(roomId) as any;
+roomsRouter.get('/:roomId/token', optionalAuth, async (req: AuthenticatedRequest, res, next) => {
+  try {
+    const roomId = Array.isArray(req.params.roomId) ? req.params.roomId[0] : req.params.roomId;
+    const room = await db.rooms.findById(roomId);
 
-  if (!room) {
-    res.status(404).json({ error: 'ROOM_NOT_FOUND', message: 'Audio room not found.' });
-    return;
-  }
-
-  const userId = req.user ? req.user.id : `guest-${Date.now().toString(36)}`;
-  const userHandle = req.user ? req.user.handle : `anonymous_${userId.slice(-4)}`;
-
-  // Determine if participant can speak
-  const participant = req.user ? db.prepare('SELECT role, is_muted FROM room_participants WHERE room_id = ? AND user_id = ?').get(roomId, userId) as any : null;
-  const canPublish = participant ? participant.role === 'speaker' || participant.role === 'host' : false;
-
-  const tokenResult = await createLiveKitToken({
-    identity: userId,
-    roomName: roomId,
-    participantName: userHandle,
-    canPublish,
-    canSubscribe: true,
-    metadata: {
-      handle: userHandle,
-      role: participant?.role || 'listener',
-      isVerified: req.user?.is_verified ? true : false
+    if (!room) {
+      res.status(404).json({ error: 'ROOM_NOT_FOUND', message: 'Audio room not found.' });
+      return;
     }
-  });
 
-  res.json({
-    success: true,
-    roomId,
-    token: tokenResult.token,
-    wsUrl: tokenResult.wsUrl,
-    canPublish,
-    identity: userId,
-    isMock: tokenResult.isMock
-  });
+    const userId = req.user ? req.user.id : `guest-${Date.now().toString(36)}`;
+    const userHandle = req.user ? req.user.handle : `anonymous_${userId.slice(-4)}`;
+
+    // Determine if participant can speak
+    const participant = req.user ? await db.roomParticipants.findByRoomAndUser(roomId, userId) : null;
+    const canPublish = participant ? participant.role === 'speaker' || participant.role === 'host' : false;
+
+    const tokenResult = await createLiveKitToken({
+      identity: userId,
+      roomName: roomId,
+      participantName: userHandle,
+      canPublish,
+      canSubscribe: true,
+      metadata: {
+        handle: userHandle,
+        role: participant?.role || 'listener',
+        isVerified: req.user?.is_verified ? true : false
+      }
+    });
+
+    res.json({
+      success: true,
+      roomId,
+      token: tokenResult.token,
+      wsUrl: tokenResult.wsUrl,
+      canPublish,
+      identity: userId,
+      isMock: tokenResult.isMock
+    });
+  } catch (err) {
+    next(err);
+  }
 });
