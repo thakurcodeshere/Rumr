@@ -199,7 +199,7 @@ discoveryRouter.post('/swipe', requireAuth, async (req: AuthenticatedRequest, re
       if (!hasMsg) {
         const expiresAt = new Date(Date.now() + 300 * 1000).toISOString();
         await db.chatMessages.create({
-          id: `msg-init-${Date.now()}`,
+          id: `msg-init-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
           match_id: matchId,
           sender_id: targetUserId,
           text: `Encrypted Topic Tunnel initiated. Topic Overlap: ${overlappingTitles[0]}. Match Rate: 94%.`,

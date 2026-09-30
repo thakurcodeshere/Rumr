@@ -1,12 +1,14 @@
 import fs from 'fs';
 import path from 'path';
-import Database from 'better-sqlite3';
+import { createRequire } from 'module';
 import { CONFIG } from '../config.js';
 import { DatabaseAdapter } from './interface.js';
 import { SupabaseDatabase } from './supabase-db.js';
 import { SqliteDatabase } from './sqlite-db.js';
 import { getSupabaseClient, isSupabaseConfigured, validateProductionSupabaseConfig } from './supabase.js';
 import { SCHEMA_SQL } from './schema-sql.js';
+
+const require = createRequire(import.meta.url);
 
 export function createDatabaseAdapter(): DatabaseAdapter {
   const isProduction = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
@@ -33,6 +35,7 @@ export function createDatabaseAdapter(): DatabaseAdapter {
     fs.mkdirSync(dbDir, { recursive: true });
   }
 
+  const Database = require('better-sqlite3');
   const sqlite = new Database(CONFIG.DB_PATH);
   sqlite.pragma('journal_mode = WAL');
   sqlite.pragma('foreign_keys = ON');
