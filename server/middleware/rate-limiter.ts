@@ -34,8 +34,8 @@ export function createRateLimiter(options: { windowMs: number; max: number; mess
     const key = `${prefix}:${ip}:${req.baseUrl || ''}${req.path}`;
     const now = Date.now();
 
-    // Check Redis if configured
-    if (redisService.isConfigured()) {
+    // Check Redis if configured (bypass in test mode for local deterministic isolation)
+    if (redisService.isConfigured() && process.env.NODE_ENV !== 'test') {
       try {
         const currentCount = await redisService.get<number>(key) || 0;
         if (currentCount >= options.max) {
@@ -103,7 +103,7 @@ export async function checkEmailOtpRateLimit(email: string): Promise<{ allowed: 
   const key = `rl:email-otp:${cleanEmail}`;
   const now = Date.now();
 
-  if (redisService.isConfigured()) {
+  if (redisService.isConfigured() && process.env.NODE_ENV !== 'test') {
     try {
       const current = await redisService.get<number>(key) || 0;
       if (current >= max) {

@@ -79,6 +79,16 @@ export const emailService = {
       </html>
     `;
 
+    const isTest = process.env.NODE_ENV === 'test';
+    if (isTest) {
+      mockEmailDispatchJournal.push({
+        to: cleanEmail,
+        code: otpCode,
+        timestamp: Date.now()
+      });
+      return { success: true, simulated: true };
+    }
+
     if (this.isConfigured() && resendClient) {
       try {
         const { data, error } = await resendClient.emails.send({

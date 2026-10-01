@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const LEGACY_FALLBACK_JWT = 'rumr-cryptographic-mesh-secret-key-2026-dpdp-ready';
 
 export function validateJwtSecret(envSecret?: string, isProd?: boolean): string {
-  const secret = envSecret || process.env.JWT_SECRET;
+  const secret = envSecret !== undefined ? envSecret : process.env.JWT_SECRET;
   const isProduction = isProd !== undefined ? isProd : (process.env.NODE_ENV === 'production' || !!process.env.VERCEL);
 
   if (isProduction) {
