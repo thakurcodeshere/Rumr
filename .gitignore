@@ -33,3 +33,11 @@ data/*.db*
 data/*.db-journal
 data/*.db-wal
 data/*.db-shm
+
+# Expo & Mobile
+.expo/
+mobile/.expo/
+mobile/dist/
+*.orig.*
+web-build/
+

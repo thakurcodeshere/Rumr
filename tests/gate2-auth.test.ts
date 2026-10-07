@@ -391,5 +391,38 @@ describe('Gate 2 Security Test Matrix: Authentication, Sessions & Secrets', () =
         emailService.sendOtpEmail = originalSend;
       }
     });
+
+    it('returns sandboxMode and previewCode when Resend indicates sandbox domain restriction', async () => {
+      const email = `sandbox.user.${Date.now()}@rumr.io`;
+
+      const originalSend = emailService.sendOtpEmail;
+      emailService.sendOtpEmail = async () => ({
+        success: false,
+        isSandboxRestriction: true,
+        error: 'You can only send testing emails to your own email address'
+      });
+
+      try {
+        const res = await request(app).post('/api/auth/send-otp').send({ email });
+        expect(res.status).toBe(200);
+        expect(res.body.success).toBe(true);
+        expect(res.body.sandboxMode).toBe(true);
+        expect(res.body.previewCode).toMatch(/^\d{6}$/);
+
+        // Verify active OTP is retained in DB and can be verified
+        const activeOtp = await db.authOtps.findLatestActive(email);
+        expect(activeOtp).not.toBeNull();
+
+        // Verify with the previewCode
+        const verifyRes = await request(app).post('/api/auth/verify-otp').send({
+          email,
+          code: res.body.previewCode
+        });
+        expect(verifyRes.status).toBe(200);
+        expect(verifyRes.body.token).toBeDefined();
+      } finally {
+        emailService.sendOtpEmail = originalSend;
+      }
+    });
   });
 });

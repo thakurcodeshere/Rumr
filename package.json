@@ -10,7 +10,10 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "seed:dev": "tsx server/db/seed-cli.ts"
+    "seed:dev": "tsx server/db/seed-cli.ts",
+    "mobile:install": "npm --prefix mobile install",
+    "mobile:start": "npm --prefix mobile run start",
+    "mobile:tunnel": "npm --prefix mobile run tunnel"
   },
   "dependencies": {
     "@sentry/node": "^10.74.0",

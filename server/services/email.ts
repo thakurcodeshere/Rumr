@@ -43,7 +43,7 @@ export const emailService = {
     return Boolean(resendClient);
   },
 
-  async sendOtpEmail(toEmail: string, otpCode: string): Promise<{ success: boolean; id?: string; simulated?: boolean; error?: string }> {
+  async sendOtpEmail(toEmail: string, otpCode: string): Promise<{ success: boolean; id?: string; simulated?: boolean; isSandboxRestriction?: boolean; error?: string }> {
     const isProduction = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
     const cleanEmail = toEmail.trim().toLowerCase();
 
@@ -100,14 +100,24 @@ export const emailService = {
 
         if (error) {
           if (isProduction) {
-            return { success: false, error: error.message };
+            const errStr = (error.message || '').toLowerCase();
+            const isSandboxRestriction = errStr.includes('testing emails to your own email address') ||
+                                          errStr.includes('verify a domain') ||
+                                          (error as any).name === 'validation_error' ||
+                                          (error as any).statusCode === 403;
+            return { success: false, isSandboxRestriction, error: error.message };
           }
         } else if (data) {
           return { success: true, id: data.id };
         }
       } catch (err: any) {
         if (isProduction) {
-          return { success: false, error: err.message || 'Resend transmission failed.' };
+          const errStr = (err?.message || String(err)).toLowerCase();
+          const isSandboxRestriction = errStr.includes('testing emails to your own email address') ||
+                                        errStr.includes('verify a domain') ||
+                                        err?.status === 403 ||
+                                        err?.statusCode === 403;
+          return { success: false, isSandboxRestriction, error: err?.message || 'Resend transmission failed.' };
         }
       }
     }

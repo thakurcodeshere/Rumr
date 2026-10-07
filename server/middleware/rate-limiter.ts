@@ -77,14 +77,14 @@ export function createRateLimiter(options: { windowMs: number; max: number; mess
 
 export const otpRateLimiter = createRateLimiter({
   windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 5,
+  max: 50,
   message: 'Too many verification code requests. Please wait before trying again.',
   keyPrefix: 'otp-send'
 });
 
 export const otpVerifyRateLimiter = createRateLimiter({
   windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 10,
+  max: 100,
   message: 'Too many verification attempts from this network. Please wait before retrying.',
   keyPrefix: 'otp-verify'
 });

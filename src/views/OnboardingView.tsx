@@ -73,6 +73,7 @@ export const OnboardingView: React.FC = () => {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState<string | null>(null);
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [sandboxCode, setSandboxCode] = useState<string | null>(null);
   const [resendTimer, setResendTimer] = useState(60);
 
   // Profile basics states
@@ -119,8 +120,14 @@ export const OnboardingView: React.FC = () => {
     }
     setEmailError(null);
     try {
-      await api.auth.sendOtp(cleanEmail);
-      setOtp(['', '', '', '', '', '']);
+      const res = await api.auth.sendOtp(cleanEmail);
+      if (res && res.previewCode) {
+        setSandboxCode(res.previewCode);
+        setOtp(res.previewCode.split(''));
+      } else {
+        setSandboxCode(null);
+        setOtp(['', '', '', '', '', '']);
+      }
       setResendTimer(60);
       setStep('email_verify');
     } catch (err: any) {
@@ -415,6 +422,33 @@ export const OnboardingView: React.FC = () => {
               Sent to <span className="text-[#ccff00] font-bold">{email}</span>
             </p>
           </div>
+
+          {/* Sandbox Verification Protocol Banner for Unverified Resend Domains */}
+          {sandboxCode && (
+            <div className="bg-[#181818] border-2 border-[#ccff00] p-3 space-y-2 shadow-[4px_4px_0px_#a855f7] animate-in fade-in">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[10px] text-[#ccff00] font-bold uppercase flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5" /> SANDBOX VERIFICATION PROTOCOL
+                </span>
+                <span className="font-mono text-[9px] text-gray-400 uppercase">UNVERIFIED DOMAIN MODE</span>
+              </div>
+              <div className="flex items-center justify-between bg-black p-2 border border-[#333]">
+                <span className="font-mono text-xs text-gray-300">
+                  Verification Code: <strong className="text-[#ccff00] tracking-widest text-sm">{sandboxCode}</strong>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setOtp(sandboxCode.split(''))}
+                  className="px-2.5 py-1 bg-[#ccff00] text-black font-mono text-[10px] font-bold uppercase hover:bg-white transition-colors"
+                >
+                  Auto-Fill
+                </button>
+              </div>
+              <p className="font-mono text-[9px] text-gray-500 leading-tight">
+                Direct inbox delivery requires DNS domain verification at resend.com. Code is generated and pre-filled for instant verification.
+              </p>
+            </div>
+          )}
 
           {/* 6 Digit PIN Boxes */}
           <div className="flex justify-between gap-1.5 sm:gap-2">

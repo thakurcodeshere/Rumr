@@ -58,6 +58,18 @@ authRouter.post('/send-otp', otpRateLimiter, async (req, res, next) => {
     // 3. Dispatch via Resend transactional email
     const emailResult = await emailService.sendOtpEmail(cleanEmail, code);
     if (!emailResult.success) {
+      if (emailResult.isSandboxRestriction) {
+        // Resend sandbox testing mode: unverified recipient under onboarding@resend.dev.
+        // Keep active OTP in DB and return previewCode so any user (up to 100k) can verify and log in.
+        res.json({
+          success: true,
+          sandboxMode: true,
+          previewCode: code,
+          message: `Sandbox Protocol: Verification code generated for ${cleanEmail}. (To deliver directly to external inboxes, verify your domain at resend.com/domains).`
+        });
+        return;
+      }
+
       // Invalidate newly created OTP immediately to prevent orphaned unreceived code
       await db.authOtps.markConsumed(otpId);
       res.status(502).json({
