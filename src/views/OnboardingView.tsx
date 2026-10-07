@@ -476,21 +476,14 @@ export const OnboardingView: React.FC = () => {
       {step === 'getting_started' && (
         <div className="my-auto py-4 space-y-6 animate-in fade-in">
           <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-[#ccff00] text-black font-serif font-black text-xl flex items-center justify-center border-2 border-black">
-                R
-              </div>
-              <BrutalistBadge variant="lime">STEP 1 // ENTRY</BrutalistBadge>
+            <div className="w-8 h-8 bg-[#ccff00] text-black font-serif font-black text-xl flex items-center justify-center border-2 border-black">
+              R
             </div>
             
             <h2 className="font-serif text-3xl sm:text-4xl font-black text-white leading-tight">
               DON'T SWIPE ON PEOPLE.<br />
               <span className="text-[#ccff00]">SWIPE ON TOPICS.</span>
             </h2>
-
-            <p className="font-sans text-sm text-gray-300 leading-relaxed bg-[#141414] p-3 border-l-2 border-[#a855f7]">
-              Find people who want to talk about the same things you do. Identity is defined by conversations and verified email anchors, not curated photos.
-            </p>
           </div>
 
           {/* Action Buttons: Create An Account & Already Have An Account */}
@@ -528,18 +521,9 @@ export const OnboardingView: React.FC = () => {
       {step === 'email_input' && (
         <div className="space-y-5 my-auto animate-in fade-in">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <Mail className="w-4 h-4 text-[#ccff00]" />
-              <BrutalistBadge variant="lime">
-                STEP 2 // {authMode === 'signup' ? 'CREATE AN ACCOUNT' : 'ALREADY HAVE AN ACCOUNT'}
-              </BrutalistBadge>
-            </div>
             <h2 className="font-serif text-2xl sm:text-3xl font-black text-white">
               {authMode === 'signup' ? 'Create Your Account' : 'Welcome Back'}
             </h2>
-            <p className="font-mono text-xs text-gray-400 mt-1">
-              Authenticate via Gmail or email address. Zero phone numbers required.
-            </p>
           </div>
 
           <form onSubmit={handleEmailSubmit} className="space-y-3 bg-[#141414] border-2 border-[#ccff00] p-4 shadow-[4px_4px_0px_#a855f7]">
@@ -607,10 +591,6 @@ export const OnboardingView: React.FC = () => {
       {step === 'email_verify' && (
         <div className="space-y-6 my-auto animate-in fade-in">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <KeyRound className="w-4 h-4 text-[#ccff00]" />
-              <BrutalistBadge variant="lime">STEP 3 // VERIFY CODE</BrutalistBadge>
-            </div>
             <h2 className="font-serif text-2xl sm:text-3xl font-black text-white">
               Enter 6-Digit Code
             </h2>
@@ -692,16 +672,9 @@ export const OnboardingView: React.FC = () => {
       {step === 'profile_details' && (
         <div className="space-y-4 my-auto animate-in fade-in py-1">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <User className="w-4 h-4 text-[#ccff00]" />
-              <BrutalistBadge variant="lime">STEP 4 // PROFILE DETAILS</BrutalistBadge>
-            </div>
             <h2 className="font-serif text-2xl sm:text-3xl font-black text-white">
               Complete Your Profile
             </h2>
-            <p className="font-mono text-xs text-gray-400 mt-1">
-              Set your identity anchor. Verified email cannot be edited.
-            </p>
           </div>
 
           <form onSubmit={handleProfileDetailsSubmit} className="space-y-3 bg-[#141414] border-2 border-[#ccff00] p-4 shadow-[4px_4px_0px_#a855f7]">
@@ -909,13 +882,9 @@ export const OnboardingView: React.FC = () => {
       {step === 'account_done' && (
         <div className="space-y-6 my-auto animate-in fade-in">
           <div className="space-y-2">
-            <BrutalistBadge variant="lime">STEP 5 // ACCOUNT CREATED</BrutalistBadge>
             <h2 className="font-serif text-3xl font-black text-white">
               Account Creation Complete!
             </h2>
-            <p className="font-mono text-xs text-gray-400">
-              Your email is verified and cryptographic identity secured.
-            </p>
           </div>
 
           {/* Verification Badge Confirmation Card */}
@@ -965,13 +934,9 @@ export const OnboardingView: React.FC = () => {
       {step === 'basics' && (
         <div className="space-y-5 my-auto animate-in fade-in">
           <div>
-            <BrutalistBadge variant="purple">STEP 6 // BASICS</BrutalistBadge>
-            <h2 className="font-serif text-2xl sm:text-3xl font-black text-white mt-1">
+            <h2 className="font-serif text-2xl sm:text-3xl font-black text-white">
               About You
             </h2>
-            <p className="font-mono text-xs text-gray-400">
-              Only non-PII matching anchors (No photos or bios required).
-            </p>
           </div>
 
           <div className="space-y-4 bg-[#141414] border-2 border-[#262626] p-4 shadow-[4px_4px_0px_#a855f7]">
@@ -1076,17 +1041,13 @@ export const OnboardingView: React.FC = () => {
         <div className="space-y-4 my-auto animate-in fade-in">
           <div>
             <div className="flex items-center justify-between">
-              <BrutalistBadge variant="lime">STEP 7 // TOPICS</BrutalistBadge>
+              <h2 className="font-serif text-2xl font-black text-white">
+                What's Your Kind of Chaos?
+              </h2>
               <span className={`font-mono text-xs font-bold ${selectedTopics.length === 5 ? 'text-[#ccff00]' : 'text-gray-300'}`}>
                 {selectedTopics.length} / 5 Selected {selectedTopics.length === 5 ? '(Max Limit)' : ''}
               </span>
             </div>
-            <h2 className="font-serif text-2xl font-black text-white mt-1">
-              What's Your Kind of Chaos?
-            </h2>
-            <p className="font-mono text-xs text-gray-400">
-              Choose up to 5 topics (including mentioned options or your created topics).
-            </p>
           </div>
 
           {/* Topic limit warning banner */}
@@ -1239,19 +1200,15 @@ export const OnboardingView: React.FC = () => {
         <div className="space-y-5 my-auto animate-in fade-in">
           <div>
             <div className="flex items-center justify-between">
-              <BrutalistBadge variant="purple">STEP 8 // CUSTOM TOPIC</BrutalistBadge>
+              <h2 className="font-serif text-2xl font-black text-white">
+                Create Your Own Topic
+              </h2>
               <span className="font-mono text-xs text-[#ccff00] font-bold">
                 {hasUnlockedTopicPass || user.boostTier
                   ? `Topic ${createdTopics.length + 1} / 5 (Pro Pass)`
                   : `Topic ${createdTopics.length + 1} / 2 (Free Tier)`}
               </span>
             </div>
-            <h2 className="font-serif text-2xl font-black text-white mt-1">
-              Create Your Own Topic
-            </h2>
-            <p className="font-mono text-xs text-gray-400">
-              Hard constraint: Maximum 3 words. Added directly to your topic selection.
-            </p>
           </div>
 
           <form onSubmit={handleCustomTopicSubmit} className="space-y-4 bg-[#141414] border-2 border-[#333] p-4 shadow-[4px_4px_0px_#a855f7]">
@@ -1314,13 +1271,9 @@ export const OnboardingView: React.FC = () => {
       {step === 'preview' && (
         <div className="space-y-5 my-auto animate-in fade-in">
           <div>
-            <BrutalistBadge variant="lime">STEP 9 // PROFILE READY</BrutalistBadge>
-            <h2 className="font-serif text-2xl sm:text-3xl font-black text-white mt-1">
+            <h2 className="font-serif text-2xl sm:text-3xl font-black text-white">
               Your Topic Profile is Ready
             </h2>
-            <p className="font-mono text-xs text-gray-400">
-              This is what others will see when you appear in their Discovery Deck.
-            </p>
           </div>
 
           {/* Generated Discovery Card Mock */}
@@ -1377,14 +1330,11 @@ export const OnboardingView: React.FC = () => {
             </div>
           </div>
 
-          {/* Minimal Headline & 1-line Subtitle */}
+          {/* Minimal Headline */}
           <div className="space-y-2">
             <h2 className="font-serif text-3xl font-black text-white">
               Location Permission
             </h2>
-            <p className="font-mono text-xs text-gray-400 max-w-xs mx-auto leading-relaxed">
-              We need your location to show people and active topics near you.
-            </p>
           </div>
 
           {/* Minimal Permission Action / Status */}
