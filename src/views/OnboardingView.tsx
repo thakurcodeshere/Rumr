@@ -10,36 +10,42 @@ import {
   Compass, 
   Check, 
   Mail, 
-  Eye, 
   Globe, 
   KeyRound, 
   ShieldCheck, 
   Zap, 
-  AlertTriangle 
+  AlertTriangle,
+  User,
+  Lock,
+  Calendar,
+  Phone,
+  MapPin
 } from 'lucide-react';
 
 import { api } from '../lib/api';
 
 export const OnboardingView: React.FC = () => {
-  const { completeOnboarding, continueAsGuest, userLocation, updateUserLocation } = useApp();
+  const { completeOnboarding, userLocation, updateUserLocation, user, purchaseBoost } = useApp();
   
   // Pipeline State Machine:
   // 1. 'splash' (1.5s auto duration)
-  // 2. 'getting_started' (Entry screen with Sign Up / Sign In buttons)
-  // 3. 'email_input' (Gmail / Email input with 1-tap Google/Gmail & Guest options)
+  // 2. 'getting_started' (Entry screen with Create An Account / Already Have An Account)
+  // 3. 'email_input' (Gmail / Email input)
   // 4. 'email_verify' (6-digit verification code sent to email)
-  // 5. 'account_done' (DONE: Account creation complete & verified checkpoint)
-  // 6. 'basics' (Age, Gender, Intent)
-  // 7. 'topic_select' (Pick 5+ topics)
-  // 8. 'custom_topic' (3-word creator + AI guardrail)
-  // 9. 'preview' (Topic profile card preview)
-  // 10. 'live_location' (Live browser GPS location permission & city mesh lock)
-  // 11. -> Feed (Topic cards discovery)
+  // 5. 'profile_details' (Name, locked Gmail, Age via Calendar/YMD, Optional Phone)
+  // 6. 'account_done' (DONE: Account creation complete & verified checkpoint)
+  // 7. 'basics' (Gender, Intent)
+  // 8. 'topic_select' (Pick 5+ topics)
+  // 9. 'custom_topic' (3-word creator + AI guardrail)
+  // 10. 'preview' (Topic profile card preview)
+  // 11. 'live_location' (Live browser GPS location permission & city mesh lock)
+  // 12. -> Feed (Topic cards discovery)
   const [step, setStep] = useState<
     | 'splash'
     | 'getting_started'
     | 'email_input'
     | 'email_verify'
+    | 'profile_details'
     | 'account_done'
     | 'basics'
     | 'topic_select'
@@ -76,23 +82,161 @@ export const OnboardingView: React.FC = () => {
   const [sandboxCode, setSandboxCode] = useState<string | null>(null);
   const [resendTimer, setResendTimer] = useState(60);
 
+  // Profile Details states (Step 4: Name, Locked Gmail, Age via Calendar/YMD, Optional Phone)
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [detailsError, setDetailsError] = useState<string | null>(null);
+
+  // Calendar / Date of Birth states (for age calculation)
+  const currentYear = new Date().getFullYear();
+  const [birthYear, setBirthYear] = useState<number>(currentYear - 26);
+  const [birthMonth, setBirthMonth] = useState<number>(1);
+  const [birthDay, setBirthDay] = useState<number>(1);
+
+  const monthsList = [
+    { value: 1, name: '01 - Jan' },
+    { value: 2, name: '02 - Feb' },
+    { value: 3, name: '03 - Mar' },
+    { value: 4, name: '04 - Apr' },
+    { value: 5, name: '05 - May' },
+    { value: 6, name: '06 - Jun' },
+    { value: 7, name: '07 - Jul' },
+    { value: 8, name: '08 - Aug' },
+    { value: 9, name: '09 - Sep' },
+    { value: 10, name: '10 - Oct' },
+    { value: 11, name: '11 - Nov' },
+    { value: 12, name: '12 - Dec' }
+  ];
+
+  const yearsList = Array.from({ length: currentYear - 1920 + 1 }, (_, i) => currentYear - i);
+
+  const getDaysInMonth = (year: number, month: number) => {
+    return new Date(year, month, 0).getDate();
+  };
+
+  const calculateAgeFromDOB = (year: number, month: number, day: number) => {
+    const today = new Date();
+    const birthDate = new Date(year, month - 1, day);
+    let calculated = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      calculated--;
+    }
+    return Math.max(0, calculated);
+  };
+
+  const handleDateChange = (dateStr: string) => {
+    if (!dateStr) return;
+    const parts = dateStr.split('-');
+    if (parts.length === 3) {
+      const y = parseInt(parts[0], 10);
+      const m = parseInt(parts[1], 10);
+      const d = parseInt(parts[2], 10);
+      if (!isNaN(y) && !isNaN(m) && !isNaN(d)) {
+        setBirthYear(y);
+        setBirthMonth(m);
+        setBirthDay(d);
+        const calculatedAge = calculateAgeFromDOB(y, m, d);
+        setAge(calculatedAge);
+      }
+    }
+  };
+
+  const handleYearChange = (y: number) => {
+    setBirthYear(y);
+    const maxDays = getDaysInMonth(y, birthMonth);
+    const validDay = Math.min(birthDay, maxDays);
+    if (validDay !== birthDay) setBirthDay(validDay);
+    const calculatedAge = calculateAgeFromDOB(y, birthMonth, validDay);
+    setAge(calculatedAge);
+  };
+
+  const handleMonthChange = (m: number) => {
+    setBirthMonth(m);
+    const maxDays = getDaysInMonth(birthYear, m);
+    const validDay = Math.min(birthDay, maxDays);
+    if (validDay !== birthDay) setBirthDay(validDay);
+    const calculatedAge = calculateAgeFromDOB(birthYear, m, validDay);
+    setAge(calculatedAge);
+  };
+
+  const handleDayChange = (d: number) => {
+    setBirthDay(d);
+    const calculatedAge = calculateAgeFromDOB(birthYear, birthMonth, d);
+    setAge(calculatedAge);
+  };
+
+  const handleProfileDetailsSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!firstName.trim()) {
+      setDetailsError('Please enter your First Name.');
+      return;
+    }
+    if (!lastName.trim()) {
+      setDetailsError('Please enter your Last Name.');
+      return;
+    }
+    if (age < 18) {
+      setDetailsError('You must be at least 18 years old to join Rumr.');
+      return;
+    }
+    setDetailsError(null);
+
+    const fullName = `${firstName.trim()} ${lastName.trim()}`;
+    try {
+      if (api.getToken()) {
+        await api.users.updateMe({
+          realName: fullName,
+          age: age
+        });
+      }
+    } catch (err) {
+      console.warn('Could not update profile details immediately:', err);
+    }
+
+    setStep('account_done');
+  };
+
   // Profile basics states
   const [age, setAge] = useState<number>(26);
   const [gender, setGender] = useState<string>('Non-binary');
+  const [genderPreference, setGenderPreference] = useState<string>('Everyone');
   const [intent, setIntent] = useState<string>('Conversations & Dating');
+
+  const handleGenderSelect = (selectedGender: string) => {
+    setGender(selectedGender);
+    if (selectedGender === 'Man') {
+      setGenderPreference('Women');
+    } else if (selectedGender === 'Woman') {
+      setGenderPreference('Men');
+    } else {
+      setGenderPreference('Everyone');
+    }
+  };
   
   // Topic selection states
-  const availableTopics = [
+  const DEFAULT_TOPICS = [
     'Office Politics', 'Ghosting', 'Startup Drama', 'Situationships',
     'Why People Ghost', 'First Date Disasters', 'Toxic Bosses', 'Bollywood Controversies',
     'Dating After 25', 'Unpopular Opinions', 'Salary Transparency', 'Metro Dating'
   ];
+  const [createdTopics, setCreatedTopics] = useState<string[]>([]);
+  const [hasUnlockedTopicPass, setHasUnlockedTopicPass] = useState<boolean>(false);
+  const [showTopicPaywall, setShowTopicPaywall] = useState<boolean>(false);
+  const [topicLimitWarning, setTopicLimitWarning] = useState<string | null>(null);
+
   const [selectedTopics, setSelectedTopics] = useState<string[]>([
     'Office Politics', 'Ghosting', 'Startup Drama', 'Situationships', 'Why People Ghost'
   ]);
 
-  // Custom 3-word topic state
-  const [customTopicInput, setCustomTopicInput] = useState('Why People Ghost');
+  const allAvailableTopics = [
+    ...createdTopics,
+    ...DEFAULT_TOPICS.filter(t => !createdTopics.includes(t))
+  ];
+
+  // Custom 3-word topic state (starts blank for clean user input)
+  const [customTopicInput, setCustomTopicInput] = useState('');
   const [aiWarning, setAiWarning] = useState<string | null>(null);
 
   // Live Location states
@@ -139,7 +283,7 @@ export const OnboardingView: React.FC = () => {
     const code = otp.join('');
     try {
       await api.auth.verifyOtp(email, code);
-      setStep('account_done');
+      setStep('profile_details');
     } catch (err: any) {
       setEmailError(err.message || 'Invalid or expired verification code.');
     }
@@ -148,29 +292,77 @@ export const OnboardingView: React.FC = () => {
   const toggleTopic = (t: string) => {
     if (selectedTopics.includes(t)) {
       setSelectedTopics(selectedTopics.filter(item => item !== t));
+      setTopicLimitWarning(null);
     } else {
+      if (selectedTopics.length >= 5) {
+        setTopicLimitWarning('Maximum 5 topics reached. Please deselect a topic first to choose another.');
+        return;
+      }
+      setTopicLimitWarning(null);
       setSelectedTopics([...selectedTopics, t]);
     }
   };
 
+  const handleOpenCustomTopicCreator = () => {
+    const isBoosted = user.boostTier || hasUnlockedTopicPass;
+    if (createdTopics.length >= 2 && !isBoosted) {
+      setShowTopicPaywall(true);
+      return;
+    }
+    if (createdTopics.length >= 5) {
+      setTopicLimitWarning('Maximum 5 custom topic cards created (mesh limit reached).');
+      return;
+    }
+    setCustomTopicInput('');
+    setAiWarning(null);
+    setStep('custom_topic');
+  };
+
   const handleCustomTopicSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const words = customTopicInput.trim().split(/\s+/);
+    const cleanTopic = customTopicInput.trim();
+    if (!cleanTopic) {
+      setAiWarning('Please enter a topic title (1-3 words).');
+      return;
+    }
+
+    const words = cleanTopic.split(/\s+/).filter(Boolean);
     if (words.length > 3) {
       setAiWarning('Hard constraint: Maximum 3 words allowed. Try: "Why People Ghost" or "Office Politics".');
       return;
     }
 
-    const lower = customTopicInput.toLowerCase();
+    const lower = cleanTopic.toLowerCase();
     if (lower.includes('rahul') || lower.includes('priya') || lower.includes('boss steals') || lower.includes('cheating on')) {
       setAiWarning('AI Policy Intercept: Personal accusations/targeting not permitted under DPDP Act & Safety Guardrails. Suggested: "Why People Cheat" or "Workplace Drama".');
       return;
     }
 
-    setAiWarning(null);
-    if (!selectedTopics.includes(customTopicInput)) {
-      setSelectedTopics([...selectedTopics, customTopicInput]);
+    const isBoosted = user.boostTier || hasUnlockedTopicPass;
+    if (createdTopics.length >= 2 && !isBoosted) {
+      setShowTopicPaywall(true);
+      return;
     }
+
+    setAiWarning(null);
+
+    // 1. Add to createdTopics list if not already present
+    if (!createdTopics.includes(cleanTopic)) {
+      setCreatedTopics(prev => [cleanTopic, ...prev]);
+    }
+
+    // 2. Add to selectedTopics (ensuring max 5 topics total)
+    if (!selectedTopics.includes(cleanTopic)) {
+      if (selectedTopics.length < 5) {
+        setSelectedTopics(prev => [cleanTopic, ...prev]);
+      } else {
+        // If 5 topics already selected, replace the 5th topic so total remains exactly 5!
+        setSelectedTopics(prev => [cleanTopic, ...prev.slice(0, 4)]);
+      }
+    }
+
+    setTopicLimitWarning(null);
+    setCustomTopicInput('');
     setStep('topic_select');
   };
 
@@ -222,6 +414,15 @@ export const OnboardingView: React.FC = () => {
   const handleFinishOnboarding = () => {
     const coordsToSave = detectedCoords || { lat: 28.4595, lng: 77.0266 };
     updateUserLocation(activeCity, coordsToSave);
+    if (typeof window !== 'undefined') {
+      const prefMap: Record<string, string> = {
+        'Men': 'men',
+        'Women': 'women',
+        'Everyone': 'everyone',
+        'Non-binary': 'everyone'
+      };
+      localStorage.setItem('rumr_gender_preference', prefMap[genderPreference] || 'everyone');
+    }
     completeOnboarding(
       'anonymous_ghost_42',
       email,
@@ -292,7 +493,7 @@ export const OnboardingView: React.FC = () => {
             </p>
           </div>
 
-          {/* Action Buttons: Sign Up & Sign In */}
+          {/* Action Buttons: Create An Account & Already Have An Account */}
           <div className="space-y-3 pt-2">
             <BrutalistButton
               variant="primary"
@@ -303,7 +504,7 @@ export const OnboardingView: React.FC = () => {
               }}
               className="w-full justify-center text-base font-black shadow-[4px_4px_0px_#a855f7]"
             >
-              SIGN UP (CREATE ACCOUNT) <ArrowRight className="w-4 h-4 ml-1" />
+              CREATE AN ACCOUNT <ArrowRight className="w-4 h-4 ml-1" />
             </BrutalistButton>
 
             <button
@@ -315,15 +516,7 @@ export const OnboardingView: React.FC = () => {
               className="w-full py-3 bg-[#181818] border-2 border-[#333] hover:border-white text-white font-mono text-xs font-bold uppercase transition-colors flex items-center justify-center gap-2"
             >
               <KeyRound className="w-3.5 h-3.5 text-[#ccff00]" />
-              Already have an account? Sign In
-            </button>
-
-            <button
-              type="button"
-              onClick={() => continueAsGuest()}
-              className="w-full py-2.5 bg-[#121212] hover:bg-[#1a1a1a] text-gray-400 hover:text-white border border-[#222] font-mono text-xs font-bold uppercase transition-colors flex items-center justify-center gap-1.5"
-            >
-              <Eye className="w-3.5 h-3.5" /> Continue As Guest (Preview Mode)
+              Already have an account
             </button>
           </div>
         </div>
@@ -338,7 +531,7 @@ export const OnboardingView: React.FC = () => {
             <div className="flex items-center gap-2 mb-1">
               <Mail className="w-4 h-4 text-[#ccff00]" />
               <BrutalistBadge variant="lime">
-                STEP 2 // {authMode === 'signup' ? 'CREATE ACCOUNT' : 'SIGN IN'}
+                STEP 2 // {authMode === 'signup' ? 'CREATE AN ACCOUNT' : 'ALREADY HAVE AN ACCOUNT'}
               </BrutalistBadge>
             </div>
             <h2 className="font-serif text-2xl sm:text-3xl font-black text-white">
@@ -392,14 +585,17 @@ export const OnboardingView: React.FC = () => {
             </p>
           </form>
 
-          {/* Guest Option */}
+          {/* Back Option */}
           <div className="bg-[#121212] border border-[#222] p-3 text-center">
             <button
               type="button"
-              onClick={() => continueAsGuest()}
+              onClick={() => {
+                setStep('getting_started');
+                setEmailError(null);
+              }}
               className="font-mono text-xs text-gray-400 hover:text-white transition-colors"
             >
-              ← Want to browse first? Continue as Guest
+              ← Back
             </button>
           </div>
         </div>
@@ -485,8 +681,225 @@ export const OnboardingView: React.FC = () => {
             onClick={handleVerifyOtp}
             className="w-full justify-center font-black text-sm shadow-[4px_4px_0px_#a855f7]"
           >
-            VERIFY CODE & FINISH ACCOUNT CREATION <ArrowRight className="w-4 h-4 ml-1" />
+            VERIFY CODE & CONTINUE <ArrowRight className="w-4 h-4 ml-1" />
           </BrutalistButton>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* 4. SCREEN 04 — USER PROFILE DETAILS (SCR-004B) */}
+      {/* ========================================================================= */}
+      {step === 'profile_details' && (
+        <div className="space-y-4 my-auto animate-in fade-in py-1">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <User className="w-4 h-4 text-[#ccff00]" />
+              <BrutalistBadge variant="lime">STEP 4 // PROFILE DETAILS</BrutalistBadge>
+            </div>
+            <h2 className="font-serif text-2xl sm:text-3xl font-black text-white">
+              Complete Your Profile
+            </h2>
+            <p className="font-mono text-xs text-gray-400 mt-1">
+              Set your identity anchor. Verified email cannot be edited.
+            </p>
+          </div>
+
+          <form onSubmit={handleProfileDetailsSubmit} className="space-y-3 bg-[#141414] border-2 border-[#ccff00] p-4 shadow-[4px_4px_0px_#a855f7]">
+            {/* 1. Name: First Name + Last Name */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <label className="font-mono text-xs text-gray-300 block">
+                  First Name <span className="text-[#ccff00]">*</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    required
+                    value={firstName}
+                    onChange={e => {
+                      setFirstName(e.target.value);
+                      setDetailsError(null);
+                    }}
+                    placeholder="First Name"
+                    className="w-full bg-[#0a0a0a] border-2 border-[#333] focus:border-[#ccff00] px-3 py-2 font-mono text-sm text-white outline-none pl-8"
+                  />
+                  <User className="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-3" />
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="font-mono text-xs text-gray-300 block">
+                  Last Name <span className="text-[#ccff00]">*</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    required
+                    value={lastName}
+                    onChange={e => {
+                      setLastName(e.target.value);
+                      setDetailsError(null);
+                    }}
+                    placeholder="Last Name"
+                    className="w-full bg-[#0a0a0a] border-2 border-[#333] focus:border-[#ccff00] px-3 py-2 font-mono text-sm text-white outline-none pl-8"
+                  />
+                  <User className="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-3" />
+                </div>
+              </div>
+            </div>
+
+            {/* 2. Registered Gmail / Email (Already filled, cannot be edited) */}
+            <div className="space-y-1">
+              <div className="flex items-center justify-between">
+                <label className="font-mono text-xs text-gray-300 flex items-center gap-1.5">
+                  <Mail className="w-3.5 h-3.5 text-[#ccff00]" /> Registered Gmail / Email
+                </label>
+                <span className="font-mono text-[10px] text-gray-400 bg-[#1c1c1c] border border-[#333] px-1.5 py-0.5 uppercase flex items-center gap-1">
+                  <Lock className="w-2.5 h-2.5 text-[#ccff00]" /> Can't be edited
+                </span>
+              </div>
+              <div className="relative">
+                <input
+                  type="email"
+                  readOnly
+                  disabled
+                  value={email}
+                  className="w-full bg-[#070707] border-2 border-[#262626] text-gray-400 px-3 py-2 font-mono text-sm outline-none cursor-not-allowed pl-8 select-none"
+                />
+                <Lock className="w-3.5 h-3.5 text-gray-500 absolute left-2.5 top-3" />
+              </div>
+              <span className="font-mono text-[10px] text-gray-500">
+                Verified anchor from OTP session. Locked to this account.
+              </span>
+            </div>
+
+            {/* 3. Filling Age: Calendar Date Picker & Year/Month/Day Selectors */}
+            <div className="space-y-2 pt-1">
+              <div className="flex items-center justify-between">
+                <label className="font-mono text-xs text-gray-300 flex items-center gap-1.5">
+                  <Calendar className="w-3.5 h-3.5 text-[#ccff00]" /> Date of Birth & Age
+                </label>
+                <span className="font-mono text-[11px] text-[#ccff00] uppercase font-bold">
+                  {age >= 18 ? `Age: ${age} Years` : 'Age: Under 18'}
+                </span>
+              </div>
+
+              {/* Native Calendar Picker */}
+              <div className="relative">
+                <input
+                  type="date"
+                  value={`${birthYear}-${String(birthMonth).padStart(2, '0')}-${String(birthDay).padStart(2, '0')}`}
+                  max={`${currentYear}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`}
+                  min="1920-01-01"
+                  onChange={e => handleDateChange(e.target.value)}
+                  className="w-full bg-[#0a0a0a] border-2 border-[#333] focus:border-[#ccff00] px-3 py-2 font-mono text-sm text-white outline-none pl-8 [color-scheme:dark]"
+                />
+                <Calendar className="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-3 pointer-events-none" />
+              </div>
+
+              {/* Year, Month, Day Dropdowns */}
+              <div className="grid grid-cols-3 gap-2">
+                <div>
+                  <label className="font-mono text-[10px] text-gray-400 block mb-0.5">Day</label>
+                  <select
+                    value={birthDay}
+                    onChange={e => handleDayChange(parseInt(e.target.value, 10))}
+                    className="w-full bg-[#0a0a0a] border-2 border-[#333] focus:border-[#ccff00] px-2 py-1.5 font-mono text-xs text-white outline-none"
+                  >
+                    {Array.from({ length: getDaysInMonth(birthYear, birthMonth) }, (_, i) => i + 1).map(d => (
+                      <option key={d} value={d}>
+                        {d < 10 ? `0${d}` : d}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="font-mono text-[10px] text-gray-400 block mb-0.5">Month</label>
+                  <select
+                    value={birthMonth}
+                    onChange={e => handleMonthChange(parseInt(e.target.value, 10))}
+                    className="w-full bg-[#0a0a0a] border-2 border-[#333] focus:border-[#ccff00] px-2 py-1.5 font-mono text-xs text-white outline-none"
+                  >
+                    {monthsList.map(m => (
+                      <option key={m.value} value={m.value}>
+                        {m.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="font-mono text-[10px] text-gray-400 block mb-0.5">Year</label>
+                  <select
+                    value={birthYear}
+                    onChange={e => handleYearChange(parseInt(e.target.value, 10))}
+                    className="w-full bg-[#0a0a0a] border-2 border-[#333] focus:border-[#ccff00] px-2 py-1.5 font-mono text-xs text-white outline-none"
+                  >
+                    {yearsList.map(y => (
+                      <option key={y} value={y}>
+                        {y}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Calculated Age Feedback */}
+              <div className="flex items-center justify-between p-2 bg-[#090909] border border-[#222] font-mono text-xs">
+                <span className="text-gray-400">
+                  Calculated: <strong className="text-white">{age} years old</strong>
+                </span>
+                {age >= 18 ? (
+                  <span className="text-[#ccff00] text-[10px] font-bold">
+                    ✓ 18+ REQUIREMENT MET
+                  </span>
+                ) : (
+                  <span className="text-red-400 text-[10px] font-bold">
+                    ⚠️ MUST BE AT LEAST 18
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* 4. Phone Number (Optional) */}
+            <div className="space-y-1">
+              <div className="flex items-center justify-between">
+                <label className="font-mono text-xs text-gray-300 flex items-center gap-1.5">
+                  <Phone className="w-3.5 h-3.5 text-[#ccff00]" /> Phone Number
+                </label>
+                <span className="font-mono text-[10px] text-gray-500 uppercase font-bold">OPTIONAL</span>
+              </div>
+              <div className="relative">
+                <input
+                  type="tel"
+                  value={phoneNumber}
+                  onChange={e => setPhoneNumber(e.target.value)}
+                  placeholder="+91 98765 43210 (Optional)"
+                  className="w-full bg-[#0a0a0a] border-2 border-[#333] focus:border-[#ccff00] px-3 py-2 font-mono text-sm text-white outline-none pl-8"
+                />
+                <Phone className="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-3" />
+              </div>
+              <span className="font-mono text-[10px] text-gray-500">
+                Optional recovery channel. You can leave this blank.
+              </span>
+            </div>
+
+            {detailsError && (
+              <div className="font-mono text-xs text-red-400 p-2 bg-red-950/40 border border-red-800">
+                {detailsError}
+              </div>
+            )}
+
+            <BrutalistButton
+              type="submit"
+              variant="primary"
+              size="lg"
+              className="w-full justify-center text-xs font-black shadow-[2px_2px_0px_#a855f7]"
+            >
+              SAVE DETAILS & CREATE ACCOUNT <ArrowRight className="w-4 h-4 ml-1" />
+            </BrutalistButton>
+          </form>
         </div>
       )}
 
@@ -496,7 +909,7 @@ export const OnboardingView: React.FC = () => {
       {step === 'account_done' && (
         <div className="space-y-6 my-auto animate-in fade-in">
           <div className="space-y-2">
-            <BrutalistBadge variant="lime">STEP 4 // ACCOUNT CREATED</BrutalistBadge>
+            <BrutalistBadge variant="lime">STEP 5 // ACCOUNT CREATED</BrutalistBadge>
             <h2 className="font-serif text-3xl font-black text-white">
               Account Creation Complete!
             </h2>
@@ -513,12 +926,19 @@ export const OnboardingView: React.FC = () => {
                 <span className="font-mono text-xs font-bold text-white uppercase">STATUS: VERIFIED</span>
               </div>
               <span className="font-mono text-[10px] bg-[#222] text-[#ccff00] px-2 py-0.5 border border-[#333]">
-                100% PHONE-FREE
+                {phoneNumber.trim() ? 'SECURED ANCHOR' : '100% PHONE-FREE'}
               </span>
             </div>
 
             <div className="space-y-1 font-mono text-xs text-gray-300">
+              {firstName && (
+                <div>Name: <strong className="text-white">{firstName} {lastName}</strong></div>
+              )}
               <div>Authenticated Email: <strong className="text-white">{email}</strong></div>
+              <div>Age: <strong className="text-[#ccff00]">{age} Years</strong></div>
+              {phoneNumber.trim() && (
+                <div>Phone: <strong className="text-gray-300">{phoneNumber}</strong></div>
+              )}
               <div>Anonymous Hash ID: <strong className="text-[#ddb7ff]">anon_mesh_9482</strong></div>
               <div>Protection: <strong className="text-[#ccff00]">Zero-Knowledge DPDP Compliant</strong></div>
             </div>
@@ -545,7 +965,7 @@ export const OnboardingView: React.FC = () => {
       {step === 'basics' && (
         <div className="space-y-5 my-auto animate-in fade-in">
           <div>
-            <BrutalistBadge variant="purple">STEP 5 // BASICS</BrutalistBadge>
+            <BrutalistBadge variant="purple">STEP 6 // BASICS</BrutalistBadge>
             <h2 className="font-serif text-2xl sm:text-3xl font-black text-white mt-1">
               About You
             </h2>
@@ -554,57 +974,81 @@ export const OnboardingView: React.FC = () => {
             </p>
           </div>
 
-          <div className="space-y-4 bg-[#141414] border-2 border-[#262626] p-4">
-            {/* Age Slider */}
-            <div className="space-y-1">
-              <div className="flex justify-between font-mono text-xs">
-                <span className="text-gray-300">Your Age</span>
-                <span className="font-bold text-[#ccff00] text-sm">{age} years</span>
+          <div className="space-y-4 bg-[#141414] border-2 border-[#262626] p-4 shadow-[4px_4px_0px_#a855f7]">
+            {/* Gender Identity & Gender Preference Side-by-Side (Opposite) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Gender Identity */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <label className="font-mono text-xs text-gray-300 font-bold uppercase">
+                    Gender Identity
+                  </label>
+                  <span className="font-mono text-[10px] text-[#ccff00] uppercase font-bold">
+                    I am: {gender}
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 gap-2 pt-0.5">
+                  {['Woman', 'Man', 'Non-binary', 'Fluid'].map(item => (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() => handleGenderSelect(item)}
+                      className={`font-mono text-[11px] p-2.5 border text-center font-bold transition-all ${
+                        gender === item 
+                          ? 'bg-[#ccff00] text-black border-[#ccff00] shadow-[2px_2px_0px_#a855f7]' 
+                          : 'bg-[#181818] text-gray-400 border-[#333] hover:border-gray-400 hover:text-white'
+                      }`}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <input
-                type="range"
-                min={18}
-                max={50}
-                value={age}
-                onChange={e => setAge(parseInt(e.target.value))}
-                className="w-full accent-[#ccff00] cursor-pointer"
-              />
-            </div>
 
-            {/* Gender Identity */}
-            <div className="space-y-1">
-              <label className="font-mono text-xs text-gray-300">Gender Identity</label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
-                {['Woman', 'Man', 'Non-binary', 'Fluid'].map(item => (
-                  <button
-                    key={item}
-                    type="button"
-                    onClick={() => setGender(item)}
-                    className={`font-mono text-[11px] p-2 border text-center font-bold transition-all ${
-                      gender === item 
-                        ? 'bg-[#ccff00] text-black border-[#ccff00]' 
-                        : 'bg-[#181818] text-gray-400 border-[#333]'
-                    }`}
-                  >
-                    {item}
-                  </button>
-                ))}
+              {/* Gender Preference (Opposite Column Beside Gender Identity) */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <label className="font-mono text-xs text-gray-300 font-bold uppercase">
+                    Gender Preference
+                  </label>
+                  <span className="font-mono text-[10px] text-[#a855f7] uppercase font-bold">
+                    Seeking: {genderPreference}
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 gap-2 pt-0.5">
+                  {['Men', 'Women', 'Everyone', 'Non-binary'].map(item => (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() => setGenderPreference(item)}
+                      className={`font-mono text-[11px] p-2.5 border text-center font-bold transition-all ${
+                        genderPreference === item 
+                          ? 'bg-[#a855f7] text-white border-[#a855f7] shadow-[2px_2px_0px_#ccff00]' 
+                          : 'bg-[#181818] text-gray-400 border-[#333] hover:border-gray-400 hover:text-white'
+                      }`}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 
             {/* Intent */}
-            <div className="space-y-1">
-              <label className="font-mono text-xs text-gray-300">What are you looking for?</label>
+            <div className="space-y-1 pt-2 border-t border-[#222]">
+              <label className="font-mono text-xs text-gray-300 font-bold uppercase">
+                What are you looking for?
+              </label>
               <div className="grid grid-cols-2 gap-2 pt-1">
                 {['Conversations & Dating', 'Friendship', 'Startup & Tech Debates', 'Open to Everything'].map(item => (
                   <button
                     key={item}
                     type="button"
                     onClick={() => setIntent(item)}
-                    className={`font-mono text-[11px] p-2 border text-left font-bold transition-all ${
+                    className={`font-mono text-[11px] p-2.5 border text-left font-bold transition-all ${
                       intent === item 
-                        ? 'bg-[#ccff00] text-black border-[#ccff00]' 
-                        : 'bg-[#181818] text-gray-400 border-[#333]'
+                        ? 'bg-[#ccff00] text-black border-[#ccff00] shadow-[2px_2px_0px_#a855f7]' 
+                        : 'bg-[#181818] text-gray-400 border-[#333] hover:border-gray-400 hover:text-white'
                     }`}
                   >
                     {item}
@@ -618,7 +1062,7 @@ export const OnboardingView: React.FC = () => {
             variant="primary"
             size="lg"
             onClick={() => setStep('topic_select')}
-            className="w-full justify-center font-bold"
+            className="w-full justify-center font-bold shadow-[4px_4px_0px_#a855f7]"
           >
             NEXT: PICK TOPICS <ArrowRight className="w-4 h-4 ml-1" />
           </BrutalistButton>
@@ -632,23 +1076,38 @@ export const OnboardingView: React.FC = () => {
         <div className="space-y-4 my-auto animate-in fade-in">
           <div>
             <div className="flex items-center justify-between">
-              <BrutalistBadge variant="lime">STEP 6 // TOPICS</BrutalistBadge>
-              <span className="font-mono text-xs text-[#ccff00] font-bold">
-                {selectedTopics.length} / 5 Selected
+              <BrutalistBadge variant="lime">STEP 7 // TOPICS</BrutalistBadge>
+              <span className={`font-mono text-xs font-bold ${selectedTopics.length === 5 ? 'text-[#ccff00]' : 'text-gray-300'}`}>
+                {selectedTopics.length} / 5 Selected {selectedTopics.length === 5 ? '(Max Limit)' : ''}
               </span>
             </div>
             <h2 className="font-serif text-2xl font-black text-white mt-1">
               What's Your Kind of Chaos?
             </h2>
             <p className="font-mono text-xs text-gray-400">
-              Pick at least 5 topics to construct your initial matching graph.
+              Choose up to 5 topics (including mentioned options or your created topics).
             </p>
           </div>
 
+          {/* Topic limit warning banner */}
+          {topicLimitWarning && (
+            <div className="bg-[#241712] border-2 border-[#ff9900] p-2.5 text-xs text-yellow-200 font-mono flex items-center justify-between animate-in fade-in">
+              <span>⚠️ {topicLimitWarning}</span>
+              <button 
+                type="button" 
+                onClick={() => setTopicLimitWarning(null)}
+                className="text-white hover:text-[#ff9900] ml-2 font-bold px-1"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+
           {/* Topics Chip Grid */}
           <div className="grid grid-cols-2 gap-2 max-h-[250px] overflow-y-auto pr-1">
-            {availableTopics.map(topic => {
+            {allAvailableTopics.map(topic => {
               const isSelected = selectedTopics.includes(topic);
+              const isCustom = createdTopics.includes(topic);
               return (
                 <button
                   key={topic}
@@ -660,8 +1119,15 @@ export const OnboardingView: React.FC = () => {
                       : 'bg-[#121212] border-[#262626] text-gray-400 hover:text-white'
                   }`}
                 >
-                  <span className="truncate">#{topic}</span>
-                  {isSelected && <Check className="w-3.5 h-3.5 text-[#ccff00]" />}
+                  <div className="flex items-center gap-1.5 truncate mr-1">
+                    <span className="truncate">#{topic}</span>
+                    {isCustom && (
+                      <span className="font-mono text-[9px] bg-[#a855f7] text-white px-1 py-0.5 border border-[#c084fc] font-bold uppercase shrink-0">
+                        CREATED
+                      </span>
+                    )}
+                  </div>
+                  {isSelected && <Check className="w-3.5 h-3.5 text-[#ccff00] shrink-0" />}
                 </button>
               );
             })}
@@ -671,22 +1137,98 @@ export const OnboardingView: React.FC = () => {
           <div className="space-y-2 pt-2">
             <button
               type="button"
-              onClick={() => setStep('custom_topic')}
-              className="w-full py-2 bg-[#181818] border border-dashed border-[#a855f7] text-[#ddb7ff] hover:text-white font-mono text-xs font-bold flex items-center justify-center gap-1"
+              onClick={handleOpenCustomTopicCreator}
+              className="w-full py-2.5 bg-[#181818] border border-dashed border-[#a855f7] hover:border-[#ccff00] text-[#ddb7ff] hover:text-white font-mono text-xs font-bold flex items-center justify-center gap-2 transition-colors"
             >
-              + Create Your Own Topic (Max 3 Words)
+              <span>+ Create Your Own Topic (Max 3 Words)</span>
+              <span className="text-[10px] bg-[#24172e] border border-[#a855f7] px-1.5 py-0.5 text-[#ccff00] font-bold">
+                {createdTopics.length >= 2 && !hasUnlockedTopicPass && !user.boostTier
+                  ? '2/2 FREE USED • PRO FOR 3-5'
+                  : `${createdTopics.length}/2 FREE`}
+              </span>
             </button>
 
             <BrutalistButton
               variant="primary"
               size="lg"
-              disabled={selectedTopics.length < 5}
+              disabled={selectedTopics.length === 0 || selectedTopics.length > 5}
               onClick={() => setStep('preview')}
               className="w-full justify-center disabled:opacity-30 font-bold"
             >
-              CONTINUE TO CARD PREVIEW <ArrowRight className="w-4 h-4 ml-1" />
+              CONTINUE TO CARD PREVIEW ({selectedTopics.length}/5) <ArrowRight className="w-4 h-4 ml-1" />
             </BrutalistButton>
           </div>
+
+          {/* Custom Topic 3-5 Paywall Modal */}
+          {showTopicPaywall && (
+            <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
+              <div className="bg-[#141414] border-2 border-[#ccff00] p-5 max-w-sm w-full space-y-4 shadow-[6px_6px_0px_#a855f7]">
+                <div className="flex items-center justify-between border-b border-[#262626] pb-2">
+                  <div className="flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-[#ccff00]" />
+                    <span className="font-mono text-xs font-bold text-white uppercase">TOPIC CREATOR PASS</span>
+                  </div>
+                  <span className="font-mono text-[10px] bg-[#a855f7] text-white px-1.5 py-0.5 font-bold">
+                    PRO FEATURE
+                  </span>
+                </div>
+
+                <div className="space-y-2">
+                  <h3 className="font-serif text-xl font-bold text-white">
+                    Create 3 to 5 Custom Topics
+                  </h3>
+                  <p className="font-mono text-xs text-gray-300 leading-relaxed">
+                    Free tier includes up to <strong className="text-[#ccff00]">2 custom topics</strong> (already used: {createdTopics.length}/2). Creating 3 to 5 custom topic cards requires the Topic Creator Pass.
+                  </p>
+                </div>
+
+                <div className="bg-[#0a0a0a] p-3 border border-[#262626] space-y-1.5 font-mono text-xs text-gray-400">
+                  <div className="flex justify-between text-white font-bold pb-1 border-b border-[#222]">
+                    <span>Creator Pass</span>
+                    <span className="text-[#ccff00] text-sm">₹199 / $4.99</span>
+                  </div>
+                  <div className="text-[11px] flex items-center gap-1.5 text-gray-300 pt-1">
+                    ✓ Unlock up to 5 custom topic cards
+                  </div>
+                  <div className="text-[11px] flex items-center gap-1.5 text-gray-300">
+                    ✓ Pinned in regional debate radar
+                  </div>
+                  <div className="text-[11px] flex items-center gap-1.5 text-gray-300">
+                    ✓ Priority bilateral matching
+                  </div>
+                </div>
+
+                <div className="space-y-2 pt-1">
+                  <BrutalistButton
+                    variant="primary"
+                    size="md"
+                    className="w-full justify-center text-xs font-black"
+                    onClick={async () => {
+                      try {
+                        await purchaseBoost('Topic Pulse');
+                      } catch (err) {
+                        console.warn('Boost charge simulation:', err);
+                      }
+                      setHasUnlockedTopicPass(true);
+                      setShowTopicPaywall(false);
+                      setCustomTopicInput('');
+                      setStep('custom_topic');
+                    }}
+                  >
+                    <Zap className="w-3.5 h-3.5" /> UNLOCK 3–5 TOPICS PASS ($4.99)
+                  </BrutalistButton>
+
+                  <button
+                    type="button"
+                    onClick={() => setShowTopicPaywall(false)}
+                    className="w-full py-2 bg-[#181818] border border-[#333] hover:border-white text-gray-400 hover:text-white font-mono text-xs transition-colors"
+                  >
+                    Keep 2 Free Topics (Cancel)
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
@@ -696,33 +1238,44 @@ export const OnboardingView: React.FC = () => {
       {step === 'custom_topic' && (
         <div className="space-y-5 my-auto animate-in fade-in">
           <div>
-            <BrutalistBadge variant="purple">STEP 7 // CUSTOM TOPIC</BrutalistBadge>
+            <div className="flex items-center justify-between">
+              <BrutalistBadge variant="purple">STEP 8 // CUSTOM TOPIC</BrutalistBadge>
+              <span className="font-mono text-xs text-[#ccff00] font-bold">
+                {hasUnlockedTopicPass || user.boostTier
+                  ? `Topic ${createdTopics.length + 1} / 5 (Pro Pass)`
+                  : `Topic ${createdTopics.length + 1} / 2 (Free Tier)`}
+              </span>
+            </div>
             <h2 className="font-serif text-2xl font-black text-white mt-1">
               Create Your Own Topic
             </h2>
             <p className="font-mono text-xs text-gray-400">
-              Hard constraint: Maximum 3 words. Screened by AI anti-targeting shield.
+              Hard constraint: Maximum 3 words. Added directly to your topic selection.
             </p>
           </div>
 
-          <form onSubmit={handleCustomTopicSubmit} className="space-y-4 bg-[#141414] border-2 border-[#333] p-4">
+          <form onSubmit={handleCustomTopicSubmit} className="space-y-4 bg-[#141414] border-2 border-[#333] p-4 shadow-[4px_4px_0px_#a855f7]">
             <div className="space-y-1">
               <div className="flex justify-between font-mono text-xs">
-                <span className="text-gray-300">Topic Title</span>
+                <span className="text-gray-300">Topic Title (Max 3 Words)</span>
                 <span className="text-[#a855f7] font-bold">
                   {customTopicInput.trim().split(/\s+/).filter(Boolean).length} / 3 words
                 </span>
               </div>
               <input
                 type="text"
+                autoFocus
                 value={customTopicInput}
                 onChange={e => {
                   setCustomTopicInput(e.target.value);
                   setAiWarning(null);
                 }}
-                placeholder="e.g. Why People Ghost"
+                placeholder="e.g. AI Ethics Debate"
                 className="w-full bg-[#0a0a0a] border-2 border-[#333] focus:border-[#ccff00] px-3 py-2.5 font-mono text-sm text-white outline-none"
               />
+              <span className="font-mono text-[10px] text-gray-500 block">
+                Up to 2 custom topics free. Charge applies for creating 3 to 5 custom topics.
+              </span>
             </div>
 
             {aiWarning && (
@@ -740,7 +1293,7 @@ export const OnboardingView: React.FC = () => {
                 onClick={() => setStep('topic_select')}
                 className="flex-1 py-2.5 bg-[#181818] border border-[#333] text-gray-300 font-mono text-xs font-bold"
               >
-                Back
+                Back to Topics
               </button>
               <BrutalistButton
                 type="submit"
@@ -748,7 +1301,7 @@ export const OnboardingView: React.FC = () => {
                 size="md"
                 className="flex-1 justify-center"
               >
-                ADD TOPIC
+                ADD TOPIC <ArrowRight className="w-4 h-4 ml-1" />
               </BrutalistButton>
             </div>
           </form>
@@ -761,7 +1314,7 @@ export const OnboardingView: React.FC = () => {
       {step === 'preview' && (
         <div className="space-y-5 my-auto animate-in fade-in">
           <div>
-            <BrutalistBadge variant="lime">STEP 8 // PROFILE READY</BrutalistBadge>
+            <BrutalistBadge variant="lime">STEP 9 // PROFILE READY</BrutalistBadge>
             <h2 className="font-serif text-2xl sm:text-3xl font-black text-white mt-1">
               Your Topic Profile is Ready
             </h2>
@@ -802,155 +1355,122 @@ export const OnboardingView: React.FC = () => {
             onClick={() => setStep('live_location')}
             className="w-full justify-center text-sm font-black shadow-[4px_4px_0px_#a855f7]"
           >
-            PROCEED TO LIVE LOCATION LOCK <ArrowRight className="w-4 h-4 ml-1" />
+            LOCATION PERMISSION <ArrowRight className="w-4 h-4 ml-1" />
           </BrutalistButton>
         </div>
       )}
 
       {/* ========================================================================= */}
-      {/* 10. SCREEN 10 — LIVE LOCATION PERMISSION & MESH LOCK (SCR-010) */}
+      {/* 10. SCREEN 10 — LOCATION PERMISSION (MINIMAL TINDER-STYLE) */}
       {/* ========================================================================= */}
       {step === 'live_location' && (
-        <div className="space-y-5 my-auto animate-in fade-in">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <Compass className="w-4 h-4 text-[#ccff00]" />
-              <BrutalistBadge variant="lime">STEP 9 // LIVE LOCATION LOCK</BrutalistBadge>
+        <div className="space-y-6 my-auto animate-in fade-in max-w-sm mx-auto text-center py-4">
+          {/* Minimal Central MapPin with subtle pulse ring */}
+          <div className="relative mx-auto w-24 h-24 flex items-center justify-center">
+            <div className={`absolute inset-0 rounded-full border border-[#ccff00]/20 ${locationStatus === 'detecting' || isRequestingLocation ? 'animate-ping' : ''}`} />
+            <div className="w-20 h-20 bg-[#161616] border-2 border-[#ccff00] rounded-full flex items-center justify-center shadow-[4px_4px_0px_#a855f7]">
+              {locationStatus === 'granted' ? (
+                <CheckCircle2 className="w-9 h-9 text-[#ccff00]" />
+              ) : (
+                <MapPin className={`w-9 h-9 text-[#ccff00] ${isRequestingLocation ? 'animate-bounce' : ''}`} />
+              )}
             </div>
-            <h2 className="font-serif text-2xl sm:text-3xl font-black text-white">
-              Enable Live Topic Radar
+          </div>
+
+          {/* Minimal Headline & 1-line Subtitle */}
+          <div className="space-y-2">
+            <h2 className="font-serif text-3xl font-black text-white">
+              Location Permission
             </h2>
-            <p className="font-mono text-xs text-gray-400 mt-1">
-              Connect with whispers, debates, and audio stages in your immediate city.
+            <p className="font-mono text-xs text-gray-400 max-w-xs mx-auto leading-relaxed">
+              We need your location to show people and active topics near you.
             </p>
           </div>
 
-          {/* Location Request Card */}
-          <div className="bg-[#141414] border-2 border-[#ccff00] p-4 sm:p-5 space-y-4 shadow-[6px_6px_0px_#a855f7]">
-            
-            {/* GPS Radar Animation */}
-            <div className="flex items-center gap-3 bg-[#0a0a0a] p-3 border border-[#262626]">
-              <div className="w-12 h-12 bg-[#1b1726] border-2 border-[#a855f7] flex items-center justify-center shrink-0 relative">
-                <Compass className={`w-6 h-6 text-[#ccff00] ${isRequestingLocation ? 'animate-spin' : ''}`} />
-                {locationStatus === 'granted' && (
-                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-[#ccff00] rounded-full animate-ping" />
-                )}
-              </div>
-
-              <div className="space-y-0.5 min-w-0 flex-1">
-                <div className="font-mono text-xs font-bold text-white uppercase flex items-center gap-1.5">
-                  <span>GPS RADAR STATUS</span>
-                  {locationStatus === 'granted' && (
-                    <span className="text-[10px] bg-[#222] text-[#ccff00] px-1 font-bold">LOCKED</span>
-                  )}
-                </div>
-                <div className="font-mono text-xs text-[#ccff00] truncate">
-                  {locationStatus === 'granted'
-                    ? `📍 ${activeCity} (${detectedCoords ? `${detectedCoords.lat.toFixed(2)}° N, ${detectedCoords.lng.toFixed(2)}° E` : 'Mesh Anchored'})`
-                    : locationStatus === 'detecting'
-                    ? 'Acquiring browser coordinates...'
-                    : 'Awaiting permission to lock city mesh'}
-                </div>
-              </div>
-            </div>
-
-            {/* Privacy Promise */}
-            <div className="space-y-1 font-mono text-[11px] text-gray-400 bg-[#0c0c0c] p-3 border border-[#222]">
-              <div className="text-gray-300 font-bold mb-1 flex items-center gap-1">
-                <Shield className="w-3.5 h-3.5 text-[#ccff00]" /> DPDP Zero-Knowledge Guarantee:
-              </div>
-              <div>• Real coordinates are hashed into local regional cells.</div>
-              <div>• Zero continuous GPS tracking or background telemetry.</div>
-              <div>• Instant connection to nearby active topic rooms.</div>
-            </div>
-
-            {/* Actions */}
-            {!showManualCityPicker ? (
-              <div className="space-y-2">
-                <BrutalistButton
-                  variant="primary"
-                  size="md"
-                  onClick={handleRequestLiveLocation}
-                  disabled={isRequestingLocation || locationStatus === 'granted'}
-                  className="w-full justify-center text-xs font-black shadow-[2px_2px_0px_#a855f7] flex items-center gap-2"
-                >
-                  <Compass className="w-4 h-4" />
-                  {locationStatus === 'granted'
-                    ? '✓ LIVE LOCATION ACCESS GRANTED'
-                    : isRequestingLocation
-                    ? 'REQUESTING BROWSER ACCESS...'
-                    : '📍 ALLOW BROWSER LOCATION ACCESS'}
-                </BrutalistButton>
-
-                <div className="grid grid-cols-2 gap-2 pt-1">
+          {/* Minimal Permission Action / Status */}
+          {!showManualCityPicker ? (
+            <div className="space-y-3 pt-2">
+              {locationStatus === 'granted' ? (
+                <div className="inline-flex items-center gap-2 bg-[#141414] border border-[#ccff00] px-4 py-2 font-mono text-xs text-white">
+                  <span className="text-[#ccff00] font-bold">📍 {activeCity}</span>
                   <button
                     type="button"
                     onClick={() => setShowManualCityPicker(true)}
-                    className="bg-[#181818] border-2 border-[#333] hover:border-[#ccff00] text-gray-300 py-2 font-mono text-xs font-bold uppercase transition-all flex items-center justify-center gap-1"
+                    className="text-gray-400 hover:text-white underline text-[10px] ml-1"
                   >
-                    <Globe className="w-3.5 h-3.5 text-[#ccff00]" /> SELECT CITY
+                    Change
                   </button>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <BrutalistButton
+                    variant="primary"
+                    size="md"
+                    onClick={handleRequestLiveLocation}
+                    disabled={isRequestingLocation}
+                    className="w-full justify-center text-xs font-black shadow-[2px_2px_0px_#a855f7]"
+                  >
+                    {isRequestingLocation ? 'REQUESTING ACCESS...' : 'ALLOW LOCATION'}
+                  </BrutalistButton>
 
                   <button
                     type="button"
-                    onClick={() => {
-                      setActiveCity('Gurgaon, NCR');
-                      setLocationStatus('granted');
-                    }}
-                    className="bg-[#181818] border-2 border-[#333] hover:border-white text-gray-400 hover:text-white py-2 font-mono text-xs font-bold uppercase transition-all"
+                    onClick={() => setShowManualCityPicker(true)}
+                    className="text-gray-400 hover:text-white font-mono text-xs transition-colors py-1 block mx-auto underline"
                   >
-                    DEFAULT (NCR)
+                    Select city manually
                   </button>
                 </div>
+              )}
+            </div>
+          ) : (
+            /* Manual City Picker */
+            <div className="space-y-2 bg-[#141414] border-2 border-[#333] p-3 text-left animate-in fade-in">
+              <div className="flex justify-between items-center font-mono text-xs border-b border-[#262626] pb-2">
+                <span className="text-white font-bold">SELECT CITY</span>
+                <button
+                  type="button"
+                  onClick={() => setShowManualCityPicker(false)}
+                  className="text-gray-400 hover:text-white text-xs px-1"
+                >
+                  ✕
+                </button>
               </div>
-            ) : (
-              /* Manual City Selector */
-              <div className="space-y-2 pt-1">
-                <div className="flex justify-between items-center font-mono text-xs">
-                  <span className="text-gray-300 font-bold uppercase">SELECT CITY MESH:</span>
-                  <button 
+
+              <div className="grid grid-cols-2 gap-1.5 max-h-36 overflow-y-auto pr-1">
+                {popularCities.map(c => (
+                  <button
+                    key={c.name}
                     type="button"
-                    onClick={() => setShowManualCityPicker(false)}
-                    className="text-[#ccff00] text-[10px] hover:underline"
+                    onClick={() => {
+                      setActiveCity(c.name);
+                      setLocationStatus('granted');
+                      setShowManualCityPicker(false);
+                    }}
+                    className={`p-2 border text-left font-mono text-xs transition-all ${
+                      activeCity === c.name
+                        ? 'bg-[#1b2414] border-[#ccff00] text-[#ccff00]'
+                        : 'bg-[#0a0a0a] border-[#262626] text-gray-300 hover:border-gray-500'
+                    }`}
                   >
-                    ← Back
+                    <span className="block font-bold truncate">{c.name}</span>
                   </button>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-h-36 overflow-y-auto pr-1">
-                  {popularCities.map(c => (
-                    <button
-                      key={c.name}
-                      type="button"
-                      onClick={() => {
-                        setActiveCity(c.name);
-                        setLocationStatus('granted');
-                        setShowManualCityPicker(false);
-                      }}
-                      className={`p-2 border text-left font-mono text-xs transition-all ${
-                        activeCity === c.name 
-                          ? 'bg-[#1b2414] border-[#ccff00] text-white' 
-                          : 'bg-[#181818] border-[#333] text-gray-400 hover:border-white'
-                      }`}
-                    >
-                      <strong className="text-white block">{c.name}</strong>
-                      <span className="text-[9px] text-gray-500">{c.label}</span>
-                    </button>
-                  ))}
-                </div>
+                ))}
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
-          {/* Complete Button: Launches into Topic Cards Discovery */}
-          <BrutalistButton
-            variant="primary"
-            size="lg"
-            onClick={handleFinishOnboarding}
-            className="w-full justify-center text-sm font-black shadow-[4px_4px_0px_#a855f7]"
-          >
-            LOCK LOCATION & START DISCOVERING <ArrowRight className="w-4 h-4 ml-1" />
-          </BrutalistButton>
+          {/* Primary Action Button: Just "START DISCOVERING" */}
+          <div className="pt-2">
+            <BrutalistButton
+              variant="primary"
+              size="lg"
+              onClick={handleFinishOnboarding}
+              className="w-full justify-center text-sm font-black shadow-[4px_4px_0px_#a855f7]"
+            >
+              START DISCOVERING
+            </BrutalistButton>
+          </div>
         </div>
       )}
 
@@ -962,7 +1482,8 @@ export const OnboardingView: React.FC = () => {
             onClick={() => {
               if (step === 'email_input') setStep('getting_started');
               else if (step === 'email_verify') setStep('email_input');
-              else if (step === 'account_done') setStep('email_verify');
+              else if (step === 'profile_details') setStep('email_verify');
+              else if (step === 'account_done') setStep('profile_details');
               else if (step === 'basics') setStep('account_done');
               else if (step === 'topic_select') setStep('basics');
               else if (step === 'custom_topic') setStep('topic_select');

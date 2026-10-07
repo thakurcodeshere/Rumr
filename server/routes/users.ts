@@ -51,7 +51,8 @@ usersRouter.patch('/me', requireAuth, async (req: AuthenticatedRequest, res, nex
       role,
       tagline,
       realName,
-      realPhoto
+      realPhoto,
+      age
     } = req.body;
 
     const updates: any = {};
@@ -83,6 +84,9 @@ usersRouter.patch('/me', requireAuth, async (req: AuthenticatedRequest, res, nex
     }
     if (realPhoto !== undefined) {
       updates.real_photo = realPhoto;
+    }
+    if (age !== undefined) {
+      updates.age = Math.max(18, Math.min(100, parseInt(age, 10)));
     }
 
     let updated = user;

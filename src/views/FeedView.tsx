@@ -26,14 +26,14 @@ export const FeedView: React.FC = () => {
   } = useApp();
 
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  const [activeFilters, setActiveFilters] = useState<any>({
+  const [activeFilters, setActiveFilters] = useState<any>(() => ({
     minAge: 18,
     maxAge: 45,
-    gender: 'everyone',
+    gender: (typeof window !== 'undefined' && localStorage.getItem('rumr_gender_preference')) || 'everyone',
     proximity: 'nearby',
     radius: 25,
     similarityMode: 'balanced'
-  });
+  }));
   const [cards, setCards] = useState<any[]>([]);
   const [currentCardIndex, setCurrentCardIndex] = useState<number>(0);
   const [swipeFeedback, setSwipeFeedback] = useState<'like' | 'pass' | null>(null);
