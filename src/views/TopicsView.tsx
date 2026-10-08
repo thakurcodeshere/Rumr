@@ -184,7 +184,7 @@ export const TopicsView: React.FC = () => {
       {/* VIEW 1: TOPIC MATRIX GRID */}
       {/* ========================================================================= */}
       {topicSegment === 'matrix' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-in fade-in">
+        <div className="flex flex-col gap-4 animate-in fade-in">
           {filteredTopics.map(topic => (
             <BrutalistCard key={topic.id} isHot={topic.isHot} className="flex flex-col justify-between space-y-3.5 p-4 sm:p-5">
               <div>
