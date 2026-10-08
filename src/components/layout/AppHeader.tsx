@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radio, Globe, MapPin } from 'lucide-react';
+import { Radio, MapPin } from 'lucide-react';
 import { useApp } from '../../lib/store';
 
 export const AppHeader: React.FC = () => {
@@ -56,18 +56,6 @@ export const AppHeader: React.FC = () => {
             <MapPin className="w-3.5 h-3.5" />
             <span className="truncate max-w-[85px] sm:max-w-none">{userLocation.city}</span>
           </button>
-
-          {/* Landing Page Website Link */}
-          <a
-            href="/landing.html"
-            target="_blank"
-            rel="noreferrer"
-            className="hidden sm:flex items-center gap-1 text-[10px] font-mono font-bold bg-[#181818] text-[#ccff00] border-2 border-[#333] hover:border-[#ccff00] px-2 py-1.5 transition-colors"
-            title="Open Rumr Marketing & Discovery Website"
-          >
-            <Globe className="w-3.5 h-3.5" />
-            <span>LANDING SITE ↗</span>
-          </a>
         </div>
       </div>
     </header>

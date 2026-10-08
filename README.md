@@ -14,7 +14,6 @@
 **Don't swipe on people. Swipe on topics.**
 
 [![Live Web App](https://img.shields.io/badge/Live%20App-Vercel-ccff00?style=for-the-badge&logo=vercel&logoColor=black)](https://rumr-sigma.vercel.app/)
-[![Landing Page](https://img.shields.io/badge/Marketing%20Site-Live-a855f7?style=for-the-badge&logo=globe&logoColor=white)](https://rumr-sigma.vercel.app/landing.html)
 [![CI/CD Pipeline](https://img.shields.io/badge/CI%2FCD-Passing%20(52%20Tests)-00c853?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/thakurcodeshere/Rumr/actions)
 [![License](https://img.shields.io/badge/License-MIT-white?style=for-the-badge)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -40,7 +39,6 @@ Built under the **Clean Chaos** design philosophy, Rumr provides a browser-first
 | Platform / Service | URL / Endpoint | Description |
 | :--- | :--- | :--- |
 | **Live Web Application** | **[rumr-sigma.vercel.app](https://rumr-sigma.vercel.app/)** | Instant Browser Web App across Mobile (360px+), Tablet & Desktop. Zero App Store friction. |
-| **Dedicated Landing Website** | **[rumr-sigma.vercel.app/landing.html](https://rumr-sigma.vercel.app/landing.html)** | Standalone product marketing site with live metrics, architectural dispatches, and interactive modals. |
 | **Production Health Sentinel** | **[`/api/health`](https://rumr-sigma.vercel.app/api/health)** | Unified 10-layer infrastructure status (Database, Redis, LiveKit, QStash, Resend, Sentry). |
 | **Fail-Closed Readiness Probe** | **[`/api/ready`](https://rumr-sigma.vercel.app/api/ready)** | Automated probe reporting database latency and connection viability. |
 | **GitHub Repository** | **[github.com/thakurcodeshere/Rumr](https://github.com/thakurcodeshere/Rumr)** | Master codebase, CI/CD pipelines, migration scripts, and documentation. |
@@ -142,10 +140,6 @@ Built under the **Clean Chaos** design philosophy, Rumr provides a browser-first
   - Blocked entity management.
   - **DPDP 2023 Compliance Center**: Instant JSON data portability export and permanent one-click Right to Erasure / Account Termination.
 
-### 8. Dedicated Marketing Landing Website
-- Standalone HTML5 / Tailwind marketing page served at `/landing.html` and embedded in the app.
-- Features product showcase, live metrics tickers, store availability badges, architectural dispatches, and responsive legal modals.
-
 ---
 
 ## 💻 Tech Stack & Production Infrastructure
@@ -194,7 +188,6 @@ Rumr/
 ├── docs/
 │   └── DB_MIGRATION_AUDIT.md      # Gate 1 database migration inventory & safety contract
 ├── public/
-│   ├── landing.html               # Standalone marketing landing website
 │   └── favicon.svg                # Brand icon
 ├── server/
 │   ├── config.ts                  # Centralized configuration & environment loader
@@ -248,8 +241,7 @@ Rumr/
 │   │   ├── MatchesView.tsx        # Mutual affinity matrix & chat trigger
 │   │   ├── ChatView.tsx           # Pinned 3-layer unmasking & ephemeral tunnel
 │   │   ├── RoomsView.tsx          # LiveKit WebRTC audio debate podiums
-│   │   ├── ProfileView.tsx        # Dual Chaos Profile vs DPDP Settings
-│   │   └── LandingWebsiteView.tsx # Embedded marketing website view
+│   │   └── ProfileView.tsx        # Dual Chaos Profile vs DPDP Settings
 │   ├── lib/
 │   │   ├── api.ts                 # Strongly-typed client API SDK
 │   │   ├── store.tsx              # Reactive state management
@@ -265,7 +257,6 @@ Rumr/
 │   ├── production-stack.test.ts   # Redis, LiveKit, QStash, Resend, Sentry
 │   ├── topics.test.ts             # ≤ 3-word rule & subscription counts
 │   └── unmask.test.ts             # Bilateral 3-stage unmasking quarantine
-├── landing.html                   # Root landing page mirror
 ├── package.json                   # Project dependencies & scripts
 ├── tsconfig.json                  # Strict TypeScript configuration
 ├── vercel.json                    # Edge routing, headers & serverless rewrites
@@ -313,7 +304,6 @@ npm run server
 ```
 
 - Open **[http://localhost:5173](http://localhost:5173)** to access the Rumr Web Application.
-- Open **[http://localhost:5173/landing.html](http://localhost:5173/landing.html)** to view the standalone marketing website.
 - Backend API runs on **[http://localhost:3001](http://localhost:3001)**.
 
 ### 5. Run Verification Test Suite
